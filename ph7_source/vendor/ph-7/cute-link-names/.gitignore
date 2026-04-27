@@ -1,0 +1,13 @@
+# Dependencies
+/vendor
+composer.lock
+
+# Tests
+phpunit.xml
+.phpunit.result.cache
+
+# IDE (PHPStorm)
+/.idea
+
+# Log
+.DS_Store
