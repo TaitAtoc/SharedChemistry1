@@ -1,0 +1,12 @@
+model = "gpt-3.5-turbo"
+model_provider = "apiyihe"
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+
+[project]
+name = "SharedChemistry"
+
+[model_providers.apiyihe]
+name = "APIYIHE OpenAI-compatible provider"
+base_url = "https://z.apiyihe.org/v1"
+env_key = "APIYIHE_API_KEY"
