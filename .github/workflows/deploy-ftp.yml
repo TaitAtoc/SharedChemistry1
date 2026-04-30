@@ -1,37 +1,35 @@
-name: FTP Deployment
+name: FTP Connection Test
 
 on:
   push:
     branches:
-      - master  # Trigger on push to the master branch
+      - master
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest  # This means it will run the job on an Ubuntu server
+  ftp-test:
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2  # This action checks out the code from your repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Install FTP deploy tool
+      - name: Install lftp
         run: |
           sudo apt-get update
-          sudo apt-get install -y lftp  # Install the lftp tool for FTP uploads
+          sudo apt-get install -y lftp
 
-      - name: FTP Deploy to Web Hosting
-        run: |
-          echo "Deploying to FTP server..."
-          # Use lftp for uploading files to the server
-          lftp -f "
-          open ftp://$FTP_HOST
-          user $FTP_USERNAME $FTP_PASSWORD
-          # Change to the correct directory
-          cd /path/to/your/files # Adjust this if files are located in a sub-folder
-          # Mirror the local directory (make sure we only upload files, not directories)
-          mirror -R ./ $FTP_TARGET_DIR  # Upload files from the repository to the server
-          quit"
+      - name: Test FTP connection
         env:
-          FTP_HOST: ${{ secrets.FTP_HOST }}  # FTP server address (from GitHub secrets)
-          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}  # FTP username (from GitHub secrets)
-          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}  # FTP password (from GitHub secrets)
-          FTP_TARGET_DIR: ${{ secrets.FTP_TARGET_DIR }}  # Target directory on the server (from GitHub secrets)
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_PORT: ${{ secrets.FTP_PORT }}
+        run: |
+          echo "Testing FTP connection..."
+          lftp -d -u "$FTP_USERNAME","$FTP_PASSWORD" "ftp://$FTP_HOST:$FTP_PORT" <<'LFTP_COMMANDS'
+          set ftp:ssl-allow yes
+          set ssl:verify-certificate no
+          pwd
+          ls
+          bye
+          LFTP_COMMANDS
