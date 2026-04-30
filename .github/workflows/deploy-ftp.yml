@@ -1,0 +1,32 @@
+name: FTP Deployment
+
+on:
+  push:
+    branches:
+      - main  # Trigger on push to the main branch (you can change it to any branch you want)
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # This means it will run the job on an Ubuntu server
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2  # This action checks out the code from your repository
+
+      - name: Install FTP deploy tool
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lftp  # Install the lftp tool for FTP uploads
+
+      - name: FTP Deploy to Web Hosting
+        run: |
+          lftp -f "
+          open ftp://$FTP_HOST
+          user $FTP_USERNAME $FTP_PASSWORD
+          mirror -R ./ $FTP_TARGET_DIR  # Upload files from the repository to the server
+          quit"
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}  # FTP server address (from GitHub secrets)
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}  # FTP username (from GitHub secrets)
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}  # FTP password (from GitHub secrets)
+          FTP_TARGET_DIR: ${{ secrets.FTP_TARGET_DIR }}  # Target directory on the server (from GitHub secrets)
