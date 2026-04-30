@@ -1,0 +1,57 @@
+name: Pull Live Templates From Server
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  pull-live-assets:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install lftp
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lftp
+
+      - name: Pull templates and static folders from live server
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_PORT: ${{ secrets.FTP_PORT }}
+        run: |
+          FTP_HOST_CLEAN="$(echo "$FTP_HOST" | tr -d '[:space:]')"
+          FTP_PORT_CLEAN="$(echo "$FTP_PORT" | tr -d '[:space:]')"
+
+          mkdir -p live_snapshot/templates
+          mkdir -p live_snapshot/static
+
+          lftp -u "$FTP_USERNAME","$FTP_PASSWORD" "ftp://$FTP_HOST_CLEAN:$FTP_PORT_CLEAN" -e "
+          set cmd:fail-exit yes
+          set ftp:ssl-allow yes
+          set ssl:verify-certificate no
+          set ftp:passive-mode yes
+          mirror --verbose templates live_snapshot/templates
+          mirror --verbose static live_snapshot/static
+          bye
+          "
+
+      - name: Commit live snapshot to repository
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git add live_snapshot/templates live_snapshot/static
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Pull live template and static files"
+            git push
+          fi
