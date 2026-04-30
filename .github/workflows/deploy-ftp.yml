@@ -1,4 +1,4 @@
-name: FTP Safe Upload Test
+name: Deploy SharedChemistry to WebHostingBuzz
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  ftp-upload-test:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,11 +18,14 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y lftp
 
-      - name: Create test upload file
+      - name: Confirm local source folder
         run: |
-          echo "GitHub FTP upload test successful - $(date -u)" > github-ftp-test.txt
+          echo "Checking ph7_source folder..."
+          ls -la ph7_source
+          test -f ph7_source/index.php
+          echo "ph7_source/index.php found."
 
-      - name: Upload test file to live server
+      - name: Deploy ph7_source to live server
         env:
           FTP_HOST: ${{ secrets.FTP_HOST }}
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
@@ -34,15 +37,14 @@ jobs:
           FTP_PORT_CLEAN="$(echo "$FTP_PORT" | tr -d '[:space:]')"
           FTP_TARGET_DIR_CLEAN="$(echo "$FTP_TARGET_DIR" | tr -d '[:space:]')"
 
-          echo "Uploading test file to: [$FTP_TARGET_DIR_CLEAN]"
+          echo "Deploying ph7_source/ to: [$FTP_TARGET_DIR_CLEAN]"
 
           lftp -u "$FTP_USERNAME","$FTP_PASSWORD" "ftp://$FTP_HOST_CLEAN:$FTP_PORT_CLEAN" -e "
           set cmd:fail-exit yes
           set ftp:ssl-allow yes
           set ssl:verify-certificate no
           set ftp:passive-mode yes
-          cd $FTP_TARGET_DIR_CLEAN
-          put github-ftp-test.txt
-          cls -la github-ftp-test.txt
+          mirror -R --verbose --only-newer --parallel=2 ph7_source/ $FTP_TARGET_DIR_CLEAN
+          cls -la
           bye
           "
