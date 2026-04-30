@@ -21,12 +21,12 @@ jobs:
       - name: FTP Deploy to Web Hosting
         run: |
           echo "Deploying to FTP server..."
-          # Use lftp for uploading files to the server
+          # Use lftp to attempt to connect to the FTP server and list files
           lftp -f "
           open ftp://$FTP_HOST
           user $FTP_USERNAME $FTP_PASSWORD
-          # Change directory to the folder containing production files (if necessary)
-          cd /path/to/your/files # Adjust this if files are located in a sub-folder
+          # List files in the root directory of the FTP server to test the connection
+          ls /  # This will attempt to list the files on the server
           mirror -R ./ $FTP_TARGET_DIR  # Upload files from the repository to the server
           quit"
         env:
