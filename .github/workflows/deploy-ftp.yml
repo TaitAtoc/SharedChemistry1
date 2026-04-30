@@ -1,4 +1,4 @@
-name: FTP Connection Test
+name: FTP Safe Upload Test
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  ftp-test:
+  ftp-upload-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,7 +18,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y lftp
 
-      - name: Check secret lengths
+      - name: Create test upload file
+        run: |
+          echo "GitHub FTP upload test successful - $(date -u)" > github-ftp-test.txt
+
+      - name: Upload test file to live server
         env:
           FTP_HOST: ${{ secrets.FTP_HOST }}
           FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
@@ -26,39 +30,19 @@ jobs:
           FTP_PORT: ${{ secrets.FTP_PORT }}
           FTP_TARGET_DIR: ${{ secrets.FTP_TARGET_DIR }}
         run: |
-          echo "FTP_HOST length: ${#FTP_HOST}"
-          echo "FTP_USERNAME length: ${#FTP_USERNAME}"
-          echo "FTP_PASSWORD length: ${#FTP_PASSWORD}"
-          echo "FTP_PORT length: ${#FTP_PORT}"
-          echo "FTP_TARGET_DIR length: ${#FTP_TARGET_DIR}"
-
-          if [ -z "$FTP_HOST" ]; then echo "FTP_HOST is missing"; exit 1; fi
-          if [ -z "$FTP_USERNAME" ]; then echo "FTP_USERNAME is missing"; exit 1; fi
-          if [ -z "$FTP_PASSWORD" ]; then echo "FTP_PASSWORD is missing"; exit 1; fi
-          if [ -z "$FTP_PORT" ]; then echo "FTP_PORT is missing"; exit 1; fi
-          if [ -z "$FTP_TARGET_DIR" ]; then echo "FTP_TARGET_DIR is missing"; exit 1; fi
-
-      - name: Test FTP connection
-        env:
-          FTP_HOST: ${{ secrets.FTP_HOST }}
-          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
-          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
-          FTP_PORT: ${{ secrets.FTP_PORT }}
-        run: |
-          echo "Testing FTP connection..."
-
           FTP_HOST_CLEAN="$(echo "$FTP_HOST" | tr -d '[:space:]')"
           FTP_PORT_CLEAN="$(echo "$FTP_PORT" | tr -d '[:space:]')"
+          FTP_TARGET_DIR_CLEAN="$(echo "$FTP_TARGET_DIR" | tr -d '[:space:]')"
 
-          echo "FTP host being used: [$FTP_HOST_CLEAN]"
-          echo "FTP port being used: [$FTP_PORT_CLEAN]"
+          echo "Uploading test file to: [$FTP_TARGET_DIR_CLEAN]"
 
-          lftp -d -u "$FTP_USERNAME","$FTP_PASSWORD" "ftp://$FTP_HOST_CLEAN:$FTP_PORT_CLEAN" -e "
+          lftp -u "$FTP_USERNAME","$FTP_PASSWORD" "ftp://$FTP_HOST_CLEAN:$FTP_PORT_CLEAN" -e "
           set cmd:fail-exit yes
           set ftp:ssl-allow yes
           set ssl:verify-certificate no
           set ftp:passive-mode yes
-          pwd
-          cls -la
+          cd $FTP_TARGET_DIR_CLEAN
+          put github-ftp-test.txt
+          cls -la github-ftp-test.txt
           bye
           "
