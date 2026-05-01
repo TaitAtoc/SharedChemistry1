@@ -1,0 +1,62 @@
+name: Deploy Server Patch to WebHostingBuzz
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy-patch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install lftp
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lftp
+
+      - name: Check server_patch folder
+        run: |
+          echo "Checking for server_patch folder..."
+
+          if [ ! -d "server_patch" ]; then
+            echo "No server_patch folder found."
+            echo "Create server_patch/ and place files there using the same paths as the live server."
+            exit 1
+          fi
+
+          echo "server_patch folder exists."
+          echo "Files queued for upload:"
+          find server_patch -type f -print
+
+          if [ -z "$(find server_patch -type f -print -quit)" ]; then
+            echo "server_patch exists but contains no files."
+            exit 1
+          fi
+
+      - name: Deploy server_patch to live server
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_PORT: ${{ secrets.FTP_PORT }}
+          FTP_TARGET_DIR: ${{ secrets.FTP_TARGET_DIR }}
+        run: |
+          FTP_HOST_CLEAN="$(echo "$FTP_HOST" | tr -d '[:space:]')"
+          FTP_PORT_CLEAN="$(echo "$FTP_PORT" | tr -d '[:space:]')"
+          FTP_TARGET_DIR_CLEAN="$(echo "$FTP_TARGET_DIR" | tr -d '[:space:]')"
+
+          echo "Deploying server_patch/ to live server root: [$FTP_TARGET_DIR_CLEAN]"
+
+          lftp -u "$FTP_USERNAME","$FTP_PASSWORD" "ftp://$FTP_HOST_CLEAN:$FTP_PORT_CLEAN" -e "
+          set cmd:fail-exit yes
+          set ftp:ssl-allow yes
+          set ssl:verify-certificate no
+          set ftp:passive-mode yes
+          mirror -R --verbose --only-newer --parallel=2 server_patch/ $FTP_TARGET_DIR_CLEAN
+          cls -la
+          bye
+          "
