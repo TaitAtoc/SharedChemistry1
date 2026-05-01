@@ -349,21 +349,84 @@
       }
       footer {
         clear: both;
-        margin-top: 42px;
-        padding: 34px 18px 28px;
+        width: 100%;
+        margin: 42px 0 0;
+        padding: 36px 18px 30px;
         border-top: 1px solid #34363F;
         background: #17181D !important;
         color: #B8B3B0 !important;
+        text-align: center;
+        box-sizing: border-box;
       }
       footer p, footer small {
         color: #B8B3B0 !important;
+        margin: 8px 0;
       }
       footer a, .bottom_nav a {
         color: #FFBC0A !important;
       }
+      footer [role="contentinfo"] {
+        max-width: 1160px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      footer .ft_copy {
+        float: none !important;
+        display: block;
+        margin: 0 auto 16px;
+        text-align: center;
+      }
+      footer .ad_728_90,
+      footer .ad_468_60 {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+      }
       .bottom_nav {
         float: none !important;
+        display: block;
+        clear: both;
+        max-width: 920px;
+        margin: 16px auto 0;
+        padding: 14px 0 0;
+        border-top: 1px solid #34363F;
         text-align: center;
+        line-height: 2;
+      }
+      .bottom_nav .dropdown_menu,
+      .bottom_nav .ft_dm,
+      .bottom_nav span,
+      .bottom_nav a {
+        display: inline-block;
+        float: none !important;
+        margin: 3px 7px;
+        vertical-align: middle;
+      }
+      .bottom_nav .dropdown_item_css,
+      .bottom_nav .dropdown_item {
+        display: inline-block;
+      }
+      .bottom_nav .show_dropdown {
+        display: inline !important;
+        position: static !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+      }
+      .bottom_nav .show_dropdown li {
+        display: inline-block;
+        margin: 0 4px;
+        list-style: none;
+      }
+      .bottom_nav .show_dropdown li a {
+        display: inline-block;
+        padding: 0;
+      }
+      .bottom_nav .dm_self {
+        display: none !important;
       }
       .sharedchemistry-footer-brand {
         display: inline-block;
@@ -371,18 +434,48 @@
         color: #F7F3EF;
         font-weight: bold;
       }
+      .right.vs_marg {
+        float: none !important;
+        clear: both;
+        width: auto;
+        margin: 0;
+        padding: 12px 18px 26px;
+        background: #17181D;
+        color: #8F8A88;
+        text-align: center;
+      }
+      .right.vs_marg small,
+      .right.vs_marg a {
+        color: #8F8A88 !important;
+      }
       #disclaimer-background {
+        display: none;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
         background: #101114 !important;
+        opacity: 0.88;
+        z-index: 9998 !important;
       }
       #disclaimer-dialog {
         box-sizing: border-box;
+        display: none;
+        position: fixed !important;
+        top: 8% !important;
+        left: 50% !important;
         width: 560px !important;
         max-width: 92% !important;
+        margin-left: -280px !important;
         padding: 34px !important;
         border: 1px solid #34363F !important;
         border-radius: 12px !important;
         background: #202127 !important;
         color: #F7F3EF !important;
+        z-index: 9999 !important;
       }
       #disclaimer-dialog h1 {
         color: #F7F3EF !important;
@@ -417,6 +510,28 @@
         }
         .sharedchemistry-guest-brand h2 {
           font-size: 34px;
+        }
+      }
+      @media screen and (max-width: 640px) {
+        #disclaimer-dialog {
+          left: 4% !important;
+          right: 4% !important;
+          width: auto !important;
+          max-width: none !important;
+          margin-left: 0 !important;
+          top: 5% !important;
+          padding: 24px !important;
+        }
+        .bottom_nav {
+          max-width: 100%;
+          line-height: 1.8;
+        }
+        .bottom_nav .dropdown_menu,
+        .bottom_nav .ft_dm,
+        .bottom_nav span,
+        .bottom_nav a,
+        .bottom_nav .show_dropdown li {
+          margin: 4px 5px;
         }
       }
     </style>
