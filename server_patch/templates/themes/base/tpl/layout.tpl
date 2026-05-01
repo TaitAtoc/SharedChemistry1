@@ -67,6 +67,359 @@
     <!-- Other sheet CSS for modules etc. -->
     {{ $design->css() }}
     {designModel.files('css')}
+
+    <!-- SharedChemistry emergency fallback styles -->
+    <style type="text/css">
+      html, body {
+        margin: 0;
+        padding: 0;
+        background: #101114 !important;
+        color: #F7F3EF !important;
+        font-family: "Open Sans", Arial, Helvetica, sans-serif;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+      body {
+        min-width: 320px;
+      }
+      a, a:visited {
+        color: #FFBC0A;
+        text-decoration: none;
+      }
+      a:hover, a:focus {
+        color: #EC7D10;
+        text-decoration: underline;
+      }
+      h1, h2, h3, h4, h5, h6 {
+        color: #F7F3EF;
+        margin-top: 0;
+        line-height: 1.15;
+      }
+      p, li, label, small {
+        color: #B8B3B0;
+      }
+      img, video, iframe {
+        max-width: 100%;
+      }
+      .container {
+        width: auto;
+        max-width: 1160px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+      .row {
+        clear: both;
+        margin-left: -15px;
+        margin-right: -15px;
+      }
+      .row:after,
+      .container:after,
+      .sharedchemistry-home-blocks:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+      .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6,
+      .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12,
+      .col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6,
+      .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12 {
+        box-sizing: border-box;
+        min-height: 1px;
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+      .col-md-3, .col-xs-3 { float: left; width: 25%; }
+      .col-md-4, .col-xs-4 { float: left; width: 33.3333%; }
+      .col-md-6, .col-xs-6 { float: left; width: 50%; }
+      .col-md-8, .col-xs-8 { float: left; width: 66.6667%; }
+      .col-md-9, .col-xs-9 { float: left; width: 75%; }
+      .col-md-12, .col-xs-12 { float: left; width: 100%; }
+      header {
+        padding-top: 18px;
+      }
+      main#content {
+        display: block;
+        padding-top: 28px;
+        padding-bottom: 36px;
+      }
+      .navbar, .navbar-default, .navbar-inverse {
+        clear: both;
+        min-height: 64px;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        border-bottom: 1px solid #34363F;
+        background: #101114 !important;
+      }
+      .navbar .container {
+        max-width: 1180px;
+      }
+      .navbar-header {
+        float: left;
+      }
+      .navbar-brand, #logo.navbar-brand {
+        display: block;
+        float: left;
+        padding: 18px 15px;
+      }
+      #logo h1 {
+        margin: 0;
+        font-size: 22px;
+        font-weight: bold;
+      }
+      #logo h1 a, .navbar #logo a {
+        color: #F7F3EF !important;
+      }
+      .navbar-collapse {
+        display: block;
+      }
+      .nav, .navbar-nav {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      .navbar-nav > li {
+        float: left;
+        list-style: none;
+      }
+      .navbar-nav > li > a {
+        display: block;
+        padding: 20px 11px;
+        color: #B8B3B0 !important;
+        font-weight: bold;
+      }
+      .navbar-nav > li > a:hover,
+      .navbar-nav > li > a:focus {
+        background: #202127 !important;
+        color: #F7F3EF !important;
+        text-decoration: none;
+      }
+      .dropdown-menu {
+        display: none;
+        position: absolute;
+        z-index: 1000;
+        min-width: 190px;
+        margin: 0;
+        padding: 8px 0;
+        list-style: none;
+        border: 1px solid #34363F;
+        background: #202127;
+      }
+      .dropdown:hover > .dropdown-menu {
+        display: block;
+      }
+      .dropdown-menu > li > a {
+        display: block;
+        padding: 9px 16px;
+        color: #B8B3B0 !important;
+      }
+      .sharedchemistry-nav-join {
+        margin-top: 10px;
+        margin-left: 8px;
+        padding: 10px 17px !important;
+        border-radius: 24px;
+        background: #EC0868 !important;
+        color: #fff !important;
+      }
+      .sharedchemistry-nav-signin {
+        margin-top: 10px;
+        padding: 9px 16px !important;
+        border: 1px solid #FFBC0A;
+        border-radius: 24px;
+        color: #F7F3EF !important;
+      }
+      .sharedchemistry-guest-hero {
+        clear: both;
+        max-width: 1160px;
+        margin: 0 auto;
+        padding: 58px 18px 24px;
+      }
+      .sharedchemistry-guest-brand {
+        float: none !important;
+        max-width: 760px;
+      }
+      .sharedchemistry-guest-brand h1 {
+        margin-bottom: 18px;
+        font-size: 24px;
+      }
+      .sharedchemistry-guest-brand h2 {
+        max-width: 760px;
+        margin: 0 0 18px;
+        color: #F7F3EF;
+        font-size: 46px;
+        font-weight: bold;
+      }
+      .sharedchemistry-hero-copy {
+        max-width: 660px;
+        color: #B8B3B0;
+        font-size: 18px;
+      }
+      .sharedchemistry-hero-actions {
+        margin-top: 24px;
+        margin-bottom: 18px;
+      }
+      .btn, button, input[type="submit"], input[type="button"] {
+        display: inline-block;
+        padding: 10px 18px;
+        border: 1px solid #3A3C45;
+        border-radius: 24px;
+        background: #202127;
+        color: #F7F3EF !important;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .btn-primary, .btn-success,
+      input[type="submit"], button[type="submit"],
+      .sharedchemistry-primary-cta {
+        border-color: #EC0868 !important;
+        background: #EC0868 !important;
+        color: #fff !important;
+      }
+      .btn-primary:hover, .btn-success:hover,
+      input[type="submit"]:hover, button[type="submit"]:hover,
+      .sharedchemistry-primary-cta:hover {
+        border-color: #C200FB !important;
+        background: #C200FB !important;
+        color: #fff !important;
+      }
+      .sharedchemistry-secondary-cta {
+        border-color: #FFBC0A !important;
+        background: #17181D !important;
+      }
+      .sharedchemistry-home-blocks {
+        clear: both;
+        margin: 34px 0 12px;
+      }
+      .sharedchemistry-home-card,
+      .box, .block, .panel, .well, .design-box, .thumbnail,
+      #form_login_user, #form_join_user, .login_block {
+        box-sizing: border-box;
+        border: 1px solid #34363F !important;
+        border-radius: 10px;
+        background: #202127 !important;
+        color: #F7F3EF !important;
+      }
+      .sharedchemistry-home-card {
+        float: left;
+        width: 23%;
+        min-height: 160px;
+        margin-left: 2%;
+        padding: 20px;
+      }
+      .sharedchemistry-home-card.first {
+        margin-left: 0;
+      }
+      .sharedchemistry-home-card h3 {
+        color: #F7F3EF;
+        font-size: 18px;
+      }
+      .sharedchemistry-home-card p {
+        color: #B8B3B0;
+      }
+      #form_login_user, #form_join_user, .login_block {
+        margin-top: 18px;
+        margin-bottom: 18px;
+        padding: 20px !important;
+      }
+      input, select, textarea, .form-control {
+        box-sizing: border-box;
+        max-width: 100%;
+        padding: 9px 10px;
+        border: 1px solid #3A3C45 !important;
+        border-radius: 7px;
+        background: #111216 !important;
+        color: #F7F3EF !important;
+      }
+      input:focus, select:focus, textarea:focus {
+        border-color: #FFBC0A !important;
+        outline: none;
+      }
+      label, legend, .pfbc-label {
+        color: #B8B3B0 !important;
+      }
+      .alert, .msg, .err_msg, .suc_msg {
+        margin: 14px 0;
+        padding: 12px 14px;
+        border: 1px solid #34363F;
+        border-radius: 8px;
+        background: #202127;
+        color: #F7F3EF;
+      }
+      footer {
+        clear: both;
+        margin-top: 42px;
+        padding: 34px 18px 28px;
+        border-top: 1px solid #34363F;
+        background: #17181D !important;
+        color: #B8B3B0 !important;
+      }
+      footer p, footer small {
+        color: #B8B3B0 !important;
+      }
+      footer a, .bottom_nav a {
+        color: #FFBC0A !important;
+      }
+      .bottom_nav {
+        float: none !important;
+        text-align: center;
+      }
+      .sharedchemistry-footer-brand {
+        display: inline-block;
+        margin-right: 14px;
+        color: #F7F3EF;
+        font-weight: bold;
+      }
+      #disclaimer-background {
+        background: #101114 !important;
+      }
+      #disclaimer-dialog {
+        box-sizing: border-box;
+        width: 560px !important;
+        max-width: 92% !important;
+        padding: 34px !important;
+        border: 1px solid #34363F !important;
+        border-radius: 12px !important;
+        background: #202127 !important;
+        color: #F7F3EF !important;
+      }
+      #disclaimer-dialog h1 {
+        color: #F7F3EF !important;
+      }
+      #disclaimer-dialog p {
+        color: #B8B3B0 !important;
+      }
+      #agree-over18 {
+        border-color: #EC0868 !important;
+        background: #EC0868 !important;
+        color: #fff !important;
+      }
+      #disagree-under18 {
+        background: #17181D !important;
+        color: #F7F3EF !important;
+      }
+      @media screen and (max-width: 900px) {
+        .col-md-3, .col-md-4, .col-md-6, .col-md-8, .col-md-9, .col-md-12,
+        .col-xs-3, .col-xs-4, .col-xs-6, .col-xs-8, .col-xs-9, .col-xs-12,
+        .sharedchemistry-home-card {
+          float: none;
+          width: auto;
+          margin-left: 0;
+          margin-bottom: 14px;
+        }
+        .navbar-header,
+        .navbar-nav > li {
+          float: none;
+        }
+        .navbar-nav > li > a {
+          padding: 12px 14px;
+        }
+        .sharedchemistry-guest-brand h2 {
+          font-size: 34px;
+        }
+      }
+    </style>
     <!-- End CSS -->
 
     <!-- Begin Header JavaScript -->
