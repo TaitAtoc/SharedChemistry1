@@ -28,8 +28,9 @@
             </button>
             <div role="banner" id="logo" class="navbar-brand">
               <h1>
-                <a href="{{ $design->homePageUrl() }}" title="{slogan}">
-                  SharedChemistry
+                <a href="{{ $design->homePageUrl() }}" title="{slogan}" class="sharedchemistry-logo-link">
+                  <img src="{url_tpl_img}sharedchemistry/logo.png" alt="SharedChemistry" class="sharedchemistry-header-logo" />
+                  <span>SharedChemistry</span>
                 </a>
               </h1>
             </div>

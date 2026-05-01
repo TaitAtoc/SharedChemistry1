@@ -172,6 +172,22 @@
       #logo h1 a, .navbar #logo a {
         color: #F7F3EF !important;
       }
+      .sharedchemistry-logo-link {
+        display: inline-block;
+        color: #F7F3EF !important;
+        text-decoration: none !important;
+      }
+      .sharedchemistry-header-logo {
+        display: inline-block;
+        width: 118px;
+        height: auto;
+        margin: -12px 10px -14px 0;
+        vertical-align: middle;
+      }
+      .sharedchemistry-logo-link span {
+        display: inline-block;
+        vertical-align: middle;
+      }
       .navbar-collapse {
         display: block;
       }
@@ -244,6 +260,15 @@
         margin-bottom: 18px;
         font-size: 24px;
       }
+      .sharedchemistry-hero-logo {
+        display: block;
+        width: 260px;
+        height: auto;
+        margin: 0 0 18px;
+      }
+      .sharedchemistry-guest-brand h1 .sharedchemistry-logo-link span {
+        display: none;
+      }
       .sharedchemistry-guest-brand h2 {
         max-width: 760px;
         margin: 0 0 18px;
@@ -259,6 +284,21 @@
       .sharedchemistry-hero-actions {
         margin-top: 24px;
         margin-bottom: 18px;
+      }
+      .sharedchemistry-banner-wrap {
+        clear: both;
+        max-width: 1160px;
+        margin: 10px auto 24px;
+        padding: 0 18px;
+        box-sizing: border-box;
+      }
+      .sharedchemistry-hero-banner {
+        display: block;
+        width: 100%;
+        height: auto;
+        border: 1px solid #34363F;
+        border-radius: 14px;
+        background: #17181D;
       }
       .btn, button, input[type="submit"], input[type="button"] {
         display: inline-block;
@@ -433,6 +473,18 @@
         margin-right: 14px;
         color: #F7F3EF;
         font-weight: bold;
+        vertical-align: middle;
+      }
+      .sharedchemistry-footer-logo {
+        display: inline-block;
+        width: 86px;
+        height: auto;
+        margin: -8px 8px -10px 0;
+        vertical-align: middle;
+      }
+      .sharedchemistry-footer-brand span {
+        display: inline-block;
+        vertical-align: middle;
       }
       .right.vs_marg {
         float: none !important;
@@ -511,6 +563,14 @@
         .sharedchemistry-guest-brand h2 {
           font-size: 34px;
         }
+        .sharedchemistry-header-logo {
+          width: 92px;
+          margin-top: -8px;
+          margin-bottom: -10px;
+        }
+        .sharedchemistry-hero-logo {
+          width: 210px;
+        }
       }
       @media screen and (max-width: 640px) {
         #disclaimer-dialog {
@@ -567,7 +627,10 @@
           <div class="row sharedchemistry-guest-hero">
               <div role="banner" id="logo" class="col-md-8 sharedchemistry-guest-brand">
                   <h1 itemprop="name">
-                      <a href="{{ $design->homePageUrl() }}">SharedChemistry</a>
+                      <a href="{{ $design->homePageUrl() }}" class="sharedchemistry-logo-link">
+                          <img src="{url_tpl_img}sharedchemistry/logo.png" alt="SharedChemistry" class="sharedchemistry-hero-logo" />
+                          <span>SharedChemistry</span>
+                      </a>
                   </h1>
                   <h2>{lang 'A private space for genuine couples'}</h2>
                   <p class="sharedchemistry-hero-copy">
@@ -582,6 +645,9 @@
                       </a>
                   </p>
               </div>
+          </div>
+          <div class="sharedchemistry-banner-wrap">
+              <img src="{url_tpl_img}sharedchemistry/banner.png" alt="{lang 'SharedChemistry private couples community'}" class="sharedchemistry-hero-banner" />
           </div>
       {/if}
 
@@ -680,12 +746,6 @@
     </footer>
 
     <div class="clear"></div>
-    <div class="right vs_marg">
-      {* Required for the GeoLite2 free version. Not needed if you purchase their full paid version *}
-      <small class="small">
-        {lang}We use GeoLite2 from <a href="http://www.maxmind.com" rel="nofollow" class="gray">MaxMind</a>{/lang}
-      </small>
-    </div>
     <!-- End Footer -->
 
     <!-- Begin Footer JavaScript -->

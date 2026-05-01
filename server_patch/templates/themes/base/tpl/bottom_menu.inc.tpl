@@ -1,8 +1,11 @@
   <nav class="bottom_nav">
-      <span class="sharedchemistry-footer-brand">SharedChemistry</span>
+      <span class="sharedchemistry-footer-brand">
+        <img src="{url_tpl_img}sharedchemistry/logo.png" alt="SharedChemistry" class="sharedchemistry-footer-logo" />
+        <span>SharedChemistry</span>
+      </span>
       <div role="listbox" class="dropdown_menu ft_dm">
         <span class="dropdown_item_css">
-          <a rel="nofollow" href="{{ $design->url('page','main','about') }}" class="dropdown_item" data-load="ajax">{lang 'About %site_name%'}</a>
+          <a rel="nofollow" href="{{ $design->url('page','main','about') }}" class="dropdown_item" data-load="ajax">{lang 'About SharedChemistry'}</a>
         </span>
         <ul class="show_dropdown">
           <li><a href="{{ $design->url('page','main','about') }}" title="{lang 'About Us'}" data-load="ajax">{lang 'About'}</a></li>
@@ -12,20 +15,15 @@
             <li><a href="{{ $design->url('blog','main','index') }}" title="{lang 'Company Blog | News'}" data-load="ajax">{lang 'Blog'}</a></li>
           {/if}
 
-          {if $is_affiliate_enabled}
-            <li><a href="{{ $design->url('affiliate','home','index') }}" title="{lang 'Become an Affiliate'}">{lang 'Affiliate'}</a></li>
-          {/if}
-
           <li><a href="{{ $design->url('contact','contact','index') }}" title="{lang 'Contact Us'}">{lang 'Contact'}</a></li>
           <li><a href="{{ $design->url('page','main','link') }}" title="{lang 'Links'}" data-load="ajax">{lang 'Links'}</a></li>
-          <li><a href="{{ $design->url('page','main','job') }}" title="{lang 'Jobs | Careers'}" data-load="ajax">{lang 'Jobs'}</a></li>
           <li class="dm_self"><span class="dropdown_item">{lang 'About'}</span><i></i></li>
         </ul>
-      </div> |
+      </div>
 
       <div role="listbox" class="dropdown_menu ft_dm">
         <span class="dropdown_item_css">
-          <a rel="nofollow" href="{{ $design->url('page','main','faq') }}" class="dropdown_item" data-load="ajax">{lang 'Help'}</a>
+          <a rel="nofollow" href="{{ $design->url('page','main','faq') }}" class="dropdown_item" data-load="ajax">{lang 'FAQ'}</a>
         </span>
         <ul class="show_dropdown">
           <li><a href="{{ $design->url('page','main','faq') }}" title="{lang 'Frequently Asked Questions'}">{lang 'FAQ'}</a></li>
@@ -34,13 +32,13 @@
           <li><a href="{{ $design->url('page','main','legalnotice') }}" title="{lang 'Legal Notice'}" data-load="ajax">{lang 'Legal Notice'}</a></li>
           <li class="dm_self"><span class="dropdown_item">{lang 'Help'}</span><i></i></li>
         </ul>
-      </div> |
+      </div>
 
       {if !$is_user_auth AND $is_newsletter_enabled}
-        <a href="{{ $design->url('newsletter','home','subscription') }}" title="{lang 'Subscribe to our newsletter!'}" data-popup="block-page">{lang 'Newsletter'}</a> |
+        <a href="{{ $design->url('newsletter','home','subscription') }}" title="{lang 'Subscribe to our newsletter!'}" data-popup="block-page">{lang 'Newsletter'}</a>
       {/if}
       {if $is_invite_enabled}
-        <a rel="nofollow" href="{{ $design->url('invite','home','invitation') }}" title="{lang 'Invite your friends!'}" data-popup="block-page">{lang 'Invite'}</a> |
+        <a rel="nofollow" href="{{ $design->url('invite','home','invitation') }}" title="{lang 'Invite your friends!'}" data-popup="block-page">{lang 'Invite'}</a>
       {/if}
 
       <a href="{{ $design->url('xml','sitemap','index') }}" title="{lang 'Site Map'}" data-load="ajax">{lang 'Site Map'}</a>
