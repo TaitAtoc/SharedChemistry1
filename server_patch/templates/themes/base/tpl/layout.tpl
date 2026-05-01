@@ -98,10 +98,10 @@
       {if $is_guest_homepage}
           <div class="row sharedchemistry-guest-hero">
               <div role="banner" id="logo" class="col-md-8 sharedchemistry-guest-brand">
-                  <a href="{{ $design->homePageUrl() }}" class="sharedchemistry-brand-link">SharedChemistry</a>
-                  <div class="sharedchemistry-hero-headline" itemprop="name">
-                      {lang 'A private space for genuine couples'}
-                  </div>
+                  <h1 itemprop="name">
+                      <a href="{{ $design->homePageUrl() }}">SharedChemistry</a>
+                  </h1>
+                  <h2>{lang 'A private space for genuine couples'}</h2>
                   <p class="sharedchemistry-hero-copy">
                       {lang 'Create a couple profile, connect at your own pace, and meet other couples in a more private, trusted setting.'}
                   </p>
@@ -157,24 +157,25 @@
       {/if}
 
       {if $is_guest_homepage}
-        <section class="sharedchemistry-home-blocks" aria-label="{lang 'SharedChemistry highlights'}">
-          <div class="sharedchemistry-home-card">
-            <h2>{lang 'Private by design'}</h2>
+        <div class="sharedchemistry-home-blocks">
+          <div class="sharedchemistry-home-card first">
+            <h3>{lang 'Private by design'}</h3>
             <p>{lang 'A calmer way to explore, with privacy and discretion at the center of the experience.'}</p>
           </div>
           <div class="sharedchemistry-home-card">
-            <h2>{lang 'Couple-focused profiles'}</h2>
+            <h3>{lang 'Couple-focused profiles'}</h3>
             <p>{lang 'Create a profile together and represent who you are as a couple, not just as individuals.'}</p>
           </div>
           <div class="sharedchemistry-home-card">
-            <h2>{lang 'Discover locally or while travelling'}</h2>
+            <h3>{lang 'Discover locally or while travelling'}</h3>
             <p>{lang 'Meet nearby couples at home or make thoughtful connections before your next trip.'}</p>
           </div>
           <div class="sharedchemistry-home-card">
-            <h2>{lang 'Built for genuine connections'}</h2>
+            <h3>{lang 'Built for genuine connections'}</h3>
             <p>{lang 'A warmer, more intentional space for conversations that can move at your pace.'}</p>
           </div>
-        </section>
+          <div class="clear"></div>
+        </div>
       {/if}
     </main>
     <div role="banner" class="center ad_468_60">

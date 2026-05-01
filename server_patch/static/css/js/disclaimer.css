@@ -49,21 +49,20 @@
     position: fixed;
     z-index: 1001;
 }
-/* SharedChemistry age notice */
+
+/* SharedChemistry final age notice overrides */
 #disclaimer-background {
-    background: rgba(16, 17, 20, .96) !important;
+    background-color: #101114 !important;
 }
 
 #disclaimer-dialog {
-    width: min(92vw, 560px) !important;
+    width: 560px !important;
+    max-width: 92% !important;
     padding: 34px !important;
-    border: 1px solid rgba(255, 188, 10, .18) !important;
+    background-color: #202127 !important;
+    border: 1px solid #34363F !important;
     border-radius: 12px !important;
-    background:
-        radial-gradient(circle at top left, rgba(194, 0, 251, .18), transparent 34%),
-        linear-gradient(180deg, #202127, #17181D) !important;
     color: #F7F3EF !important;
-    box-shadow: 0 30px 90px rgba(0, 0, 0, .55) !important;
 }
 
 #disclaimer-dialog h1 {
@@ -84,18 +83,18 @@
 #disclaimer-dialog button {
     min-width: 170px;
     margin: 6px;
-    border-radius: 999px !important;
-    font-weight: 800;
+    border-radius: 24px !important;
+    font-weight: bold;
 }
 
 #agree-over18 {
-    border: 0 !important;
-    background: linear-gradient(135deg, #EC0868, #C200FB, #EC7D10) !important;
+    background-color: #EC0868 !important;
+    border-color: #EC0868 !important;
     color: #fff !important;
 }
 
 #disagree-under18 {
-    border: 1px solid rgba(247, 243, 239, .16) !important;
-    background: rgba(247, 243, 239, .06) !important;
+    background-color: #202127 !important;
+    border: 1px solid #3A3C45 !important;
     color: #F7F3EF !important;
 }

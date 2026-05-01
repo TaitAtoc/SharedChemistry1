@@ -113,37 +113,36 @@
 }
 
 /*** End pH ***/
-/* SharedChemistry palette overrides */
+
+/* SharedChemistry final palette overrides */
 .pink,
 .purple,
 .magenta {
-    color: var(--sc-magenta) !important;
+    color: #C200FB !important;
 }
 
 .orange {
-    color: var(--sc-orange) !important;
+    color: #EC7D10 !important;
 }
 
 .yellow {
-    color: var(--sc-amber) !important;
+    color: #FFBC0A !important;
 }
 
-.blue,
-.link,
-.bold a {
-    color: var(--sc-amber);
+.red,
+.dark-red,
+.error {
+    color: #FF8B7D !important;
 }
 
-.bg,
-.light-bg,
+.green,
+.suc_msg {
+    color: #8FE3A4 !important;
+}
+
 .white,
+.light-bg,
 .gray-light {
-    background-color: var(--sc-card) !important;
-    color: var(--sc-text) !important;
-}
-
-.border,
-.line,
-.separator {
-    border-color: var(--sc-border) !important;
+    background-color: #202127 !important;
+    color: #F7F3EF !important;
 }

@@ -283,104 +283,54 @@ dd {
     border: 1px solid #ddd;
     border-radius: 5px;
 }
-/* SharedChemistry components and general polish */
+
+/* SharedChemistry final button/content overrides */
 .btn,
 button,
 input[type="submit"],
 input[type="button"] {
-    border-radius: 999px;
-    font-weight: 700;
-    letter-spacing: 0;
+    border-radius: 24px !important;
+    font-weight: bold;
 }
 
 .btn-primary,
 .btn-success,
 input[type="submit"],
 button[type="submit"] {
-    border: 0 !important;
-    background: linear-gradient(135deg, #EC0868 0, #C200FB 52%, #EC7D10 100%) !important;
+    background-color: #EC0868 !important;
+    background-image: none !important;
+    border-color: #EC0868 !important;
     color: #fff !important;
-    box-shadow: 0 12px 30px rgba(236, 8, 104, .26);
 }
 
 .btn-primary:hover,
 .btn-success:hover,
 input[type="submit"]:hover,
 button[type="submit"]:hover {
-    filter: brightness(1.08);
+    background-color: #C200FB !important;
+    border-color: #C200FB !important;
     color: #fff !important;
 }
 
 .btn-default,
 .btn-secondary,
 .btn-info {
-    border: 1px solid var(--sc-border) !important;
-    background: rgba(247, 243, 239, .06) !important;
-    color: var(--sc-text) !important;
+    background-color: #202127 !important;
+    background-image: none !important;
+    border-color: #3A3C45 !important;
+    color: #F7F3EF !important;
 }
 
 .btn-default:hover,
 .btn-secondary:hover,
 .btn-info:hover {
-    border-color: rgba(255, 188, 10, .55) !important;
-    background: rgba(255, 188, 10, .11) !important;
-    color: var(--sc-text) !important;
-}
-
-.box,
-.block,
-.frame,
-.table,
-.thumbnail,
-.panel,
-.modal-content,
-.profile,
-.comment,
-.wall,
-.item,
-.card {
-    border-color: var(--sc-border) !important;
-    background: var(--sc-card) !important;
-    color: var(--sc-text);
-}
-
-.panel-heading,
-.table > thead > tr > th,
-.table > tbody > tr > th {
-    border-color: var(--sc-border) !important;
-    background: var(--sc-panel) !important;
-    color: var(--sc-text);
-}
-
-.table > tbody > tr > td,
-.table > tfoot > tr > td {
-    border-color: var(--sc-border) !important;
-}
-
-.well,
-.jumbotron,
-.list-group-item {
-    border-color: var(--sc-border) !important;
-    background: var(--sc-panel) !important;
-    color: var(--sc-text);
+    background-color: #2A2B32 !important;
+    border-color: #FFBC0A !important;
+    color: #F7F3EF !important;
 }
 
 .badge,
 .label {
-    background: var(--sc-razz);
-}
-
-h1,
-h2,
-h3,
-h4 {
-    color: var(--sc-text);
-    letter-spacing: 0;
-}
-
-p,
-li,
-dd,
-dt {
-    color: var(--sc-secondary);
+    background-color: #EC0868 !important;
+    color: #fff !important;
 }

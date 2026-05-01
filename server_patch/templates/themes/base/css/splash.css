@@ -225,152 +225,134 @@ video#bgvid {
         width: auto;
     }
 }
-/* SharedChemistry guest homepage */
+
+/* SharedChemistry final guest homepage overrides */
 .sharedchemistry-guest-hero {
     margin: 28px auto 0;
-    padding: 78px 18px 28px;
+    padding: 62px 18px 20px;
 }
 
 .sharedchemistry-guest-brand {
-    float: none !important;
+    float: left;
     max-width: 760px;
 }
 
-.sharedchemistry-brand-link {
-    display: inline-flex;
-    align-items: center;
-    margin-bottom: 22px;
-    color: var(--sc-text) !important;
-    font-size: 20px;
-    font-weight: 900;
-    text-decoration: none;
+.sharedchemistry-guest-brand h1 a {
+    color: #F7F3EF !important;
+    font-weight: bold;
 }
 
-.sharedchemistry-brand-link::before {
-    content: "";
-    width: 14px;
-    height: 14px;
-    margin-right: 10px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--sc-razz), var(--sc-amber));
-    box-shadow: 0 0 32px rgba(236, 8, 104, .55);
-}
-
-.sharedchemistry-hero-headline {
+.sharedchemistry-guest-brand h2 {
     max-width: 760px;
     margin: 0 0 18px;
-    color: var(--sc-text);
-    font-size: 52px;
-    line-height: 1.03;
-    font-weight: 900;
+    color: #F7F3EF !important;
+    font-size: 46px;
+    line-height: 1.1;
+    font-weight: bold;
 }
 
 .sharedchemistry-hero-copy {
     max-width: 650px;
-    color: var(--sc-secondary);
-    font-size: 19px;
-    line-height: 1.65;
+    color: #B8B3B0 !important;
+    font-size: 18px;
+    line-height: 1.6;
 }
 
 .sharedchemistry-hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 26px;
+    margin-top: 24px;
 }
 
 .sharedchemistry-primary-cta,
 .sharedchemistry-secondary-cta {
-    padding: 13px 22px;
+    margin-right: 10px;
+    padding: 12px 22px;
 }
 
 .sharedchemistry-home-blocks {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 16px;
+    clear: both;
     margin: 34px 0 10px;
 }
 
 .sharedchemistry-home-card {
-    min-height: 170px;
-    padding: 22px;
-    border: 1px solid var(--sc-border);
+    float: left;
+    width: 23%;
+    min-height: 165px;
+    margin-left: 2%;
+    padding: 20px;
+    background-color: #202127 !important;
+    border: 1px solid #34363F;
     border-radius: 10px;
-    background: linear-gradient(180deg, rgba(32, 33, 39, .94), rgba(23, 24, 29, .94));
-    box-shadow: 0 18px 45px rgba(0, 0, 0, .24);
 }
 
-.sharedchemistry-home-card h2 {
+.sharedchemistry-home-card.first {
+    margin-left: 0;
+}
+
+.sharedchemistry-home-card h3 {
     margin-top: 0;
-    color: var(--sc-text);
+    color: #F7F3EF !important;
     font-size: 18px;
 }
 
 .sharedchemistry-home-card p {
-    color: var(--sc-secondary);
+    color: #B8B3B0 !important;
     line-height: 1.55;
-}
-
-.login_block,
-.window,
-.profiles_window,
-.pic_block,
-.block_txt {
-    border-color: var(--sc-border);
-    color: var(--sc-text);
 }
 
 .login_block {
     padding: 20px;
-    border: 1px solid var(--sc-border);
+    background-color: #17181D !important;
+    border: 1px solid #34363F;
     border-radius: 12px;
-    background: rgba(23, 24, 29, .88);
-    box-shadow: var(--sc-shadow);
 }
 
 .window,
 .profiles_window {
-    background: var(--sc-panel);
-    box-shadow: var(--sc-shadow);
+    background-color: #17181D !important;
+    border-color: #34363F;
 }
 
 .paging {
-    background: rgba(16, 17, 20, .86);
-    border: 1px solid var(--sc-border);
-    border-radius: 999px;
+    background-color: #101114 !important;
+    border: 1px solid #34363F;
+    border-radius: 24px;
 }
 
 .paging a.active {
-    border-color: transparent;
-    background: var(--sc-razz);
+    background-color: #EC0868 !important;
+    border-color: #EC0868 !important;
 }
 
 @media (max-width: 991px) {
-    .sharedchemistry-home-blocks {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+    .sharedchemistry-home-card {
+        width: 48%;
+        margin-bottom: 14px;
+    }
+
+    .sharedchemistry-home-card:nth-child(3) {
+        margin-left: 0;
     }
 }
 
 @media (max-width: 760px) {
     .sharedchemistry-guest-hero {
-        padding-top: 44px;
+        padding-top: 36px;
         text-align: left;
     }
 
-    .sharedchemistry-hero-headline {
-        font-size: 38px;
+    .sharedchemistry-guest-brand h2 {
+        font-size: 34px;
     }
 
-    .sharedchemistry-home-blocks {
-        grid-template-columns: 1fr;
-    }
-
-    .sharedchemistry-hero-actions {
+    .sharedchemistry-primary-cta,
+    .sharedchemistry-secondary-cta {
         display: block;
+        margin: 0 0 10px;
     }
 
-    .sharedchemistry-hero-actions .btn {
-        display: block;
-        margin-bottom: 10px;
+    .sharedchemistry-home-card {
+        float: none;
+        width: auto;
+        margin-left: 0;
     }
 }
