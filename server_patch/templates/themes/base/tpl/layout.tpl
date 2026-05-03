@@ -306,9 +306,9 @@
         clear: both;
         position: relative;
         max-width: 1160px;
-        min-height: 190px;
+        min-height: 150px;
         margin: 0 auto;
-        padding: 48px 18px 0;
+        padding: 20px 18px 0;
         box-sizing: border-box;
       }
       .sharedchemistry-top-logo {
@@ -330,11 +330,11 @@
       .sharedchemistry-guest-top-spacer {
         float: right;
         width: 50%;
-        min-height: 160px;
+        min-height: 130px;
       }
       .sharedchemistry-guest-banner {
         margin-top: 0;
-        margin-bottom: 58px;
+        margin-bottom: 52px;
       }
       .sharedchemistry-landing-stage {
         clear: both;
@@ -373,7 +373,7 @@
       .sharedchemistry-mask-woman {
         display: block;
         width: 100%;
-        max-width: 630px;
+        max-width: 620px;
         height: auto;
         margin: 0 0 46px;
         border: 1px solid #24262D;
@@ -467,7 +467,8 @@
       .sharedchemistry-home-card {
         float: left;
         width: 23%;
-        min-height: 160px;
+        min-height: 210px;
+        height: 210px;
         margin-left: 2%;
         padding: 20px;
       }
@@ -488,7 +489,7 @@
       }
       .login_block {
         position: absolute !important;
-        top: 74px;
+        top: 34px;
         right: 50%;
         width: 560px !important;
         margin: 0 -580px 0 0 !important;
@@ -781,6 +782,7 @@
         .sharedchemistry-home-card {
           float: none;
           width: auto;
+          height: auto;
           margin-left: 0;
           margin-bottom: 14px;
         }
@@ -949,42 +951,44 @@
       {{ $lang_file =  Framework\Translate\Lang::getJsFile(PH7_PATH_STATIC . PH7_JS . PH7_LANG) }}
       {{ $design->staticFiles('js', PH7_STATIC . PH7_JS, PH7_LANG . $lang_file) }}
 
+      {if $is_guest_homepage}
+        <div class="sharedchemistry-landing-stage">
+          <div class="sharedchemistry-main-left">
+            <h2>{lang 'A private space for genuine couples'}</h2>
+            <p class="sharedchemistry-main-copy">
+              {lang 'Create a couple profile, connect at your own pace, and meet other couples in a more private, trusted setting.'}
+            </p>
+            <p class="sharedchemistry-main-actions">
+              <a href="{{ $design->url('user', 'signup', 'step1') }}" class="btn btn-primary sharedchemistry-primary-cta">
+                {lang 'Create your couple profile'}
+              </a>
+              <a href="{{ $design->url('user', 'main', 'login') }}" class="btn btn-default sharedchemistry-secondary-cta" data-load="ajax">
+                {lang 'Sign in'}
+              </a>
+            </p>
+            <img src="{url_tpl_img}sharedchemistry/mask-woman.png" alt="{lang 'Private couples community'}" class="sharedchemistry-mask-woman" />
+            <div class="sharedchemistry-community-copy">
+              <h2>{lang 'A private couples community'}</h2>
+              <h3>{lang 'Meet genuine couples near you'}</h3>
+              <p>{lang 'Shared Chemistry is a private community for couples who want to meet other couples, build trust, and connect at their own pace.'}</p>
+              <p>{lang 'Create a couple profile, share your interests, and meet genuine couples in your city or while travelling.'}</p>
+            </div>
+          </div>
+          <div class="sharedchemistry-auto-wrap">
+      {/if}
+
       {if !empty($manual_include)}
         {manual_include $manual_include}
       {elseif !empty($pOH_not_found)}
         {main_include 'error.inc.tpl'}
       {else}
-        {if $is_guest_homepage}
-          <div class="sharedchemistry-landing-stage">
-            <div class="sharedchemistry-main-left">
-              <h2>{lang 'A private space for genuine couples'}</h2>
-              <p class="sharedchemistry-main-copy">
-                {lang 'Create a couple profile, connect at your own pace, and meet other couples in a more private, trusted setting.'}
-              </p>
-              <p class="sharedchemistry-main-actions">
-                <a href="{{ $design->url('user', 'signup', 'step1') }}" class="btn btn-primary sharedchemistry-primary-cta">
-                  {lang 'Create your couple profile'}
-                </a>
-                <a href="{{ $design->url('user', 'main', 'login') }}" class="btn btn-default sharedchemistry-secondary-cta" data-load="ajax">
-                  {lang 'Sign in'}
-                </a>
-              </p>
-              <img src="{url_tpl_img}sharedchemistry/mask-woman.png" alt="{lang 'Private couples community'}" class="sharedchemistry-mask-woman" />
-              <div class="sharedchemistry-community-copy">
-                <h2>{lang 'A private couples community'}</h2>
-                <h3>{lang 'Meet genuine couples near you'}</h3>
-                <p>{lang 'Shared Chemistry is a private community for couples who want to meet other couples, build trust, and connect at their own pace.'}</p>
-                <p>{lang 'Create a couple profile, share your interests, and meet genuine couples in your city or while travelling.'}</p>
-              </div>
-            </div>
-            <div class="sharedchemistry-auto-wrap">
-        {/if}
         {auto_include}
-        {if $is_guest_homepage}
-            </div>
-            <div class="clear"></div>
+      {/if}
+
+      {if $is_guest_homepage}
           </div>
-        {/if}
+          <div class="clear"></div>
+        </div>
       {/if}
 
       {if $is_guest_homepage}
