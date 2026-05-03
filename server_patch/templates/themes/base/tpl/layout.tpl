@@ -584,7 +584,7 @@
       }
       #form_login_user-element-4 .ui-button-icon-primary,
       #form_join_user-element-11 .ui-button-icon-primary {
-        display: inline-block !important;
+        display: none !important;
         float: none !important;
         position: relative !important;
         left: auto !important;
@@ -628,6 +628,33 @@
         background: none !important;
         opacity: 1 !important;
         visibility: visible !important;
+      }
+      #form_login_user-element-4 .ui-button-icon-primary,
+      #form_join_user-element-11 .ui-button-icon-primary {
+        display: none !important;
+        visibility: hidden !important;
+      }
+      #form_login_user-element-4:before,
+      #form_join_user-element-11:before {
+        color: #ffffff !important;
+        display: inline-block !important;
+        font-family: FontAwesome;
+        font-size: 18px !important;
+        font-weight: normal !important;
+        height: 20px !important;
+        line-height: 20px !important;
+        margin-right: 8px !important;
+        position: relative !important;
+        text-align: center !important;
+        top: -1px !important;
+        vertical-align: middle !important;
+        width: 20px !important;
+      }
+      #form_login_user-element-4:before {
+        content: "\f084";
+      }
+      #form_join_user-element-11:before {
+        content: "\f004";
       }
       #form_login_user-element-4 .ui-button-text,
       #form_join_user-element-11 .ui-button-text {
