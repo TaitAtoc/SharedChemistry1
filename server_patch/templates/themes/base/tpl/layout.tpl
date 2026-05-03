@@ -306,7 +306,7 @@
         clear: both;
         position: relative;
         max-width: 1160px;
-        min-height: 132px;
+        min-height: 86px;
         margin: 0 auto;
         padding: 4px 18px 0;
         box-sizing: border-box;
@@ -316,12 +316,12 @@
         width: 46%;
         position: relative;
         top: -58px;
-        margin-bottom: -54px;
+        margin-bottom: -116px;
       }
       .sharedchemistry-logo-lift {
         position: relative;
         top: -58px;
-        margin-bottom: -54px;
+        margin-bottom: -116px;
       }
       .sharedchemistry-top-logo h1 {
         margin: 0;
@@ -338,11 +338,11 @@
       .sharedchemistry-guest-top-spacer {
         float: right;
         width: 50%;
-        min-height: 118px;
+        min-height: 86px;
       }
       .sharedchemistry-guest-banner {
         margin-top: 0;
-        margin-bottom: 52px;
+        margin-bottom: 10px;
       }
       .sharedchemistry-landing-stage {
         clear: both;
@@ -431,7 +431,7 @@
         width: auto !important;
         max-width: none !important;
         margin: 0 !important;
-        padding: 0 0 90px !important;
+        padding: 44px 0 90px !important;
         min-height: 650px;
         background: #202127 !important;
         border: 1px solid #34363F !important;
@@ -444,7 +444,7 @@
       }
       .sharedchemistry-auto-wrap .fadeInRight h1 {
         margin: 0 0 18px;
-        padding: 0;
+        padding: 0 26px;
         color: #F7F3EF !important;
         font-size: 30px;
         line-height: 1.2;
@@ -655,6 +655,13 @@
         border-radius: 8px;
         background: #202127;
         color: #F7F3EF;
+      }
+      .sharedchemistry-guest-msg {
+        display: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        background: transparent !important;
       }
       footer {
         clear: both;
@@ -991,7 +998,11 @@
     <main role="main" class="container" id="content">
       {* Alert Message *}
       {{ $design->flashMsg() }}
-      <div class="msg"></div>
+      {if $is_guest_homepage}
+        <div class="msg sharedchemistry-guest-msg"></div>
+      {else}
+        <div class="msg"></div>
+      {/if}
 
       {* Loading JS Lang *}
       {* The file must be before the content of the site to avoid that the "pH7LangCore"  object is undefined *}
