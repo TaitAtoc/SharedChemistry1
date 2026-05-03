@@ -412,8 +412,8 @@
       }
       .sharedchemistry-signup-panel {
         box-sizing: border-box;
-        min-height: 650px;
-        padding: 0 0 90px;
+        min-height: 560px;
+        padding: 0 0 28px;
         background: #202127 !important;
         border: 1px solid #34363F !important;
         border-radius: 12px;
@@ -431,8 +431,8 @@
         width: auto !important;
         max-width: none !important;
         margin: 0 !important;
-        padding: 44px 0 90px !important;
-        min-height: 650px;
+        padding: 44px 0 28px !important;
+        min-height: 560px;
         background: #202127 !important;
         border: 1px solid #34363F !important;
         border-radius: 12px;
@@ -523,7 +523,7 @@
         top: 34px;
         right: 50%;
         width: 560px !important;
-        margin: 0 -580px 0 0 !important;
+        margin: 0 -562px 0 0 !important;
         padding: 18px !important;
         background: #202127 !important;
         border-radius: 8px !important;
@@ -559,11 +559,48 @@
         float: left;
         height: 39px;
         margin: 0 0 10px 0;
-        padding: 8px 20px !important;
+        padding: 0 22px !important;
         border-color: #EC0868 !important;
         background: #EC0868 !important;
         color: #fff !important;
         border-radius: 5px !important;
+        line-height: 39px !important;
+        text-align: center;
+        vertical-align: middle;
+      }
+      #form_login_user button:hover,
+      #form_login_user input[type="submit"]:hover,
+      #form_login_user-element-4:hover {
+        border-color: #C200FB !important;
+        background: #C200FB !important;
+        color: #fff !important;
+      }
+      #form_login_user-element-4,
+      #form_join_user-element-11 {
+        line-height: 39px !important;
+        text-align: center;
+      }
+      #form_login_user-element-4 .ui-button-icon-primary,
+      #form_join_user-element-11 .ui-button-icon-primary,
+      #form_login_user .ui-icon-key,
+      #form_join_user .ui-icon-heart {
+        display: inline-block !important;
+        float: none !important;
+        position: static !important;
+        width: 18px !important;
+        height: 18px !important;
+        margin: 0 8px 0 0 !important;
+        background-image: url('/static/css/js/jquery/smoothness/images/ui-icons_ffffff_256x240.png') !important;
+        vertical-align: middle;
+        zoom: 1.15;
+      }
+      #form_login_user-element-4 .ui-button-text,
+      #form_join_user-element-11 .ui-button-text {
+        display: inline-block !important;
+        padding: 0 !important;
+        color: #fff !important;
+        line-height: 39px !important;
+        vertical-align: middle;
       }
       #form_login_user:after,
       .login_block form:after {
@@ -599,7 +636,7 @@
         box-sizing: border-box;
         width: 100% !important;
         margin: 0 !important;
-        padding: 26px 26px 80px !important;
+        padding: 26px 26px 42px !important;
         border: 0 !important;
         border-radius: 0 !important;
         background: #202127 !important;
@@ -628,8 +665,11 @@
       .sharedchemistry-auto-wrap #form_join_user input[type="submit"] {
         float: right;
         margin-top: 16px;
-        margin-bottom: 22px;
-        padding: 13px 24px !important;
+        margin-bottom: 12px;
+        padding: 0 24px !important;
+        line-height: 39px !important;
+        height: 39px;
+        text-align: center;
         border-radius: 5px !important;
       }
       input, select, textarea, .form-control {
