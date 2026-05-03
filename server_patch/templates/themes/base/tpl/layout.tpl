@@ -306,14 +306,15 @@
         clear: both;
         position: relative;
         max-width: 1160px;
-        min-height: 150px;
+        min-height: 132px;
         margin: 0 auto;
-        padding: 20px 18px 0;
+        padding: 4px 18px 0;
         box-sizing: border-box;
       }
       .sharedchemistry-top-logo {
         float: left;
         width: 46%;
+        margin-top: -2px;
       }
       .sharedchemistry-top-logo h1 {
         margin: 0;
@@ -330,7 +331,7 @@
       .sharedchemistry-guest-top-spacer {
         float: right;
         width: 50%;
-        min-height: 130px;
+        min-height: 118px;
       }
       .sharedchemistry-guest-banner {
         margin-top: 0;
@@ -568,10 +569,15 @@
         box-sizing: border-box;
         width: 100% !important;
         margin: 0 !important;
-        padding: 26px !important;
+        padding: 26px 26px 48px !important;
         border: 1px solid #34363F !important;
         border-radius: 10px !important;
         background: #202127 !important;
+      }
+      .sharedchemistry-auto-wrap #form_join_user:after {
+        content: "";
+        display: table;
+        clear: both;
       }
       .sharedchemistry-auto-wrap #form_join_user input[type="text"],
       .sharedchemistry-auto-wrap #form_join_user input[type="email"],
@@ -592,6 +598,7 @@
       .sharedchemistry-auto-wrap #form_join_user input[type="submit"] {
         float: right;
         margin-top: 16px;
+        margin-bottom: 8px;
         padding: 13px 24px !important;
         border-radius: 5px !important;
       }
