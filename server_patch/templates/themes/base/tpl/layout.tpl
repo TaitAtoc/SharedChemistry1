@@ -587,12 +587,15 @@
         display: inline-block !important;
         float: none !important;
         position: relative !important;
-        top: -1px;
+        left: auto !important;
+        top: -1px !important;
         width: 20px !important;
         height: 20px !important;
         margin: 0 8px 0 0 !important;
+        padding: 0 !important;
         background: none !important;
         opacity: 1 !important;
+        overflow: visible !important;
         visibility: visible !important;
         vertical-align: middle;
       }
@@ -600,19 +603,25 @@
       #form_join_user-element-11 .ui-button-icon-primary:before {
         display: inline-block;
         width: 20px;
-        color: #fff;
-        font-family: FontAwesome;
+        height: 20px;
+        color: #ffffff !important;
         font-size: 18px;
-        font-weight: normal;
+        font-weight: bold;
         line-height: 20px;
+        margin-right: 8px;
+        position: relative;
+        top: -1px;
         text-align: center;
         vertical-align: middle;
+        background: none !important;
+        opacity: 1 !important;
+        visibility: visible !important;
       }
       #form_login_user-element-4 .ui-button-icon-primary:before {
-        content: "\f084";
+        content: "🔑";
       }
       #form_join_user-element-11 .ui-button-icon-primary:before {
-        content: "\f004";
+        content: "♥";
       }
       #form_login_user .ui-icon-key,
       #form_join_user .ui-icon-heart {
