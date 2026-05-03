@@ -116,7 +116,9 @@
       }
       .row:after,
       .container:after,
-      .sharedchemistry-home-blocks:after {
+      .sharedchemistry-home-blocks:after,
+      .sharedchemistry-top-shell:after,
+      .sharedchemistry-landing-stage:after {
         content: "";
         display: table;
         clear: both;
@@ -300,6 +302,127 @@
         border-radius: 14px;
         background: #17181D;
       }
+      .sharedchemistry-top-shell {
+        clear: both;
+        position: relative;
+        max-width: 1160px;
+        min-height: 190px;
+        margin: 0 auto;
+        padding: 48px 18px 0;
+        box-sizing: border-box;
+      }
+      .sharedchemistry-top-logo {
+        float: left;
+        width: 46%;
+      }
+      .sharedchemistry-top-logo h1 {
+        margin: 0;
+      }
+      .sharedchemistry-top-logo .sharedchemistry-logo-link span {
+        display: none;
+      }
+      .sharedchemistry-top-logo-img {
+        display: block;
+        width: 348px;
+        max-width: 100%;
+        height: auto;
+      }
+      .sharedchemistry-guest-top-spacer {
+        float: right;
+        width: 50%;
+        min-height: 160px;
+      }
+      .sharedchemistry-guest-banner {
+        margin-top: 0;
+        margin-bottom: 58px;
+      }
+      .sharedchemistry-landing-stage {
+        clear: both;
+        max-width: 1160px;
+        margin: 0 auto;
+      }
+      .sharedchemistry-main-left {
+        float: left;
+        width: 55%;
+        box-sizing: border-box;
+        padding-right: 38px;
+      }
+      .sharedchemistry-main-left h2 {
+        max-width: 600px;
+        margin: 0 0 18px;
+        color: #F7F3EF;
+        font-size: 43px;
+        line-height: 1.14;
+        font-weight: bold;
+      }
+      .sharedchemistry-main-copy {
+        max-width: 620px;
+        margin: 0 0 22px;
+        color: #B8B3B0;
+        font-size: 17px;
+        line-height: 1.65;
+      }
+      .sharedchemistry-main-actions {
+        margin: 0 0 42px;
+      }
+      .sharedchemistry-main-actions .btn {
+        margin-right: 10px;
+        margin-bottom: 10px;
+        padding: 12px 22px;
+      }
+      .sharedchemistry-mask-woman {
+        display: block;
+        width: 100%;
+        max-width: 630px;
+        height: auto;
+        margin: 0 0 46px;
+        border: 1px solid #24262D;
+        border-radius: 10px;
+        background: #050506;
+      }
+      .sharedchemistry-community-copy {
+        max-width: 760px;
+        margin: 0 0 24px;
+      }
+      .sharedchemistry-community-copy h2 {
+        margin-bottom: 22px;
+        font-size: 30px;
+      }
+      .sharedchemistry-community-copy h3 {
+        margin-bottom: 18px;
+        font-size: 22px;
+      }
+      .sharedchemistry-community-copy p {
+        color: #D0CBC7;
+        font-size: 16px;
+        line-height: 1.6;
+      }
+      .sharedchemistry-auto-wrap {
+        float: right;
+        width: 38%;
+        box-sizing: border-box;
+      }
+      .sharedchemistry-auto-wrap .fadeInLeft {
+        display: none !important;
+      }
+      .sharedchemistry-auto-wrap .fadeInRight {
+        float: none !important;
+        width: auto !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      .sharedchemistry-auto-wrap .fadeInRight h1 {
+        margin: 0 0 18px;
+        color: #F7F3EF !important;
+        font-size: 30px;
+        line-height: 1.2;
+        text-decoration: none !important;
+        font-style: normal !important;
+      }
+      .sharedchemistry-auto-wrap .login_button {
+        display: none !important;
+      }
       .btn, button, input[type="submit"], input[type="button"] {
         display: inline-block;
         padding: 10px 18px;
@@ -330,7 +453,7 @@
       }
       .sharedchemistry-home-blocks {
         clear: both;
-        margin: 34px 0 12px;
+        margin: 54px 0 12px;
       }
       .sharedchemistry-home-card,
       .box, .block, .panel, .well, .design-box, .thumbnail,
@@ -363,6 +486,114 @@
         margin-bottom: 18px;
         padding: 20px !important;
       }
+      .login_block {
+        position: absolute !important;
+        top: 74px;
+        right: 50%;
+        width: 560px !important;
+        margin: 0 -580px 0 0 !important;
+        padding: 18px !important;
+        background: #202127 !important;
+        border-radius: 8px !important;
+        z-index: 40;
+      }
+      .login_block form,
+      #form_login_user {
+        margin: 0 !important;
+        padding: 18px !important;
+        border-radius: 8px !important;
+        background: #202127 !important;
+      }
+      #form_login_user .form-group,
+      #form_login_user .pfbc-element,
+      #form_login_user .control-group {
+        margin-bottom: 0;
+      }
+      #form_login_user input[type="email"],
+      #form_login_user input[type="password"] {
+        float: left;
+        width: 188px !important;
+        height: 39px;
+        margin: 0 10px 10px 0;
+        padding: 8px 12px !important;
+        background: #E9F0FF !important;
+        color: #101114 !important;
+        border-color: #CED7EA !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+      }
+      #form_login_user button,
+      #form_login_user input[type="submit"] {
+        float: left;
+        height: 39px;
+        margin: 0 0 10px 0;
+        padding: 8px 20px !important;
+        border-color: #EC0868 !important;
+        background: #EC0868 !important;
+        color: #fff !important;
+        border-radius: 5px !important;
+      }
+      #form_login_user:after,
+      .login_block form:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+      .bt_login_remember,
+      .bt_login_forgot {
+        float: left !important;
+        width: auto !important;
+        margin: 4px 24px 0 0 !important;
+        padding: 0 !important;
+        color: #B8B3B0 !important;
+      }
+      .bt_login_remember label {
+        display: inline !important;
+        color: #B8B3B0 !important;
+        font-weight: normal !important;
+      }
+      .bt_login_remember input[type="checkbox"] {
+        width: auto !important;
+        height: auto !important;
+        margin: 0 5px 0 0 !important;
+        padding: 0 !important;
+        vertical-align: middle;
+      }
+      .bt_login_forgot a {
+        color: #FFBC0A !important;
+      }
+      .sharedchemistry-auto-wrap #form_join_user,
+      .sharedchemistry-auto-wrap .pfbc-form {
+        box-sizing: border-box;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 26px !important;
+        border: 1px solid #34363F !important;
+        border-radius: 10px !important;
+        background: #202127 !important;
+      }
+      .sharedchemistry-auto-wrap #form_join_user input[type="text"],
+      .sharedchemistry-auto-wrap #form_join_user input[type="email"],
+      .sharedchemistry-auto-wrap #form_join_user input[type="password"],
+      .sharedchemistry-auto-wrap #form_join_user select,
+      .sharedchemistry-auto-wrap #form_join_user textarea {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        margin-top: 6px;
+        padding: 11px 13px !important;
+        background: #111216 !important;
+        color: #F7F3EF !important;
+        border-color: #3A3C45 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+      }
+      .sharedchemistry-auto-wrap #form_join_user button,
+      .sharedchemistry-auto-wrap #form_join_user input[type="submit"] {
+        float: right;
+        margin-top: 16px;
+        padding: 13px 24px !important;
+        border-radius: 5px !important;
+      }
       input, select, textarea, .form-control {
         box-sizing: border-box;
         max-width: 100%;
@@ -391,7 +622,7 @@
         clear: both;
         width: 100%;
         margin: 42px 0 0;
-        padding: 36px 18px 30px;
+        padding: 26px 18px 24px;
         border-top: 1px solid #34363F;
         background: #17181D !important;
         color: #B8B3B0 !important;
@@ -426,9 +657,9 @@
         float: none !important;
         display: block;
         clear: both;
-        max-width: 920px;
-        margin: 16px auto 0;
-        padding: 14px 0 0;
+        max-width: 860px;
+        margin: 12px auto 0;
+        padding: 12px 0 0;
         border-top: 1px solid #34363F;
         text-align: center;
         line-height: 2;
@@ -571,6 +802,48 @@
         .sharedchemistry-hero-logo {
           width: 210px;
         }
+        .sharedchemistry-top-shell {
+          min-height: 0;
+          padding-top: 28px;
+        }
+        .sharedchemistry-top-logo,
+        .sharedchemistry-guest-top-spacer,
+        .sharedchemistry-main-left,
+        .sharedchemistry-auto-wrap {
+          float: none;
+          width: auto;
+          padding-right: 0;
+        }
+        .sharedchemistry-top-logo-img {
+          width: 260px;
+          margin: 0 auto 22px;
+        }
+        .login_block {
+          position: static !important;
+          width: auto !important;
+          margin: 0 0 22px 0 !important;
+        }
+        .sharedchemistry-guest-banner {
+          margin-bottom: 34px;
+        }
+        .sharedchemistry-main-left h2 {
+          font-size: 34px;
+        }
+        .sharedchemistry-auto-wrap {
+          margin-top: 26px;
+        }
+        #form_login_user input[type="email"],
+        #form_login_user input[type="password"],
+        #form_login_user button,
+        #form_login_user input[type="submit"],
+        .bt_login_remember,
+        .bt_login_forgot {
+          float: none !important;
+          display: block;
+          width: 100% !important;
+          box-sizing: border-box !important;
+          margin-right: 0 !important;
+        }
       }
       @media screen and (max-width: 640px) {
         #disclaimer-dialog {
@@ -592,6 +865,11 @@
         .bottom_nav a,
         .bottom_nav .show_dropdown li {
           margin: 4px 5px;
+        }
+        .sharedchemistry-main-actions .btn {
+          display: block;
+          margin-right: 0;
+          text-align: center;
         }
       }
     </style>
@@ -624,29 +902,18 @@
       </noscript>
 
       {if $is_guest_homepage}
-          <div class="row sharedchemistry-guest-hero">
-              <div role="banner" id="logo" class="col-md-8 sharedchemistry-guest-brand">
+          <div class="sharedchemistry-top-shell">
+              <div role="banner" id="logo" class="sharedchemistry-top-logo">
                   <h1 itemprop="name">
                       <a href="{{ $design->homePageUrl() }}" class="sharedchemistry-logo-link">
-                          <img src="{url_tpl_img}sharedchemistry/logo.png" alt="SharedChemistry" class="sharedchemistry-hero-logo" />
+                          <img src="{url_tpl_img}sharedchemistry/logo.png" alt="SharedChemistry" class="sharedchemistry-top-logo-img" />
                           <span>SharedChemistry</span>
                       </a>
                   </h1>
-                  <h2>{lang 'A private space for genuine couples'}</h2>
-                  <p class="sharedchemistry-hero-copy">
-                      {lang 'Create a couple profile, connect at your own pace, and meet other couples in a more private, trusted setting.'}
-                  </p>
-                  <p class="sharedchemistry-hero-actions">
-                      <a href="{{ $design->url('user', 'signup', 'step1') }}" class="btn btn-primary sharedchemistry-primary-cta">
-                          {lang 'Create your couple profile'}
-                      </a>
-                      <a href="{{ $design->url('user', 'main', 'login') }}" class="btn btn-default sharedchemistry-secondary-cta" data-load="ajax">
-                          {lang 'Sign in'}
-                      </a>
-                  </p>
               </div>
+              <div class="sharedchemistry-guest-top-spacer"></div>
           </div>
-          <div class="sharedchemistry-banner-wrap">
+          <div class="sharedchemistry-banner-wrap sharedchemistry-guest-banner">
               <img src="{url_tpl_img}sharedchemistry/banner.png" alt="{lang 'SharedChemistry private couples community'}" class="sharedchemistry-hero-banner" />
           </div>
       {/if}
@@ -687,7 +954,37 @@
       {elseif !empty($pOH_not_found)}
         {main_include 'error.inc.tpl'}
       {else}
+        {if $is_guest_homepage}
+          <div class="sharedchemistry-landing-stage">
+            <div class="sharedchemistry-main-left">
+              <h2>{lang 'A private space for genuine couples'}</h2>
+              <p class="sharedchemistry-main-copy">
+                {lang 'Create a couple profile, connect at your own pace, and meet other couples in a more private, trusted setting.'}
+              </p>
+              <p class="sharedchemistry-main-actions">
+                <a href="{{ $design->url('user', 'signup', 'step1') }}" class="btn btn-primary sharedchemistry-primary-cta">
+                  {lang 'Create your couple profile'}
+                </a>
+                <a href="{{ $design->url('user', 'main', 'login') }}" class="btn btn-default sharedchemistry-secondary-cta" data-load="ajax">
+                  {lang 'Sign in'}
+                </a>
+              </p>
+              <img src="{url_tpl_img}sharedchemistry/mask-woman.png" alt="{lang 'Private couples community'}" class="sharedchemistry-mask-woman" />
+              <div class="sharedchemistry-community-copy">
+                <h2>{lang 'A private couples community'}</h2>
+                <h3>{lang 'Meet genuine couples near you'}</h3>
+                <p>{lang 'Shared Chemistry is a private community for couples who want to meet other couples, build trust, and connect at their own pace.'}</p>
+                <p>{lang 'Create a couple profile, share your interests, and meet genuine couples in your city or while travelling.'}</p>
+              </div>
+            </div>
+            <div class="sharedchemistry-auto-wrap">
+        {/if}
         {auto_include}
+        {if $is_guest_homepage}
+            </div>
+            <div class="clear"></div>
+          </div>
+        {/if}
       {/if}
 
       {if $is_guest_homepage}
