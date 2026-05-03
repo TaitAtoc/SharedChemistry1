@@ -557,14 +557,14 @@
       #form_login_user button,
       #form_login_user input[type="submit"] {
         float: left;
-        height: 39px;
+        height: 40px;
         margin: 0 0 10px 0;
         padding: 0 22px !important;
         border-color: #EC0868 !important;
         background: #EC0868 !important;
         color: #fff !important;
         border-radius: 5px !important;
-        line-height: 39px !important;
+        line-height: 40px !important;
         text-align: center;
         vertical-align: middle;
       }
@@ -577,29 +577,58 @@
       }
       #form_login_user-element-4,
       #form_join_user-element-11 {
-        line-height: 39px !important;
+        height: 40px;
+        line-height: 40px !important;
         text-align: center;
+        vertical-align: middle;
       }
       #form_login_user-element-4 .ui-button-icon-primary,
-      #form_join_user-element-11 .ui-button-icon-primary,
-      #form_login_user .ui-icon-key,
-      #form_join_user .ui-icon-heart {
+      #form_join_user-element-11 .ui-button-icon-primary {
         display: inline-block !important;
         float: none !important;
-        position: static !important;
-        width: 18px !important;
-        height: 18px !important;
+        position: relative !important;
+        top: -1px;
+        width: 20px !important;
+        height: 20px !important;
         margin: 0 8px 0 0 !important;
-        background-image: url('/static/css/js/jquery/smoothness/images/ui-icons_ffffff_256x240.png') !important;
+        background: none !important;
+        opacity: 1 !important;
+        visibility: visible !important;
         vertical-align: middle;
-        zoom: 1.15;
+      }
+      #form_login_user-element-4 .ui-button-icon-primary:before,
+      #form_join_user-element-11 .ui-button-icon-primary:before {
+        display: inline-block;
+        width: 20px;
+        color: #fff;
+        font-family: FontAwesome;
+        font-size: 18px;
+        font-weight: normal;
+        line-height: 20px;
+        text-align: center;
+        vertical-align: middle;
+      }
+      #form_login_user-element-4 .ui-button-icon-primary:before {
+        content: "\f084";
+      }
+      #form_join_user-element-11 .ui-button-icon-primary:before {
+        content: "\f004";
+      }
+      #form_login_user .ui-icon-key,
+      #form_join_user .ui-icon-heart {
+        background: none !important;
+        opacity: 1 !important;
+        visibility: visible !important;
       }
       #form_login_user-element-4 .ui-button-text,
       #form_join_user-element-11 .ui-button-text {
+        position: relative;
+        top: -1px;
         display: inline-block !important;
         padding: 0 !important;
+        margin-top: 0 !important;
         color: #fff !important;
-        line-height: 39px !important;
+        line-height: 38px !important;
         vertical-align: middle;
       }
       #form_login_user:after,
@@ -667,9 +696,10 @@
         margin-top: 16px;
         margin-bottom: 12px;
         padding: 0 24px !important;
-        line-height: 39px !important;
-        height: 39px;
+        line-height: 40px !important;
+        height: 40px;
         text-align: center;
+        vertical-align: middle;
         border-radius: 5px !important;
       }
       input, select, textarea, .form-control {
