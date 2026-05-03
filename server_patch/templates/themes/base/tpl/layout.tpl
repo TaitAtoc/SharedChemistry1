@@ -314,7 +314,14 @@
       .sharedchemistry-top-logo {
         float: left;
         width: 46%;
-        margin-top: -2px;
+        position: relative;
+        top: -58px;
+        margin-bottom: -54px;
+      }
+      .sharedchemistry-logo-lift {
+        position: relative;
+        top: -58px;
+        margin-bottom: -54px;
       }
       .sharedchemistry-top-logo h1 {
         margin: 0;
@@ -403,6 +410,19 @@
         width: 38%;
         box-sizing: border-box;
       }
+      .sharedchemistry-signup-panel {
+        box-sizing: border-box;
+        min-height: 650px;
+        padding: 0 0 90px;
+        background: #202127 !important;
+        border: 1px solid #34363F !important;
+        border-radius: 12px;
+      }
+      .sharedchemistry-signup-panel:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
       .sharedchemistry-auto-wrap .fadeInLeft {
         display: none !important;
       }
@@ -411,10 +431,20 @@
         width: auto !important;
         max-width: none !important;
         margin: 0 !important;
-        padding: 0 !important;
+        padding: 0 0 90px !important;
+        min-height: 650px;
+        background: #202127 !important;
+        border: 1px solid #34363F !important;
+        border-radius: 12px;
+      }
+      .sharedchemistry-auto-wrap .fadeInRight:after {
+        content: "";
+        display: table;
+        clear: both;
       }
       .sharedchemistry-auto-wrap .fadeInRight h1 {
         margin: 0 0 18px;
+        padding: 0;
         color: #F7F3EF !important;
         font-size: 30px;
         line-height: 1.2;
@@ -569,9 +599,9 @@
         box-sizing: border-box;
         width: 100% !important;
         margin: 0 !important;
-        padding: 26px 26px 48px !important;
-        border: 1px solid #34363F !important;
-        border-radius: 10px !important;
+        padding: 26px 26px 80px !important;
+        border: 0 !important;
+        border-radius: 0 !important;
         background: #202127 !important;
       }
       .sharedchemistry-auto-wrap #form_join_user:after {
@@ -598,7 +628,7 @@
       .sharedchemistry-auto-wrap #form_join_user input[type="submit"] {
         float: right;
         margin-top: 16px;
-        margin-bottom: 8px;
+        margin-bottom: 22px;
         padding: 13px 24px !important;
         border-radius: 5px !important;
       }
@@ -823,6 +853,16 @@
           width: auto;
           padding-right: 0;
         }
+        .sharedchemistry-top-logo,
+        .sharedchemistry-logo-lift {
+          top: auto;
+          margin-bottom: 0;
+        }
+        .sharedchemistry-signup-panel,
+        .sharedchemistry-auto-wrap .fadeInRight {
+          min-height: 0;
+          padding-bottom: 26px !important;
+        }
         .sharedchemistry-top-logo-img {
           width: 260px;
           margin: 0 auto 22px;
@@ -912,7 +952,7 @@
 
       {if $is_guest_homepage}
           <div class="sharedchemistry-top-shell">
-              <div role="banner" id="logo" class="sharedchemistry-top-logo">
+              <div role="banner" id="logo" class="sharedchemistry-top-logo sharedchemistry-logo-lift">
                   <h1 itemprop="name">
                       <a href="{{ $design->homePageUrl() }}" class="sharedchemistry-logo-link">
                           <img src="{url_tpl_img}sharedchemistry/logo.png" alt="SharedChemistry" class="sharedchemistry-top-logo-img" />
@@ -981,7 +1021,7 @@
               <p>{lang 'Create a couple profile, share your interests, and meet genuine couples in your city or while travelling.'}</p>
             </div>
           </div>
-          <div class="sharedchemistry-auto-wrap">
+          <div class="sharedchemistry-auto-wrap sharedchemistry-signup-panel">
       {/if}
 
       {if !empty($manual_include)}
