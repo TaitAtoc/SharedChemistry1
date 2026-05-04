@@ -1038,12 +1038,13 @@
         .sharedchemistry-top-logo-img {
           width: 470px;
           max-width: 94%;
-          margin: 0 auto 14px;
+          margin: 0 auto 2px;
         }
         .sharedchemistry-guest-banner {
           margin-bottom: 22px;
         }
         .sharedchemistry-banner-wrap {
+          margin-top: 0 !important;
           padding-left: 12px;
           padding-right: 12px;
         }
@@ -1075,6 +1076,9 @@
           margin-bottom: 28px;
           text-align: center;
           display: block;
+          width: 100%;
+          margin-left: auto;
+          margin-right: auto;
         }
         .sharedchemistry-main-actions .btn {
           display: block;
@@ -1084,6 +1088,18 @@
           box-sizing: border-box;
           text-align: center;
           float: none;
+          clear: both;
+          position: relative;
+          left: auto;
+          right: auto;
+          transform: none;
+        }
+        .sharedchemistry-main-actions .sharedchemistry-primary-cta,
+        .sharedchemistry-main-actions .sharedchemistry-secondary-cta {
+          float: none !important;
+          display: block !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
         }
         .sharedchemistry-mask-woman {
           margin-left: auto;
