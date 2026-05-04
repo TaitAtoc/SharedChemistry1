@@ -14,103 +14,125 @@ if (!hash_equals('reset-admin', (string)($_GET['confirm'] ?? ''))) {
     exit;
 }
 
-define('PH7', 1);
-
 try {
     $rootPath = __DIR__ . DIRECTORY_SEPARATOR;
-    $constantsFile = $rootPath . '_constants.php';
-
-    if (!is_file($constantsFile)) {
-        sc_admin_reset_fail('bootstrap');
-        exit;
-    }
-
-    require $constantsFile;
-    require PH7_PATH_FRAMEWORK . 'Loader/Autoloader.php';
-    require PH7_PATH_APP . 'includes/classes/DbTableName.php';
-
-    \PH7\Framework\Loader\Autoloader::getInstance()->init();
-
-    \PH7\Framework\File\Import::file(PH7_PATH_APP . 'configs/environment/all.env');
-    \PH7\Framework\File\Import::file(
-        PH7_PATH_APP . 'configs/environment/' . \PH7\Framework\Server\Environment::getFileName(
-            \PH7\Framework\Config\Config::getInstance()->values['mode']['environment']
-        )
-    );
-
-    $config = \PH7\Framework\Config\Config::getInstance();
-    $driverOptions = [
-        \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES ' . $config->values['database']['charset']
+    $configFiles = [
+        $rootPath . '_protected' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'configs' . DIRECTORY_SEPARATOR . 'config.ini',
+        $rootPath . 'app' . DIRECTORY_SEPARATOR . 'configs' . DIRECTORY_SEPARATOR . 'config.ini',
     ];
 
-    \PH7\Framework\Mvc\Model\Engine\Db::getInstance(
-        $config->values['database']['type'] . ':host=' . $config->values['database']['hostname'] . ';port=' . $config->values['database']['port'] . ';dbname=' . $config->values['database']['name'],
-        $config->values['database']['username'],
-        $config->values['database']['password'],
-        $driverOptions,
-        $config->values['database']['prefix']
-    );
+    $configFile = null;
 
-    $db = \PH7\Framework\Mvc\Model\Engine\Db::getInstance();
-    $adminTable = \PH7\Framework\Mvc\Model\Engine\Db::prefix(\PH7\DbTableName::ADMIN);
-    $profileId = 1;
-    $email = 'tait@anzsbs.com';
-    $username = 'Tait';
-
-    $emailStmt = $db->prepare(
-        'SELECT COUNT(profileId) FROM' . $adminTable .
-        'WHERE profileId <> :profileId AND email = :email'
-    );
-    $emailStmt->bindValue(':profileId', $profileId, \PDO::PARAM_INT);
-    $emailStmt->bindValue(':email', $email, \PDO::PARAM_STR);
-    $emailStmt->execute();
-    $emailDuplicateCount = (int)$emailStmt->fetchColumn();
-    \PH7\Framework\Mvc\Model\Engine\Db::free($emailStmt);
-
-    if ($emailDuplicateCount > 0) {
-        sc_admin_reset_fail('duplicate email');
+    foreach ($configFiles as $candidateFile) {
+        if (is_file($candidateFile)) {
+            $configFile = $candidateFile;
+            break;
+        }
     }
 
-    $usernameStmt = $db->prepare(
-        'SELECT COUNT(profileId) FROM' . $adminTable .
-        'WHERE profileId <> :profileId AND username = :username'
-    );
-    $usernameStmt->bindValue(':profileId', $profileId, \PDO::PARAM_INT);
-    $usernameStmt->bindValue(':username', $username, \PDO::PARAM_STR);
-    $usernameStmt->execute();
-    $usernameDuplicateCount = (int)$usernameStmt->fetchColumn();
-    \PH7\Framework\Mvc\Model\Engine\Db::free($usernameStmt);
-
-    if ($usernameDuplicateCount > 0) {
-        sc_admin_reset_fail('duplicate username');
+    if ($configFile === null) {
+        sc_admin_reset_fail('config');
     }
 
-    $passwordHash = \PH7\Framework\Security\Security::hashPwd('123456789');
-    $updateStmt = $db->prepare(
-        'UPDATE' . $adminTable .
-        'SET email = :email, username = :username, password = :password WHERE profileId = :profileId LIMIT 1'
-    );
-    $updateStmt->bindValue(':email', $email, \PDO::PARAM_STR);
-    $updateStmt->bindValue(':username', $username, \PDO::PARAM_STR);
-    $updateStmt->bindValue(':password', $passwordHash, \PDO::PARAM_STR);
-    $updateStmt->bindValue(':profileId', $profileId, \PDO::PARAM_INT);
-    $updated = $updateStmt->execute();
-    $rowCount = $updateStmt->rowCount();
-    \PH7\Framework\Mvc\Model\Engine\Db::free($updateStmt);
+    $config = parse_ini_file($configFile, true);
 
-    if (!$updated || $rowCount < 1) {
-        sc_admin_reset_fail('update');
+    if (!is_array($config) || !isset($config['database']) || !is_array($config['database'])) {
+        sc_admin_reset_fail('config');
+    }
+
+    $databaseConfig = $config['database'];
+    $requiredKeys = ['type', 'hostname', 'port', 'name', 'username', 'password', 'prefix', 'charset'];
+
+    foreach ($requiredKeys as $requiredKey) {
+        if (!array_key_exists($requiredKey, $databaseConfig)) {
+            sc_admin_reset_fail('config');
+        }
+    }
+
+    $databaseType = (string)$databaseConfig['type'];
+    $databaseHost = (string)$databaseConfig['hostname'];
+    $databasePort = (string)$databaseConfig['port'];
+    $databaseName = (string)$databaseConfig['name'];
+    $databaseUser = (string)$databaseConfig['username'];
+    $databasePassword = (string)$databaseConfig['password'];
+    $databasePrefix = (string)$databaseConfig['prefix'];
+    $databaseCharset = (string)$databaseConfig['charset'];
+
+    if ($databaseType !== 'mysql' || !preg_match('/^[A-Za-z0-9_]+$/', $databasePrefix)) {
+        sc_admin_reset_fail('config');
+    }
+
+    $adminTable = $databasePrefix . 'admins';
+
+    if (!preg_match('/^[A-Za-z0-9_]+$/', $adminTable)) {
+        sc_admin_reset_fail('config');
     }
 
     try {
-        (new \PH7\Framework\Cache\Cache())
-            ->start('db/sys/mod/admin', 'readProfile' . $profileId . \PH7\DbTableName::ADMIN, null)
-            ->clear();
-    } catch (\Throwable $cacheException) {
-        // Cache clearing is best-effort only; the database update above is the reset.
+        $pdo = new PDO(
+            'mysql:host=' . $databaseHost . ';port=' . $databasePort . ';dbname=' . $databaseName . ';charset=' . $databaseCharset,
+            $databaseUser,
+            $databasePassword,
+            [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_EMULATE_PREPARES => false,
+            ]
+        );
+    } catch (PDOException $connectException) {
+        sc_admin_reset_fail('connect');
+    }
+
+    $profileId = 1;
+    $email = 'tait@anzsbs.com';
+    $username = 'Tait';
+    $quotedAdminTable = '`' . $adminTable . '`';
+
+    $emailStmt = $pdo->prepare(
+        'SELECT COUNT(profileId) FROM ' . $quotedAdminTable .
+        ' WHERE profileId <> :profileId AND email = :email'
+    );
+    $emailStmt->bindValue(':profileId', $profileId, PDO::PARAM_INT);
+    $emailStmt->bindValue(':email', $email, PDO::PARAM_STR);
+    $emailStmt->execute();
+
+    if ((int)$emailStmt->fetchColumn() > 0) {
+        sc_admin_reset_fail('duplicate email');
+    }
+
+    $usernameStmt = $pdo->prepare(
+        'SELECT COUNT(profileId) FROM ' . $quotedAdminTable .
+        ' WHERE profileId <> :profileId AND username = :username'
+    );
+    $usernameStmt->bindValue(':profileId', $profileId, PDO::PARAM_INT);
+    $usernameStmt->bindValue(':username', $username, PDO::PARAM_STR);
+    $usernameStmt->execute();
+
+    if ((int)$usernameStmt->fetchColumn() > 0) {
+        sc_admin_reset_fail('duplicate username');
+    }
+
+    $passwordHash = password_hash('123456789', PASSWORD_BCRYPT);
+
+    if ($passwordHash === false) {
+        sc_admin_reset_fail('exception');
+    }
+
+    $updateStmt = $pdo->prepare(
+        'UPDATE ' . $quotedAdminTable .
+        ' SET email = :email, username = :username, password = :password WHERE profileId = :profileId LIMIT 1'
+    );
+    $updateStmt->bindValue(':email', $email, PDO::PARAM_STR);
+    $updateStmt->bindValue(':username', $username, PDO::PARAM_STR);
+    $updateStmt->bindValue(':password', $passwordHash, PDO::PARAM_STR);
+    $updateStmt->bindValue(':profileId', $profileId, PDO::PARAM_INT);
+    $updated = $updateStmt->execute();
+
+    if (!$updated || $updateStmt->rowCount() < 1) {
+        sc_admin_reset_fail('update');
     }
 
     echo "SharedChemistry admin reset: success\n";
-} catch (\Throwable $exception) {
+} catch (Throwable $exception) {
     sc_admin_reset_fail('exception');
 }
