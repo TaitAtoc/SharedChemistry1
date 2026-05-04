@@ -306,7 +306,7 @@
         clear: both;
         position: relative;
         max-width: 1160px;
-        min-height: 86px;
+        min-height: 178px;
         margin: 0 auto;
         padding: 4px 18px 0;
         box-sizing: border-box;
@@ -315,13 +315,13 @@
         float: left;
         width: 46%;
         position: relative;
-        top: -58px;
-        margin-bottom: -116px;
+        top: -36px;
+        margin-bottom: -58px;
       }
       .sharedchemistry-logo-lift {
         position: relative;
-        top: -58px;
-        margin-bottom: -116px;
+        top: -36px;
+        margin-bottom: -58px;
       }
       .sharedchemistry-top-logo h1 {
         margin: 0;
@@ -331,14 +331,14 @@
       }
       .sharedchemistry-top-logo-img {
         display: block;
-        width: 348px;
+        width: 430px;
         max-width: 100%;
         height: auto;
       }
       .sharedchemistry-guest-top-spacer {
         float: right;
         width: 50%;
-        min-height: 86px;
+        min-height: 178px;
       }
       .sharedchemistry-guest-banner {
         margin-top: 0;
@@ -1013,6 +1013,42 @@
           width: 100% !important;
           box-sizing: border-box !important;
           margin-right: 0 !important;
+        }
+      }
+      @media screen and (min-width: 768px) and (max-width: 900px) {
+        .sharedchemistry-top-shell {
+          min-height: 168px;
+          padding: 8px 18px 0;
+          position: relative;
+        }
+        .sharedchemistry-top-logo {
+          float: left;
+          width: 42%;
+          position: relative;
+          top: -24px;
+          margin-bottom: -42px;
+        }
+        .sharedchemistry-logo-lift {
+          position: relative;
+          top: -24px;
+          margin-bottom: -42px;
+        }
+        .sharedchemistry-guest-top-spacer {
+          float: right;
+          width: 54%;
+          min-height: 168px;
+        }
+        .sharedchemistry-top-logo-img {
+          width: 330px;
+          max-width: 100%;
+          margin: 0;
+        }
+        .login_block {
+          position: absolute !important;
+          top: 26px;
+          right: 18px;
+          width: 430px !important;
+          margin: 0 !important;
         }
       }
       @media screen and (max-width: 767px) {
