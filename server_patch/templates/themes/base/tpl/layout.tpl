@@ -936,7 +936,7 @@
       }
       @media screen and (min-width: 901px) {
         .sharedchemistry-top-shell {
-          min-height: 180px;
+          min-height: 330px;
           padding-top: 10px;
         }
         .sharedchemistry-top-logo,
@@ -946,18 +946,25 @@
         }
         .sharedchemistry-top-logo .sharedchemistry-logo-link {
           display: block;
-          width: 430px;
-          height: 205px;
+          width: 520px;
+          height: 260px;
           overflow: hidden;
           position: relative;
-          background: url('/templates/themes/base/img/sharedchemistry/logo.png') no-repeat -63px -178px;
-          background-size: 558px 558px;
+          margin-top: 42px;
+          background: none !important;
         }
         .sharedchemistry-top-logo-img {
-          display: none;
+          display: block;
+          width: 660px;
+          max-width: none;
+          height: auto;
+          margin: -210px 0 0 -74px;
         }
         .sharedchemistry-guest-top-spacer {
-          min-height: 180px;
+          min-height: 330px;
+        }
+        .login_block {
+          top: 52px;
         }
         .sharedchemistry-mask-woman {
           height: 300px;
@@ -1066,14 +1073,18 @@
         .sharedchemistry-top-logo .sharedchemistry-logo-link {
           display: block;
           width: 320px;
-          height: 153px;
+          height: 160px;
           overflow: hidden;
           position: relative;
-          background: url('/templates/themes/base/img/sharedchemistry/logo.png') no-repeat -47px -132px;
-          background-size: 416px 416px;
+          margin-top: 14px;
+          background: none !important;
         }
         .sharedchemistry-top-logo-img {
-          display: none;
+          display: block;
+          width: 406px;
+          max-width: none;
+          height: auto;
+          margin: -129px 0 0 -46px;
         }
         .login_block {
           position: absolute !important;
