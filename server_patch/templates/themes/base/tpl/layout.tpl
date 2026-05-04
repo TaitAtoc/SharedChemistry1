@@ -1036,8 +1036,8 @@
           text-align: center;
         }
         .sharedchemistry-top-logo-img {
-          width: 235px;
-          max-width: 86%;
+          width: 470px;
+          max-width: 94%;
           margin: 0 auto 14px;
         }
         .sharedchemistry-guest-banner {
@@ -1074,6 +1074,7 @@
         .sharedchemistry-main-actions {
           margin-bottom: 28px;
           text-align: center;
+          display: block;
         }
         .sharedchemistry-main-actions .btn {
           display: block;
@@ -1082,6 +1083,7 @@
           margin: 0 auto 12px;
           box-sizing: border-box;
           text-align: center;
+          float: none;
         }
         .sharedchemistry-mask-woman {
           margin-left: auto;
@@ -1111,6 +1113,17 @@
         .sharedchemistry-auto-wrap .pfbc-form {
           padding-left: 18px !important;
           padding-right: 18px !important;
+        }
+        .sharedchemistry-auto-wrap #form_join_user .pfbc-buttons {
+          text-align: center !important;
+        }
+        .sharedchemistry-auto-wrap #form_join_user button,
+        .sharedchemistry-auto-wrap #form_join_user input[type="submit"],
+        .sharedchemistry-auto-wrap #form_join_user-element-11 {
+          float: none !important;
+          display: inline-block !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
         }
         .sharedchemistry-home-blocks {
           margin-top: 34px;
