@@ -3,6 +3,12 @@ declare(strict_types=1);
 
 header('Content-Type: text/plain; charset=utf-8');
 
+function sc_admin_reset_fail(string $reason): void
+{
+    echo 'SharedChemistry admin reset: failed - ' . $reason . "\n";
+    exit;
+}
+
 if (!hash_equals('reset-admin', (string)($_GET['confirm'] ?? ''))) {
     echo "SharedChemistry admin reset: confirmation required\n";
     exit;
@@ -15,12 +21,13 @@ try {
     $constantsFile = $rootPath . '_constants.php';
 
     if (!is_file($constantsFile)) {
-        echo "SharedChemistry admin reset: failed\n";
+        sc_admin_reset_fail('bootstrap');
         exit;
     }
 
     require $constantsFile;
     require PH7_PATH_FRAMEWORK . 'Loader/Autoloader.php';
+    require PH7_PATH_APP . 'includes/classes/DbTableName.php';
 
     \PH7\Framework\Loader\Autoloader::getInstance()->init();
 
@@ -30,8 +37,6 @@ try {
             \PH7\Framework\Config\Config::getInstance()->values['mode']['environment']
         )
     );
-    \PH7\Framework\File\Import::pH7App('includes.classes.Loader.Autoloader');
-    \PH7\App\Includes\Classes\Loader\Autoloader::getInstance()->init();
 
     $config = \PH7\Framework\Config\Config::getInstance();
     $driverOptions = [
@@ -52,20 +57,32 @@ try {
     $email = 'tait@anzsbs.com';
     $username = 'Tait';
 
-    $duplicateStmt = $db->prepare(
+    $emailStmt = $db->prepare(
         'SELECT COUNT(profileId) FROM' . $adminTable .
-        'WHERE profileId <> :profileId AND (email = :email OR username = :username)'
+        'WHERE profileId <> :profileId AND email = :email'
     );
-    $duplicateStmt->bindValue(':profileId', $profileId, \PDO::PARAM_INT);
-    $duplicateStmt->bindValue(':email', $email, \PDO::PARAM_STR);
-    $duplicateStmt->bindValue(':username', $username, \PDO::PARAM_STR);
-    $duplicateStmt->execute();
-    $duplicateCount = (int)$duplicateStmt->fetchColumn();
-    \PH7\Framework\Mvc\Model\Engine\Db::free($duplicateStmt);
+    $emailStmt->bindValue(':profileId', $profileId, \PDO::PARAM_INT);
+    $emailStmt->bindValue(':email', $email, \PDO::PARAM_STR);
+    $emailStmt->execute();
+    $emailDuplicateCount = (int)$emailStmt->fetchColumn();
+    \PH7\Framework\Mvc\Model\Engine\Db::free($emailStmt);
 
-    if ($duplicateCount > 0) {
-        echo "SharedChemistry admin reset: failed\n";
-        exit;
+    if ($emailDuplicateCount > 0) {
+        sc_admin_reset_fail('duplicate email');
+    }
+
+    $usernameStmt = $db->prepare(
+        'SELECT COUNT(profileId) FROM' . $adminTable .
+        'WHERE profileId <> :profileId AND username = :username'
+    );
+    $usernameStmt->bindValue(':profileId', $profileId, \PDO::PARAM_INT);
+    $usernameStmt->bindValue(':username', $username, \PDO::PARAM_STR);
+    $usernameStmt->execute();
+    $usernameDuplicateCount = (int)$usernameStmt->fetchColumn();
+    \PH7\Framework\Mvc\Model\Engine\Db::free($usernameStmt);
+
+    if ($usernameDuplicateCount > 0) {
+        sc_admin_reset_fail('duplicate username');
     }
 
     $passwordHash = \PH7\Framework\Security\Security::hashPwd('123456789');
@@ -78,14 +95,22 @@ try {
     $updateStmt->bindValue(':password', $passwordHash, \PDO::PARAM_STR);
     $updateStmt->bindValue(':profileId', $profileId, \PDO::PARAM_INT);
     $updated = $updateStmt->execute();
+    $rowCount = $updateStmt->rowCount();
     \PH7\Framework\Mvc\Model\Engine\Db::free($updateStmt);
 
-    if ($updated) {
-        (new \PH7\UserCore())->clearReadProfileCache($profileId, \PH7\DbTableName::ADMIN);
-        echo "SharedChemistry admin reset: success\n";
-    } else {
-        echo "SharedChemistry admin reset: failed\n";
+    if (!$updated || $rowCount < 1) {
+        sc_admin_reset_fail('update');
     }
+
+    try {
+        (new \PH7\Framework\Cache\Cache())
+            ->start('db/sys/mod/admin', 'readProfile' . $profileId . \PH7\DbTableName::ADMIN, null)
+            ->clear();
+    } catch (\Throwable $cacheException) {
+        // Cache clearing is best-effort only; the database update above is the reset.
+    }
+
+    echo "SharedChemistry admin reset: success\n";
 } catch (\Throwable $exception) {
-    echo "SharedChemistry admin reset: failed\n";
+    sc_admin_reset_fail('exception');
 }
