@@ -434,8 +434,8 @@
         padding: 44px 0 28px !important;
         min-height: 560px;
         background: #202127 !important;
-        border: 1px solid #34363F !important;
-        border-radius: 12px;
+        border: 0 !important;
+        border-radius: 0;
       }
       .sharedchemistry-auto-wrap .fadeInRight:after {
         content: "";
@@ -795,8 +795,16 @@
       footer .ft_copy {
         float: none !important;
         display: block;
-        margin: 0 auto 16px;
+        margin: 8px auto 0;
         text-align: center;
+      }
+      footer .sharedchemistry-footer-copy {
+        clear: both;
+        margin-top: 10px;
+        padding-top: 0;
+      }
+      footer .sharedchemistry-footer-copy p {
+        margin: 0;
       }
       footer .ad_728_90,
       footer .ad_468_60 {
@@ -809,8 +817,8 @@
         display: block;
         clear: both;
         max-width: 860px;
-        margin: 12px auto 0;
-        padding: 12px 0 0;
+        margin: 4px auto 0;
+        padding: 8px 0 0;
         border-top: 1px solid #34363F;
         text-align: center;
         line-height: 2;
@@ -1189,15 +1197,14 @@
       </div>
 
       <div role="contentinfo">
-        <div class="ft_copy">
-          {{ $design->littleSocialMediaWidgets() }}
-
+        {{ $design->littleSocialMediaWidgets() }}
+        {{ $design->langList() }}
+        {main_include 'bottom_menu.inc.tpl'}
+        <div class="ft_copy sharedchemistry-footer-copy">
           <p>
             &copy; <ph:date value="Y" /> <strong>{site_name}</strong>  {{ $design->link() }}
           </p>
         </div>
-        {{ $design->langList() }}
-        {main_include 'bottom_menu.inc.tpl'}
       </div>
 
       {if isDebug()}

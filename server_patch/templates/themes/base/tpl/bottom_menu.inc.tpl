@@ -3,7 +3,6 @@
         <img src="{url_tpl_img}sharedchemistry/logo.png" alt="SharedChemistry" class="sharedchemistry-footer-logo" />
         <span>SharedChemistry</span>
       </span>
-      <a rel="nofollow" href="{{ $design->url('page','main','about') }}" data-load="ajax">{lang 'About SharedChemistry'}</a>
       <a href="{{ $design->url('page','main','about') }}" title="{lang 'About Us'}" data-load="ajax">{lang 'About'}</a>
       <a href="{{ $design->url('page','main','helpus') }}" title="{lang 'Help Us'}" data-load="ajax">{lang 'Help'}</a>
       <a href="{{ $design->url('page','main','faq') }}" title="{lang 'Frequently Asked Questions'}">{lang 'FAQ'}</a>
