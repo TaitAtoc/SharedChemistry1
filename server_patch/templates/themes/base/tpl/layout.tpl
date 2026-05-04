@@ -1394,6 +1394,114 @@
         .bottom_nav a {
           margin: 5px 6px;
         }
+        .sharedchemistry-top-shell {
+          width: 100% !important;
+          max-width: 100% !important;
+          min-height: 0 !important;
+          height: auto !important;
+          margin: 0 auto !important;
+          padding: 8px 14px 0 !important;
+          box-sizing: border-box !important;
+          overflow: visible !important;
+          text-align: center !important;
+        }
+        #logo.sharedchemistry-top-logo,
+        .sharedchemistry-top-logo,
+        .sharedchemistry-logo-lift {
+          position: relative !important;
+          left: auto !important;
+          top: auto !important;
+          width: 100% !important;
+          height: auto !important;
+          margin: 0 auto !important;
+          padding: 0 !important;
+          transform: none !important;
+          background: none !important;
+          overflow: visible !important;
+          text-align: center !important;
+        }
+        .sharedchemistry-logo-link {
+          display: block !important;
+          width: min(88vw, 360px) !important;
+          max-width: 360px !important;
+          height: auto !important;
+          margin: 0 auto !important;
+          padding: 0 !important;
+          background: none !important;
+          overflow: visible !important;
+          text-indent: 0 !important;
+        }
+        .sharedchemistry-logo-link::before,
+        .sharedchemistry-logo-link::after,
+        #logo::before,
+        #logo::after,
+        .sharedchemistry-top-logo::before,
+        .sharedchemistry-top-logo::after {
+          content: none !important;
+          display: none !important;
+          background: none !important;
+        }
+        .sharedchemistry-top-logo-img {
+          display: block !important;
+          position: static !important;
+          width: min(88vw, 360px) !important;
+          max-width: 360px !important;
+          height: auto !important;
+          margin: 0 auto !important;
+          padding: 0 !important;
+          transform: none !important;
+          object-fit: contain !important;
+          object-position: center center !important;
+          background: none !important;
+        }
+        .login_block {
+          display: block !important;
+          position: relative !important;
+          left: auto !important;
+          right: auto !important;
+          top: auto !important;
+          width: min(92vw, 380px) !important;
+          max-width: 380px !important;
+          margin: 8px auto 12px !important;
+          padding: 0 !important;
+          box-sizing: border-box !important;
+          transform: none !important;
+          z-index: 30 !important;
+          text-align: center !important;
+        }
+        #form_login_user {
+          width: 100% !important;
+          max-width: 100% !important;
+          margin: 0 auto !important;
+          text-align: center !important;
+          box-sizing: border-box !important;
+        }
+        #form_login_user input[type="email"],
+        #form_login_user input[type="password"] {
+          max-width: 100% !important;
+          box-sizing: border-box !important;
+        }
+        #form_login_user button,
+        #form_login_user input[type="submit"],
+        #form_login_user-element-4 {
+          float: none !important;
+          display: inline-flex !important;
+          justify-content: center !important;
+          align-items: center !important;
+          margin-left: auto !important;
+          margin-right: auto !important;
+          text-align: center !important;
+        }
+        .sharedchemistry-banner-wrap {
+          margin-top: 0 !important;
+        }
+        .sharedchemistry-guest-top-spacer {
+          display: none !important;
+          height: 0 !important;
+          min-height: 0 !important;
+          margin: 0 !important;
+          padding: 0 !important;
+        }
       }
       @media screen and (max-width: 640px) {
         #disclaimer-dialog {
