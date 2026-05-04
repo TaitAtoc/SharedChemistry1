@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Install lftp
         run: |
@@ -35,6 +37,33 @@ jobs:
           if [ -z "$(find server_patch -type f -print -quit)" ]; then
             echo "server_patch exists but contains no files."
             exit 1
+          fi
+
+      - name: Guard protected landing layout
+        run: |
+          LAYOUT_PATH="server_patch/templates/themes/base/tpl/layout.tpl"
+          COMMIT_MESSAGE="$(git log -1 --pretty=%B)"
+          BEFORE_SHA="${{ github.event.before }}"
+          AFTER_SHA="${{ github.sha }}"
+
+          if [ "$BEFORE_SHA" = "0000000000000000000000000000000000000000" ]; then
+            CHANGED_FILES="$(git diff-tree --no-commit-id --name-only -r "$AFTER_SHA")"
+          else
+            CHANGED_FILES="$(git diff --name-only "$BEFORE_SHA" "$AFTER_SHA")"
+          fi
+
+          echo "Changed files in this push:"
+          echo "$CHANGED_FILES"
+
+          if echo "$CHANGED_FILES" | grep -Fxq "$LAYOUT_PATH"; then
+            if echo "$COMMIT_MESSAGE" | grep -Fq "[allow-layout-change]"; then
+              echo "Protected layout changed with explicit override. Continuing deploy."
+            else
+              echo "::error::Blocked deploy: layout.tpl is protected. Use [allow-layout-change] in the commit message only when Tait explicitly approves a landing layout change."
+              exit 1
+            fi
+          else
+            echo "Protected layout unchanged. Continuing deploy."
           fi
 
       - name: Deploy server_patch to live server
