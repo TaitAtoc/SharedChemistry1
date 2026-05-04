@@ -1136,7 +1136,7 @@
       @media screen and (min-width: 768px) {
         .sharedchemistry-top-shell {
           position: relative !important;
-          max-width: 1370px !important;
+          max-width: 1160px !important;
           margin: 0 auto !important;
           min-height: 300px !important;
           height: 300px !important;
@@ -1146,7 +1146,7 @@
         .sharedchemistry-top-logo,
         .sharedchemistry-logo-lift {
           position: absolute !important;
-          left: 0 !important;
+          left: 18px !important;
           top: 35px !important;
           width: 520px !important;
           height: auto !important;
@@ -1196,8 +1196,24 @@
         .login_block {
           position: absolute !important;
           top: 40px !important;
-          right: 0 !important;
+          right: 18px !important;
+          display: block !important;
+          visibility: visible !important;
+          opacity: 1 !important;
           z-index: 30 !important;
+        }
+        .login_block form,
+        #form_login_user {
+          display: block !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+        }
+        #form_login_user button,
+        #form_login_user input[type="submit"],
+        #form_login_user-element-4 {
+          display: inline-block !important;
+          visibility: visible !important;
+          opacity: 1 !important;
         }
         .sharedchemistry-guest-top-spacer {
           display: block !important;
