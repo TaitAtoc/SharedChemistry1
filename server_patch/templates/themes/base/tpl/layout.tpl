@@ -1030,6 +1030,13 @@
         .sharedchemistry-top-logo {
           text-align: center;
         }
+        .sharedchemistry-guest-top-spacer {
+          display: none;
+          min-height: 0;
+          height: 0;
+          margin: 0;
+          padding: 0;
+        }
         .sharedchemistry-top-logo h1,
         .sharedchemistry-logo-link {
           display: block;
