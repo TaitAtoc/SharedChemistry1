@@ -388,12 +388,6 @@
         border-radius: 10px;
         background: #050506;
       }
-      @media screen and (min-width: 768px) {
-        .sharedchemistry-mask-woman {
-          object-fit: cover;
-          object-position: left center;
-        }
-      }
       .sharedchemistry-community-copy {
         max-width: 760px;
         margin: 0 0 24px;
