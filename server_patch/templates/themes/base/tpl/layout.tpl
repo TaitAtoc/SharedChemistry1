@@ -1015,6 +1015,130 @@
           margin-right: 0 !important;
         }
       }
+      @media screen and (max-width: 767px) {
+        header {
+          padding-top: 8px;
+        }
+        main#content {
+          padding-top: 16px;
+          padding-bottom: 26px;
+        }
+        .sharedchemistry-top-shell {
+          padding: 12px 12px 0;
+          text-align: center;
+        }
+        .sharedchemistry-top-logo {
+          text-align: center;
+        }
+        .sharedchemistry-top-logo h1,
+        .sharedchemistry-logo-link {
+          display: block;
+          text-align: center;
+        }
+        .sharedchemistry-top-logo-img {
+          width: 235px;
+          max-width: 86%;
+          margin: 0 auto 14px;
+        }
+        .sharedchemistry-guest-banner {
+          margin-bottom: 22px;
+        }
+        .sharedchemistry-banner-wrap {
+          padding-left: 12px;
+          padding-right: 12px;
+        }
+        .sharedchemistry-hero-banner {
+          border-radius: 10px;
+        }
+        .sharedchemistry-landing-stage,
+        .sharedchemistry-main-left,
+        .sharedchemistry-community-copy {
+          text-align: center;
+        }
+        .sharedchemistry-main-left h2,
+        .sharedchemistry-community-copy h2,
+        .sharedchemistry-community-copy h3,
+        .sharedchemistry-main-copy,
+        .sharedchemistry-community-copy p {
+          margin-left: auto;
+          margin-right: auto;
+        }
+        .sharedchemistry-main-left h2 {
+          font-size: 30px;
+          line-height: 1.18;
+        }
+        .sharedchemistry-main-copy {
+          font-size: 16px;
+          line-height: 1.55;
+        }
+        .sharedchemistry-main-actions {
+          margin-bottom: 28px;
+          text-align: center;
+        }
+        .sharedchemistry-main-actions .btn {
+          display: block;
+          width: 86%;
+          max-width: 300px;
+          margin: 0 auto 12px;
+          box-sizing: border-box;
+          text-align: center;
+        }
+        .sharedchemistry-mask-woman {
+          margin-left: auto;
+          margin-right: auto;
+          margin-bottom: 30px;
+          border-radius: 8px;
+        }
+        .sharedchemistry-auto-wrap {
+          margin-top: 24px;
+        }
+        .sharedchemistry-signup-panel {
+          width: auto;
+          margin-left: 8px;
+          margin-right: 8px;
+          padding-bottom: 20px;
+        }
+        .sharedchemistry-auto-wrap .fadeInRight {
+          padding-top: 28px !important;
+          padding-bottom: 20px !important;
+        }
+        .sharedchemistry-auto-wrap .fadeInRight h1 {
+          padding-left: 18px;
+          padding-right: 18px;
+          text-align: center;
+        }
+        .sharedchemistry-auto-wrap #form_join_user,
+        .sharedchemistry-auto-wrap .pfbc-form {
+          padding-left: 18px !important;
+          padding-right: 18px !important;
+        }
+        .sharedchemistry-home-blocks {
+          margin-top: 34px;
+        }
+        .sharedchemistry-home-card {
+          min-height: 0;
+          padding: 18px;
+          text-align: center;
+        }
+        footer {
+          padding-left: 12px;
+          padding-right: 12px;
+        }
+        .bottom_nav {
+          text-align: center;
+        }
+        .sharedchemistry-footer-brand {
+          display: block;
+          margin: 0 auto 8px;
+          text-align: center;
+        }
+        .sharedchemistry-footer-logo {
+          margin: 0 auto 4px;
+        }
+        .bottom_nav a {
+          margin: 5px 6px;
+        }
+      }
       @media screen and (max-width: 640px) {
         #disclaimer-dialog {
           left: 4% !important;
