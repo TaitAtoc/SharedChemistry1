@@ -306,22 +306,22 @@
         clear: both;
         position: relative;
         max-width: 1160px;
-        min-height: 86px;
+        min-height: 126px;
         margin: 0 auto;
-        padding: 4px 18px 0;
+        padding: 12px 18px 0;
         box-sizing: border-box;
       }
       .sharedchemistry-top-logo {
         float: left;
-        width: 46%;
+        width: 44%;
         position: relative;
-        top: -58px;
-        margin-bottom: -116px;
+        top: 0;
+        margin-bottom: 0;
       }
       .sharedchemistry-logo-lift {
         position: relative;
-        top: -58px;
-        margin-bottom: -116px;
+        top: 0;
+        margin-bottom: 0;
       }
       .sharedchemistry-top-logo h1 {
         margin: 0;
@@ -331,14 +331,14 @@
       }
       .sharedchemistry-top-logo-img {
         display: block;
-        width: 348px;
+        width: 360px;
         max-width: 100%;
         height: auto;
       }
       .sharedchemistry-guest-top-spacer {
         float: right;
-        width: 50%;
-        min-height: 86px;
+        width: 54%;
+        min-height: 126px;
       }
       .sharedchemistry-guest-banner {
         margin-top: 0;
@@ -520,7 +520,7 @@
       }
       .login_block {
         position: absolute !important;
-        top: 34px;
+        top: 24px;
         right: 50%;
         width: 560px !important;
         margin: 0 -562px 0 0 !important;
@@ -936,8 +936,8 @@
       }
       @media screen and (min-width: 901px) {
         .sharedchemistry-top-shell {
-          min-height: 330px;
-          padding-top: 10px;
+          min-height: 150px;
+          padding-top: 18px;
         }
         .sharedchemistry-top-logo,
         .sharedchemistry-logo-lift {
@@ -945,38 +945,36 @@
           margin-bottom: 0 !important;
         }
         .sharedchemistry-top-logo h1 {
-          width: 520px;
-          height: 260px;
+          width: 420px;
+          height: auto;
           margin: 0 !important;
           padding: 0 !important;
           overflow: visible;
         }
         .sharedchemistry-top-logo .sharedchemistry-logo-link {
           display: block !important;
-          width: 520px !important;
-          height: 260px !important;
-          overflow: hidden !important;
-          position: relative !important;
-          margin: 42px 0 0 0 !important;
+          width: 420px !important;
+          height: auto !important;
+          overflow: visible !important;
+          position: static !important;
+          margin: 0 !important;
           padding: 0 !important;
           background: none !important;
         }
         .sharedchemistry-top-logo-img {
           display: block !important;
-          position: absolute !important;
-          top: -210px !important;
-          left: -74px !important;
-          width: 660px !important;
+          position: static !important;
+          width: 420px !important;
           max-width: none !important;
           height: auto !important;
           margin: 0 !important;
           padding: 0 !important;
         }
         .sharedchemistry-guest-top-spacer {
-          min-height: 330px;
+          min-height: 150px;
         }
         .login_block {
-          top: 52px;
+          top: 22px;
         }
         .sharedchemistry-mask-woman {
           height: 300px;
@@ -1067,7 +1065,7 @@
       }
       @media screen and (min-width: 768px) and (max-width: 900px) {
         .sharedchemistry-top-shell {
-          min-height: 174px;
+          min-height: 128px;
           padding: 10px 18px 0;
           text-align: left;
         }
@@ -1077,8 +1075,8 @@
           text-align: left;
         }
         .sharedchemistry-top-logo h1 {
-          width: 320px;
-          height: 160px;
+          width: 300px;
+          height: auto;
           margin: 0 !important;
           padding: 0 !important;
           overflow: visible;
@@ -1087,24 +1085,22 @@
           display: block;
           float: right;
           width: 54%;
-          min-height: 174px;
+          min-height: 128px;
         }
         .sharedchemistry-top-logo .sharedchemistry-logo-link {
           display: block !important;
-          width: 320px !important;
-          height: 160px !important;
-          overflow: hidden !important;
-          position: relative !important;
-          margin: 14px 0 0 0 !important;
+          width: 300px !important;
+          height: auto !important;
+          overflow: visible !important;
+          position: static !important;
+          margin: 0 !important;
           padding: 0 !important;
           background: none !important;
         }
         .sharedchemistry-top-logo-img {
           display: block !important;
-          position: absolute !important;
-          top: -129px !important;
-          left: -46px !important;
-          width: 406px !important;
+          position: static !important;
+          width: 300px !important;
           max-width: none !important;
           height: auto !important;
           margin: 0 !important;
@@ -1358,7 +1354,7 @@
               <div role="banner" id="logo" class="sharedchemistry-top-logo sharedchemistry-logo-lift">
                   <h1 itemprop="name">
                       <a href="{{ $design->homePageUrl() }}" class="sharedchemistry-logo-link">
-                          <img src="{url_tpl_img}sharedchemistry/logo.png" alt="SharedChemistry" class="sharedchemistry-top-logo-img" />
+                          <img src="{url_tpl_img}sharedchemistry/sharedchemistry-header-logo.png" alt="SharedChemistry" class="sharedchemistry-top-logo-img" />
                           <span>SharedChemistry</span>
                       </a>
                   </h1>
