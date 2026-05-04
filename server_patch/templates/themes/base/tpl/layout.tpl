@@ -1150,7 +1150,7 @@
           position: absolute !important;
           left: 18px !important;
           top: 35px !important;
-          width: 520px !important;
+          width: 470px !important;
           height: auto !important;
           margin: 0 !important;
           padding: 0 !important;
@@ -1161,7 +1161,7 @@
         }
         .sharedchemistry-logo-link {
           display: block !important;
-          width: 520px !important;
+          width: 470px !important;
           height: auto !important;
           margin: 0 !important;
           padding: 0 !important;
@@ -1182,7 +1182,7 @@
         .sharedchemistry-top-logo-img {
           display: block !important;
           position: static !important;
-          width: 520px !important;
+          width: 470px !important;
           max-width: none !important;
           height: auto !important;
           margin: 0 !important;
@@ -1197,11 +1197,11 @@
         }
         .login_block {
           position: absolute !important;
-          top: 40px !important;
-          right: 18px !important;
-          width: min(560px, calc(100% - 580px)) !important;
+          top: 56px !important;
+          right: 0 !important;
+          width: min(560px, calc(100% - 520px)) !important;
           min-width: 420px !important;
-          max-width: calc(100% - 580px) !important;
+          max-width: calc(100% - 520px) !important;
           margin: 0 !important;
           box-sizing: border-box !important;
           display: block !important;
