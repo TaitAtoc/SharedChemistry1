@@ -1195,10 +1195,12 @@
         .sharedchemistry-logo-link span {
           display: none !important;
         }
+        body.home .login_block,
         .login_block {
           position: absolute !important;
-          top: 56px !important;
-          right: 0 !important;
+          left: auto !important;
+          top: 70px !important;
+          right: max(20px, calc((100vw - 1160px) / 2)) !important;
           width: min(560px, calc(100% - 520px)) !important;
           min-width: 420px !important;
           max-width: calc(100% - 520px) !important;
