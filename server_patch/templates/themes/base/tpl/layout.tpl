@@ -934,6 +934,37 @@
         background: #17181D !important;
         color: #F7F3EF !important;
       }
+      @media screen and (min-width: 901px) {
+        .sharedchemistry-top-shell {
+          min-height: 180px;
+          padding-top: 10px;
+        }
+        .sharedchemistry-top-logo,
+        .sharedchemistry-logo-lift {
+          top: 0;
+          margin-bottom: 0;
+        }
+        .sharedchemistry-top-logo .sharedchemistry-logo-link {
+          display: block;
+          width: 430px;
+          height: 205px;
+          overflow: hidden;
+          position: relative;
+          background: url('/templates/themes/base/img/sharedchemistry/logo.png') no-repeat -63px -178px;
+          background-size: 558px 558px;
+        }
+        .sharedchemistry-top-logo-img {
+          display: none;
+        }
+        .sharedchemistry-guest-top-spacer {
+          min-height: 180px;
+        }
+        .sharedchemistry-mask-woman {
+          height: 300px;
+          object-fit: cover;
+          object-position: left center;
+        }
+      }
       @media screen and (max-width: 900px) {
         .col-md-3, .col-md-4, .col-md-6, .col-md-8, .col-md-9, .col-md-12,
         .col-xs-3, .col-xs-4, .col-xs-6, .col-xs-8, .col-xs-9, .col-xs-12,
@@ -1013,6 +1044,62 @@
           width: 100% !important;
           box-sizing: border-box !important;
           margin-right: 0 !important;
+        }
+      }
+      @media screen and (min-width: 768px) and (max-width: 900px) {
+        .sharedchemistry-top-shell {
+          min-height: 174px;
+          padding: 10px 18px 0;
+          text-align: left;
+        }
+        .sharedchemistry-top-logo {
+          float: left;
+          width: 42%;
+          text-align: left;
+        }
+        .sharedchemistry-guest-top-spacer {
+          display: block;
+          float: right;
+          width: 54%;
+          min-height: 174px;
+        }
+        .sharedchemistry-top-logo .sharedchemistry-logo-link {
+          display: block;
+          width: 320px;
+          height: 153px;
+          overflow: hidden;
+          position: relative;
+          background: url('/templates/themes/base/img/sharedchemistry/logo.png') no-repeat -47px -132px;
+          background-size: 416px 416px;
+        }
+        .sharedchemistry-top-logo-img {
+          display: none;
+        }
+        .login_block {
+          position: absolute !important;
+          top: 28px;
+          right: 18px;
+          width: 430px !important;
+          margin: 0 !important;
+        }
+        #form_login_user input[type="email"],
+        #form_login_user input[type="password"] {
+          float: left !important;
+          display: block;
+          width: 150px !important;
+          margin-right: 8px !important;
+        }
+        #form_login_user button,
+        #form_login_user input[type="submit"] {
+          float: left !important;
+          display: inline-block;
+          width: auto !important;
+        }
+        .bt_login_remember,
+        .bt_login_forgot {
+          display: inline-block;
+          width: auto !important;
+          margin-right: 12px !important;
         }
       }
       @media screen and (max-width: 767px) {
