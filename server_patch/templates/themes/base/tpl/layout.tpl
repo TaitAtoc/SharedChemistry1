@@ -1136,11 +1136,13 @@
       @media screen and (min-width: 768px) {
         .sharedchemistry-top-shell {
           position: relative !important;
+          width: min(1160px, calc(100vw - 40px)) !important;
           max-width: 1160px !important;
           margin: 0 auto !important;
           min-height: 300px !important;
           height: 300px !important;
           padding: 0 !important;
+          box-sizing: border-box !important;
         }
         #logo.sharedchemistry-top-logo,
         .sharedchemistry-top-logo,
@@ -1197,6 +1199,11 @@
           position: absolute !important;
           top: 40px !important;
           right: 18px !important;
+          width: min(560px, calc(100% - 580px)) !important;
+          min-width: 420px !important;
+          max-width: calc(100% - 580px) !important;
+          margin: 0 !important;
+          box-sizing: border-box !important;
           display: block !important;
           visibility: visible !important;
           opacity: 1 !important;
