@@ -2,11 +2,19 @@
     .sharedchemistry-signup-wrap {
         float: none;
         max-width: 980px;
-        margin-top: 22px;
+        margin-top: 48px;
         margin-left: auto;
         margin-right: auto;
         padding-left: 12px;
         padding-right: 12px;
+    }
+
+    .navbar .navbar-nav > li {
+        display: none !important;
+    }
+
+    .navbar .navbar-nav > li:has(.sharedchemistry-nav-signin) {
+        display: block !important;
     }
 
     .navbar .sharedchemistry-nav-join,
@@ -22,21 +30,22 @@
     .navbar,
     .navbar-default,
     .navbar-inverse {
-        min-height: 58px !important;
+        min-height: 78px !important;
     }
 
     .navbar #logo,
     .navbar .navbar-brand {
-        padding-top: 12px !important;
-        padding-bottom: 12px !important;
+        padding-top: 10px !important;
+        padding-bottom: 10px !important;
     }
 
     .navbar .sharedchemistry-header-logo {
-        max-height: 32px !important;
+        max-height: 54px !important;
     }
 
     .navbar .sharedchemistry-logo-link span {
-        font-size: 18px !important;
+        font-size: 25px !important;
+        line-height: 54px !important;
     }
 
     .sharedchemistry-step-intro,
@@ -163,6 +172,7 @@
     @media screen and (max-width: 767px) {
         .sharedchemistry-signup-wrap {
             width: 100%;
+            margin-top: 30px;
         }
 
         .sharedchemistry-step-intro,
@@ -189,8 +199,8 @@
         class="sharedchemistry-step-card"
     >
         {include 'progressbar.inc.tpl'}
-        <span class="sharedchemistry-form-kicker">Shared profile basics</span>
-        <p class="sharedchemistry-form-helper">Choose your basic location and profile details. You can complete partner details after signup.</p>
+        <span class="sharedchemistry-form-kicker">Couple location</span>
+        <p class="sharedchemistry-form-helper">Start with your location. You can add partner details after signup.</p>
         {{ JoinForm::step2() }}
     </section>
 </div>

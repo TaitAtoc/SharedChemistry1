@@ -2,11 +2,19 @@
     .sharedchemistry-signup-wrap {
         float: none;
         max-width: 980px;
-        margin-top: 22px;
+        margin-top: 48px;
         margin-left: auto;
         margin-right: auto;
         padding-left: 12px;
         padding-right: 12px;
+    }
+
+    .navbar .navbar-nav > li {
+        display: none !important;
+    }
+
+    .navbar .navbar-nav > li:has(.sharedchemistry-nav-signin) {
+        display: block !important;
     }
 
     .navbar .sharedchemistry-nav-join,
@@ -22,21 +30,22 @@
     .navbar,
     .navbar-default,
     .navbar-inverse {
-        min-height: 58px !important;
+        min-height: 78px !important;
     }
 
     .navbar #logo,
     .navbar .navbar-brand {
-        padding-top: 12px !important;
-        padding-bottom: 12px !important;
+        padding-top: 10px !important;
+        padding-bottom: 10px !important;
     }
 
     .navbar .sharedchemistry-header-logo {
-        max-height: 32px !important;
+        max-height: 54px !important;
     }
 
     .navbar .sharedchemistry-logo-link span {
-        font-size: 18px !important;
+        font-size: 25px !important;
+        line-height: 54px !important;
     }
 
     .sharedchemistry-step-intro,
@@ -163,6 +172,7 @@
     @media screen and (max-width: 767px) {
         .sharedchemistry-signup-wrap {
             width: 100%;
+            margin-top: 30px;
         }
 
         .sharedchemistry-step-intro,
@@ -182,7 +192,7 @@
         class="sharedchemistry-step-intro"
     >
         <h2 style="margin:0 0 8px;font-size:28px;line-height:1.2;font-weight:700;color:#fff;">Tell couples about yourselves</h2>
-        <p style="margin:0;color:#d7d2ce;font-size:16px;line-height:1.6;">Write a short couple profile. Keep it real, warm, and clear.</p>
+        <p style="margin:0;color:#d7d2ce;font-size:16px;line-height:1.6;">Add a few sentences for now. You can complete your full couple profile after signup.</p>
     </section>
 
     <section
@@ -190,7 +200,7 @@
     >
         {include 'progressbar.inc.tpl'}
         <span class="sharedchemistry-form-kicker">Couple description</span>
-        <p class="sharedchemistry-form-helper">Write a short profile as a couple. Mention who you are, what you enjoy, and who you would like to meet.</p>
+        <p class="sharedchemistry-form-helper">Write a short intro as a couple. Your detailed profile can be completed later from your profile page.</p>
         {{ JoinForm::step3() }}
     </section>
 </div>

@@ -169,8 +169,9 @@ class JoinForm
 
         $oForm->addElement(new Hidden('sex', GenderTypeUserCore::COUPLE));
         $oForm->addElement(new Hidden('match_sex[]', GenderTypeUserCore::COUPLE));
-
-        self::generateBirthDateField($oForm);
+        $iFallbackAge = DbConfig::getSetting('minAgeRegistration') + 16;
+        $oForm->addElement(new Hidden('age', $iFallbackAge));
+        $oForm->addElement(new Hidden('birth_date', date('Y-m-d', strtotime('-' . $iFallbackAge . ' years'))));
 
         $oForm->addElement(
             new Select(
@@ -238,7 +239,7 @@ class JoinForm
                 [
                     'id' => 'str_description',
                     'description' => t(
-                        'Write a short profile as a couple. Mention who you are, what you enjoy, and who you would like to meet.'
+                        'Write a short intro as a couple. Your detailed profile can be completed later from your profile page.'
                     ),
                     'onblur' => 'CValid(this.value,this.id,20,4000)',
                     'validation' => new Str(20, 4000),

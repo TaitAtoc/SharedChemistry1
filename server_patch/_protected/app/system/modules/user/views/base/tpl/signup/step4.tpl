@@ -2,11 +2,19 @@
     .sharedchemistry-signup-wrap {
         float: none;
         max-width: 980px;
-        margin-top: 28px;
+        margin-top: 52px;
         margin-left: auto;
         margin-right: auto;
         padding-left: 12px;
         padding-right: 12px;
+    }
+
+    .navbar .navbar-nav > li {
+        display: none !important;
+    }
+
+    .navbar .navbar-nav > li:has(.sharedchemistry-nav-signin) {
+        display: block !important;
     }
 
     .navbar .sharedchemistry-nav-join,
@@ -22,21 +30,22 @@
     .navbar,
     .navbar-default,
     .navbar-inverse {
-        min-height: 58px !important;
+        min-height: 78px !important;
     }
 
     .navbar #logo,
     .navbar .navbar-brand {
-        padding-top: 12px !important;
-        padding-bottom: 12px !important;
+        padding-top: 10px !important;
+        padding-bottom: 10px !important;
     }
 
     .navbar .sharedchemistry-header-logo {
-        max-height: 32px !important;
+        max-height: 54px !important;
     }
 
     .navbar .sharedchemistry-logo-link span {
-        font-size: 18px !important;
+        font-size: 25px !important;
+        line-height: 54px !important;
     }
 
     .sharedchemistry-step-intro,
@@ -149,6 +158,7 @@
     @media screen and (max-width: 767px) {
         .sharedchemistry-signup-wrap {
             width: 100%;
+            margin-top: 34px;
         }
 
         .sharedchemistry-step-intro,
@@ -172,7 +182,7 @@
         class="sharedchemistry-step-intro"
     >
         <h2 style="margin:0 0 8px;font-size:28px;line-height:1.2;font-weight:700;color:#fff;">Upload your couple photo</h2>
-        <p style="margin:0;color:#d7d2ce;font-size:16px;line-height:1.6;">Upload a clear photo that represents you as a couple. You can update it later.</p>
+        <p style="margin:0;color:#d7d2ce;font-size:16px;line-height:1.6;">Add one clear photo now. You can add more photos later from your profile page.</p>
     </section>
 
     <section
@@ -180,7 +190,7 @@
     >
         <span class="sharedchemistry-static-step-label">Photo setup</span>
         <h3 class="sharedchemistry-card-title">Add your couple photo</h3>
-        <p class="sharedchemistry-form-helper">Upload a clear photo that represents you as a couple. You can update it later.</p>
+        <p class="sharedchemistry-form-helper">Choose a photo that represents you as a couple. More photos can be added after signup.</p>
         <div class="sharedchemistry-upload-panel">
             {{ JoinForm::step4() }}
         </div>
