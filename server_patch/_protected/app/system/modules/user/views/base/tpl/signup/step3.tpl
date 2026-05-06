@@ -38,18 +38,18 @@
     }
 </style>
 
-<div class="col-md-10 sharedchemistry-signup-wrap sharedchemistry-signup-step2">
+<div class="col-md-10 sharedchemistry-signup-wrap sharedchemistry-signup-step3">
     <section
         class="sharedchemistry-step-intro"
     >
-        <h2 style="margin:0 0 8px;font-size:28px;line-height:1.2;font-weight:700;color:#fff;">Complete your couple profile</h2>
-        <p style="margin:0;color:#d7d2ce;font-size:15px;line-height:1.6;">Start with the basics. Partner details and shared preferences will be added next.</p>
+        <h2 style="margin:0 0 8px;font-size:28px;line-height:1.2;font-weight:700;color:#fff;">Tell couples about yourselves</h2>
+        <p style="margin:0;color:#d7d2ce;font-size:15px;line-height:1.6;">Write a short couple profile. Keep it real, warm, and clear.</p>
     </section>
 
     <section
         class="sharedchemistry-step-card"
     >
         {include 'progressbar.inc.tpl'}
-        {{ JoinForm::step2() }}
+        {{ JoinForm::step3() }}
     </section>
 </div>
