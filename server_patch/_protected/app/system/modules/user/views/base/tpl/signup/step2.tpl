@@ -2,9 +2,7 @@
     .sharedchemistry-signup-wrap {
         float: none;
         max-width: 980px;
-        margin-top: 48px;
-        margin-left: auto;
-        margin-right: auto;
+        margin: 34px auto 0;
         padding-left: 12px;
         padding-right: 12px;
     }
@@ -24,6 +22,12 @@
     .navbar a[href*="video/main"],
     .navbar a[href*="forum/forum"],
     .navbar a[href*="note/main"] {
+        display: none !important;
+    }
+
+    .navbar,
+    .navbar-default,
+    .navbar-inverse {
         display: none !important;
     }
 
@@ -71,6 +75,20 @@
 
     main#content {
         padding-top: 0 !important;
+    }
+
+    .sharedchemistry-signup-logo {
+        width: 100%;
+        margin: 0 auto 28px;
+        text-align: center;
+    }
+
+    .sharedchemistry-signup-logo img {
+        display: block;
+        width: 430px;
+        max-width: 92%;
+        height: auto;
+        margin: 0 auto;
     }
 
     .sharedchemistry-step-intro,
@@ -197,7 +215,7 @@
     @media screen and (max-width: 767px) {
         .sharedchemistry-signup-wrap {
             width: 100%;
-            margin-top: 30px;
+            margin-top: 22px;
         }
 
         .navbar #logo h1,
@@ -219,6 +237,10 @@
 </style>
 
 <div class="col-md-12 sharedchemistry-signup-wrap sharedchemistry-signup-step2">
+    <div class="sharedchemistry-signup-logo">
+        <img src="{url_tpl_img}sharedchemistry/sharedchemistry-header-logo.png" alt="SharedChemistry" />
+    </div>
+
     <section
         class="sharedchemistry-step-intro"
     >
@@ -229,6 +251,9 @@
     <section
         class="sharedchemistry-step-card"
     >
+        {{ $progressbar_percentage = 50 }}
+        {{ $progressbar_step = 2 }}
+        {{ $progressbar_total_steps = 4 }}
         {include 'progressbar.inc.tpl'}
         <span class="sharedchemistry-form-kicker">Couple location</span>
         <p class="sharedchemistry-form-helper">Start with your location.</p>

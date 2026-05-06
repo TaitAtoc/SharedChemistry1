@@ -2,9 +2,7 @@
     .sharedchemistry-signup-wrap {
         float: none;
         max-width: 980px;
-        margin-top: 52px;
-        margin-left: auto;
-        margin-right: auto;
+        margin: 34px auto 0;
         padding-left: 12px;
         padding-right: 12px;
     }
@@ -24,6 +22,12 @@
     .navbar a[href*="video/main"],
     .navbar a[href*="forum/forum"],
     .navbar a[href*="note/main"] {
+        display: none !important;
+    }
+
+    .navbar,
+    .navbar-default,
+    .navbar-inverse {
         display: none !important;
     }
 
@@ -73,6 +77,20 @@
         padding-top: 0 !important;
     }
 
+    .sharedchemistry-signup-logo {
+        width: 100%;
+        margin: 0 auto 28px;
+        text-align: center;
+    }
+
+    .sharedchemistry-signup-logo img {
+        display: block;
+        width: 430px;
+        max-width: 92%;
+        height: auto;
+        margin: 0 auto;
+    }
+
     .sharedchemistry-step-intro,
     .sharedchemistry-step-card {
         background: #15161b;
@@ -92,18 +110,6 @@
     .sharedchemistry-step-card {
         padding: 24px 34px 30px;
         margin: 0 auto 18px;
-    }
-
-    .sharedchemistry-static-step-label {
-        display: inline-block;
-        margin: 0 0 14px;
-        padding: 8px 14px;
-        border-radius: 999px;
-        background: linear-gradient(90deg, #d93052 0%, #e43f5f 55%, #ff6f8d 100%);
-        color: #fff;
-        font-size: 13px;
-        font-weight: 700;
-        line-height: 1;
     }
 
     .sharedchemistry-card-title {
@@ -183,7 +189,7 @@
     @media screen and (max-width: 767px) {
         .sharedchemistry-signup-wrap {
             width: 100%;
-            margin-top: 34px;
+            margin-top: 22px;
         }
 
         .navbar #logo h1,
@@ -209,6 +215,10 @@
 </style>
 
 <div class="col-md-12 sharedchemistry-signup-wrap sharedchemistry-signup-step4">
+    <div class="sharedchemistry-signup-logo">
+        <img src="{url_tpl_img}sharedchemistry/sharedchemistry-header-logo.png" alt="SharedChemistry" />
+    </div>
+
     <section
         class="sharedchemistry-step-intro"
     >
@@ -219,7 +229,10 @@
     <section
         class="sharedchemistry-step-card"
     >
-        <span class="sharedchemistry-static-step-label">Photo setup</span>
+        {{ $progressbar_percentage = 100 }}
+        {{ $progressbar_step = 4 }}
+        {{ $progressbar_total_steps = 4 }}
+        {include 'progressbar.inc.tpl'}
         <h3 class="sharedchemistry-card-title">Add your couple photo</h3>
         <p class="sharedchemistry-form-helper">Choose a photo that represents you as a couple. More photos can be added after signup.</p>
         <div class="sharedchemistry-upload-panel">
