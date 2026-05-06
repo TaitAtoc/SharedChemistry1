@@ -1399,7 +1399,14 @@ class UserCoreModel extends Model
         if (!$sFirstName = $this->cache->get()) {
             Various::checkModelTable($sTable);
 
-            $rStmt = Db::getInstance()->prepare('SELECT firstName FROM' . Db::prefix($sTable) . 'WHERE profileId = :profileId LIMIT 1');
+            $sFirstNameColumn = $this->getExistingDisplayNameColumn($sTable);
+            $sIdColumn = $this->getExistingIdColumn($sTable);
+
+            if ($sFirstNameColumn === false || $sIdColumn === false) {
+                return '';
+            }
+
+            $rStmt = Db::getInstance()->prepare('SELECT ' . $sFirstNameColumn . ' FROM' . Db::prefix($sTable) . 'WHERE ' . $sIdColumn . ' = :profileId LIMIT 1');
             $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
             $rStmt->execute();
             $sFirstName = $rStmt->fetchColumn();
@@ -1409,6 +1416,31 @@ class UserCoreModel extends Model
         }
 
         return $sFirstName;
+    }
+
+    /**
+     * @param string $sTable
+     *
+     * @return string|bool
+     */
+    private function getExistingDisplayNameColumn($sTable)
+    {
+        $aCandidateColumns = ['firstName', 'username', 'name', 'fullName', 'email'];
+
+        $rStmt = Db::getInstance()->prepare(
+            "SHOW COLUMNS FROM" . Db::prefix($sTable) . "WHERE Field IN ('firstName', 'username', 'name', 'fullName', 'email')"
+        );
+        $rStmt->execute();
+        $aExistingColumns = $rStmt->fetchAll(PDO::FETCH_COLUMN);
+        Db::free($rStmt);
+
+        foreach ($aCandidateColumns as $sCandidateColumn) {
+            if (in_array($sCandidateColumn, $aExistingColumns, true)) {
+                return $sCandidateColumn;
+            }
+        }
+
+        return false;
     }
 
     /**
