@@ -20,4 +20,7 @@
       <a href="{{ $design->url('xml','sitemap','index') }}" title="{lang 'Site Map'}" data-load="ajax">{lang 'Site Map'}</a>
       <a href="{{ $design->url('contact','contact','index') }}" title="{lang 'Contact Us'}">{lang 'Contact'}</a>
       <a href="{{ $design->url('page','main','link') }}" title="{lang 'Links'}" data-load="ajax">{lang 'Links'}</a>
+      <span class="sharedchemistry-footer-credit">
+        {{ $design->link() }}
+      </span>
   </nav>
