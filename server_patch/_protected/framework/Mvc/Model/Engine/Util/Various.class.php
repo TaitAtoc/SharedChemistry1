@@ -238,6 +238,17 @@ class Various
                 return $sTable;
 
             default:
+                $aAllowedAdminTables = [
+                    'admins',
+                    'admins_attempts_login',
+                    'admins_log_login',
+                    'admins_log_sessions'
+                ];
+
+                if (in_array($sTable, $aAllowedAdminTables, true)) {
+                    return $sTable;
+                }
+
                 static::launchErr($sTable);
         }
     }
