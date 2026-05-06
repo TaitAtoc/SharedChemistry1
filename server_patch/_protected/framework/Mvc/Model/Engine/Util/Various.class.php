@@ -230,6 +230,10 @@ class Various
             case DbTableName::ADMIN_ATTEMPT_LOGIN:
             case DbTableName::ADMIN_LOG_LOGIN:
             case DbTableName::ADMIN_LOG_SESS:
+            case 'admins':
+            case 'admins_attempts_login':
+            case 'admins_log_login':
+            case 'admins_log_sessions':
             case DbTableName::SUBSCRIBER:
                 return $sTable;
 
