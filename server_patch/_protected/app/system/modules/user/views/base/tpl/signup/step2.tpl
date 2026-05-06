@@ -2,10 +2,41 @@
     .sharedchemistry-signup-wrap {
         float: none;
         max-width: 980px;
+        margin-top: 22px;
         margin-left: auto;
         margin-right: auto;
         padding-left: 12px;
         padding-right: 12px;
+    }
+
+    .navbar .sharedchemistry-nav-join,
+    .navbar a[href*="user/browse"],
+    .navbar a[href*="chat/home"],
+    .navbar a[href*="picture/main"],
+    .navbar a[href*="video/main"],
+    .navbar a[href*="forum/forum"],
+    .navbar a[href*="note/main"] {
+        display: none !important;
+    }
+
+    .navbar,
+    .navbar-default,
+    .navbar-inverse {
+        min-height: 58px !important;
+    }
+
+    .navbar #logo,
+    .navbar .navbar-brand {
+        padding-top: 12px !important;
+        padding-bottom: 12px !important;
+    }
+
+    .navbar .sharedchemistry-header-logo {
+        max-height: 32px !important;
+    }
+
+    .navbar .sharedchemistry-logo-link span {
+        font-size: 18px !important;
     }
 
     .sharedchemistry-step-intro,
@@ -159,7 +190,7 @@
     >
         {include 'progressbar.inc.tpl'}
         <span class="sharedchemistry-form-kicker">Shared profile basics</span>
-        <p class="sharedchemistry-form-helper">These details start your couple profile. We will refine partner details later.</p>
+        <p class="sharedchemistry-form-helper">Choose your basic location and profile details. You can complete partner details after signup.</p>
         {{ JoinForm::step2() }}
     </section>
 </div>

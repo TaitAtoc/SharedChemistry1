@@ -2,10 +2,41 @@
     .sharedchemistry-signup-wrap {
         float: none;
         max-width: 980px;
+        margin-top: 22px;
         margin-left: auto;
         margin-right: auto;
         padding-left: 12px;
         padding-right: 12px;
+    }
+
+    .navbar .sharedchemistry-nav-join,
+    .navbar a[href*="user/browse"],
+    .navbar a[href*="chat/home"],
+    .navbar a[href*="picture/main"],
+    .navbar a[href*="video/main"],
+    .navbar a[href*="forum/forum"],
+    .navbar a[href*="note/main"] {
+        display: none !important;
+    }
+
+    .navbar,
+    .navbar-default,
+    .navbar-inverse {
+        min-height: 58px !important;
+    }
+
+    .navbar #logo,
+    .navbar .navbar-brand {
+        padding-top: 12px !important;
+        padding-bottom: 12px !important;
+    }
+
+    .navbar .sharedchemistry-header-logo {
+        max-height: 32px !important;
+    }
+
+    .navbar .sharedchemistry-logo-link span {
+        font-size: 18px !important;
     }
 
     .sharedchemistry-step-intro,
@@ -159,7 +190,7 @@
     >
         {include 'progressbar.inc.tpl'}
         <span class="sharedchemistry-form-kicker">Couple description</span>
-        <p class="sharedchemistry-form-helper">Write this as a couple. Mention who you are, what you enjoy, and the kind of people you want to meet.</p>
+        <p class="sharedchemistry-form-helper">Write a short profile as a couple. Mention who you are, what you enjoy, and who you would like to meet.</p>
         {{ JoinForm::step3() }}
     </section>
 </div>

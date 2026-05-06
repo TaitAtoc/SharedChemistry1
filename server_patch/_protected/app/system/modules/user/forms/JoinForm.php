@@ -167,34 +167,8 @@ class JoinForm
         $oForm->addElement(new Hidden('submit_join_user2', 'form_join_user2'));
         $oForm->addElement(new Token('join2'));
 
-        $sPredictedGender = self::predictGenderFromFirstName();
-        $aDefaultMatchPreferences = self::getOppositeGenderPreferences($sPredictedGender);
-
-        $oForm->addElement(
-            new Radio(
-                t('I am a'),
-                'sex',
-                [
-                    GenderTypeUserCore::FEMALE => '👩 ' . t('Woman'),
-                    GenderTypeUserCore::MALE => '👨 ' . t('Man'),
-                    GenderTypeUserCore::COUPLE => '💑 ' . t('Couple')
-                ],
-                ['value' => $sPredictedGender, 'required' => 1]
-            )
-        );
-
-        $oForm->addElement(
-            new Checkbox(
-                t('Looking for a'),
-                'match_sex',
-                [
-                    GenderTypeUserCore::MALE => '👨 ' . t('Man'),
-                    GenderTypeUserCore::FEMALE => '👩 ' . t('Woman'),
-                    GenderTypeUserCore::COUPLE => '💑 ' . t('Couple')
-                ],
-                ['value' => $aDefaultMatchPreferences, 'required' => 1]
-            )
-        );
+        $oForm->addElement(new Hidden('sex', GenderTypeUserCore::COUPLE));
+        $oForm->addElement(new Hidden('match_sex[]', GenderTypeUserCore::COUPLE));
 
         self::generateBirthDateField($oForm);
 
@@ -223,19 +197,7 @@ class JoinForm
         );
         $oForm->addElement(new HTMLExternal('<span class="input_error str_city"></span>'));
 
-        $oForm->addElement(
-            new Textbox(
-                t('Your Postal Code'),
-                'zip_code',
-                [
-                    'id' => 'str_zip_code',
-                    'value' => Geo::getZipCode(),
-                    'onblur' => 'CValid(this.value,this.id,2,15)',
-                    'validation' => new Str(2, 15)
-                ]
-            )
-        );
-        $oForm->addElement(new HTMLExternal('<span class="input_error str_zip_code"></span>'));
+        $oForm->addElement(new Hidden('zip_code', ''));
 
         $oForm->addElement(new Button(t('Next'), 'submit', ['icon' => 'seek-next']));
         $oForm->addElement(
@@ -271,12 +233,12 @@ class JoinForm
 
         $oForm->addElement(
             new Textarea(
-                t('About Me 🤗'),
+                t('Brief couple profile'),
                 'description',
                 [
                     'id' => 'str_description',
                     'description' => t(
-                        'Describe yourself in a few words. Your description should be at least 20 characters long.'
+                        'Write a short profile as a couple. Mention who you are, what you enjoy, and who you would like to meet.'
                     ),
                     'onblur' => 'CValid(this.value,this.id,20,4000)',
                     'validation' => new Str(20, 4000),
@@ -319,8 +281,8 @@ class JoinForm
         $oForm->configure(['action' => '']);
         $oForm->addElement(new Hidden('submit_join_user4', 'form_join_user4'));
         $oForm->addElement(new Token('join4'));
-        $oForm->addElement(new File(t('Your Profile Photo'), 'avatar', $aAvatarFieldOption));
-        $oForm->addElement(new Button(t('Add My Photo')));
+        $oForm->addElement(new File(t('Your couple profile picture'), 'avatar', $aAvatarFieldOption));
+        $oForm->addElement(new Button(t('Add Couple Photo')));
 
         if (!$bIsAvatarRequired) {
             $oForm->addElement(

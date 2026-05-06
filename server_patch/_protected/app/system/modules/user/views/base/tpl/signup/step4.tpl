@@ -2,10 +2,41 @@
     .sharedchemistry-signup-wrap {
         float: none;
         max-width: 980px;
+        margin-top: 28px;
         margin-left: auto;
         margin-right: auto;
         padding-left: 12px;
         padding-right: 12px;
+    }
+
+    .navbar .sharedchemistry-nav-join,
+    .navbar a[href*="user/browse"],
+    .navbar a[href*="chat/home"],
+    .navbar a[href*="picture/main"],
+    .navbar a[href*="video/main"],
+    .navbar a[href*="forum/forum"],
+    .navbar a[href*="note/main"] {
+        display: none !important;
+    }
+
+    .navbar,
+    .navbar-default,
+    .navbar-inverse {
+        min-height: 58px !important;
+    }
+
+    .navbar #logo,
+    .navbar .navbar-brand {
+        padding-top: 12px !important;
+        padding-bottom: 12px !important;
+    }
+
+    .navbar .sharedchemistry-header-logo {
+        max-height: 32px !important;
+    }
+
+    .navbar .sharedchemistry-logo-link span {
+        font-size: 18px !important;
     }
 
     .sharedchemistry-step-intro,
@@ -25,20 +56,47 @@
     }
 
     .sharedchemistry-step-card {
-        padding: 28px 34px 34px;
+        padding: 24px 34px 30px;
         margin: 0 auto 18px;
     }
 
+    .sharedchemistry-static-step-label {
+        display: inline-block;
+        margin: 0 0 14px;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #d93052 0%, #e43f5f 55%, #ff6f8d 100%);
+        color: #fff;
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 1;
+    }
+
+    .sharedchemistry-card-title {
+        margin: 0 0 8px;
+        color: #fff;
+        font-size: 22px;
+        line-height: 1.3;
+        font-weight: 700;
+    }
+
+    .sharedchemistry-form-helper {
+        margin: 0 0 16px;
+        color: #d7d2ce;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
     .sharedchemistry-upload-panel {
-        margin-top: 22px;
-        padding: 22px;
+        margin-top: 16px;
+        padding: 18px;
         border: 1px dashed rgba(255, 111, 141, .58);
         border-radius: 16px;
         background: #202128;
     }
 
     .sharedchemistry-step-card .form-group {
-        margin-bottom: 22px;
+        margin-bottom: 16px;
     }
 
     .sharedchemistry-step-card .control-label,
@@ -104,7 +162,7 @@
         }
 
         .sharedchemistry-upload-panel {
-            padding: 16px;
+            padding: 14px;
         }
     }
 </style>
@@ -113,16 +171,17 @@
     <section
         class="sharedchemistry-step-intro"
     >
-        <h2 style="margin:0 0 8px;font-size:28px;line-height:1.2;font-weight:700;color:#fff;">Add your couple photo</h2>
+        <h2 style="margin:0 0 8px;font-size:28px;line-height:1.2;font-weight:700;color:#fff;">Upload your couple photo</h2>
         <p style="margin:0;color:#d7d2ce;font-size:16px;line-height:1.6;">Upload a clear photo that represents you as a couple. You can update it later.</p>
     </section>
 
     <section
         class="sharedchemistry-step-card"
     >
-        {include 'progressbar.inc.tpl'}
+        <span class="sharedchemistry-static-step-label">Photo setup</span>
+        <h3 class="sharedchemistry-card-title">Add your couple photo</h3>
+        <p class="sharedchemistry-form-helper">Upload a clear photo that represents you as a couple. You can update it later.</p>
         <div class="sharedchemistry-upload-panel">
-            {{ $avatarDesign->lightBox() }}
             {{ JoinForm::step4() }}
         </div>
     </section>
