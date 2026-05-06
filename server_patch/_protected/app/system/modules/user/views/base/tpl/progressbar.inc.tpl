@@ -1,3 +1,5 @@
+{{ if ($this->registry->action === 'step1') { $progressbar_percentage = 25; $progressbar_step = 1; $progressbar_total_steps = 4; } elseif ($this->registry->action === 'step2') { $progressbar_percentage = 50; $progressbar_step = 2; $progressbar_total_steps = 4; } elseif ($this->registry->action === 'step3') { $progressbar_percentage = 75; $progressbar_step = 3; $progressbar_total_steps = 4; } elseif ($this->registry->action === 'step4') { $progressbar_percentage = 100; $progressbar_step = 4; $progressbar_total_steps = 4; } }}
+
 <style>
     .sharedchemistry-progress {
         height: 34px;
