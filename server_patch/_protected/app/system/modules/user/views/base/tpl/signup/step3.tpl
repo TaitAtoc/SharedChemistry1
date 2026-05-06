@@ -30,22 +30,47 @@
     .navbar,
     .navbar-default,
     .navbar-inverse {
-        min-height: 78px !important;
+        min-height: 96px !important;
     }
 
     .navbar #logo,
     .navbar .navbar-brand {
-        padding-top: 10px !important;
-        padding-bottom: 10px !important;
+        padding-top: 12px !important;
+        padding-bottom: 12px !important;
     }
 
-    .navbar .sharedchemistry-header-logo {
-        max-height: 54px !important;
+    .navbar #logo h1 {
+        width: 360px !important;
+        height: 72px !important;
+        margin: 0 !important;
     }
 
+    .navbar .sharedchemistry-logo-link {
+        display: block !important;
+        width: 360px !important;
+        height: 72px !important;
+        background: url("{url_tpl_img}sharedchemistry/sharedchemistry-header-logo.png") left center / contain no-repeat !important;
+    }
+
+    .navbar .sharedchemistry-header-logo,
     .navbar .sharedchemistry-logo-link span {
-        font-size: 25px !important;
-        line-height: 54px !important;
+        display: none !important;
+    }
+
+    .navbar #logo:before,
+    .navbar #logo:after {
+        content: none !important;
+        display: none !important;
+    }
+
+    header .ad_468_60,
+    #headings,
+    main#content > .msg:empty {
+        display: none !important;
+    }
+
+    main#content {
+        padding-top: 0 !important;
     }
 
     .sharedchemistry-step-intro,
@@ -173,6 +198,12 @@
         .sharedchemistry-signup-wrap {
             width: 100%;
             margin-top: 30px;
+        }
+
+        .navbar #logo h1,
+        .navbar .sharedchemistry-logo-link {
+            width: 260px !important;
+            height: 54px !important;
         }
 
         .sharedchemistry-step-intro,
