@@ -1259,22 +1259,18 @@ class UserCoreModel extends Model
         if (!$iProfileId = $this->cache->get()) {
             Various::checkModelTable($sTable);
 
-            if ($sTable === DbTableName::ADMIN) {
-                if (!empty($sEmail)) {
-                    $rStmt = Db::getInstance()->prepare('SELECT * FROM' . Db::prefix($sTable) . 'WHERE email = :email LIMIT 1');
-                    $rStmt->bindValue(':email', $sEmail, PDO::PARAM_STR);
-                } else {
-                    $rStmt = Db::getInstance()->prepare('SELECT * FROM' . Db::prefix($sTable) . 'WHERE username = :username LIMIT 1');
-                    $rStmt->bindValue(':username', $sUsername, PDO::PARAM_STR);
-                }
+            $sIdColumn = $this->getExistingIdColumn($sTable);
+
+            if ($sIdColumn === false) {
+                return false;
+            }
+
+            if (!empty($sEmail)) {
+                $rStmt = Db::getInstance()->prepare('SELECT ' . $sIdColumn . ' FROM' . Db::prefix($sTable) . 'WHERE email = :email LIMIT 1');
+                $rStmt->bindValue(':email', $sEmail, PDO::PARAM_STR);
             } else {
-                if (!empty($sEmail)) {
-                    $rStmt = Db::getInstance()->prepare('SELECT profileId FROM' . Db::prefix($sTable) . 'WHERE email = :email LIMIT 1');
-                    $rStmt->bindValue(':email', $sEmail, PDO::PARAM_STR);
-                } else {
-                    $rStmt = Db::getInstance()->prepare('SELECT profileId FROM' . Db::prefix($sTable) . 'WHERE username = :username LIMIT 1');
-                    $rStmt->bindValue(':username', $sUsername, PDO::PARAM_STR);
-                }
+                $rStmt = Db::getInstance()->prepare('SELECT ' . $sIdColumn . ' FROM' . Db::prefix($sTable) . 'WHERE username = :username LIMIT 1');
+                $rStmt->bindValue(':username', $sUsername, PDO::PARAM_STR);
             }
 
             $rStmt->execute();
@@ -1283,24 +1279,37 @@ class UserCoreModel extends Model
                 return false;
             }
 
-            if ($sTable === DbTableName::ADMIN) {
-                $oData = $rStmt->fetch(PDO::FETCH_OBJ);
-                $iProfileId = $this->getAdminId($oData);
-                $oData->profileId = $iProfileId;
-            } else {
-                $iProfileId = (int)$rStmt->fetchColumn();
-            }
-
+            $iProfileId = (int)$rStmt->fetchColumn();
             Db::free($rStmt);
             $this->cache->put($iProfileId);
-
-            if ($sTable === DbTableName::ADMIN) {
-                $this->cache->start(self::CACHE_GROUP, 'readProfile' . $iProfileId . $sTable, static::CACHE_TIME);
-                $this->cache->put($oData);
-            }
         }
 
         return $iProfileId;
+    }
+
+    /**
+     * @param string $sTable
+     *
+     * @return string|bool
+     */
+    private function getExistingIdColumn($sTable)
+    {
+        $aCandidateColumns = ['profileId', 'adminId', 'affiliateId', 'id'];
+
+        $rStmt = Db::getInstance()->prepare(
+            "SHOW COLUMNS FROM" . Db::prefix($sTable) . "WHERE Field IN ('profileId', 'adminId', 'affiliateId', 'id')"
+        );
+        $rStmt->execute();
+        $aExistingColumns = $rStmt->fetchAll(PDO::FETCH_COLUMN);
+        Db::free($rStmt);
+
+        foreach ($aCandidateColumns as $sCandidateColumn) {
+            if (in_array($sCandidateColumn, $aExistingColumns, true)) {
+                return $sCandidateColumn;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -1310,7 +1319,7 @@ class UserCoreModel extends Model
      */
     private function getAdminId(stdClass $oData): int
     {
-        foreach (['profileId', 'id', 'adminId', 'admin_id'] as $sIdColumn) {
+        foreach (['profileId', 'adminId', 'affiliateId', 'id'] as $sIdColumn) {
             if (isset($oData->$sIdColumn)) {
                 return (int)$oData->$sIdColumn;
             }
