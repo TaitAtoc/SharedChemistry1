@@ -47,53 +47,54 @@
     line-height: 1.6;
 }
 
-.sharedchemistry-edit__grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 18px;
-    margin-bottom: 22px;
-}
-
-.sharedchemistry-edit__section,
 .sharedchemistry-edit__media-card {
     padding: 22px;
 }
 
-.sharedchemistry-edit__section {
+.sharedchemistry-edit .sc-profile-section {
     background: rgba(255, 255, 255, .035);
     border: 1px solid rgba(255, 255, 255, .08);
     border-radius: 18px;
+    padding: 22px;
 }
 
-.sharedchemistry-edit__section h2,
+.sharedchemistry-edit .sc-profile-section h2,
 .sharedchemistry-edit__media-card h3 {
     font-size: 20px;
     line-height: 1.25;
 }
 
-.sharedchemistry-edit__section p,
+.sharedchemistry-edit .sc-profile-section p,
 .sharedchemistry-edit__media-card p {
     margin: 9px 0 0;
     line-height: 1.55;
 }
 
-.sharedchemistry-edit__fields {
-    margin-top: 14px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 9px;
+.sharedchemistry-edit .sc-profile-form-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
 }
 
-.sharedchemistry-edit__field-pill {
-    display: inline-flex;
-    align-items: center;
-    min-height: 32px;
-    padding: 6px 11px;
-    border-radius: 999px;
-    background: rgba(255, 76, 118, .12);
-    color: #ffdce4;
-    border: 1px solid rgba(255, 76, 118, .24);
-    font-size: 13px;
+.sharedchemistry-edit .sc-profile-field-row {
+    margin-top: 14px;
+}
+
+.sharedchemistry-edit .sc-profile-helper {
+    margin: 8px 0 0;
+    color: #d9c9cf;
+}
+
+.sharedchemistry-edit .sc-profile-checks ul,
+.sharedchemistry-edit .sc-profile-checks ol {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px 18px;
+    margin-top: 12px;
+}
+
+.sharedchemistry-edit .sc-profile-checks li {
+    margin: 0;
 }
 
 .sharedchemistry-edit__card {
@@ -124,12 +125,17 @@
 .sharedchemistry-edit__form-wrap input[type="url"],
 .sharedchemistry-edit__form-wrap input[type="tel"],
 .sharedchemistry-edit__form-wrap input[type="password"],
+.sharedchemistry-edit__form-wrap input[type="number"],
 .sharedchemistry-edit__form-wrap select,
 .sharedchemistry-edit__form-wrap textarea {
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, .16);
     background-color: #242128;
     color: #fff;
+}
+
+.sharedchemistry-edit__form-wrap textarea {
+    min-height: 120px;
 }
 
 .sharedchemistry-edit__form-wrap button,
@@ -192,11 +198,11 @@
 }
 
 @media (min-width: 780px) {
-    .sharedchemistry-edit__grid {
+    .sharedchemistry-edit .sc-profile-form-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .sharedchemistry-edit__section--wide {
+    .sharedchemistry-edit .sc-profile-section--wide {
         grid-column: 1 / -1;
     }
 }
@@ -209,7 +215,7 @@
 
     .sharedchemistry-edit__hero,
     .sharedchemistry-edit__card,
-    .sharedchemistry-edit__section,
+    .sharedchemistry-edit .sc-profile-section,
     .sharedchemistry-edit__media-card {
         border-radius: 16px;
         padding: 20px;
@@ -222,6 +228,11 @@
     .sharedchemistry-edit__media {
         grid-template-columns: 1fr;
     }
+
+    .sharedchemistry-edit .sc-profile-checks ul,
+    .sharedchemistry-edit .sc-profile-checks ol {
+        grid-template-columns: 1fr;
+    }
 }
 </style>
 
@@ -231,56 +242,7 @@
         <p>Add the details that help other couples understand who you are, what you enjoy, and who you would like to meet.</p>
     </section>
 
-    <div class="sharedchemistry-edit__grid">
-        <section class="sharedchemistry-edit__section">
-            <h2>Couple basics</h2>
-            <p>Start with the shared details that make your profile feel real and easy to recognize.</p>
-            <div class="sharedchemistry-edit__fields">
-                <span class="sharedchemistry-edit__field-pill">Couple name</span>
-                <span class="sharedchemistry-edit__field-pill">City</span>
-                <span class="sharedchemistry-edit__field-pill">Country</span>
-            </div>
-        </section>
-
-        <section class="sharedchemistry-edit__section">
-            <h2>About us</h2>
-            <p>Write a short description of you as a couple.</p>
-            <div class="sharedchemistry-edit__fields">
-                <span class="sharedchemistry-edit__field-pill">about_us</span>
-            </div>
-        </section>
-
-        <section class="sharedchemistry-edit__section">
-            <h2>Her</h2>
-            <p>Add a short description of her personality, interests, and what she enjoys.</p>
-            <div class="sharedchemistry-edit__fields">
-                <span class="sharedchemistry-edit__field-pill">About her</span>
-            </div>
-        </section>
-
-        <section class="sharedchemistry-edit__section">
-            <h2>Him</h2>
-            <p>Add a short description of his personality, interests, and what he enjoys.</p>
-            <div class="sharedchemistry-edit__fields">
-                <span class="sharedchemistry-edit__field-pill">About him</span>
-            </div>
-        </section>
-
-        <section class="sharedchemistry-edit__section sharedchemistry-edit__section--wide">
-            <h2>What you are looking for</h2>
-            <p>Share the kind of connection, experience, and couples you would like to meet.</p>
-            <div class="sharedchemistry-edit__fields">
-                <span class="sharedchemistry-edit__field-pill">looking_for</span>
-                <span class="sharedchemistry-edit__field-pill">ideal_match</span>
-                <span class="sharedchemistry-edit__field-pill">experience_level</span>
-                <span class="sharedchemistry-edit__field-pill">interested_in</span>
-            </div>
-        </section>
-    </div>
-
     <section class="sharedchemistry-edit__card">
-        <h2>Profile details</h2>
-        <p class="sharedchemistry-edit__helper">Use the available profile fields below. Existing save processing is unchanged.</p>
         <div class="sharedchemistry-edit__form-wrap">
             {{ EditForm::display() }}
         </div>
@@ -289,7 +251,7 @@
     <div class="sharedchemistry-edit__media">
         <section class="sharedchemistry-edit__media-card">
             <h3>Public profile photos</h3>
-            <p>You can add up to 4 more public profile photos after your main profile picture.</p>
+            <p>Your main profile photo is already set from signup. You can add up to 4 more public profile photos later.</p>
             <div class="sharedchemistry-edit__actions">
                 <a class="sharedchemistry-edit__button" href="{{ $design->url('picture', 'main', 'addalbum') }}">Add public photos</a>
             </div>
@@ -297,10 +259,10 @@
 
         <section class="sharedchemistry-edit__media-card">
             <h3>Private photos and videos</h3>
-            <p>Private media can be uploaded after your profile is saved. You control what other couples can see.</p>
+            <p>Private media will be added in a later step. You will be able to control what other couples can see.</p>
             <div class="sharedchemistry-edit__actions">
-                <span class="sharedchemistry-edit__placeholder">Private photo route to be mapped</span>
-                <span class="sharedchemistry-edit__placeholder">Private video route to be mapped</span>
+                <span class="sharedchemistry-edit__placeholder">Private photos coming soon</span>
+                <span class="sharedchemistry-edit__placeholder">Private videos coming soon</span>
             </div>
         </section>
     </div>
