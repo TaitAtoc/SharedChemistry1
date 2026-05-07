@@ -251,9 +251,9 @@
     <section
         class="sharedchemistry-step-card"
     >
-        {{ $progressbar_percentage = 50 }}
+        {{ $progressbar_percentage = 40 }}
         {{ $progressbar_step = 2 }}
-        {{ $progressbar_total_steps = 4 }}
+        {{ $progressbar_total_steps = 5 }}
         {include 'progressbar.inc.tpl'}
         <span class="sharedchemistry-form-kicker">Couple location</span>
         <p class="sharedchemistry-form-helper">Start with your location.</p>

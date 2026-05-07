@@ -1,4 +1,4 @@
-{{ if ($this->registry->action === 'step1') { $progressbar_percentage = 25; $progressbar_step = 1; $progressbar_total_steps = 4; } elseif ($this->registry->action === 'step2') { $progressbar_percentage = 50; $progressbar_step = 2; $progressbar_total_steps = 4; } elseif ($this->registry->action === 'step3') { $progressbar_percentage = 75; $progressbar_step = 3; $progressbar_total_steps = 4; } elseif ($this->registry->action === 'step4') { $progressbar_percentage = 100; $progressbar_step = 4; $progressbar_total_steps = 4; } }}
+{{ if ($this->registry->action === 'step1') { $progressbar_percentage = 20; $progressbar_step = 1; $progressbar_total_steps = 5; } elseif ($this->registry->action === 'step2') { $progressbar_percentage = 40; $progressbar_step = 2; $progressbar_total_steps = 5; } elseif ($this->registry->action === 'step3') { $progressbar_percentage = 60; $progressbar_step = 3; $progressbar_total_steps = 5; } elseif ($this->registry->action === 'step4') { $progressbar_percentage = 80; $progressbar_step = 4; $progressbar_total_steps = 5; } }}
 
 <style>
     .sharedchemistry-progress {
@@ -18,6 +18,29 @@
         line-height: 34px;
         text-shadow: 0 1px 1px rgba(0, 0, 0, .35);
         border-radius: 999px;
+    }
+
+    .sharedchemistry-step-card .btn,
+    .sharedchemistry-step-card button,
+    .sharedchemistry-step-card input[type="submit"] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        vertical-align: middle;
+        line-height: 1.2;
+        text-align: center;
+    }
+
+    .sharedchemistry-step-card .btn i,
+    .sharedchemistry-step-card button i,
+    .sharedchemistry-step-card .btn .fa,
+    .sharedchemistry-step-card button .fa,
+    .sharedchemistry-step-card .btn .glyphicon,
+    .sharedchemistry-step-card button .glyphicon {
+        color: #fff;
+        font-size: 1em;
+        line-height: 1;
     }
 </style>
 

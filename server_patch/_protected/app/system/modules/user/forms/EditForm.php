@@ -224,6 +224,10 @@ class EditForm
             }
         }
 
+        if (empty($aData['about_us']) && !empty($oFields->description)) {
+            $aData['about_us'] = $oFields->description;
+        }
+
         return $aData;
     }
 

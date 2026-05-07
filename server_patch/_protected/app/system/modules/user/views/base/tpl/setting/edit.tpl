@@ -11,15 +11,27 @@ body {
 .top_menu,
 .top-menu,
 .header,
+.header-container,
+.topbar,
+.top-bar,
+.page-header,
 .breadcrumb,
 .gray_bar,
-.grey_bar {
+.grey_bar,
+.grey-bar,
+.gray-bar {
     display: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    overflow: hidden !important;
 }
 
 .sharedchemistry-edit-logo {
     max-width: 1060px;
-    margin: 36px auto 10px;
+    margin: 8px auto 6px;
     padding: 0 18px;
     text-align: center;
 }
@@ -33,7 +45,7 @@ body {
 
 .sharedchemistry-edit-progress {
     max-width: 760px;
-    margin: 18px auto 24px;
+    margin: 10px auto 18px;
     padding: 0 18px;
 }
 
@@ -272,7 +284,7 @@ body {
 
 @media (max-width: 779px) {
     .sharedchemistry-edit-logo {
-        margin-top: 24px;
+        margin-top: 8px;
     }
 
     .sharedchemistry-edit {

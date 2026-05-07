@@ -251,9 +251,9 @@
     <section
         class="sharedchemistry-step-card"
     >
-        {{ $progressbar_percentage = 75 }}
+        {{ $progressbar_percentage = 60 }}
         {{ $progressbar_step = 3 }}
-        {{ $progressbar_total_steps = 4 }}
+        {{ $progressbar_total_steps = 5 }}
         {include 'progressbar.inc.tpl'}
         <span class="sharedchemistry-form-kicker">Couple description</span>
         <p class="sharedchemistry-form-helper">Write a short intro as a couple. Your detailed profile can be completed later from your profile page.</p>

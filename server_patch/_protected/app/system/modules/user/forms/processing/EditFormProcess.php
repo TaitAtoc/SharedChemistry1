@@ -116,6 +116,17 @@ class EditFormProcess extends Form
                 DbTableName::MEMBER_INFO
             );
         }
+
+        $sAboutUs = $this->getLongText('about_us');
+        $sCurrentDescription = isset($oFields->description) ? (string)$oFields->description : '';
+        if (!$this->str->equals($sAboutUs, $sCurrentDescription)) {
+            $oUserModel->updateProfile(
+                'description',
+                $sAboutUs,
+                $iProfileId,
+                DbTableName::MEMBER_INFO
+            );
+        }
     }
 
     /**

@@ -147,9 +147,9 @@
     </section>
 
     <section class="sharedchemistry-step-card">
-        {{ $progressbar_percentage = 25 }}
+        {{ $progressbar_percentage = 20 }}
         {{ $progressbar_step = 1 }}
-        {{ $progressbar_total_steps = 4 }}
+        {{ $progressbar_total_steps = 5 }}
         {include 'progressbar.inc.tpl'}
         {{ JoinForm::step1() }}
     </section>

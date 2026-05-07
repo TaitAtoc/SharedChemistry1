@@ -229,9 +229,9 @@
     <section
         class="sharedchemistry-step-card"
     >
-        {{ $progressbar_percentage = 100 }}
+        {{ $progressbar_percentage = 80 }}
         {{ $progressbar_step = 4 }}
-        {{ $progressbar_total_steps = 4 }}
+        {{ $progressbar_total_steps = 5 }}
         {include 'progressbar.inc.tpl'}
         <h3 class="sharedchemistry-card-title">Add your couple photo</h3>
         <p class="sharedchemistry-form-helper">Choose a photo that represents you as a couple. More photos can be added after signup.</p>
