@@ -114,19 +114,18 @@ class EditForm
         $oForm->addElement(new Textarea(t('Boundaries / not interested in:'), 'boundaries', ['value' => self::getVal($aCoupleProfile, 'boundaries')]));
         $oForm->addElement(new HTMLExternal('</div></section><section class="sc-profile-section sc-profile-section--wide"><h2>Ideal match</h2><p class="sc-profile-helper">Describe the kind of couple, vibe, or situation that feels right for you.</p><div class="sc-profile-field-row">'));
         $oForm->addElement(new Textarea(t('Ideal match:'), 'ideal_match', ['value' => self::getVal($aCoupleProfile, 'ideal_match')]));
-        $oForm->addElement(new HTMLExternal('</div></section><section class="sc-profile-section sc-profile-section--wide sc-profile-section--core"><h2>Core account details</h2><div class="sc-profile-field-row">'));
-
-        $oForm->addElement(new Textbox(t('First Name:'), 'first_name', ['id' => 'name_first', 'onblur' => 'CValid(this.value,this.id)', 'value' => $oUser->firstName, 'required' => 1, 'validation' => new Name]));
-        $oForm->addElement(new HTMLExternal('<span class="input_error name_first"></span>'));
-
-        $oForm->addElement(new Textbox(t('Last Name:'), 'last_name', ['id' => 'name_last', 'onblur' => 'CValid(this.value,this.id)', 'value' => $oUser->lastName, 'validation' => new Name]));
-        $oForm->addElement(new HTMLExternal('<span class="input_error name_last"></span>'));
-
-        $oForm->addElement(new Textbox(t('Nickname:'), 'username', ['description' => t('For security reasons, you cannot change your nickname.'), 'disabled' => 'disabled', 'value' => $oUser->username]));
-
-        $oForm->addElement(new Email(t('Email:'), 'mail', ['description' => t('For security reasons and to avoid spam, you cannot change your email address. If it has changed, you will need to <a href="%0%">delete</a> your account and create a new one.', Uri::get('user', 'setting', 'delete')), 'disabled' => 'disabled', 'value' => $oUser->email]));
-
         if (self::isAdminLoggedAndUserIdExists($oHttpRequest)) {
+            $oForm->addElement(new HTMLExternal('</div></section><section class="sc-profile-section sc-profile-section--wide sc-profile-section--core"><h2>Core account details</h2><div class="sc-profile-field-row">'));
+            $oForm->addElement(new Textbox(t('First Name:'), 'first_name', ['id' => 'name_first', 'onblur' => 'CValid(this.value,this.id)', 'value' => $oUser->firstName, 'required' => 1, 'validation' => new Name]));
+            $oForm->addElement(new HTMLExternal('<span class="input_error name_first"></span>'));
+
+            $oForm->addElement(new Textbox(t('Last Name:'), 'last_name', ['id' => 'name_last', 'onblur' => 'CValid(this.value,this.id)', 'value' => $oUser->lastName, 'validation' => new Name]));
+            $oForm->addElement(new HTMLExternal('<span class="input_error name_last"></span>'));
+
+            $oForm->addElement(new Textbox(t('Nickname:'), 'username', ['description' => t('For security reasons, you cannot change your nickname.'), 'disabled' => 'disabled', 'value' => $oUser->username]));
+
+            $oForm->addElement(new Email(t('Email:'), 'mail', ['description' => t('For security reasons and to avoid spam, you cannot change your email address. If it has changed, you will need to <a href="%0%">delete</a> your account and create a new one.', Uri::get('user', 'setting', 'delete')), 'disabled' => 'disabled', 'value' => $oUser->email]));
+
             // For security reasons, only admins can change profile gender
             $oForm->addElement(
                 new Radio(
@@ -143,22 +142,20 @@ class EditForm
                     ]
                 )
             );
-        }
 
-        $oForm->addElement(
-            new Checkbox(
-                t('Looking for a:'),
-                'match_sex',
-                [
-                    GenderTypeUserCore::MALE => t('Man'),
-                    GenderTypeUserCore::FEMALE => t('Woman'),
-                    GenderTypeUserCore::COUPLE => t('Couple')
-                ],
-                ['value' => Form::getVal($oUser->matchSex), 'required' => 1]
-            )
-        );
+            $oForm->addElement(
+                new Checkbox(
+                    t('Looking for a:'),
+                    'match_sex',
+                    [
+                        GenderTypeUserCore::MALE => t('Man'),
+                        GenderTypeUserCore::FEMALE => t('Woman'),
+                        GenderTypeUserCore::COUPLE => t('Couple')
+                    ],
+                    ['value' => Form::getVal($oUser->matchSex), 'required' => 1]
+                )
+            );
 
-        if (self::isAdminLoggedAndUserIdExists($oHttpRequest)) {
             // For security reasons, only admins can change the date of birth
             $oForm->addElement(
                 new Date(
@@ -174,14 +171,14 @@ class EditForm
                 )
             );
             $oForm->addElement(new HTMLExternal('<span class="input_error birth_date"></span>'));
-        }
 
-        // Generate dynamic fields
-        foreach ($oFields as $sColumn => $sValue) {
-            if (in_array($sColumn, ['country', 'city', self::COUPLE_PROFILE_DATA_FIELD], true)) {
-                continue;
+            // Generate dynamic fields for admin profile editing only.
+            foreach ($oFields as $sColumn => $sValue) {
+                if (in_array($sColumn, ['country', 'city', self::COUPLE_PROFILE_DATA_FIELD], true)) {
+                    continue;
+                }
+                $oForm = (new DynamicFieldCoreForm($oForm, $sColumn, $sValue))->generate();
             }
-            $oForm = (new DynamicFieldCoreForm($oForm, $sColumn, $sValue))->generate();
         }
 
         $oForm->addElement(new HTMLExternal('</div></section></div>'));

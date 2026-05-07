@@ -34,14 +34,14 @@ class EditFormProcess extends Form
             $this->updateUserMembership($iProfileId, $oUser, $oUserModel);
         }
 
-        if (!$this->str->equals($this->httpRequest->post('first_name'), $oUser->firstName)) {
+        if ($this->httpRequest->postExists('first_name') && !$this->str->equals($this->httpRequest->post('first_name'), $oUser->firstName)) {
             $oUserModel->updateProfile('firstName', $this->httpRequest->post('first_name'), $iProfileId);
             $this->session->set('member_first_name', $this->httpRequest->post('first_name'));
 
             $this->clearFieldCache('firstName', $iProfileId);
         }
 
-        if (!$this->str->equals($this->httpRequest->post('last_name'), $oUser->lastName)) {
+        if ($this->httpRequest->postExists('last_name') && !$this->str->equals($this->httpRequest->post('last_name'), $oUser->lastName)) {
             $oUserModel->updateProfile('lastName', $this->httpRequest->post('last_name'), $iProfileId);
         }
 
@@ -57,7 +57,7 @@ class EditFormProcess extends Form
 
         // WARNING: Be careful, you should use the Http::NO_CLEAN constant, otherwise Http::post() method removes the special tags
         // and damages the SET function SQL for entry into the database.
-        if (!$this->str->equals($this->httpRequest->post('match_sex', Http::NO_CLEAN), $oUser->matchSex)) {
+        if ($this->httpRequest->postExists('match_sex') && !$this->str->equals($this->httpRequest->post('match_sex', Http::NO_CLEAN), $oUser->matchSex)) {
             $oUserModel->updateProfile(
                 'matchSex',
                 Form::setVal($this->httpRequest->post('match_sex', Http::NO_CLEAN)),

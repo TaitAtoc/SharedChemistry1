@@ -1,7 +1,70 @@
 <style>
+body {
+    background: #0f1014 !important;
+}
+
+#logo,
+#menu,
+#top,
+#header,
+.navbar,
+.top_menu,
+.top-menu,
+.header,
+.breadcrumb,
+.gray_bar,
+.grey_bar {
+    display: none !important;
+}
+
+.sharedchemistry-edit-logo {
+    max-width: 1060px;
+    margin: 36px auto 10px;
+    padding: 0 18px;
+    text-align: center;
+}
+
+.sharedchemistry-edit-logo img {
+    display: block;
+    width: min(360px, 78vw);
+    height: auto;
+    margin: 0 auto;
+}
+
+.sharedchemistry-edit-progress {
+    max-width: 760px;
+    margin: 18px auto 24px;
+    padding: 0 18px;
+}
+
+.sharedchemistry-edit-progress__track {
+    height: 18px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: #21191f;
+    border: 1px solid rgba(255, 85, 126, .34);
+    box-shadow: inset 0 1px 4px rgba(0, 0, 0, .42);
+}
+
+.sharedchemistry-edit-progress__fill {
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #ec2f67, #ff6f91);
+}
+
+.sharedchemistry-edit-progress__text {
+    margin-top: 8px;
+    color: #ff9bb4;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-align: center;
+}
+
 .sharedchemistry-edit {
     max-width: 1060px;
-    margin: 34px auto 56px;
+    margin: 18px auto 56px;
     padding: 0 18px;
     color: #f7edf0;
 }
@@ -208,6 +271,10 @@
 }
 
 @media (max-width: 779px) {
+    .sharedchemistry-edit-logo {
+        margin-top: 24px;
+    }
+
     .sharedchemistry-edit {
         margin-top: 22px;
         padding: 0 12px;
@@ -235,6 +302,17 @@
     }
 }
 </style>
+
+<div class="sharedchemistry-edit-logo">
+    <img src="{url_tpl_img}sharedchemistry/sharedchemistry-header-logo.png" alt="SharedChemistry" />
+</div>
+
+<div class="sharedchemistry-edit-progress" aria-label="Profile setup progress">
+    <div class="sharedchemistry-edit-progress__track">
+        <div class="sharedchemistry-edit-progress__fill"></div>
+    </div>
+    <div class="sharedchemistry-edit-progress__text">100% - STEP 5/5</div>
+</div>
 
 <div class="sharedchemistry-edit">
     <section class="sharedchemistry-edit__hero">
