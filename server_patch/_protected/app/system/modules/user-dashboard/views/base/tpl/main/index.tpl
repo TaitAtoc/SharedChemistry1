@@ -1,13 +1,44 @@
-<div class="row">
+<style scoped="scoped">
+    header .ad_468_60,
+    .ad_468_60{display:none!important;height:0!important;min-height:0!important;margin:0!important;padding:0!important;overflow:hidden!important}
+    main#content{padding-top:10px!important}
+    .sc-dashboard{margin-top:-8px;color:#f4f1f6}
+    .sc-dashboard-card{background:#17151c;border:1px solid rgba(255,255,255,.08);border-radius:8px;box-shadow:0 14px 36px rgba(0,0,0,.28);padding:18px;margin-bottom:18px}
+    .sc-dashboard-card h2{margin:0 0 14px;color:#fff;font-size:20px;line-height:1.25;border:0;text-decoration:none}
+    .sc-profile-card{text-align:center}
+    .sc-profile-card .picture_block{margin:0 auto 16px}
+    .sc-profile-card .picture_block img{border-radius:8px;max-width:100%;height:auto;border:1px solid rgba(255,255,255,.12)}
+    .sc-profile-actions{list-style:none;margin:16px 0 0;padding:0;display:grid;grid-template-columns:1fr;gap:8px}
+    .sc-profile-actions li{margin:0;padding:0}
+    .sc-profile-actions a{display:block;border-radius:6px;padding:9px 10px;background:#24212b;border:1px solid rgba(255,255,255,.1);color:#f5edf6;text-align:left;font-size:13px;line-height:1.25}
+    .sc-profile-actions a:hover{background:#2e2935;color:#fff;text-decoration:none}
+    .sc-profile-actions i{margin-right:6px;color:#ff4fa0}
+    .sc-profile-actions .sc-main-profile-link{background:#ff2f8d;border-color:#ff2f8d;color:#fff;text-align:center;font-weight:bold;font-size:14px}
+    .sc-profile-actions .sc-main-profile-link:hover{background:#ff4fa0;border-color:#ff4fa0;color:#fff}
+    .sc-profile-actions .sc-main-profile-link i{color:#fff}
+    .sc-search-card h2,
+    .sc-news-card h2{text-align:left}
+    .sc-search-card form{margin:0}
+    .sc-search-card input,
+    .sc-search-card select,
+    .sc-search-card textarea{max-width:100%;background:#100f14!important;color:#fff!important;border:1px solid rgba(255,255,255,.16)!important;border-radius:5px!important}
+    .sc-search-card input[type="submit"],
+    .sc-search-card button{background:#ff2f8d!important;border-color:#ff2f8d!important;color:#fff!important;border-radius:6px!important}
+    .sc-news-card #wall{min-height:120px}
+    @media (min-width:768px){.sc-profile-actions{grid-template-columns:1fr 1fr}.sc-profile-actions li:first-child{grid-column:1/-1}}
+</style>
+
+<div class="row sc-dashboard">
     {* "My Profile" block don't really fit well on small mobile devices, so ignore it if it's the case *}
     {if !$browser->isMobile()}
-        <div class="left col-xs-12 col-sm-4 col-md-3">
+        <div class="left col-xs-12 col-sm-4 col-md-4">
+            <div class="sc-dashboard-card sc-profile-card">
             <h2>{lang 'My Profile'}</h2>
             {{ $avatarDesign->lightBox($username, $first_name, $sex, 400) }}
 
-            <ul>
+            <ul class="sc-profile-actions">
                 <li>
-                    <a href="{% (new UserCore)->getProfileLink($username) %}" title="{lang 'View Public Profile'}">
+                    <a class="sc-main-profile-link" href="{% (new UserCore)->getProfileLink($username) %}" title="{lang 'View Public Profile'}">
                         <i class="fa fa-user fa-fw"></i> {lang 'View Public Profile'}
                     </a>
                 </li>
@@ -47,86 +78,22 @@
                     </a>
                 </li>
             </ul>
+            </div>
         </div>
     {/if}
 
-    <div class="left col-xs-12 col-sm-6 col-md-6">
-        <h2 class="center underline">{lang 'The Latest Users'}</h2>
-        {{ $userDesignModel->profilesBlock() }}
-
-        {if $is_friend_enabled}
-            <h2 class="center underline">{lang 'My friends'}</h2>
-            <div class="content" id="friend">
-                <script>
-                    var url_friend_block = '{{ $design->url('friend','main','index',$username) }}';
-                    $('#friend').load(url_friend_block + ' #friend_block');
-                </script>
-            </div>
-            <div class="clear"></div>
-        {/if}
-
-        <h2 class="center underline">{lang 'Visitors who visited my profile'}</h2>
-        <div class="content" id="visitor">
-            <script>
-                var url_visitor_block = '{{ $design->url('user','visitor','index',$username) }}';
-                $('#visitor').load(url_visitor_block + ' #visitor_block');
-            </script>
+    <div class="left col-xs-12 col-sm-5 col-md-5">
+        <div class="sc-dashboard-card sc-search-card">
+            <h2>{lang 'Quick User Search'}</h2>
+            {{ SearchUserCoreForm::quick() }}
         </div>
-        <div class="clear"></div>
-
-        {if $is_picture_enabled}
-            <h2 class="center underline">{lang 'My photo albums'}</h2>
-            <div class="content" id="picture">
-                <script>
-                    var url_picture_block = '{{ $design->url('picture','main','albums',$username) }}';
-                    $('#picture').load(url_picture_block + ' #picture_block');
-                </script>
-            </div>
-            <div class="clear"></div>
-        {/if}
-
-        {if $is_video_enabled}
-            <h2 class="center underline">{lang 'My video albums'}</h2>
-            <div class="content" id="video">
-                <script>
-                    var url_video_block = '{{ $design->url('video','main','albums',$username) }}';
-                    $('#video').load(url_video_block + ' #video_block');
-                </script>
-            </div>
-            <div class="clear"></div>
-        {/if}
-
-        {if $is_forum_enabled}
-            <h2 class="center underline">{lang 'My discussions'}</h2>
-            <div class="content" id="forum">
-                <script>
-                    var url_forum_block = '{{ $design->url('forum','forum','showpostbyprofile',$username) }}';
-                    $('#forum').load(url_forum_block + ' #forum_block');
-                </script>
-            </div>
-            <div class="clear"></div>
-        {/if}
-
-        {if $is_note_enabled}
-            <h2 class="center underline">{lang 'My notes'}</h2>
-            <div class="content" id="note">
-                <script>
-                    var url_note_block = '{{ $design->url('note','main','author',$username) }}';
-                    $('#note').load(url_note_block + ' #note_block');
-                </script>
-            </div>
-            <div class="clear"></div>
-        {/if}
-
-        <h2 class="center underline italic s_tMarg">
-            {lang 'Quick User Search'}
-        </h2>
-        {{ SearchUserCoreForm::quick() }}
     </div>
 
-    <div class="left col-xs-12 col-sm-2 col-md-3">
-        <h2>{lang 'The Latest News'}</h2>
-        <div id="wall"></div>
+    <div class="left col-xs-12 col-sm-3 col-md-3">
+        <div class="sc-dashboard-card sc-news-card">
+            <h2>{lang 'The Latest News'}</h2>
+            <div id="wall"></div>
+        </div>
     </div>
 </div>
 
