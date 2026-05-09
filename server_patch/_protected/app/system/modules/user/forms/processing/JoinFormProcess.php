@@ -154,7 +154,7 @@ class JoinFormProcess extends Form
             // Automatically skip the uploading process if no photo was uploaded
             $this->completeSignupAndRedirectToProfileEditPage();
         } else {
-            $iApproved = (int)DbConfig::getSetting('avatarManualApproval') === 0 ? 1 : 0;
+            $iApproved = 1;
 
             if ($this->isNudityFilterEligible($iApproved) && $this->hasAvatarNudity()) {
                 // Overwrite "$iApproved" if avatar doesn't look suitable for anyone
