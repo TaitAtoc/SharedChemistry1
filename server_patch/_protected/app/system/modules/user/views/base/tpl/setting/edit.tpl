@@ -7,6 +7,8 @@ body {
 #menu,
 #top,
 #header,
+header #headings,
+header .ad_468_60,
 .navbar,
 .top_menu,
 .top-menu,
@@ -29,9 +31,18 @@ body {
     overflow: hidden !important;
 }
 
+header {
+    padding-top: 0 !important;
+    min-height: 0 !important;
+}
+
+main#content {
+    padding-top: 0 !important;
+}
+
 .sharedchemistry-edit-logo {
     max-width: 1060px;
-    margin: 8px auto 6px;
+    margin: 0 auto 6px;
     padding: 0 18px;
     text-align: center;
 }
@@ -284,7 +295,7 @@ body {
 
 @media (max-width: 779px) {
     .sharedchemistry-edit-logo {
-        margin-top: 8px;
+        margin-top: 0;
     }
 
     .sharedchemistry-edit {
