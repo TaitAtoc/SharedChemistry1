@@ -3,47 +3,7 @@
     {if !$browser->isMobile()}
         <div class="left col-xs-12 col-sm-4 col-md-3">
             <h2>{lang 'My Profile'}</h2>
-            <div class="picture_block" itemscope="itemscope" itemtype="http://schema.org/Person">
-                <a itemprop="image" aria-hidden="true" href="{% $public_avatar_url %}" title="{% ucfirst($username) %}" data-popup="image">
-                    <img src="{% $public_avatar_url %}" alt="{% ucfirst($username) %}" title="{% ucfirst($first_name) %}" class="img_picture" />
-                </a>
-            </div>
-
-            <div class="public-photos-strip">
-                <h3>{lang 'Public Photos'}</h3>
-                <div class="public-photos-grid">
-                    <a class="public-photo-tile" href="{% $public_avatar_url %}" title="{lang 'Profile Photo'}" data-popup="image">
-                        <img src="{% $public_avatar_url %}" alt="{lang 'Profile Photo'}" />
-                    </a>
-
-                    {each $photo in $public_photos}
-                        <a class="public-photo-tile" href="{{ $design->url('picture', 'main', 'photo', "$photo->username,$photo->albumId,$photo->title,$photo->pictureId") }}" title="{% $photo->title %}">
-                            <img src="{url_data_sys_mod}picture/img/{% $photo->username %}/{% $photo->albumId %}/{% str_replace('original', '400', $photo->file) %}" alt="{% $photo->title %}" />
-                        </a>
-                    {/each}
-                </div>
-
-                {if $is_picture_enabled}
-                    <p class="public-photos-manage">
-                        <a href="{{ $design->url('picture', 'main', 'addalbum') }}" title="{lang 'Add Photos'}">
-                            <i class="fa fa-plus-circle"></i> {lang 'Add Photos'}
-                        </a>
-                        <a href="{{ $design->url('picture', 'main', 'albums', $username) }}" title="{lang 'Manage Photos'}">
-                            <i class="fa fa-picture-o"></i> {lang 'Manage Photos'}
-                        </a>
-                    </p>
-                {/if}
-            </div>
-
-            <style scoped="scoped">
-                .public-photos-strip{margin:15px 0}
-                .public-photos-strip h3{margin:0 0 8px;font-size:15px}
-                .public-photos-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
-                .public-photo-tile{display:block;position:relative;overflow:hidden;background:#222;border-radius:3px;aspect-ratio:1/1}
-                .public-photo-tile img{width:100%;height:100%;object-fit:cover;display:block}
-                .public-photos-manage{margin:8px 0 0;font-size:12px}
-                .public-photos-manage a{display:inline-block;margin-right:8px}
-            </style>
+            {{ $avatarDesign->lightBox($username, $first_name, $sex, 400) }}
 
             <ul>
                 <li>
