@@ -1,14 +1,23 @@
 <style scoped="scoped">
     header .ad_468_60,
     .ad_468_60{display:none!important;height:0!important;min-height:0!important;margin:0!important;padding:0!important;overflow:hidden!important}
-    main#content{padding-top:10px!important}
-    .sc-dashboard{margin-top:-8px;color:#f4f1f6}
-    .sc-dashboard-card{background:#17151c;border:1px solid rgba(255,255,255,.08);border-radius:8px;box-shadow:0 14px 36px rgba(0,0,0,.28);padding:18px;margin-bottom:18px}
+    header #headings{max-width:1180px;margin:0 auto;padding:0 15px}
+    main#content{max-width:1180px;margin:0 auto;padding:8px 15px 0!important}
+    .navbar .container{max-width:1180px;width:100%}
+    .navbar-brand#logo{height:auto;padding:8px 15px 7px}
+    .navbar-brand#logo h1{line-height:1}
+    .navbar #logo .sharedchemistry-header-logo{width:178px!important;max-width:178px;height:auto!important}
+    .navbar #logo .sharedchemistry-logo-link span{display:none!important}
+    .navbar-collapse{padding-left:0;padding-right:0}
+    .navbar-nav > li > a{padding-left:8px!important;padding-right:8px!important;font-size:13px;white-space:nowrap}
+    .sc-dashboard{margin-top:-2px;color:#f4f1f6}
+    .sc-dashboard-card{background:#17151c;border:1px solid rgba(255,255,255,.08);border-radius:8px;box-shadow:0 14px 36px rgba(0,0,0,.28);padding:16px;margin-bottom:18px}
     .sc-dashboard-card h2{margin:0 0 14px;color:#fff;font-size:20px;line-height:1.25;border:0;text-decoration:none}
     .sc-profile-card{text-align:center}
-    .sc-profile-card .picture_block{margin:0 auto 16px}
+    .sc-profile-card h2{margin-bottom:10px}
+    .sc-profile-card .picture_block{margin:0 auto 10px}
     .sc-profile-card .picture_block img{border-radius:8px;max-width:100%;height:auto;border:1px solid rgba(255,255,255,.12)}
-    .sc-profile-actions{list-style:none;margin:16px 0 0;padding:0;display:grid;grid-template-columns:1fr;gap:8px}
+    .sc-profile-actions{list-style:none;margin:12px 0 0;padding:0;display:grid;grid-template-columns:1fr;gap:8px}
     .sc-profile-actions li{margin:0;padding:0}
     .sc-profile-actions a{display:block;border-radius:6px;padding:9px 10px;background:#24212b;border:1px solid rgba(255,255,255,.1);color:#f5edf6;text-align:left;font-size:13px;line-height:1.25}
     .sc-profile-actions a:hover{background:#2e2935;color:#fff;text-decoration:none}
@@ -25,7 +34,9 @@
     .sc-search-card input[type="submit"],
     .sc-search-card button{background:#ff2f8d!important;border-color:#ff2f8d!important;color:#fff!important;border-radius:6px!important}
     .sc-news-card #wall{min-height:120px}
-    @media (min-width:768px){.sc-profile-actions{grid-template-columns:1fr 1fr}.sc-profile-actions li:first-child{grid-column:1/-1}}
+    @media (min-width:768px){.navbar-toggle{display:none!important}.sc-profile-actions{grid-template-columns:1fr 1fr}.sc-profile-actions li:first-child{grid-column:1/-1}}
+    @media (max-width:991px){.navbar-nav > li > a{padding-left:6px!important;padding-right:6px!important;font-size:12px}.navbar #logo .sharedchemistry-header-logo{width:150px!important;max-width:150px}}
+    @media (max-width:767px){header #headings,main#content{padding-left:10px!important;padding-right:10px!important}.navbar #logo .sharedchemistry-header-logo{width:142px!important;max-width:142px}.navbar-toggle{display:block!important}.sc-dashboard-card{padding:14px}}
 </style>
 
 <div class="row sc-dashboard">
@@ -84,7 +95,7 @@
 
     <div class="left col-xs-12 col-sm-5 col-md-5">
         <div class="sc-dashboard-card sc-search-card">
-            <h2>{lang 'Quick User Search'}</h2>
+            <h2>{lang 'Search Couples'}</h2>
             {{ SearchUserCoreForm::quick() }}
         </div>
     </div>
