@@ -15,6 +15,7 @@ use PH7\Framework\Cookie\Cookie;
 use PH7\Framework\Date\CDateTime;
 use PH7\Framework\Ip\Ip;
 use PH7\Framework\Mvc\Model\DbConfig;
+use PH7\Framework\Mvc\Model\Security as SecurityModel;
 use PH7\Framework\Mvc\Request\Http;
 use PH7\Framework\Mvc\Router\Uri;
 use PH7\Framework\Security\Moderation\Filter;
@@ -151,8 +152,7 @@ class JoinFormProcess extends Form
     {
         if (!$this->isAvatarUploaded()) {
             // Automatically skip the uploading process if no photo was uploaded
-            $this->session->set('mail_step4', $this->session->get('mail_step1'));
-            $this->redirectUserToProfileEditPage();
+            $this->completeSignupAndRedirectToProfileEditPage();
         } else {
             $iApproved = (int)DbConfig::getSetting('avatarManualApproval') === 0 ? 1 : 0;
 
@@ -171,10 +171,29 @@ class JoinFormProcess extends Form
             if (!$bAvatar) {
                 \PFBC\Form::setError('form_join_user4', Form::wrongImgFileTypeMsg());
             } else {
-                $this->session->set('mail_step4', $this->session->get('mail_step1'));
-                $this->redirectUserToProfileEditPage();
+                $this->completeSignupAndRedirectToProfileEditPage();
             }
         }
+    }
+
+    private function completeSignupAndRedirectToProfileEditPage()
+    {
+        $this->session->set('mail_step4', $this->session->get('mail_step1'));
+        $this->authenticateRegisteredUser();
+        $this->redirectUserToProfileEditPage();
+    }
+
+    private function authenticateRegisteredUser()
+    {
+        $iProfileId = (int)$this->session->get('profile_id');
+        $oUserData = $this->oUserModel->readProfile($iProfileId);
+
+        (new UserCore)->setAuth(
+            $oUserData,
+            $this->oUserModel,
+            $this->session,
+            new SecurityModel
+        );
     }
 
     private function redirectUserToProfileEditPage()
