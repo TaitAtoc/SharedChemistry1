@@ -8,7 +8,7 @@
     header #headings,
     header .ad_468_60,
     .ad_468_60{display:none!important;height:0!important;min-height:0!important;margin:0!important;padding:0!important;overflow:hidden!important;border:0!important;background:transparent!important}
-    main#content{max-width:1180px!important;margin:0 auto!important;padding:135px 15px 0!important;background:transparent!important}
+    main#content{max-width:1180px!important;margin:0 auto!important;padding:155px 15px 0!important;background:transparent!important}
     .sc-public-profile{color:#f4f1f6}
     .sc-public-profile *{box-sizing:border-box}
     .sc-profile-photo-strip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:0 0 18px}
@@ -21,7 +21,11 @@
     .sc-profile-hero,
     .sc-profile-card{background:#17151c;border:1px solid rgba(255,255,255,.09);border-radius:8px;box-shadow:0 14px 36px rgba(0,0,0,.28);color:#f4f1f6}
     .sc-profile-hero{padding:26px;margin:0 0 16px}
+    .sc-profile-hero-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:10px}
     .sc-profile-hero h1{margin:0 0 10px;color:#fff;font-size:36px;font-weight:700;line-height:1.15}
+    .sc-profile-status{display:inline-flex;align-items:center;gap:7px;min-height:30px;margin-top:3px;padding:6px 10px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:#24212b;color:#f5edf6;font-size:13px;font-weight:bold;line-height:1.2;white-space:nowrap}
+    .sc-profile-status-dot{width:9px;height:9px;border-radius:50%;background:#d84c59;box-shadow:0 0 0 3px rgba(216,76,89,.16)}
+    .sc-profile-status.is-online .sc-profile-status-dot{background:#46d66f;box-shadow:0 0 0 3px rgba(70,214,111,.16)}
     .sc-profile-meta{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px;padding:0;list-style:none}
     .sc-profile-meta li,
     .sc-chip{display:inline-flex;align-items:center;min-height:30px;padding:6px 10px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:#24212b;color:#f5edf6;font-size:13px;line-height:1.25}
@@ -71,9 +75,11 @@
         .sc-profile-grid{grid-template-columns:1fr}
     }
     @media (max-width:767px){
-        main#content{padding:105px 10px 0!important}
+        main#content{padding:125px 10px 0!important}
         .sc-profile-photo-strip{grid-template-columns:repeat(2,minmax(0,1fr))}
         .sc-profile-hero{padding:18px}
+        .sc-profile-hero-head{display:block}
+        .sc-profile-status{margin-bottom:12px}
         .sc-profile-hero h1{font-size:28px}
         .sc-profile-details{grid-template-columns:1fr}
         .sc-profile-button{width:100%}
@@ -128,8 +134,15 @@
     </div>
 
     <section class="sc-profile-hero">
-        {{ UserDesignCoreModel::userStatus($id) }}
-        <h1 itemprop="name">{profile_title}</h1>
+        <div class="sc-profile-hero-head">
+            <div>
+                <h1 itemprop="name">{profile_title}</h1>
+            </div>
+            <div class="sc-profile-status {if $is_profile_online}is-online{/if}" aria-label="{profile_status_label}">
+                <span class="sc-profile-status-dot"></span>
+                <span>{profile_status_label}</span>
+            </div>
+        </div>
 
         <ul class="sc-profile-meta">
             {if !empty($profile_location)}
@@ -186,7 +199,10 @@
                 {if !empty($her_experience_level)}<div class="sc-profile-detail"><strong>{lang 'Experience'}</strong><span>{her_experience_level}</span></div>{/if}
             </div>
             {if !empty($about_her)}
-                <p>{{ nl2br(escape($about_her)) }}</p>
+                <div class="sc-profile-detail">
+                    <strong>{lang 'About'}</strong>
+                    <span>{{ nl2br(escape($about_her)) }}</span>
+                </div>
             {else}
                 <p class="sc-empty">{lang 'Not added yet.'}</p>
             {/if}
@@ -203,7 +219,10 @@
                 {if !empty($him_experience_level)}<div class="sc-profile-detail"><strong>{lang 'Experience'}</strong><span>{him_experience_level}</span></div>{/if}
             </div>
             {if !empty($about_him)}
-                <p>{{ nl2br(escape($about_him)) }}</p>
+                <div class="sc-profile-detail">
+                    <strong>{lang 'About'}</strong>
+                    <span>{{ nl2br(escape($about_him)) }}</span>
+                </div>
             {else}
                 <p class="sc-empty">{lang 'Not added yet.'}</p>
             {/if}
@@ -303,6 +322,18 @@
             {else}
                 <p class="sc-empty">{lang 'Not added yet.'}</p>
             {/if}
+        </section>
+    </div>
+
+    <div class="sc-profile-grid">
+        <section class="sc-profile-card">
+            <h2>{lang 'Friends'}</h2>
+            <p>{lang 'Friend cards will appear here when this couple connects with other couples.'}</p>
+        </section>
+
+        <section class="sc-profile-card">
+            <h2>{lang 'Verified Friends'}</h2>
+            <p>{lang 'Verified couple cards will appear here after trusted couples confirm they know this couple.'}</p>
         </section>
     </div>
 </div>
