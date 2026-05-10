@@ -12,6 +12,53 @@
 
 
     {* Menu for all *}
+      <style>
+        .sharedchemistry-member-logo {
+          display: block !important;
+          height: auto !important;
+          margin: 0 !important;
+          padding: 10px 18px !important;
+          overflow: visible !important;
+          background: none !important;
+        }
+        .sharedchemistry-member-logo .sharedchemistry-logo-link {
+          display: block !important;
+          width: 230px !important;
+          max-width: 230px !important;
+          height: auto !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          overflow: visible !important;
+          background: none !important;
+        }
+        .sharedchemistry-member-logo .sharedchemistry-header-logo {
+          display: block !important;
+          width: 230px !important;
+          max-width: 230px !important;
+          height: auto !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          object-fit: contain !important;
+          background: none !important;
+        }
+        .sharedchemistry-member-logo span {
+          display: none !important;
+        }
+        @media screen and (max-width: 991px) {
+          .sharedchemistry-member-logo .sharedchemistry-logo-link,
+          .sharedchemistry-member-logo .sharedchemistry-header-logo {
+            width: 190px !important;
+            max-width: 190px !important;
+          }
+        }
+        @media screen and (max-width: 767px) {
+          .sharedchemistry-member-logo .sharedchemistry-logo-link,
+          .sharedchemistry-member-logo .sharedchemistry-header-logo {
+            width: 172px !important;
+            max-width: 172px !important;
+          }
+        }
+      </style>
       {if $top_navbar_type === 'inverse'}
         <nav class="navbar navbar-inverse navbar-fixed-top">
       {else}
@@ -26,13 +73,10 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <div role="banner" id="logo" class="navbar-brand">
-              <h1>
-                <a href="{{ $design->homePageUrl() }}" title="{slogan}" class="sharedchemistry-logo-link">
-                  <img src="{url_tpl_img}sharedchemistry/sharedchemistry-header-logo.png" alt="SharedChemistry" class="sharedchemistry-header-logo" />
-                  <span>SharedChemistry</span>
-                </a>
-              </h1>
+            <div role="banner" id="logo" class="navbar-brand sharedchemistry-member-logo">
+              <a href="{{ $design->homePageUrl() }}" title="{slogan}" class="sharedchemistry-logo-link">
+                <img src="{url_tpl_img}sharedchemistry/sharedchemistry-header-logo.png" alt="SharedChemistry" class="sharedchemistry-header-logo" />
+              </a>
             </div>
           </div>
 
