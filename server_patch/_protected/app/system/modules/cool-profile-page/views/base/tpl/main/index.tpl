@@ -6,8 +6,14 @@
 <style>
     body{background:#0f1014!important}
     header #headings,
+    #headings,
     header .ad_468_60,
-    .ad_468_60{display:none!important;height:0!important;min-height:0!important;margin:0!important;padding:0!important;overflow:hidden!important;border:0!important;background:transparent!important}
+    .ad_468_60,
+    main#content + .ad_468_60,
+    .gray_bar,
+    .grey_bar,
+    .grey-bar,
+    .gray-bar{display:none!important;height:0!important;min-height:0!important;margin:0!important;padding:0!important;overflow:hidden!important;border:0!important;background:transparent!important}
     main#content{max-width:1180px!important;margin:0 auto!important;padding:155px 15px 0!important;background:transparent!important}
     .sc-public-profile{color:#f4f1f6}
     .sc-public-profile *{box-sizing:border-box}

@@ -142,7 +142,7 @@ class MainController extends ProfileBaseController
         $sJson = isset($oFields->{self::COUPLE_PROFILE_DATA_FIELD}) ? (string)$oFields->{self::COUPLE_PROFILE_DATA_FIELD} : '';
 
         if (!empty($sJson)) {
-            $aDecoded = json_decode($sJson, true);
+            $aDecoded = $this->decodeCoupleProfileJson($sJson);
             if (is_array($aDecoded)) {
                 $aData = array_merge($aData, array_intersect_key($aDecoded, $aData));
             }
@@ -159,6 +159,31 @@ class MainController extends ProfileBaseController
         }
 
         return $aData;
+    }
+
+    private function decodeCoupleProfileJson(string $sJson): ?array
+    {
+        foreach ($this->getCoupleProfileJsonCandidates($sJson) as $sCandidate) {
+            $aDecoded = json_decode($sCandidate, true);
+            if (is_array($aDecoded)) {
+                return $aDecoded;
+            }
+        }
+
+        return null;
+    }
+
+    private function getCoupleProfileJsonCandidates(string $sJson): array
+    {
+        $sTrimmedJson = trim($sJson);
+        $aCandidates = [
+            $sTrimmedJson,
+            html_entity_decode($sTrimmedJson, ENT_QUOTES, 'UTF-8'),
+            stripslashes($sTrimmedJson),
+            stripslashes(html_entity_decode($sTrimmedJson, ENT_QUOTES, 'UTF-8'))
+        ];
+
+        return array_values(array_unique($aCandidates));
     }
 
     private function assignCoupleProfileViewData(array $aData, array $aProfileData, string $sUsername): void
