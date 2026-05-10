@@ -4,7 +4,7 @@
     header #headings,
     header .ad_468_60,
     main#content + .ad_468_60{display:none!important;height:0!important;min-height:0!important;margin:0!important;padding:0!important;overflow:hidden!important;border:0!important;background:transparent!important}
-    main#content{max-width:1180px!important;margin:0 auto!important;padding:34px 15px 0!important;background:transparent!important}
+    main#content{max-width:1180px!important;margin:0 auto!important;padding:58px 15px 0!important;background:transparent!important}
     .navbar .container{max-width:1180px;width:100%}
     .navbar-collapse{padding-left:0;padding-right:0}
     .navbar-nav > li > a{padding-left:8px!important;padding-right:8px!important;font-size:13px;white-space:nowrap}
@@ -44,20 +44,20 @@
     .sc-dashboard-grid .sc-dashboard-card{display:flex!important;flex-direction:column!important;height:100%!important}
     .sc-dashboard-grid .sc-dashboard-button{margin-top:auto!important;align-self:flex-start!important}
     .sc-dashboard-actions{display:flex!important;flex-wrap:wrap!important;gap:8px!important;margin-top:auto!important}
-    #cboxOverlay{background:#050407!important;opacity:.86!important}
-    #colorbox{overflow:visible!important}
-    #cboxWrapper{overflow:visible!important}
-    #cboxContent{overflow:visible!important;background:#120f18!important;border:4px solid #8f4dff!important;border-radius:10px!important;box-shadow:0 22px 70px rgba(0,0,0,.66)!important}
-    #cboxLoadedContent{margin:0!important;padding:10px!important;overflow:hidden!important;background:#120f18!important;border-radius:7px!important}
+    #cboxOverlay{background:#050407!important;opacity:.9!important}
+    #colorbox{overflow:visible!important;background:transparent!important}
+    #cboxWrapper{overflow:visible!important;background:transparent!important}
+    #cboxContent{overflow:visible!important;background:transparent!important;border:0!important;box-shadow:0 22px 70px rgba(0,0,0,.66)!important}
+    #cboxLoadedContent{margin:0!important;padding:0!important;overflow:hidden!important;background:#120f18!important;border:5px solid #8f4dff!important;border-radius:10px!important;box-sizing:border-box!important}
     #cboxLoadedContent img,
     .cboxPhoto{display:block!important;margin:0 auto!important;border:0!important;border-radius:6px!important;background:#0b0910!important}
-    #cboxTitle{bottom:-28px!important;left:0!important;width:100%!important;color:#f4edf8!important;font-size:13px!important;font-weight:bold!important;text-align:center!important}
-    #cboxClose{top:-14px!important;right:-14px!important;bottom:auto!important;width:32px!important;height:32px!important;border:2px solid #8f4dff!important;border-radius:50%!important;background:#ff2f8d!important;color:#fff!important;text-indent:0!important;font-size:0!important;line-height:28px!important;text-align:center!important;box-shadow:0 8px 22px rgba(0,0,0,.45)!important}
-    #cboxClose:before{content:"×"!important;display:block!important;font-size:22px!important;font-weight:bold!important;line-height:26px!important}
+    #cboxTitle,#cboxCurrent{display:none!important;height:0!important;margin:0!important;padding:0!important;overflow:hidden!important}
+    #cboxClose{top:-16px!important;right:-16px!important;bottom:auto!important;width:34px!important;height:34px!important;border:2px solid #8f4dff!important;border-radius:50%!important;background:#ff2f8d!important;color:#fff!important;text-indent:0!important;font-size:0!important;line-height:30px!important;text-align:center!important;box-shadow:0 8px 22px rgba(0,0,0,.45)!important}
+    #cboxClose:before{content:"X"!important;display:block!important;font-size:17px!important;font-weight:bold!important;line-height:30px!important}
     #cboxClose:hover{background:#ff4fa0!important}
     @media (min-width:768px){.navbar-toggle{display:none!important}}
     @media (max-width:991px){.navbar-nav > li > a{padding-left:6px!important;padding-right:6px!important;font-size:12px}.sc-public-photo-row{grid-template-columns:repeat(3,minmax(0,1fr))!important}.sc-dashboard-grid{grid-template-columns:1fr!important}}
-    @media (max-width:767px){main#content{padding:26px 10px 0!important}.navbar-toggle{display:block!important}.sc-dashboard-card{padding:14px!important}.sc-public-photo-row{grid-template-columns:repeat(2,minmax(0,1fr))!important}.sc-profile-actions a,.sc-dashboard-button{width:100%!important}}
+    @media (max-width:767px){main#content{padding:42px 10px 0!important}.navbar-toggle{display:block!important}.sc-dashboard-card{padding:14px!important}.sc-public-photo-row{grid-template-columns:repeat(2,minmax(0,1fr))!important}.sc-profile-actions a,.sc-dashboard-button{width:100%!important}}
 </style>
 {/literal}
 
