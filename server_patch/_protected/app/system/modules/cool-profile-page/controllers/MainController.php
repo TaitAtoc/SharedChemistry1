@@ -144,6 +144,7 @@ class MainController extends ProfileBaseController
         if (!empty($sJson)) {
             $aDecoded = $this->decodeCoupleProfileJson($sJson);
             if (is_array($aDecoded)) {
+                $aDecoded = $this->normalizeDecodedCoupleProfileData($aDecoded);
                 $aData = array_merge($aData, array_intersect_key($aDecoded, $aData));
             }
         }
@@ -155,10 +156,89 @@ class MainController extends ProfileBaseController
         }
 
         if (empty($aData['about_us']) && !empty($oFields->description)) {
-            $aData['about_us'] = (string)$oFields->description;
+            $aData['about_us'] = $this->cleanProfileTextValue($oFields->description);
         }
 
         return $aData;
+    }
+
+    private function normalizeDecodedCoupleProfileData(array $aData): array
+    {
+        foreach ($this->getCoupleProfileTextAliases() as $sCanonicalKey => $aAliases) {
+            $sValue = $this->getFirstProfileTextValue($aData, $aAliases);
+            if ($sValue !== '') {
+                $aData[$sCanonicalKey] = $sValue;
+            }
+        }
+
+        foreach ($this->getCoupleProfileScalarKeys() as $sKey) {
+            if (isset($aData[$sKey]) && !is_array($aData[$sKey])) {
+                $aData[$sKey] = $this->cleanProfileTextValue($aData[$sKey]);
+            }
+        }
+
+        return $aData;
+    }
+
+    private function getCoupleProfileTextAliases(): array
+    {
+        return [
+            'about_us' => ['about_us', 'aboutUs', 'about'],
+            'about_her' => ['about_her', 'aboutHer', 'her_about', 'herAbout'],
+            'about_him' => ['about_him', 'aboutHim', 'him_about', 'himAbout'],
+            'fantasies' => ['fantasies', 'fantasy'],
+            'boundaries' => ['boundaries', 'boundary', 'limits'],
+            'ideal_match' => ['ideal_match', 'idealMatch', 'ideal']
+        ];
+    }
+
+    private function getCoupleProfileScalarKeys(): array
+    {
+        return [
+            'couple_name',
+            'her_name',
+            'her_age',
+            'her_ethnicity',
+            'her_languages',
+            'her_sexuality',
+            'her_experience_level',
+            'about_her',
+            'him_name',
+            'him_age',
+            'him_ethnicity',
+            'him_languages',
+            'him_sexuality',
+            'him_experience_level',
+            'about_him',
+            'about_us',
+            'fantasies',
+            'boundaries',
+            'ideal_match'
+        ];
+    }
+
+    private function getFirstProfileTextValue(array $aData, array $aKeys): string
+    {
+        foreach ($aKeys as $sKey) {
+            if (isset($aData[$sKey]) && !is_array($aData[$sKey])) {
+                $sValue = $this->cleanProfileTextValue($aData[$sKey]);
+                if ($sValue !== '') {
+                    return $sValue;
+                }
+            }
+        }
+
+        return '';
+    }
+
+    private function cleanProfileTextValue($mValue): string
+    {
+        $sValue = trim((string)$mValue);
+        if ($sValue === '') {
+            return '';
+        }
+
+        return trim(stripslashes(html_entity_decode($sValue, ENT_QUOTES, 'UTF-8')));
     }
 
     private function decodeCoupleProfileJson(string $sJson): ?array

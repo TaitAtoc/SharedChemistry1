@@ -1833,15 +1833,7 @@
           </div>
       {/if}
 
-      {* Heading groups (H1 to H4) *}
-      {main_include 'headings.inc.tpl'}
-
-      {* Don't display the top middle banner on the the splash page *}
-      {if !$is_guest_homepage}
-          <div role="banner" class="center ad_468_60">
-              {designModel.ad(468, 60)}
-          </div>
-      {/if}
+      {* SharedChemistry disables legacy pH7 heading/ad bars globally. *}
 
       <div class="clear"></div>
     </header>
@@ -1930,9 +1922,6 @@
         </div>
       {/if}
     </main>
-    <div role="banner" class="center ad_468_60">
-        {designModel.ad(468, 60)}
-    </div>
     <!-- End Content -->
 
     <!-- Begin Footer -->

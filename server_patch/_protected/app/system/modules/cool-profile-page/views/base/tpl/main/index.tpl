@@ -163,7 +163,7 @@
         </ul>
 
         {if !empty($about_us)}
-            <p class="sc-profile-summary" itemprop="description">{{ nl2br(escape($about_us)) }}</p>
+            <p class="sc-profile-summary" itemprop="description">{% nl2br(escape($about_us)) %}</p>
         {else}
             <p class="sc-profile-summary sc-empty">{lang 'Not added yet.'}</p>
         {/if}
@@ -207,7 +207,7 @@
             {if !empty($about_her)}
                 <div class="sc-profile-detail">
                     <strong>{lang 'About'}</strong>
-                    <span>{{ nl2br(escape($about_her)) }}</span>
+                    <span>{% nl2br(escape($about_her)) %}</span>
                 </div>
             {else}
                 <p class="sc-empty">{lang 'Not added yet.'}</p>
@@ -227,7 +227,7 @@
             {if !empty($about_him)}
                 <div class="sc-profile-detail">
                     <strong>{lang 'About'}</strong>
-                    <span>{{ nl2br(escape($about_him)) }}</span>
+                    <span>{% nl2br(escape($about_him)) %}</span>
                 </div>
             {else}
                 <p class="sc-empty">{lang 'Not added yet.'}</p>
@@ -239,7 +239,7 @@
         <section class="sc-profile-card">
             <h2>{lang 'About Us'}</h2>
             {if !empty($about_us)}
-                <p>{{ nl2br(escape($about_us)) }}</p>
+                <p>{% nl2br(escape($about_us)) %}</p>
             {else}
                 <p class="sc-empty">{lang 'Not added yet.'}</p>
             {/if}
@@ -304,7 +304,7 @@
         <section class="sc-profile-card">
             <h2>{lang 'Fantasies'}</h2>
             {if !empty($fantasies)}
-                <p>{{ nl2br(escape($fantasies)) }}</p>
+                <p>{% nl2br(escape($fantasies)) %}</p>
             {else}
                 <p class="sc-empty">{lang 'Not added yet.'}</p>
             {/if}
@@ -313,7 +313,7 @@
         <section class="sc-profile-card">
             <h2>{lang 'Boundaries'}</h2>
             {if !empty($boundaries)}
-                <p>{{ nl2br(escape($boundaries)) }}</p>
+                <p>{% nl2br(escape($boundaries)) %}</p>
             {else}
                 <p class="sc-empty">{lang 'Not added yet.'}</p>
             {/if}
@@ -324,7 +324,7 @@
         <section class="sc-profile-card">
             <h2>{lang 'Ideal Match'}</h2>
             {if !empty($ideal_match)}
-                <p>{{ nl2br(escape($ideal_match)) }}</p>
+                <p>{% nl2br(escape($ideal_match)) %}</p>
             {else}
                 <p class="sc-empty">{lang 'Not added yet.'}</p>
             {/if}
