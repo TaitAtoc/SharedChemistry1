@@ -70,9 +70,6 @@
 
 <div class="row sc-dashboard">
     <div class="left col-xs-12">
-        <div id="sc-dashboard-live-marker" style="background:#ff2f8d;color:#fff;padding:8px 12px;margin:10px 0;font-weight:bold;border-radius:6px;">
-          DASHBOARD TEMPLATE LIVE TEST 1A43558B
-        </div>
         <div class="sc-dashboard-card sc-profile-card">
             <h2>{lang 'Our Profile'}</h2>
             <div class="sc-public-photo-row">
