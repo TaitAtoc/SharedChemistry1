@@ -4,11 +4,11 @@
     header #headings,
     header .ad_468_60,
     main#content + .ad_468_60{display:none!important;height:0!important;min-height:0!important;margin:0!important;padding:0!important;overflow:hidden!important;border:0!important;background:transparent!important}
-    main#content{max-width:1180px!important;margin:0 auto!important;padding:165px 15px 0!important;background:transparent!important}
+    main#content{max-width:1180px!important;margin:0 auto!important;padding:20px 15px 0!important;background:transparent!important}
     .navbar .container{max-width:1180px;width:100%}
     .navbar-collapse{padding-left:0;padding-right:0}
     .navbar-nav > li > a{padding-left:8px!important;padding-right:8px!important;font-size:13px;white-space:nowrap}
-    .sc-dashboard{display:block!important;float:none!important;clear:both!important;width:100%!important;margin:0!important;color:#f4f1f6}
+    .sc-dashboard{display:block!important;float:none!important;clear:both!important;width:100%!important;margin:0!important;padding-top:90px!important;color:#f4f1f6}
     .sc-dashboard:before,
     .sc-dashboard:after{content:"";display:table}
     .sc-dashboard:after{clear:both}
@@ -61,10 +61,9 @@
     #colorbox.sc-dashboard-colorbox .cboxPhoto{display:block!important;margin:0 auto!important;border:0!important;border-radius:3px!important;background:#111!important}
     #colorbox.sc-dashboard-colorbox #cboxTitle,
     #colorbox.sc-dashboard-colorbox #cboxCurrent{display:none!important;height:0!important;margin:0!important;padding:0!important;overflow:hidden!important;font-size:0!important;line-height:0!important;color:transparent!important}
-    #colorbox.sc-dashboard-colorbox #cboxClose{top:auto!important;right:0!important;bottom:-29px!important;width:23px!important;height:23px!important;border:0!important;border-radius:0!important;background-color:transparent!important;color:transparent!important;text-indent:-9999px!important;box-shadow:none!important}
     @media (min-width:768px){.navbar-toggle{display:none!important}}
     @media (max-width:991px){.navbar-nav > li > a{padding-left:6px!important;padding-right:6px!important;font-size:12px}.sc-public-photo-row{grid-template-columns:repeat(3,minmax(0,1fr))!important}.sc-dashboard-grid{grid-template-columns:1fr!important}}
-    @media (max-width:767px){main#content{padding:110px 10px 0!important}.navbar-toggle{display:block!important}.sc-dashboard-card{padding:14px!important}.sc-public-photo-row{grid-template-columns:repeat(2,minmax(0,1fr))!important}.sc-profile-actions a,.sc-dashboard-button{width:100%!important}}
+    @media (max-width:767px){main#content{padding:20px 10px 0!important}.sc-dashboard{padding-top:70px!important}.navbar-toggle{display:block!important}.sc-dashboard-card{padding:14px!important}.sc-public-photo-row{grid-template-columns:repeat(2,minmax(0,1fr))!important}.sc-profile-actions a,.sc-dashboard-button{width:100%!important}}
 </style>
 {/literal}
 
@@ -187,7 +186,6 @@
                 '#colorbox.sc-dashboard-colorbox #cboxLoadedContent{margin:0!important;padding:0!important;overflow:hidden!important;background:#111!important;border:0!important;border-radius:3px!important}' +
                 '#colorbox.sc-dashboard-colorbox #cboxLoadedContent img,#colorbox.sc-dashboard-colorbox .cboxPhoto{display:block!important;margin:0 auto!important;border:0!important;border-radius:3px!important;background:#111!important}' +
                 '#colorbox.sc-dashboard-colorbox #cboxTitle,#colorbox.sc-dashboard-colorbox #cboxCurrent{display:none!important;height:0!important;margin:0!important;padding:0!important;overflow:hidden!important;font-size:0!important;line-height:0!important;color:transparent!important}' +
-                '#colorbox.sc-dashboard-colorbox #cboxClose{top:auto!important;right:0!important;bottom:-29px!important;width:23px!important;height:23px!important;border:0!important;border-radius:0!important;background-color:transparent!important;color:transparent!important;text-indent:-9999px!important;box-shadow:none!important}' +
             '</style>').appendTo('head');
         }
         $('ul.zoomer_pic').slick({
@@ -198,15 +196,44 @@
             adaptiveHeight: true
         })
         if ($.fn.colorbox) {
-            $('.sc-public-photo-link[data-popup=image], .sc-public-photo-slot.is-avatar a[data-popup=image]').colorbox({
+            var $links = $('.sc-public-photo-row a[data-popup="image"]');
+
+            $links.each(function() {
+                var $link = $(this);
+                var oldTitle = $link.attr('title');
+
+                if (oldTitle) {
+                    $link.data('old-title', oldTitle);
+                }
+
+                $link.attr('title', '');
+            });
+
+            $links.off('click');
+            $links.removeData('colorbox');
+
+            $links.colorbox({
                 maxWidth: '85%',
                 maxHeight: '85%',
                 scrolling: false,
                 transition: 'fade',
                 photo: true,
+                title: '',
                 onOpen: function() {
                     $('#colorbox').addClass('sc-dashboard-colorbox');
                     $('#cboxOverlay').addClass('sc-dashboard-colorbox-overlay');
+                },
+                onComplete: function() {
+                    $('#cboxTitle, #cboxCurrent').hide().text('');
+                    $('#cboxContent').attr('style', function(i, s) {
+                        return (s || '') + ';background:#111!important;border:5px solid #8f4dff!important;border-radius:8px!important;box-shadow:0 22px 70px rgba(0,0,0,.66)!important;';
+                    });
+                    $('#cboxLoadedContent').attr('style', function(i, s) {
+                        return (s || '') + ';margin:0!important;padding:0!important;background:#111!important;border:0!important;overflow:hidden!important;';
+                    });
+                    $('#cboxLoadedContent img, .cboxPhoto').attr('style', function(i, s) {
+                        return (s || '') + ';display:block!important;margin:0 auto!important;border:0!important;';
+                    });
                 },
                 onClosed: function() {
                     $('#colorbox').removeClass('sc-dashboard-colorbox');
