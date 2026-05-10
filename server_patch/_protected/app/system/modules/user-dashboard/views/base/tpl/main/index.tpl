@@ -6,8 +6,8 @@
     .navbar .container{max-width:1180px;width:100%}
     .navbar-brand#logo{height:auto;padding:7px 15px 6px}
     .navbar-brand#logo h1{line-height:1}
-    .navbar #logo .sharedchemistry-logo-link{display:block!important;width:230px!important;height:58px!important;margin:0!important;padding:0!important;overflow:hidden!important;background:url("{url_tpl_img}sharedchemistry/sharedchemistry-header-logo.png") left center / contain no-repeat!important;text-indent:-9999px!important}
-    .navbar #logo .sharedchemistry-header-logo,
+    .navbar #logo .sharedchemistry-logo-link{display:block!important;width:230px!important;height:auto!important;margin:0!important;padding:0!important;overflow:visible!important;background:none!important;text-indent:0!important}
+    .navbar #logo .sharedchemistry-header-logo{display:block!important;width:230px!important;max-width:230px!important;height:auto!important;margin:0!important}
     .navbar #logo .sharedchemistry-logo-link span{display:none!important}
     .navbar-collapse{padding-left:0;padding-right:0}
     .navbar-nav > li > a{padding-left:8px!important;padding-right:8px!important;font-size:13px;white-space:nowrap}
@@ -36,8 +36,8 @@
     .sc-search-card button{background:#ff2f8d!important;border-color:#ff2f8d!important;color:#fff!important;border-radius:6px!important}
     .sc-news-card #wall{min-height:120px}
     @media (min-width:768px){.navbar-toggle{display:none!important}.sc-profile-actions{grid-template-columns:1fr 1fr}.sc-profile-actions li:first-child{grid-column:1/-1}}
-    @media (max-width:991px){.navbar-nav > li > a{padding-left:6px!important;padding-right:6px!important;font-size:12px}.navbar #logo .sharedchemistry-logo-link{width:190px!important;height:52px!important}}
-    @media (max-width:767px){header #headings,main#content{padding-left:10px!important;padding-right:10px!important}.navbar #logo .sharedchemistry-logo-link{width:172px!important;height:48px!important}.navbar-toggle{display:block!important}.sc-dashboard-card{padding:14px}}
+    @media (max-width:991px){.navbar-nav > li > a{padding-left:6px!important;padding-right:6px!important;font-size:12px}.navbar #logo .sharedchemistry-logo-link,.navbar #logo .sharedchemistry-header-logo{width:190px!important;max-width:190px!important}}
+    @media (max-width:767px){header #headings,main#content{padding-left:10px!important;padding-right:10px!important}.navbar #logo .sharedchemistry-logo-link,.navbar #logo .sharedchemistry-header-logo{width:172px!important;max-width:172px!important}.navbar-toggle{display:block!important}.sc-dashboard-card{padding:14px}}
 </style>
 
 <div class="row sc-dashboard">
