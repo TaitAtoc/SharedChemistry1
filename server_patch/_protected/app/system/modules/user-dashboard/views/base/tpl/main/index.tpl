@@ -1,39 +1,47 @@
-<style scoped="scoped">
+<style>
     header .ad_468_60,
     .ad_468_60{display:none!important;height:0!important;min-height:0!important;margin:0!important;padding:0!important;overflow:hidden!important}
-    header #headings{max-width:1180px;margin:0 auto;padding:0 15px}
-    main#content{max-width:1180px;margin:0 auto;padding:8px 15px 0!important}
+    header #headings{max-width:1180px;margin:0 auto!important;padding:0 15px!important;min-height:0!important;background:transparent!important}
+    main#content{max-width:1180px;margin:0 auto!important;padding:12px 15px 0!important;background:transparent!important}
     .navbar .container{max-width:1180px;width:100%}
     .navbar-collapse{padding-left:0;padding-right:0}
     .navbar-nav > li > a{padding-left:8px!important;padding-right:8px!important;font-size:13px;white-space:nowrap}
-    .sc-dashboard{margin-top:-2px;color:#f4f1f6}
-    .sc-dashboard-card{background:#17151c;border:1px solid rgba(255,255,255,.08);border-radius:8px;box-shadow:0 14px 36px rgba(0,0,0,.28);padding:16px;margin-bottom:18px}
-    .sc-dashboard-card h2{margin:0 0 10px;color:#fff;font-size:20px;line-height:1.25;border:0;text-decoration:none}
-    .sc-dashboard-card p{margin:0 0 14px;color:#d9d2dc;font-size:14px;line-height:1.45}
+    .sc-dashboard{display:block!important;float:none!important;clear:both!important;width:100%!important;margin:0!important;color:#f4f1f6}
+    .sc-dashboard:before,
+    .sc-dashboard:after{content:"";display:table}
+    .sc-dashboard:after{clear:both}
+    .sc-dashboard .left{float:none!important}
+    .sc-dashboard-card{display:block!important;background:#17151c!important;border:1px solid rgba(255,255,255,.09)!important;border-radius:8px!important;box-shadow:0 14px 36px rgba(0,0,0,.28)!important;padding:18px!important;margin:0 0 18px!important;color:#f4f1f6!important}
+    .sc-dashboard-card h2{margin:0 0 12px!important;color:#fff!important;font-size:20px!important;line-height:1.25!important;border:0!important;text-decoration:none!important}
+    .sc-dashboard-card p{margin:0 0 14px!important;color:#d9d2dc!important;font-size:14px!important;line-height:1.45!important}
     .sc-profile-card{text-align:left}
     .sc-profile-card h2{margin-bottom:14px}
-    .sc-public-photo-row{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:14px}
-    .sc-public-photo-slot{display:flex;align-items:center;justify-content:center;min-height:132px;border:1px solid rgba(255,255,255,.12);border-radius:8px;background:#100f14;color:#bdb3c1;font-size:13px;text-align:center;overflow:hidden}
-    .sc-public-photo-slot.is-avatar{background:#0e0d12}
-    .sc-public-photo-slot .picture_block{margin:0!important;max-width:100%}
-    .sc-public-photo-slot .picture_block img{display:block;border-radius:8px;max-width:100%;height:auto;border:0}
-    .sc-profile-actions{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
-    .sc-profile-actions li{margin:0;padding:0}
+    .sc-public-photo-row{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:12px!important;margin:0 0 16px!important;width:100%!important}
+    .sc-public-photo-slot{display:flex!important;flex-direction:column!important;gap:8px!important;align-items:center!important;justify-content:space-between!important;min-height:168px!important;border:1px solid rgba(255,255,255,.12)!important;border-radius:8px!important;background:#100f14!important;color:#f3eef5!important;text-align:center!important;overflow:hidden!important;padding:10px!important}
+    .sc-public-photo-frame{display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;min-height:112px!important;overflow:hidden!important;border-radius:7px!important;background:#0d0c11!important}
+    .sc-public-photo-slot.is-avatar .sc-public-photo-frame{background:#0e0d12!important}
+    .sc-public-photo-slot .picture_block{margin:0!important;max-width:100%!important}
+    .sc-public-photo-slot .picture_block img,
+    .sc-public-photo-placeholder{display:block!important;width:100%!important;max-width:132px!important;height:auto!important;max-height:112px!important;border:0!important;border-radius:7px!important;object-fit:cover!important}
+    .sc-public-photo-label{display:block!important;width:100%!important;color:#d9d2dc!important;font-size:12px!important;font-weight:bold!important;line-height:1.2!important;text-align:center!important}
+    .sc-profile-actions{list-style:none!important;margin:0!important;padding:0!important;display:flex!important;flex-wrap:wrap!important;gap:8px!important}
+    .sc-profile-actions li{display:block!important;margin:0!important;padding:0!important;list-style:none!important}
     .sc-profile-actions a,
-    .sc-dashboard-button{display:inline-flex;align-items:center;justify-content:center;border-radius:6px;padding:9px 12px;background:#24212b;border:1px solid rgba(255,255,255,.1);color:#f5edf6;text-align:center;font-size:13px;line-height:1.25;text-decoration:none!important}
+    .sc-dashboard-button{display:inline-flex!important;align-items:center!important;justify-content:center!important;border-radius:6px!important;padding:10px 13px!important;background:#24212b!important;border:1px solid rgba(255,255,255,.1)!important;color:#f5edf6!important;text-align:center!important;font-size:13px!important;font-weight:bold!important;line-height:1.25!important;text-decoration:none!important}
     .sc-profile-actions a:hover,
-    .sc-dashboard-button:hover{background:#2e2935;color:#fff;text-decoration:none}
-    .sc-profile-actions i{margin-right:6px;color:#ff4fa0}
+    .sc-dashboard-button:hover{background:#2e2935!important;color:#fff!important;text-decoration:none!important}
+    .sc-profile-actions i{margin-right:6px;color:#ff4fa0!important}
     .sc-profile-actions .sc-main-profile-link,
-    .sc-dashboard-button.is-primary{background:#ff2f8d;border-color:#ff2f8d;color:#fff;font-weight:bold}
+    .sc-dashboard-button.is-primary{background:#ff2f8d!important;border-color:#ff2f8d!important;color:#fff!important}
     .sc-profile-actions .sc-main-profile-link:hover,
-    .sc-dashboard-button.is-primary:hover{background:#ff4fa0;border-color:#ff4fa0;color:#fff}
-    .sc-profile-actions .sc-main-profile-link i{color:#fff}
-    .sc-dashboard-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-    .sc-dashboard-actions{display:flex;flex-wrap:wrap;gap:8px}
+    .sc-dashboard-button.is-primary:hover{background:#ff4fa0!important;border-color:#ff4fa0!important;color:#fff!important}
+    .sc-profile-actions .sc-main-profile-link i{color:#fff!important}
+    .sc-dashboard-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:16px!important;width:100%!important}
+    .sc-dashboard-actions{display:flex!important;flex-wrap:wrap!important;gap:8px!important}
     @media (min-width:768px){.navbar-toggle{display:none!important}}
     @media (max-width:991px){.navbar-nav > li > a{padding-left:6px!important;padding-right:6px!important;font-size:12px}}
-    @media (max-width:767px){header #headings,main#content{padding-left:10px!important;padding-right:10px!important}.navbar-toggle{display:block!important}.sc-dashboard-card{padding:14px}.sc-public-photo-row{grid-template-columns:repeat(2,minmax(0,1fr))}.sc-dashboard-grid{grid-template-columns:1fr}.sc-profile-actions a,.sc-dashboard-button{width:100%}}
+    @media (max-width:991px){.sc-public-photo-row{grid-template-columns:repeat(3,minmax(0,1fr))!important}.sc-dashboard-grid{grid-template-columns:1fr!important}}
+    @media (max-width:767px){header #headings,main#content{padding-left:10px!important;padding-right:10px!important}.navbar-toggle{display:block!important}.sc-dashboard-card{padding:14px!important}.sc-public-photo-row{grid-template-columns:repeat(2,minmax(0,1fr))!important}.sc-profile-actions a,.sc-dashboard-button{width:100%!important}}
 </style>
 
 <div class="row sc-dashboard">
@@ -42,12 +50,35 @@
             <h2>{lang 'Our Profile'}</h2>
             <div class="sc-public-photo-row">
                 <div class="sc-public-photo-slot is-avatar">
-            {{ $avatarDesign->lightBox($username, $first_name, $sex, 400) }}
+                    <div class="sc-public-photo-frame">
+                        {{ $avatarDesign->lightBox($username, $first_name, $sex, 400) }}
+                    </div>
+                    <span class="sc-public-photo-label">{lang 'Main Photo'}</span>
                 </div>
-                <div class="sc-public-photo-slot">{lang 'Public photo 2'}</div>
-                <div class="sc-public-photo-slot">{lang 'Public photo 3'}</div>
-                <div class="sc-public-photo-slot">{lang 'Public photo 4'}</div>
-                <div class="sc-public-photo-slot">{lang 'Public photo 5'}</div>
+                <div class="sc-public-photo-slot">
+                    <div class="sc-public-photo-frame">
+                        <img src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Public Photo 2'}" class="sc-public-photo-placeholder" />
+                    </div>
+                    <span class="sc-public-photo-label">{lang 'Public Photo 2'}</span>
+                </div>
+                <div class="sc-public-photo-slot">
+                    <div class="sc-public-photo-frame">
+                        <img src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Public Photo 3'}" class="sc-public-photo-placeholder" />
+                    </div>
+                    <span class="sc-public-photo-label">{lang 'Public Photo 3'}</span>
+                </div>
+                <div class="sc-public-photo-slot">
+                    <div class="sc-public-photo-frame">
+                        <img src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Public Photo 4'}" class="sc-public-photo-placeholder" />
+                    </div>
+                    <span class="sc-public-photo-label">{lang 'Public Photo 4'}</span>
+                </div>
+                <div class="sc-public-photo-slot">
+                    <div class="sc-public-photo-frame">
+                        <img src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Public Photo 5'}" class="sc-public-photo-placeholder" />
+                    </div>
+                    <span class="sc-public-photo-label">{lang 'Public Photo 5'}</span>
+                </div>
             </div>
 
             <ul class="sc-profile-actions">
