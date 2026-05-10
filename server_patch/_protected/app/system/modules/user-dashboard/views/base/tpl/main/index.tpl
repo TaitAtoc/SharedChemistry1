@@ -195,7 +195,7 @@
             slidesToShow: 6,
             slidesToScroll: 6,
             adaptiveHeight: true
-        })
+        });
         if ($.fn.colorbox) {
             var $links = $('.sc-public-photo-row a[data-popup="image"]');
 
