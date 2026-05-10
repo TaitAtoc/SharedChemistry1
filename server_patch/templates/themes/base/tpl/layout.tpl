@@ -190,6 +190,232 @@
         display: inline-block;
         vertical-align: middle;
       }
+      .sharedchemistry-member-logo {
+        display: block !important;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 10px 18px !important;
+        overflow: visible !important;
+        background: none !important;
+      }
+      .sharedchemistry-member-logo .sharedchemistry-logo-link {
+        display: block !important;
+        width: 230px !important;
+        max-width: 230px !important;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: visible !important;
+        background: none !important;
+      }
+      .sharedchemistry-member-logo .sharedchemistry-header-logo {
+        display: block !important;
+        width: 230px !important;
+        max-width: 230px !important;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        object-fit: contain !important;
+        background: none !important;
+      }
+      .sharedchemistry-member-logo span {
+        display: none !important;
+      }
+      body:has(.sc-dashboard) header {
+        padding-top: 0 !important;
+      }
+      body:has(.sc-dashboard) header #headings,
+      body:has(.sc-dashboard) header .ad_468_60,
+      body:has(.sc-dashboard) main#content + .ad_468_60 {
+        display: none !important;
+        height: 0 !important;
+        min-height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        border: 0 !important;
+        background: transparent !important;
+      }
+      main#content:has(.sc-dashboard) {
+        max-width: 1180px !important;
+        margin: 0 auto !important;
+        padding: 12px 15px 0 !important;
+        background: transparent !important;
+      }
+      main#content .sc-dashboard {
+        display: block !important;
+        float: none !important;
+        clear: both !important;
+        width: 100% !important;
+        margin: 0 !important;
+        color: #F4F1F6;
+      }
+      main#content .sc-dashboard:before,
+      main#content .sc-dashboard:after {
+        content: "";
+        display: table;
+      }
+      main#content .sc-dashboard:after {
+        clear: both;
+      }
+      main#content .sc-dashboard .left {
+        float: none !important;
+      }
+      main#content .sc-dashboard-card {
+        display: block !important;
+        margin: 0 0 18px !important;
+        padding: 18px !important;
+        border: 1px solid rgba(255,255,255,.09) !important;
+        border-radius: 8px !important;
+        background: #17151C !important;
+        box-shadow: 0 14px 36px rgba(0,0,0,.28) !important;
+        color: #F4F1F6 !important;
+      }
+      main#content .sc-dashboard-card h2 {
+        margin: 0 0 12px !important;
+        border: 0 !important;
+        color: #FFFFFF !important;
+        font-size: 20px !important;
+        line-height: 1.25 !important;
+        text-decoration: none !important;
+      }
+      main#content .sc-dashboard-card p {
+        margin: 0 0 14px !important;
+        color: #D9D2DC !important;
+        font-size: 14px !important;
+        line-height: 1.45 !important;
+      }
+      main#content .sc-profile-card {
+        text-align: left;
+      }
+      main#content .sc-profile-card h2 {
+        margin-bottom: 14px !important;
+      }
+      main#content .sc-public-photo-row {
+        display: grid !important;
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+        gap: 12px !important;
+        width: 100% !important;
+        margin: 0 0 16px !important;
+      }
+      main#content .sc-public-photo-slot {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 8px !important;
+        min-height: 168px !important;
+        padding: 10px !important;
+        overflow: hidden !important;
+        border: 1px solid rgba(255,255,255,.12) !important;
+        border-radius: 8px !important;
+        background: #100F14 !important;
+        color: #F3EEF5 !important;
+        text-align: center !important;
+      }
+      main#content .sc-public-photo-frame {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+        min-height: 112px !important;
+        overflow: hidden !important;
+        border-radius: 7px !important;
+        background: #0D0C11 !important;
+      }
+      main#content .sc-public-photo-slot.is-avatar .sc-public-photo-frame {
+        background: #0E0D12 !important;
+      }
+      main#content .sc-public-photo-slot .picture_block {
+        max-width: 100% !important;
+        margin: 0 !important;
+      }
+      main#content .sc-public-photo-slot .picture_block img,
+      main#content .sc-public-photo-placeholder {
+        display: block !important;
+        width: 100% !important;
+        max-width: 132px !important;
+        height: auto !important;
+        max-height: 112px !important;
+        border: 0 !important;
+        border-radius: 7px !important;
+        object-fit: cover !important;
+      }
+      main#content .sc-public-photo-label {
+        display: block !important;
+        width: 100% !important;
+        color: #D9D2DC !important;
+        font-size: 12px !important;
+        font-weight: bold !important;
+        line-height: 1.2 !important;
+        text-align: center !important;
+      }
+      main#content .sc-profile-actions {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        list-style: none !important;
+      }
+      main#content .sc-profile-actions li {
+        display: block !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        list-style: none !important;
+      }
+      main#content .sc-profile-actions a,
+      main#content .sc-dashboard-button {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 10px 13px !important;
+        border: 1px solid rgba(255,255,255,.1) !important;
+        border-radius: 6px !important;
+        background: #24212B !important;
+        color: #F5EDF6 !important;
+        font-size: 13px !important;
+        font-weight: bold !important;
+        line-height: 1.25 !important;
+        text-align: center !important;
+        text-decoration: none !important;
+      }
+      main#content .sc-profile-actions a:hover,
+      main#content .sc-dashboard-button:hover {
+        background: #2E2935 !important;
+        color: #FFFFFF !important;
+        text-decoration: none !important;
+      }
+      main#content .sc-profile-actions i {
+        margin-right: 6px;
+        color: #FF4FA0 !important;
+      }
+      main#content .sc-profile-actions .sc-main-profile-link,
+      main#content .sc-dashboard-button.is-primary {
+        background: #FF2F8D !important;
+        border-color: #FF2F8D !important;
+        color: #FFFFFF !important;
+      }
+      main#content .sc-profile-actions .sc-main-profile-link:hover,
+      main#content .sc-dashboard-button.is-primary:hover {
+        background: #FF4FA0 !important;
+        border-color: #FF4FA0 !important;
+        color: #FFFFFF !important;
+      }
+      main#content .sc-profile-actions .sc-main-profile-link i {
+        color: #FFFFFF !important;
+      }
+      main#content .sc-dashboard-grid {
+        display: grid !important;
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 16px !important;
+        width: 100% !important;
+      }
+      main#content .sc-dashboard-actions {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+      }
       .navbar-collapse {
         display: block;
       }
@@ -1530,7 +1756,41 @@
           text-align: center;
         }
       }
-    </style>
+      @media screen and (max-width: 991px) {
+        .sharedchemistry-member-logo .sharedchemistry-logo-link,
+        .sharedchemistry-member-logo .sharedchemistry-header-logo {
+          width: 190px !important;
+          max-width: 190px !important;
+        }
+        main#content .sc-public-photo-row {
+          grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        }
+        main#content .sc-dashboard-grid {
+          grid-template-columns: 1fr !important;
+        }
+      }
+      @media screen and (max-width: 767px) {
+        .sharedchemistry-member-logo .sharedchemistry-logo-link,
+        .sharedchemistry-member-logo .sharedchemistry-header-logo {
+          width: 172px !important;
+          max-width: 172px !important;
+        }
+        main#content:has(.sc-dashboard) {
+          padding-left: 10px !important;
+          padding-right: 10px !important;
+        }
+        main#content .sc-dashboard-card {
+          padding: 14px !important;
+        }
+        main#content .sc-public-photo-row {
+          grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        }
+        main#content .sc-profile-actions a,
+        main#content .sc-dashboard-button {
+          width: 100% !important;
+        }
+      }
+      </style>
     <!-- End CSS -->
 
     <!-- Begin Header JavaScript -->
