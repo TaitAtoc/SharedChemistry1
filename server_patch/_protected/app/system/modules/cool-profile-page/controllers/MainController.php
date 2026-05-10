@@ -47,13 +47,14 @@ class MainController extends ProfileBaseController
             $this->view->img_background = $this->oUserModel->getBackground($this->iProfileId, 1);
 
             $oFields = $this->oUserModel->getInfoFields($this->iProfileId);
-            $this->view->couple_profile = $this->getCoupleProfileData($oFields);
+            $aCoupleProfile = $this->getCoupleProfileData($oFields);
 
             // Date of birth
             $this->view->birth_date = $oUser->birthDate;
             $this->view->birth_date_formatted = $this->dateTime->get($oUser->birthDate)->date();
 
             $aData = $this->getFilteredData($oUser, $oFields);
+            $this->assignCoupleProfileViewData($aCoupleProfile, $aData, $oUser->username);
 
             $this->view->page_title = t(
                 'Meet %0%. A %1% looking for %2% - %3% years - %4% - %5% %6%',
@@ -155,6 +156,67 @@ class MainController extends ProfileBaseController
         }
 
         return $aData;
+    }
+
+    private function assignCoupleProfileViewData(array $aData, array $aProfileData, string $sUsername): void
+    {
+        $this->view->couple_profile = $aData;
+        $this->view->couple_name = $aData['couple_name'];
+        $this->view->profile_title = !empty($aData['couple_name']) ? $aData['couple_name'] : (!empty($aProfileData['first_name']) ? $aProfileData['first_name'] : $sUsername);
+        $this->view->profile_location = $this->getProfileLocationText($aProfileData);
+        $this->view->profile_age_text = $this->getProfileAgeText($aData);
+        $this->view->about_us = $aData['about_us'];
+        $this->view->her_name = $aData['her_name'];
+        $this->view->her_age = $aData['her_age'];
+        $this->view->her_ethnicity = $aData['her_ethnicity'];
+        $this->view->her_languages = $aData['her_languages'];
+        $this->view->her_sexuality = $aData['her_sexuality'];
+        $this->view->her_experience_level = $aData['her_experience_level'];
+        $this->view->about_her = $aData['about_her'];
+        $this->view->him_name = $aData['him_name'];
+        $this->view->him_age = $aData['him_age'];
+        $this->view->him_ethnicity = $aData['him_ethnicity'];
+        $this->view->him_languages = $aData['him_languages'];
+        $this->view->him_sexuality = $aData['him_sexuality'];
+        $this->view->him_experience_level = $aData['him_experience_level'];
+        $this->view->about_him = $aData['about_him'];
+        $this->view->looking_for = $aData['looking_for'];
+        $this->view->hosting_travel = $aData['hosting_travel'];
+        $this->view->availability = $aData['availability'];
+        $this->view->sexual_interests = $aData['sexual_interests'];
+        $this->view->fantasies = $aData['fantasies'];
+        $this->view->boundaries = $aData['boundaries'];
+        $this->view->ideal_match = $aData['ideal_match'];
+    }
+
+    private function getProfileLocationText(array $aProfileData): string
+    {
+        $aLocation = [];
+
+        if (!empty($aProfileData['city'])) {
+            $aLocation[] = $aProfileData['city'];
+        }
+
+        if (!empty($aProfileData['country'])) {
+            $aLocation[] = t($aProfileData['country']);
+        }
+
+        return implode(', ', $aLocation);
+    }
+
+    private function getProfileAgeText(array $aData): string
+    {
+        $aAges = [];
+
+        if (!empty($aData['her_age'])) {
+            $aAges[] = $aData['her_age'];
+        }
+
+        if (!empty($aData['him_age'])) {
+            $aAges[] = $aData['him_age'];
+        }
+
+        return implode(' / ', $aAges);
     }
 
     private function getDefaultCoupleProfileData(): array
