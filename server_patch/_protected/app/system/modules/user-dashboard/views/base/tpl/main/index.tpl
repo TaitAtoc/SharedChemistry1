@@ -68,6 +68,7 @@
 {/literal}
 
 <div class="row sc-dashboard">
+    <div class="sc-dashboard-spacer" style="height:110px;display:block;clear:both;" aria-hidden="true"></div>
     <div class="left col-xs-12">
         <div class="sc-dashboard-card sc-profile-card">
             <h2>{lang 'Our Profile'}</h2>
