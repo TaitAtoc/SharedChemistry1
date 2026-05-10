@@ -171,6 +171,20 @@
                 </div>
             </div>
         </div>
+
+        <div class="sc-dashboard-grid">
+            <div class="sc-dashboard-card">
+                <h2>{lang 'Friends'}</h2>
+                <p>{lang 'Friend cards will appear here when you connect with other couples.'}</p>
+                <a class="sc-dashboard-button" href="#">{lang 'Manage Friends'}</a>
+            </div>
+
+            <div class="sc-dashboard-card">
+                <h2>{lang 'Verified Friends'}</h2>
+                <p>{lang 'Verified couple cards will appear here after trusted couples confirm they know you.'}</p>
+                <a class="sc-dashboard-button" href="#">{lang 'View Verified Friends'}</a>
+            </div>
+        </div>
     </div>
 </div>
 
