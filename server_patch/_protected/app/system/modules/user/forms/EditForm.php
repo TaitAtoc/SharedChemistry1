@@ -75,31 +75,31 @@ class EditForm
                     $aGroupName[$oGroup->groupId] = $oGroup->name;
                 }
             }
-            $oForm->addElement(new Select(t('Membership Group:'), 'group_id', $aGroupName, ['value' => $oUser->groupId, 'required' => 1]));
+            $oForm->addElement(new Select(t('Membership Group:'), 'group_id', $aGroupName, ['id' => 'group_id', 'value' => $oUser->groupId, 'required' => 1]));
             unset($aGroupName);
         }
         unset($oHR);
 
         $oForm->addElement(new HTMLExternal('<div class="sc-profile-form-grid"><section class="sc-profile-section sc-profile-section--wide"><h2>Couple basics</h2><div class="sc-profile-field-row">'));
-        $oForm->addElement(new Textbox(t('Couple name:'), 'couple_name', ['value' => self::getVal($aCoupleProfile, 'couple_name')]));
+        $oForm->addElement(new Textbox(t('Couple name:'), 'couple_name', ['id' => 'couple_name', 'value' => self::getVal($aCoupleProfile, 'couple_name')]));
         $oForm->addElement(new HTMLExternal('</div></section><section class="sc-profile-section"><h2>About Her</h2><div class="sc-profile-field-row">'));
-        $oForm->addElement(new Textbox(t('Her name:'), 'her_name', ['value' => self::getVal($aCoupleProfile, 'her_name')]));
-        $oForm->addElement(new Number(t('Her age:'), 'her_age', ['value' => self::getVal($aCoupleProfile, 'her_age'), 'min' => 18, 'max' => 120]));
-        $oForm->addElement(new Textbox(t('Her ethnicity:'), 'her_ethnicity', ['value' => self::getVal($aCoupleProfile, 'her_ethnicity')]));
-        $oForm->addElement(new Textbox(t('Her languages spoken:'), 'her_languages', ['value' => self::getVal($aCoupleProfile, 'her_languages')]));
-        $oForm->addElement(new Select(t('Her sexuality:'), 'her_sexuality', self::sexualityOptions(), ['value' => self::getVal($aCoupleProfile, 'her_sexuality')]));
-        $oForm->addElement(new Select(t('Her experience level:'), 'her_experience_level', self::experienceOptions(), ['value' => self::getVal($aCoupleProfile, 'her_experience_level')]));
-        $oForm->addElement(new Textarea(t('About her:'), 'about_her', ['value' => self::getVal($aCoupleProfile, 'about_her')]));
+        $oForm->addElement(new Textbox(t('Her name:'), 'her_name', ['id' => 'her_name', 'value' => self::getVal($aCoupleProfile, 'her_name')]));
+        $oForm->addElement(new Number(t('Her age:'), 'her_age', ['id' => 'her_age', 'value' => self::getVal($aCoupleProfile, 'her_age'), 'min' => 18, 'max' => 120]));
+        $oForm->addElement(new Textbox(t('Her ethnicity:'), 'her_ethnicity', ['id' => 'her_ethnicity', 'value' => self::getVal($aCoupleProfile, 'her_ethnicity')]));
+        $oForm->addElement(new Textbox(t('Her languages spoken:'), 'her_languages', ['id' => 'her_languages', 'value' => self::getVal($aCoupleProfile, 'her_languages')]));
+        $oForm->addElement(new Select(t('Her sexuality:'), 'her_sexuality', self::sexualityOptions(), ['id' => 'her_sexuality', 'value' => self::getVal($aCoupleProfile, 'her_sexuality')]));
+        $oForm->addElement(new Select(t('Her experience level:'), 'her_experience_level', self::experienceOptions(), ['id' => 'her_experience_level', 'value' => self::getVal($aCoupleProfile, 'her_experience_level')]));
+        $oForm->addElement(new Textarea(t('About her:'), 'about_her', ['id' => 'about_her', 'value' => self::getVal($aCoupleProfile, 'about_her')]));
         $oForm->addElement(new HTMLExternal('</div></section><section class="sc-profile-section"><h2>About Him</h2><div class="sc-profile-field-row">'));
-        $oForm->addElement(new Textbox(t('His name:'), 'him_name', ['value' => self::getVal($aCoupleProfile, 'him_name')]));
-        $oForm->addElement(new Number(t('His age:'), 'him_age', ['value' => self::getVal($aCoupleProfile, 'him_age'), 'min' => 18, 'max' => 120]));
-        $oForm->addElement(new Textbox(t('His ethnicity:'), 'him_ethnicity', ['value' => self::getVal($aCoupleProfile, 'him_ethnicity')]));
-        $oForm->addElement(new Textbox(t('His languages spoken:'), 'him_languages', ['value' => self::getVal($aCoupleProfile, 'him_languages')]));
-        $oForm->addElement(new Select(t('His sexuality:'), 'him_sexuality', self::sexualityOptions(), ['value' => self::getVal($aCoupleProfile, 'him_sexuality')]));
-        $oForm->addElement(new Select(t('His experience level:'), 'him_experience_level', self::experienceOptions(), ['value' => self::getVal($aCoupleProfile, 'him_experience_level')]));
-        $oForm->addElement(new Textarea(t('About him:'), 'about_him', ['value' => self::getVal($aCoupleProfile, 'about_him')]));
+        $oForm->addElement(new Textbox(t('His name:'), 'him_name', ['id' => 'him_name', 'value' => self::getVal($aCoupleProfile, 'him_name')]));
+        $oForm->addElement(new Number(t('His age:'), 'him_age', ['id' => 'him_age', 'value' => self::getVal($aCoupleProfile, 'him_age'), 'min' => 18, 'max' => 120]));
+        $oForm->addElement(new Textbox(t('His ethnicity:'), 'him_ethnicity', ['id' => 'him_ethnicity', 'value' => self::getVal($aCoupleProfile, 'him_ethnicity')]));
+        $oForm->addElement(new Textbox(t('His languages spoken:'), 'him_languages', ['id' => 'him_languages', 'value' => self::getVal($aCoupleProfile, 'him_languages')]));
+        $oForm->addElement(new Select(t('His sexuality:'), 'him_sexuality', self::sexualityOptions(), ['id' => 'him_sexuality', 'value' => self::getVal($aCoupleProfile, 'him_sexuality')]));
+        $oForm->addElement(new Select(t('His experience level:'), 'him_experience_level', self::experienceOptions(), ['id' => 'him_experience_level', 'value' => self::getVal($aCoupleProfile, 'him_experience_level')]));
+        $oForm->addElement(new Textarea(t('About him:'), 'about_him', ['id' => 'about_him', 'value' => self::getVal($aCoupleProfile, 'about_him')]));
         $oForm->addElement(new HTMLExternal('</div></section><section class="sc-profile-section sc-profile-section--wide"><h2>About Us</h2><p class="sc-profile-helper">Write a short description of you as a couple.</p><div class="sc-profile-field-row">'));
-        $oForm->addElement(new Textarea(t('About us:'), 'about_us', ['value' => self::getVal($aCoupleProfile, 'about_us')]));
+        $oForm->addElement(new Textarea(t('About us:'), 'about_us', ['id' => 'about_us', 'value' => self::getVal($aCoupleProfile, 'about_us')]));
         $oForm->addElement(new HTMLExternal('</div></section><section class="sc-profile-section sc-profile-section--wide"><h2>What we are looking for</h2><div class="sc-profile-checks">'));
         $oForm->addElement(new Checkbox(t('What we are looking for:'), 'looking_for', self::lookingForOptions(), ['value' => self::getArrayVal($aCoupleProfile, 'looking_for')]));
         $oForm->addElement(new HTMLExternal('</div></section><section class="sc-profile-section sc-profile-section--wide"><h2>Hosting and travel</h2><div class="sc-profile-checks">'));
@@ -109,11 +109,11 @@ class EditForm
         $oForm->addElement(new HTMLExternal('</div></section><section class="sc-profile-section sc-profile-section--wide"><h2>Sexual interests</h2><div class="sc-profile-checks">'));
         $oForm->addElement(new Checkbox(t('Sexual interests:'), 'sexual_interests', self::sexualInterestsOptions(), ['value' => self::getArrayVal($aCoupleProfile, 'sexual_interests')]));
         $oForm->addElement(new HTMLExternal('</div></section><section class="sc-profile-section sc-profile-section--wide"><h2>Fantasies</h2><p class="sc-profile-helper">Share only what you are comfortable sharing. You can leave this blank.</p><div class="sc-profile-field-row">'));
-        $oForm->addElement(new Textarea(t('Fantasies you might want to explore:'), 'fantasies', ['value' => self::getVal($aCoupleProfile, 'fantasies')]));
+        $oForm->addElement(new Textarea(t('Fantasies you might want to explore:'), 'fantasies', ['id' => 'fantasies', 'value' => self::getVal($aCoupleProfile, 'fantasies')]));
         $oForm->addElement(new HTMLExternal('</div></section><section class="sc-profile-section sc-profile-section--wide"><h2>Boundaries</h2><p class="sc-profile-helper">Share anything you are not interested in, hard limits, or boundaries you want other couples to respect.</p><div class="sc-profile-field-row">'));
-        $oForm->addElement(new Textarea(t('Boundaries / not interested in:'), 'boundaries', ['value' => self::getVal($aCoupleProfile, 'boundaries')]));
+        $oForm->addElement(new Textarea(t('Boundaries / not interested in:'), 'boundaries', ['id' => 'boundaries', 'value' => self::getVal($aCoupleProfile, 'boundaries')]));
         $oForm->addElement(new HTMLExternal('</div></section><section class="sc-profile-section sc-profile-section--wide"><h2>Ideal match</h2><p class="sc-profile-helper">Describe the kind of couple, vibe, or situation that feels right for you.</p><div class="sc-profile-field-row">'));
-        $oForm->addElement(new Textarea(t('Ideal match:'), 'ideal_match', ['value' => self::getVal($aCoupleProfile, 'ideal_match')]));
+        $oForm->addElement(new Textarea(t('Ideal match:'), 'ideal_match', ['id' => 'ideal_match', 'value' => self::getVal($aCoupleProfile, 'ideal_match')]));
         if (self::isAdminLoggedAndUserIdExists($oHttpRequest)) {
             $oForm->addElement(new HTMLExternal('</div></section><section class="sc-profile-section sc-profile-section--wide sc-profile-section--core"><h2>Core account details</h2><div class="sc-profile-field-row">'));
             $oForm->addElement(new Textbox(t('First Name:'), 'first_name', ['id' => 'name_first', 'onblur' => 'CValid(this.value,this.id)', 'value' => $oUser->firstName, 'required' => 1, 'validation' => new Name]));
@@ -122,9 +122,9 @@ class EditForm
             $oForm->addElement(new Textbox(t('Last Name:'), 'last_name', ['id' => 'name_last', 'onblur' => 'CValid(this.value,this.id)', 'value' => $oUser->lastName, 'validation' => new Name]));
             $oForm->addElement(new HTMLExternal('<span class="input_error name_last"></span>'));
 
-            $oForm->addElement(new Textbox(t('Nickname:'), 'username', ['description' => t('For security reasons, you cannot change your nickname.'), 'disabled' => 'disabled', 'value' => $oUser->username]));
+            $oForm->addElement(new Textbox(t('Nickname:'), 'username', ['id' => 'username', 'description' => t('For security reasons, you cannot change your nickname.'), 'disabled' => 'disabled', 'value' => $oUser->username]));
 
-            $oForm->addElement(new Email(t('Email:'), 'mail', ['description' => t('For security reasons and to avoid spam, you cannot change your email address. If it has changed, you will need to <a href="%0%">delete</a> your account and create a new one.', Uri::get('user', 'setting', 'delete')), 'disabled' => 'disabled', 'value' => $oUser->email]));
+            $oForm->addElement(new Email(t('Email:'), 'mail', ['id' => 'mail', 'description' => t('For security reasons and to avoid spam, you cannot change your email address. If it has changed, you will need to <a href="%0%">delete</a> your account and create a new one.', Uri::get('user', 'setting', 'delete')), 'disabled' => 'disabled', 'value' => $oUser->email]));
 
             // For security reasons, only admins can change profile gender
             $oForm->addElement(

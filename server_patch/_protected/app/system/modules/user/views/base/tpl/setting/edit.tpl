@@ -1,49 +1,19 @@
 <style>
-body {
-    background: #0f1014 !important;
-}
-
-#logo,
-#menu,
-#top,
-#header,
-header #headings,
-header .ad_468_60,
-.navbar,
-.top_menu,
-.top-menu,
-.header,
-.header-container,
-.topbar,
-.top-bar,
-.page-header,
-.breadcrumb,
-.gray_bar,
-.grey_bar,
-.grey-bar,
-.gray-bar {
-    display: none !important;
-    height: 0 !important;
-    min-height: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    border: 0 !important;
-    overflow: hidden !important;
-}
-
-header {
-    padding-top: 0 !important;
-    min-height: 0 !important;
-}
-
-main#content {
-    padding-top: 0 !important;
+html,
+body,
+#container,
+#content,
+main#content,
+.content,
+.main_content,
+.main-content {
+    background: #101114 !important;
 }
 
 .sharedchemistry-edit-logo {
     max-width: 1060px;
-    margin: 0 auto 6px;
-    padding: 0 18px;
+    margin: 22px auto 8px;
+    padding: 0 20px;
     text-align: center;
 }
 
@@ -54,81 +24,69 @@ main#content {
     margin: 0 auto;
 }
 
-.sharedchemistry-edit-progress {
-    max-width: 760px;
-    margin: 10px auto 18px;
-    padding: 0 18px;
-}
-
-.sharedchemistry-edit-progress__track {
-    height: 18px;
-    overflow: hidden;
-    border-radius: 999px;
-    background: #21191f;
-    border: 1px solid rgba(255, 85, 126, .34);
-    box-shadow: inset 0 1px 4px rgba(0, 0, 0, .42);
-}
-
-.sharedchemistry-edit-progress__fill {
-    width: 100%;
-    height: 100%;
-    border-radius: inherit;
-    background: linear-gradient(90deg, #ec2f67, #ff6f91);
-}
-
-.sharedchemistry-edit-progress__text {
-    margin-top: 8px;
-    color: #ff9bb4;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0;
-    text-align: center;
-}
-
 .sharedchemistry-edit {
-    max-width: 1060px;
-    margin: 18px auto 56px;
-    padding: 0 18px;
-    color: #f7edf0;
+    max-width: 1120px;
+    margin: 18px auto 64px;
+    padding: 0 20px 12px;
+    color: #f7f3ef;
+    font-family: inherit;
 }
 
 .sharedchemistry-edit__hero,
 .sharedchemistry-edit__card,
 .sharedchemistry-edit__media-card {
-    background: #19171b;
-    border: 1px solid rgba(255, 84, 126, .22);
-    border-radius: 22px;
-    box-shadow: 0 24px 60px rgba(0, 0, 0, .28);
+    background: #17181d;
+    border: 1px solid rgba(247, 243, 239, .08);
+    border-radius: 8px;
+    box-shadow: 0 20px 54px rgba(0, 0, 0, .34);
 }
 
 .sharedchemistry-edit__hero {
-    padding: 30px 34px;
-    margin-bottom: 22px;
-    text-align: center;
+    position: relative;
+    overflow: hidden;
+    padding: 30px 34px 28px;
+    margin-bottom: 18px;
+    text-align: left;
+}
+
+.sharedchemistry-edit__hero:before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(135deg, rgba(236, 8, 104, .22), transparent 34%),
+        linear-gradient(90deg, transparent 68%, rgba(255, 188, 10, .10));
+    opacity: .9;
+}
+
+.sharedchemistry-edit__hero > * {
+    position: relative;
 }
 
 .sharedchemistry-edit__hero h1,
 .sharedchemistry-edit__section h2,
 .sharedchemistry-edit__card h2 {
     margin: 0;
-    color: #fff;
+    color: #f7f3ef;
 }
 
 .sharedchemistry-edit__hero h1 {
-    font-size: 34px;
+    font-size: 32px;
     line-height: 1.2;
+    letter-spacing: 0;
 }
 
 .sharedchemistry-edit__hero p,
 .sharedchemistry-edit__section p,
 .sharedchemistry-edit__media-card p,
 .sharedchemistry-edit__helper {
-    color: #d9c9cf;
+    color: #b8b3b0;
 }
 
 .sharedchemistry-edit__hero p {
-    max-width: 720px;
-    margin: 14px auto 0;
+    max-width: 760px;
+    margin: 12px 0 0;
     font-size: 16px;
     line-height: 1.6;
 }
@@ -138,10 +96,10 @@ main#content {
 }
 
 .sharedchemistry-edit .sc-profile-section {
-    background: rgba(255, 255, 255, .035);
-    border: 1px solid rgba(255, 255, 255, .08);
-    border-radius: 18px;
-    padding: 22px;
+    background: #202127;
+    border: 1px solid rgba(247, 243, 239, .08);
+    border-radius: 8px;
+    padding: 24px;
 }
 
 .sharedchemistry-edit .sc-profile-section h2,
@@ -168,7 +126,7 @@ main#content {
 
 .sharedchemistry-edit .sc-profile-helper {
     margin: 8px 0 0;
-    color: #d9c9cf;
+    color: #8f8a88;
 }
 
 .sharedchemistry-edit .sc-profile-checks ul,
@@ -203,7 +161,14 @@ main#content {
 }
 
 .sharedchemistry-edit__form-wrap label {
-    color: #f8edf1;
+    color: #f7f3ef;
+    font-weight: 700;
+}
+
+.sharedchemistry-edit__form-wrap .help-block,
+.sharedchemistry-edit__form-wrap .description,
+.sharedchemistry-edit__form-wrap small {
+    color: #8f8a88;
 }
 
 .sharedchemistry-edit__form-wrap input[type="text"],
@@ -214,24 +179,56 @@ main#content {
 .sharedchemistry-edit__form-wrap input[type="number"],
 .sharedchemistry-edit__form-wrap select,
 .sharedchemistry-edit__form-wrap textarea {
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, .16);
-    background-color: #242128;
-    color: #fff;
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid rgba(247, 243, 239, .14);
+    background-color: #101114;
+    color: #f7f3ef;
+    box-shadow: none;
+}
+
+.sharedchemistry-edit__form-wrap input:focus,
+.sharedchemistry-edit__form-wrap select:focus,
+.sharedchemistry-edit__form-wrap textarea:focus {
+    border-color: #ec0868;
+    box-shadow: 0 0 0 3px rgba(236, 8, 104, .18);
+    outline: none;
+}
+
+.sharedchemistry-edit__form-wrap input[disabled],
+.sharedchemistry-edit__form-wrap select[disabled],
+.sharedchemistry-edit__form-wrap textarea[disabled] {
+    background-color: #202127;
+    color: #8f8a88;
 }
 
 .sharedchemistry-edit__form-wrap textarea {
     min-height: 120px;
 }
 
+.sharedchemistry-edit__form-wrap input[type="checkbox"],
+.sharedchemistry-edit__form-wrap input[type="radio"] {
+    width: auto;
+    accent-color: #ec0868;
+}
+
 .sharedchemistry-edit__form-wrap button,
 .sharedchemistry-edit__form-wrap input[type="submit"] {
-    border-radius: 999px;
-    background: #f04472;
-    border-color: #f04472;
-    color: #fff;
-    padding-left: 22px;
-    padding-right: 22px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #ec0868, #c200fb);
+    border: 0;
+    color: #f7f3ef;
+    padding: 12px 24px;
+    font-weight: 800;
+    box-shadow: 0 12px 28px rgba(236, 8, 104, .24);
+}
+
+.sharedchemistry-edit__form-wrap button:hover,
+.sharedchemistry-edit__form-wrap button:focus,
+.sharedchemistry-edit__form-wrap input[type="submit"]:hover,
+.sharedchemistry-edit__form-wrap input[type="submit"]:focus {
+    background: linear-gradient(90deg, #fc2f00, #ec7d10);
+    color: #f7f3ef;
 }
 
 .sharedchemistry-edit__media {
@@ -243,7 +240,7 @@ main#content {
 
 .sharedchemistry-edit__media-card h3 {
     margin: 0;
-    color: #fff;
+    color: #f7f3ef;
 }
 
 .sharedchemistry-edit__actions {
@@ -265,22 +262,22 @@ main#content {
 }
 
 .sharedchemistry-edit__button {
-    background: #f04472;
-    color: #fff;
-    border: 1px solid #f04472;
+    background: #ec0868;
+    color: #f7f3ef;
+    border: 1px solid #ec0868;
 }
 
 .sharedchemistry-edit__button:hover,
 .sharedchemistry-edit__button:focus {
-    color: #fff;
-    background: #ff5d88;
-    border-color: #ff5d88;
+    color: #f7f3ef;
+    background: #c200fb;
+    border-color: #c200fb;
 }
 
 .sharedchemistry-edit__placeholder {
-    background: rgba(255, 255, 255, .06);
-    color: #d9c9cf;
-    border: 1px dashed rgba(255, 255, 255, .18);
+    background: rgba(255, 188, 10, .08);
+    color: #b8b3b0;
+    border: 1px dashed rgba(255, 188, 10, .32);
 }
 
 @media (min-width: 780px) {
@@ -295,7 +292,7 @@ main#content {
 
 @media (max-width: 779px) {
     .sharedchemistry-edit-logo {
-        margin-top: 0;
+        margin-top: 16px;
     }
 
     .sharedchemistry-edit {
@@ -307,7 +304,7 @@ main#content {
     .sharedchemistry-edit__card,
     .sharedchemistry-edit .sc-profile-section,
     .sharedchemistry-edit__media-card {
-        border-radius: 16px;
+        border-radius: 8px;
         padding: 20px;
     }
 
@@ -330,17 +327,10 @@ main#content {
     <img src="{url_tpl_img}sharedchemistry/sharedchemistry-header-logo.png" alt="SharedChemistry" />
 </div>
 
-<div class="sharedchemistry-edit-progress" aria-label="Profile setup progress">
-    <div class="sharedchemistry-edit-progress__track">
-        <div class="sharedchemistry-edit-progress__fill"></div>
-    </div>
-    <div class="sharedchemistry-edit-progress__text">100% - STEP 5/5</div>
-</div>
-
 <div class="sharedchemistry-edit">
     <section class="sharedchemistry-edit__hero">
-        <h1>Complete Your Couple Profile</h1>
-        <p>Add the details that help other couples understand who you are, what you enjoy, and who you would like to meet.</p>
+        <h1>Edit Couple Profile</h1>
+        <p>Keep your public couple profile current, polished, and clear for the couples you want to meet.</p>
     </section>
 
     <section class="sharedchemistry-edit__card">
