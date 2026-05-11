@@ -445,6 +445,127 @@ main#content:has(.sharedchemistry-edit) ol#toc li a.active {
     <img src="{url_tpl_img}sharedchemistry/sharedchemistry-header-logo.png" alt="SharedChemistry" />
 </div>
 
+<script>
+(function() {
+    function scInitSettingsTabs() {
+        var toc = document.querySelector('main#content ol#toc');
+        var allowed = {
+            edit: true,
+            avatar: true,
+            privacy: true,
+            pwd: true
+        };
+        var anchors;
+
+        if (!toc) {
+            return;
+        }
+
+        anchors = toc.querySelectorAll('a');
+
+        function getTargetFromHref(href) {
+            var hashIndex;
+            var hash;
+            var match;
+
+            if (!href) {
+                return '';
+            }
+
+            hashIndex = href.indexOf('#');
+            if (hashIndex === -1) {
+                return '';
+            }
+
+            hash = href.slice(hashIndex + 1);
+            match = /^p=([^&]+)/.exec(hash);
+
+            return match ? match[1] : hash;
+        }
+
+        function getTargetFromHash() {
+            var hash = window.location.hash.replace(/^#/, '');
+            var match = /^p=([^&]+)/.exec(hash);
+            var target = match ? match[1] : hash;
+
+            return allowed[target] ? target : 'edit';
+        }
+
+        function setClass(el, active) {
+            if (!el) {
+                return;
+            }
+
+            el.classList.toggle('active', active);
+            el.classList.toggle('inactive', !active);
+        }
+
+        function showPanel(target, updateHash) {
+            var panels = document.querySelectorAll('main#content div.content[id]');
+
+            if (!allowed[target]) {
+                target = 'edit';
+            }
+
+            panels.forEach(function(panel) {
+                if (allowed[panel.id]) {
+                    setClass(panel, panel.id === target);
+                }
+            });
+
+            anchors.forEach(function(anchor) {
+                var anchorTarget = getTargetFromHref(anchor.getAttribute('href'));
+                var item = anchor.parentNode;
+
+                if (!allowed[anchorTarget]) {
+                    if (item && item.tagName && item.tagName.toLowerCase() === 'li') {
+                        item.style.display = 'none';
+                    }
+                    return;
+                }
+
+                if (item && item.style) {
+                    item.style.display = '';
+                }
+
+                setClass(anchor, anchorTarget === target);
+            });
+
+            if (updateHash && window.location.hash !== '#p=' + target) {
+                window.location.hash = 'p=' + target;
+            }
+        }
+
+        anchors.forEach(function(anchor) {
+            var target = getTargetFromHref(anchor.getAttribute('href'));
+
+            if (!allowed[target]) {
+                if (anchor.parentNode && anchor.parentNode.style) {
+                    anchor.parentNode.style.display = 'none';
+                }
+                return;
+            }
+
+            anchor.addEventListener('click', function(event) {
+                event.preventDefault();
+                showPanel(target, true);
+            });
+        });
+
+        showPanel(getTargetFromHash(), false);
+        window.addEventListener('hashchange', function() {
+            showPanel(getTargetFromHash(), false);
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', scInitSettingsTabs);
+    } else {
+        scInitSettingsTabs();
+    }
+}());
+</script>
+
 <div class="sharedchemistry-edit">
     <section class="sharedchemistry-edit__hero">
         <h1>Edit Couple Profile</h1>

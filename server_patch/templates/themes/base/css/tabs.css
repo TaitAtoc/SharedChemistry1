@@ -1,6 +1,8 @@
 div.content {
     clear: left;
     float: none;
+    position: relative;
+    z-index: 1;
     width: 100%;
     box-sizing: border-box;
     padding: 18px;
@@ -13,9 +15,15 @@ div.content.inactive {
     display: none;
 }
 
+div.content.active {
+    display: block;
+}
+
 ol#toc {
     display: flex;
     flex-wrap: wrap;
+    position: relative;
+    z-index: 2;
     gap: 8px;
     width: 100%;
     box-sizing: border-box;
@@ -58,6 +66,8 @@ ol#toc li a.inactive {
     font: 700 13px/1.2 "Open Sans", Verdana, Arial, sans-serif;
     text-decoration: none;
     text-shadow: none;
+    cursor: pointer;
+    pointer-events: auto;
 }
 
 ol#toc span,

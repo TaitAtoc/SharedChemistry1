@@ -487,6 +487,8 @@ main#content:has(ol#toc) {
 main#content:has(ol#toc) div.content {
     clear: left;
     float: none;
+    position: relative;
+    z-index: 1;
     width: 100%;
     box-sizing: border-box;
     padding: 18px;
@@ -500,9 +502,15 @@ main#content:has(ol#toc) div.content.inactive {
     display: none;
 }
 
+main#content:has(ol#toc) div.content.active {
+    display: block;
+}
+
 main#content ol#toc {
     display: flex !important;
     flex-wrap: wrap;
+    position: relative;
+    z-index: 2;
     gap: 8px;
     width: 100%;
     box-sizing: border-box;
@@ -552,6 +560,8 @@ main#content ol#toc li a.inactive {
     text-decoration: none !important;
     text-shadow: none !important;
     box-shadow: none !important;
+    cursor: pointer;
+    pointer-events: auto;
 }
 
 main#content ol#toc span,
@@ -636,4 +646,5 @@ main#content:has(ol#toc) div.content a.btn:focus {
         padding: 7px 11px !important;
         font-size: 12px;
     }
+
 }
