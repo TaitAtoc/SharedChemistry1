@@ -632,6 +632,141 @@ main#content:has(ol#toc) div.content a.btn:focus {
     outline: none;
 }
 
+main#content .sc-settings-photo-panel {
+    display: grid;
+    gap: 18px;
+    color: #f7f3ef;
+}
+
+main#content .sc-settings-photo-card {
+    padding: 22px;
+    border: 1px solid rgba(247, 243, 239, .08);
+    border-radius: 8px;
+    background: #17181d;
+    box-shadow: 0 18px 42px rgba(0, 0, 0, .28);
+}
+
+main#content .sc-settings-photo-card--main {
+    display: grid;
+    grid-template-columns: minmax(180px, 260px) minmax(160px, 240px) minmax(260px, 1fr);
+    gap: 18px;
+    align-items: start;
+}
+
+main#content .sc-settings-photo-copy h2,
+main#content .sc-settings-public-photo-slot h3 {
+    margin: 0;
+    color: #f7f3ef;
+    letter-spacing: 0;
+}
+
+main#content .sc-settings-photo-copy h2 {
+    font-size: 22px;
+    line-height: 1.25;
+}
+
+main#content .sc-settings-photo-copy p {
+    margin: 8px 0 0;
+    color: #b8b3b0;
+    line-height: 1.5;
+}
+
+main#content .sc-settings-photo-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 190px;
+    border: 1px solid rgba(247, 243, 239, .08);
+    border-radius: 8px;
+    background: #202127;
+}
+
+main#content .sc-settings-photo-main .picture_block,
+main#content .sc-settings-photo-main img {
+    max-width: 100%;
+    margin: 0 !important;
+    border-radius: 8px;
+}
+
+main#content .sc-settings-photo-actions form,
+main#content .sc-settings-public-photo-slot form {
+    margin: 10px 0 0;
+}
+
+main#content .sc-settings-public-photo-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 18px;
+}
+
+main#content .sc-settings-public-photo-slot {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 100%;
+    padding: 14px;
+    border: 1px solid rgba(247, 243, 239, .10);
+    border-radius: 8px;
+    background: #202127;
+}
+
+main#content .sc-settings-public-photo-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 148px;
+    overflow: hidden;
+    border: 1px dashed rgba(255, 188, 10, .30);
+    border-radius: 8px;
+    background: #101114;
+    color: #8f8a88;
+    font-weight: 700;
+    text-align: center;
+}
+
+main#content .sc-settings-public-photo-preview a,
+main#content .sc-settings-public-photo-preview img {
+    display: block;
+    width: 100%;
+    height: 148px;
+}
+
+main#content .sc-settings-public-photo-preview img {
+    object-fit: cover;
+}
+
+main#content .sc-settings-public-photo-slot h3 {
+    font-size: 15px;
+    line-height: 1.25;
+}
+
+main#content .sc-settings-photo-panel input[type="file"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid rgba(247, 243, 239, .12);
+    border-radius: 8px;
+    background: #101114;
+    color: #f7f3ef;
+}
+
+main#content .sc-settings-photo-panel .sc-public-photo-delete-wrap input[type="submit"],
+main#content .sc-settings-photo-panel .sc-public-photo-delete-wrap button {
+    background: #202127 !important;
+    color: #ffbc0a !important;
+    border: 1px solid rgba(255, 188, 10, .36) !important;
+}
+
+main#content .sc-settings-photo-panel .sc-public-photo-delete-wrap input[type="submit"]:hover,
+main#content .sc-settings-photo-panel .sc-public-photo-delete-wrap button:hover,
+main#content .sc-settings-photo-panel .sc-public-photo-delete-wrap input[type="submit"]:focus,
+main#content .sc-settings-photo-panel .sc-public-photo-delete-wrap button:focus {
+    background: #2a1723 !important;
+    color: #f7f3ef !important;
+    border-color: #ec0868 !important;
+}
+
 @media (max-width: 640px) {
     main#content:has(ol#toc) div.content {
         padding: 14px 0;
@@ -649,4 +784,22 @@ main#content:has(ol#toc) div.content a.btn:focus {
         font-size: 12px;
     }
 
+    main#content .sc-settings-photo-card--main,
+    main#content .sc-settings-public-photo-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (min-width: 641px) and (max-width: 1100px) {
+    main#content .sc-settings-photo-card--main {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    main#content .sc-settings-photo-actions {
+        grid-column: 1 / -1;
+    }
+
+    main#content .sc-settings-public-photo-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }

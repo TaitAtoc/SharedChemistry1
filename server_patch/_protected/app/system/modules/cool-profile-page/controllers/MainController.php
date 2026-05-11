@@ -115,6 +115,7 @@ class MainController extends ProfileBaseController
             $this->view->is_own_profile = $this->isOwnProfile();
             $this->view->is_profile_online = $this->oUserModel->isOnline($this->iProfileId, DbConfig::getSetting('userTimeout'));
             $this->view->profile_status_label = $this->view->is_profile_online ? t('Online') : t('Offline');
+            $this->view->public_profile_photos = (new ScPublicProfilePhoto)->getPhotos((int)$this->iProfileId, '1');
 
             // Count number of times the profile is viewed
             Statistic::setView($this->iProfileId, DbTableName::MEMBER);
