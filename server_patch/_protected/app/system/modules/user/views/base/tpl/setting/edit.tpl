@@ -10,6 +10,114 @@ main#content,
     background: #101114 !important;
 }
 
+main#content:has(.sharedchemistry-edit) {
+    width: auto !important;
+    max-width: none !important;
+    border: 0 !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    background: #101114 !important;
+}
+
+main#content:has(.sharedchemistry-edit) > .border,
+main#content:has(.sharedchemistry-edit) > .design-box,
+main#content:has(.sharedchemistry-edit) > .box,
+main#content:has(.sharedchemistry-edit) > .block,
+main#content:has(.sharedchemistry-edit) > .panel,
+main#content:has(.sharedchemistry-edit) > .well {
+    border-color: rgba(247, 243, 239, .08) !important;
+    box-shadow: none !important;
+    background: #17181d !important;
+}
+
+main#content:has(.sharedchemistry-edit) > ul,
+main#content:has(.sharedchemistry-edit) > nav ul,
+main#content:has(.sharedchemistry-edit) > div:has(> a[href*="/user/setting"]),
+main#content:has(.sharedchemistry-edit) > div:has(a[href*="/user/setting/avatar"]),
+main#content:has(.sharedchemistry-edit) > p:has(a[href*="/user/setting"]),
+main#content:has(.sharedchemistry-edit) .nav-tabs,
+main#content:has(.sharedchemistry-edit) .nav-pills {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-width: 1120px;
+    margin: 14px auto 16px !important;
+    padding: 12px 20px !important;
+    border: 1px solid rgba(247, 243, 239, .08) !important;
+    border-radius: 8px !important;
+    background: #17181d !important;
+    box-shadow: 0 16px 42px rgba(0, 0, 0, .28);
+}
+
+main#content:has(.sharedchemistry-edit) > ul li,
+main#content:has(.sharedchemistry-edit) > nav ul li,
+main#content:has(.sharedchemistry-edit) .nav-tabs > li,
+main#content:has(.sharedchemistry-edit) .nav-pills > li {
+    display: block !important;
+    float: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+main#content:has(.sharedchemistry-edit) > ul a,
+main#content:has(.sharedchemistry-edit) > nav ul a,
+main#content:has(.sharedchemistry-edit) > div:has(> a[href*="/user/setting"]) > a,
+main#content:has(.sharedchemistry-edit) > div:has(a[href*="/user/setting/avatar"]) a,
+main#content:has(.sharedchemistry-edit) > p:has(a[href*="/user/setting"]) a,
+main#content:has(.sharedchemistry-edit) .nav-tabs > li > a,
+main#content:has(.sharedchemistry-edit) .nav-pills > li > a {
+    display: inline-flex !important;
+    align-items: center;
+    min-height: 38px;
+    padding: 9px 14px !important;
+    border: 1px solid rgba(247, 243, 239, .10) !important;
+    border-radius: 999px !important;
+    background: #202127 !important;
+    color: #f7f3ef !important;
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none !important;
+    text-shadow: none !important;
+}
+
+main#content:has(.sharedchemistry-edit) > ul a:hover,
+main#content:has(.sharedchemistry-edit) > ul a:focus,
+main#content:has(.sharedchemistry-edit) > nav ul a:hover,
+main#content:has(.sharedchemistry-edit) > nav ul a:focus,
+main#content:has(.sharedchemistry-edit) > div:has(> a[href*="/user/setting"]) > a:hover,
+main#content:has(.sharedchemistry-edit) > div:has(> a[href*="/user/setting"]) > a:focus,
+main#content:has(.sharedchemistry-edit) > div:has(a[href*="/user/setting/avatar"]) a:hover,
+main#content:has(.sharedchemistry-edit) > div:has(a[href*="/user/setting/avatar"]) a:focus,
+main#content:has(.sharedchemistry-edit) > p:has(a[href*="/user/setting"]) a:hover,
+main#content:has(.sharedchemistry-edit) > p:has(a[href*="/user/setting"]) a:focus,
+main#content:has(.sharedchemistry-edit) .nav-tabs > li > a:hover,
+main#content:has(.sharedchemistry-edit) .nav-tabs > li > a:focus,
+main#content:has(.sharedchemistry-edit) .nav-pills > li > a:hover,
+main#content:has(.sharedchemistry-edit) .nav-pills > li > a:focus {
+    border-color: #ffbc0a !important;
+    background: rgba(236, 8, 104, .18) !important;
+    color: #ffbc0a !important;
+}
+
+main#content:has(.sharedchemistry-edit) > ul li.active a,
+main#content:has(.sharedchemistry-edit) > ul li.current a,
+main#content:has(.sharedchemistry-edit) > nav ul li.active a,
+main#content:has(.sharedchemistry-edit) > nav ul li.current a,
+main#content:has(.sharedchemistry-edit) > div:has(> a[href*="/user/setting"]) > a.active,
+main#content:has(.sharedchemistry-edit) > div:has(a[href*="/user/setting/avatar"]) a.active,
+main#content:has(.sharedchemistry-edit) > p:has(a[href*="/user/setting"]) a.active,
+main#content:has(.sharedchemistry-edit) .nav-tabs > li.active > a,
+main#content:has(.sharedchemistry-edit) .nav-tabs > li.active > a:hover,
+main#content:has(.sharedchemistry-edit) .nav-tabs > li.active > a:focus,
+main#content:has(.sharedchemistry-edit) .nav-pills > li.active > a,
+main#content:has(.sharedchemistry-edit) a[href*="/user/setting/edit"],
+main#content:has(.sharedchemistry-edit) a[href*="/user/setting/index#p=edit"] {
+    border-color: transparent !important;
+    background: linear-gradient(90deg, #ec0868, #c200fb) !important;
+    color: #f7f3ef !important;
+    box-shadow: 0 10px 24px rgba(236, 8, 104, .22);
+}
+
 .sharedchemistry-edit-logo {
     max-width: 1060px;
     margin: 22px auto 8px;
