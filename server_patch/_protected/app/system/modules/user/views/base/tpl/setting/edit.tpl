@@ -447,6 +447,8 @@ main#content:has(.sharedchemistry-edit) ol#toc li a.active {
 
 <script>
 (function() {
+    var scSettingsTabsReady = false;
+
     function scInitSettingsTabs() {
         var toc = document.querySelector('main#content ol#toc');
         var allowed = {
@@ -457,10 +459,11 @@ main#content:has(.sharedchemistry-edit) ol#toc li a.active {
         };
         var anchors;
 
-        if (!toc) {
+        if (!toc || scSettingsTabsReady) {
             return;
         }
 
+        scSettingsTabsReady = true;
         anchors = toc.querySelectorAll('a');
 
         function getTargetFromHref(href) {
@@ -546,10 +549,12 @@ main#content:has(.sharedchemistry-edit) ol#toc li a.active {
                 return;
             }
 
+            anchor.setAttribute('href', '#p=' + target);
+
             anchor.addEventListener('click', function(event) {
                 event.preventDefault();
                 showPanel(target, true);
-            });
+            }, true);
         });
 
         showPanel(getTargetFromHash(), false);
@@ -558,10 +563,16 @@ main#content:has(.sharedchemistry-edit) ol#toc li a.active {
         });
     }
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', scInitSettingsTabs);
-    } else {
+    function runSettingsTabs() {
         scInitSettingsTabs();
+    }
+
+    if (document.querySelector('main#content ol#toc')) {
+        runSettingsTabs();
+    } else if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', runSettingsTabs);
+    } else {
+        runSettingsTabs();
     }
 }());
 </script>
