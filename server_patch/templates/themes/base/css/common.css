@@ -689,76 +689,104 @@ main#content .sc-settings-photo-main img {
     border-radius: 8px;
 }
 
-main#content .sc-settings-photo-actions form,
-main#content .sc-settings-public-photo-slot form {
-    margin: 0;
-}
-
-main#content .sc-settings-public-photo-grid {
+main#content .sc-settings-profile-photo-strip {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 12px;
     margin-top: 16px;
 }
 
-main#content .sc-settings-public-photo-slot {
+main#content .sc-settings-profile-photo-slot {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
+    align-items: stretch;
+    justify-content: space-between;
     min-height: 100%;
     min-width: 0;
-    padding: 12px;
+    padding: 10px;
     border: 1px solid rgba(247, 243, 239, .10);
-    border-radius: 10px;
-    background: #202127;
+    border-radius: 8px;
+    background: #100f14;
     overflow: hidden;
 }
 
-main#content .sc-settings-public-photo-preview {
+main#content .sc-settings-profile-photo-frame {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 132px;
+    width: 100%;
+    min-height: 122px;
     overflow: hidden;
-    border: 1px dashed rgba(255, 188, 10, .30);
-    border-radius: 10px;
-    background: #101114;
-    color: #8f8a88;
+    border-radius: 7px;
+    background: #0d0c11;
+}
+
+main#content .sc-settings-profile-photo-frame a {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: 100% !important;
+    text-decoration: none !important;
+}
+
+main#content .sc-settings-profile-photo-frame img {
+    display: block;
+    width: 100%;
+    max-width: 150px;
+    height: 122px;
+    max-height: 122px;
+    object-fit: cover;
+    border: 0;
+    border-radius: 7px;
+}
+
+main#content .sc-settings-profile-photo-frame .picture_block {
+    max-width: 100% !important;
+    margin: 0 !important;
+}
+
+main#content .sc-settings-profile-photo-label {
+    display: block;
+    width: 100%;
+    margin: 0;
+    color: #d9d2dc;
+    font-size: 12px;
     font-weight: 700;
+    line-height: 1.2;
     text-align: center;
 }
 
-main#content .sc-settings-public-photo-preview a,
-main#content .sc-settings-public-photo-preview img {
-    display: block;
+main#content .sc-settings-profile-photo-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-    height: 132px;
+    min-height: 122px;
+    padding: 12px;
+    color: #8f8794;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.35;
+    text-align: center;
 }
 
-main#content .sc-settings-public-photo-preview img {
-    object-fit: cover;
-}
-
-main#content .sc-settings-public-photo-slot h3 {
-    font-size: 14px;
-    line-height: 1.25;
-}
-
-main#content .sc-settings-public-photo-controls {
+main#content .sc-settings-profile-photo-controls {
     display: grid;
-    gap: 9px;
+    gap: 8px;
     width: 100%;
     min-width: 0;
-    margin-top: auto;
+    margin: auto 0 0;
 }
 
-main#content .sc-settings-public-photo-controls form,
-main#content .sc-settings-public-photo-controls fieldset,
-main#content .sc-settings-public-photo-controls .pfbc-form,
-main#content .sc-settings-public-photo-controls .form-horizontal,
-main#content .sc-settings-public-photo-controls .form-inline {
+main#content .sc-settings-profile-photo-controls form,
+main#content .sc-settings-profile-photo-controls fieldset,
+main#content .sc-settings-profile-photo-controls .pfbc-form,
+main#content .sc-settings-profile-photo-controls .form-horizontal,
+main#content .sc-settings-profile-photo-controls .form-inline {
     display: grid !important;
-    gap: 9px;
+    gap: 8px;
     width: 100% !important;
     max-width: none !important;
     min-width: 0;
@@ -780,56 +808,65 @@ main#content .sc-settings-photo-panel input[type="file"] {
     color: #f7f3ef;
 }
 
-main#content .sc-settings-public-photo-controls .control-group,
-main#content .sc-settings-public-photo-controls .controls,
-main#content .sc-settings-public-photo-controls .form-group,
-main#content .sc-settings-public-photo-controls .form-actions,
-main#content .sc-settings-public-photo-controls .pfbc-form-group,
-main#content .sc-settings-public-photo-controls .pfbc-buttons,
-main#content .sc-settings-public-photo-controls .btn-group {
+main#content .sc-settings-profile-photo-controls .control-group,
+main#content .sc-settings-profile-photo-controls .controls,
+main#content .sc-settings-profile-photo-controls .form-group,
+main#content .sc-settings-profile-photo-controls .form-actions,
+main#content .sc-settings-profile-photo-controls .pfbc-element,
+main#content .sc-settings-profile-photo-controls .pfbc-form-group,
+main#content .sc-settings-profile-photo-controls .pfbc-buttons,
+main#content .sc-settings-profile-photo-controls .btn-group,
+main#content .sc-settings-profile-photo-controls div[id^="pfbc-element-"] {
     display: grid !important;
-    gap: 7px;
+    gap: 6px;
     width: 100% !important;
     max-width: none !important;
     min-width: 0;
     margin: 0 !important;
     padding: 0 !important;
+    border: 0 !important;
     float: none !important;
     clear: both !important;
     text-align: left !important;
 }
 
-main#content .sc-settings-public-photo-slot .form-group,
-main#content .sc-settings-public-photo-slot .form-actions,
-main#content .sc-settings-public-photo-slot .pfbc-form-group,
-main#content .sc-settings-public-photo-slot .pfbc-buttons {
-    margin: 0;
+main#content .sc-settings-profile-photo-controls .pfbc-label {
+    margin: 0 0 4px !important;
+    padding: 0 !important;
 }
 
-main#content .sc-settings-public-photo-slot label {
+main#content .sc-settings-profile-photo-controls label {
     display: block;
-    margin: 0 0 6px;
+    margin: 0;
     color: #b8b3b0;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
     line-height: 1.25;
 }
 
-main#content .sc-settings-public-photo-slot input[type="submit"],
-main#content .sc-settings-public-photo-slot button,
-main#content .sc-settings-public-photo-slot .btn,
-main#content .sc-settings-public-photo-slot a.btn {
+main#content .sc-settings-profile-photo-controls input[type="file"] {
+    min-height: 36px;
+    padding: 7px;
+    font-size: 12px;
+}
+
+main#content .sc-settings-profile-photo-controls input[type="submit"],
+main#content .sc-settings-profile-photo-controls button,
+main#content .sc-settings-profile-photo-controls .btn,
+main#content .sc-settings-profile-photo-controls a.btn {
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
     width: 100%;
-    min-height: 38px;
+    min-height: 36px;
     box-sizing: border-box;
-    padding: 9px 12px !important;
-    border-radius: 10px !important;
+    margin: 0 !important;
+    padding: 8px 10px !important;
+    border-radius: 9px !important;
     float: none !important;
     clear: both !important;
     text-align: center !important;
+    white-space: normal;
 }
 
 main#content .sc-settings-photo-panel .sc-public-photo-delete-wrap input[type="submit"],
@@ -896,7 +933,7 @@ main#content .sc-settings-delete-button {
     }
 
     main#content .sc-settings-photo-card--main,
-    main#content .sc-settings-public-photo-grid {
+    main#content .sc-settings-profile-photo-strip {
         grid-template-columns: 1fr;
     }
 
@@ -914,7 +951,7 @@ main#content .sc-settings-delete-button {
         grid-column: 1 / -1;
     }
 
-    main#content .sc-settings-public-photo-grid {
+    main#content .sc-settings-profile-photo-strip {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
