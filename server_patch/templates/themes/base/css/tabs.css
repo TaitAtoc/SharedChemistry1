@@ -45,7 +45,9 @@ ol#toc li {
 }
 
 ol#toc li:has(a[href="#design"]),
+ol#toc li:has(a[href="#p=design"]),
 ol#toc li:has(a[href="#notification"]),
+ol#toc li:has(a[href="#p=notification"]),
 ol#toc li:has(a[href*="/payment/main/info"]),
 ol#toc li:has(a[href*="payment/main/info"]) {
     display: none !important;

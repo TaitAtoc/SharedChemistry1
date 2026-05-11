@@ -537,7 +537,9 @@ main#content ol#toc li {
 }
 
 main#content ol#toc li:has(a[href="#design"]),
+main#content ol#toc li:has(a[href="#p=design"]),
 main#content ol#toc li:has(a[href="#notification"]),
+main#content ol#toc li:has(a[href="#p=notification"]),
 main#content ol#toc li:has(a[href*="/payment/main/info"]),
 main#content ol#toc li:has(a[href*="payment/main/info"]) {
     display: none !important;

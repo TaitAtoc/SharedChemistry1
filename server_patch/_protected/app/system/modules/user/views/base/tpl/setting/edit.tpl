@@ -69,11 +69,15 @@ main#content:has(.sharedchemistry-edit) ol#toc li {
 }
 
 #content:has(.sharedchemistry-edit) ol#toc li:has(a[href="#design"]),
+#content:has(.sharedchemistry-edit) ol#toc li:has(a[href="#p=design"]),
 #content:has(.sharedchemistry-edit) ol#toc li:has(a[href="#notification"]),
+#content:has(.sharedchemistry-edit) ol#toc li:has(a[href="#p=notification"]),
 #content:has(.sharedchemistry-edit) ol#toc li:has(a[href*="/payment/main/info"]),
 #content:has(.sharedchemistry-edit) ol#toc li:has(a[href*="payment/main/info"]),
 main#content:has(.sharedchemistry-edit) ol#toc li:has(a[href="#design"]),
+main#content:has(.sharedchemistry-edit) ol#toc li:has(a[href="#p=design"]),
 main#content:has(.sharedchemistry-edit) ol#toc li:has(a[href="#notification"]),
+main#content:has(.sharedchemistry-edit) ol#toc li:has(a[href="#p=notification"]),
 main#content:has(.sharedchemistry-edit) ol#toc li:has(a[href*="/payment/main/info"]),
 main#content:has(.sharedchemistry-edit) ol#toc li:has(a[href*="payment/main/info"]) {
     display: none !important;
@@ -451,6 +455,7 @@ main#content:has(.sharedchemistry-edit) ol#toc li a.active {
 
     function scInitSettingsTabs() {
         var toc = document.querySelector('main#content ol#toc');
+        var root = toc ? (toc.closest('main#content') || document) : document;
         var allowed = {
             edit: true,
             avatar: true,
@@ -494,6 +499,16 @@ main#content:has(.sharedchemistry-edit) ol#toc li a.active {
             return allowed[target] ? target : 'edit';
         }
 
+        function getPanel(id) {
+            var panel = document.getElementById(id);
+
+            if (panel && root.contains(panel)) {
+                return panel;
+            }
+
+            return root.querySelector('div.content#' + id + ', #' + id + '.content');
+        }
+
         function setClass(el, active) {
             if (!el) {
                 return;
@@ -504,15 +519,30 @@ main#content:has(.sharedchemistry-edit) ol#toc li a.active {
         }
 
         function showPanel(target, updateHash) {
-            var panels = document.querySelectorAll('main#content div.content[id]');
+            var hiddenPanels = ['design', 'notification'];
 
             if (!allowed[target]) {
                 target = 'edit';
             }
 
-            panels.forEach(function(panel) {
-                if (allowed[panel.id]) {
-                    setClass(panel, panel.id === target);
+            Object.keys(allowed).forEach(function(id) {
+                var panel = getPanel(id);
+                var isActive = id === target;
+
+                if (panel) {
+                    setClass(panel, isActive);
+                    panel.style.display = isActive ? '' : 'none';
+                    panel.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+                }
+            });
+
+            hiddenPanels.forEach(function(id) {
+                var panel = getPanel(id);
+
+                if (panel) {
+                    setClass(panel, false);
+                    panel.style.display = 'none';
+                    panel.setAttribute('aria-hidden', 'true');
                 }
             });
 
@@ -553,6 +583,12 @@ main#content:has(.sharedchemistry-edit) ol#toc li a.active {
 
             anchor.addEventListener('click', function(event) {
                 event.preventDefault();
+                event.stopPropagation();
+
+                if (event.stopImmediatePropagation) {
+                    event.stopImmediatePropagation();
+                }
+
                 showPanel(target, true);
             }, true);
         });
@@ -588,23 +624,4 @@ main#content:has(.sharedchemistry-edit) ol#toc li a.active {
             {{ EditForm::display() }}
         </div>
     </section>
-
-    <div class="sharedchemistry-edit__media">
-        <section class="sharedchemistry-edit__media-card">
-            <h3>Public profile photos</h3>
-            <p>Your main profile photo is already set from signup. You can add up to 4 more public profile photos later.</p>
-            <div class="sharedchemistry-edit__actions">
-                <a class="sharedchemistry-edit__button" href="{{ $design->url('picture', 'main', 'addalbum') }}">Add public photos</a>
-            </div>
-        </section>
-
-        <section class="sharedchemistry-edit__media-card">
-            <h3>Private photos and videos</h3>
-            <p>Private media will be added in a later step. You will be able to control what other couples can see.</p>
-            <div class="sharedchemistry-edit__actions">
-                <span class="sharedchemistry-edit__placeholder">Private photos coming soon</span>
-                <span class="sharedchemistry-edit__placeholder">Private videos coming soon</span>
-            </div>
-        </section>
-    </div>
 </div>
