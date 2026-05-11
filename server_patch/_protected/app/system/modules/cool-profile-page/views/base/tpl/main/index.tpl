@@ -14,7 +14,7 @@
     .grey_bar,
     .grey-bar,
     .gray-bar{display:none!important;height:0!important;min-height:0!important;margin:0!important;padding:0!important;overflow:hidden!important;border:0!important;background:transparent!important}
-    main#content{max-width:1180px!important;margin:0 auto!important;padding:18px 15px 0!important;background:transparent!important;border:0!important;box-shadow:none!important}
+    main#content{max-width:1180px!important;margin:0 auto!important;padding:44px 15px 0!important;background:transparent!important;border:0!important;box-shadow:none!important}
     .sc-public-profile{color:#f4f1f6}
     .sc-public-profile *{box-sizing:border-box}
     .sc-profile-photo-strip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:0 0 18px}
@@ -54,7 +54,17 @@
     .sc-public-profile .sc-profile-side .sc-profile-actions a.sc-profile-button:not(.is-primary):visited{border:1px solid rgba(236,8,104,.65)!important;background:#202127!important;background-image:none!important;color:#f7f3ef!important}
     .sc-public-profile .sc-profile-side .sc-profile-actions a.sc-profile-button:hover,
     .sc-public-profile .sc-profile-side .sc-profile-actions a.sc-profile-button:focus{border-color:#c200fb!important;background:#c200fb!important;background-image:none!important;color:#fff!important}
+    .sc-public-profile .sc-profile-side .sc-profile-actions > a.sc-profile-action-primary{border-color:transparent!important;background-color:#ec0868!important;background-image:linear-gradient(90deg,#ec0868,#c200fb)!important;color:#f7f3ef!important}
+    .sc-public-profile .sc-profile-side .sc-profile-actions > a.sc-profile-action-secondary{border-color:rgba(236,8,104,.72)!important;background-color:#202127!important;background-image:none!important;color:#f7f3ef!important}
+    .sc-public-profile .sc-profile-side .sc-profile-actions > a.sc-profile-action-primary:hover,
+    .sc-public-profile .sc-profile-side .sc-profile-actions > a.sc-profile-action-primary:focus,
+    .sc-public-profile .sc-profile-side .sc-profile-actions > a.sc-profile-action-secondary:hover,
+    .sc-public-profile .sc-profile-side .sc-profile-actions > a.sc-profile-action-secondary:focus{border-color:#c200fb!important;background-color:#c200fb!important;background-image:none!important;color:#fff!important}
     .sc-profile-inline-actions .sc-profile-button{width:auto;min-height:34px;padding:8px 12px;border-radius:8px;background:#24212b;font-size:12px;box-shadow:none}
+    .sc-public-profile .sc-profile-inline-actions a.sc-profile-verify-button,
+    .sc-public-profile .sc-profile-inline-actions a.sc-profile-verify-button:visited{border:1px solid rgba(255,188,10,.48)!important;background:#202127!important;background-image:none!important;color:#ffbc0a!important;text-decoration:none!important;text-shadow:none!important}
+    .sc-public-profile .sc-profile-inline-actions a.sc-profile-verify-button:hover,
+    .sc-public-profile .sc-profile-inline-actions a.sc-profile-verify-button:focus{border-color:#ffbc0a!important;background:#2a2416!important;color:#f7f3ef!important}
     .sc-profile-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:16px}
     .sc-profile-grid.is-wide{grid-template-columns:1fr}
     .sc-profile-card{padding:22px}
@@ -93,7 +103,7 @@
         .sc-profile-grid{grid-template-columns:1fr}
     }
     @media (max-width:767px){
-        main#content{padding:12px 10px 0!important}
+        main#content{padding:36px 10px 0!important}
         .sc-profile-photo-strip{grid-template-columns:repeat(2,minmax(0,1fr))}
         .sc-profile-hero{grid-template-columns:1fr;padding:18px}
         .sc-profile-hero-head{display:block}
@@ -207,7 +217,7 @@
             {/if}
 
             <div class="sc-profile-inline-actions">
-                <a class="sc-profile-button" href="#">{lang 'Verify Couple Later'}</a>
+                <a class="sc-profile-button sc-profile-verify-button" href="#">{lang 'Verify Couple Later'}</a>
             </div>
         </div>
 
@@ -218,7 +228,7 @@
             </div>
             <div class="sc-profile-actions">
             {if $is_friend_enabled AND !empty($friend_link) AND !$is_own_profile}
-                <a class="sc-profile-button is-primary" rel="nofollow" href="{friend_link}">
+                <a class="sc-profile-button sc-profile-action-primary is-primary" rel="nofollow" href="{friend_link}">
                     {if $is_approved_friend}
                         {lang 'Remove Friend'}
                     {elseif $is_pending_friend}
@@ -228,13 +238,13 @@
                     {/if}
                 </a>
             {else}
-                <a class="sc-profile-button is-primary" href="#">{lang 'Friend Request'}</a>
+                <a class="sc-profile-button sc-profile-action-primary is-primary" href="#">{lang 'Friend Request'}</a>
             {/if}
 
             {if $is_mail_enabled AND !empty($mail_link) AND !$is_own_profile}
-                <a class="sc-profile-button" rel="nofollow" href="{mail_link}">{lang 'Message'}</a>
+                <a class="sc-profile-button sc-profile-action-secondary" rel="nofollow" href="{mail_link}">{lang 'Message'}</a>
             {else}
-                <a class="sc-profile-button" href="#">{lang 'Message'}</a>
+                <a class="sc-profile-button sc-profile-action-secondary" href="#">{lang 'Message'}</a>
             {/if}
             </div>
         </div>

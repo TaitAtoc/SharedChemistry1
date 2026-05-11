@@ -57,16 +57,7 @@ class MainController extends ProfileBaseController
             $aData = $this->getFilteredData($oUser, $oFields);
             $this->assignCoupleProfileViewData($aCoupleProfile, $aData, $oUser->username);
 
-            $this->view->page_title = t(
-                'Meet %0%. A %1% looking for %2% - %3% years - %4% - %5% %6%',
-                $aData['first_name'],
-                t($oUser->sex),
-                t($oUser->matchSex),
-                $aData['age'],
-                t($aData['country']),
-                $aData['city'],
-                $aData['state']
-            );
+            $this->view->page_title = $this->view->profile_title . ' | SharedChemistry';
 
             $this->view->meta_description = t(
                 'Meet %0% %1% | %2% - %3%',
@@ -271,7 +262,7 @@ class MainController extends ProfileBaseController
     {
         $this->view->couple_profile = $aData;
         $this->view->couple_name = $aData['couple_name'];
-        $this->view->profile_title = !empty($aData['couple_name']) ? $aData['couple_name'] : (!empty($aProfileData['first_name']) ? $aProfileData['first_name'] : $sUsername);
+        $this->view->profile_title = !empty($aData['couple_name']) ? $aData['couple_name'] : $sUsername;
         $this->view->profile_location = $this->getProfileLocationText($aProfileData);
         $this->view->profile_age_text = $this->getProfileAgeText($aData);
         $this->view->about_us = $aData['about_us'];
