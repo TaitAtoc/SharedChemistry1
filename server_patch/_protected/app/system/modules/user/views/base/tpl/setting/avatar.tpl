@@ -10,7 +10,7 @@
     }
 
     main#content .sc-avatar-photo-card {
-        padding: 20px;
+        padding: 15px;
         border: 1px solid rgba(247, 243, 239, .08);
         border-radius: 10px;
         background: #17181d;
@@ -18,19 +18,19 @@
     }
 
     main#content .sc-avatar-photo-heading {
-        margin: 0 0 16px;
+        margin: 0 0 12px;
     }
 
     main#content .sc-avatar-photo-heading h2 {
         margin: 0;
         color: #f7f3ef;
-        font-size: 21px;
+        font-size: 19px;
         line-height: 1.25;
         letter-spacing: 0;
     }
 
     main#content .sc-avatar-photo-heading p {
-        margin: 8px 0 0;
+        margin: 6px 0 0;
         color: #b8b3b0;
         line-height: 1.5;
     }
@@ -38,7 +38,7 @@
     main#content .sc-avatar-photo-strip {
         display: grid !important;
         grid-template-columns: repeat(5, minmax(120px, 1fr)) !important;
-        gap: 16px !important;
+        gap: 12px !important;
         align-items: stretch !important;
         width: 100% !important;
         min-width: 0;
@@ -47,10 +47,10 @@
     main#content .sc-avatar-photo-slot {
         display: flex !important;
         flex-direction: column !important;
-        gap: 9px !important;
+        gap: 7px !important;
         min-width: 0;
         min-height: 100%;
-        padding: 10px !important;
+        padding: 8px !important;
         border: 1px solid rgba(247, 243, 239, .10) !important;
         border-radius: 8px !important;
         background: #100f14 !important;
@@ -63,8 +63,9 @@
         align-items: center !important;
         justify-content: center !important;
         width: 100% !important;
-        height: 168px !important;
-        min-height: 168px !important;
+        height: 126px !important;
+        min-height: 126px !important;
+        padding-top: 6px !important;
         overflow: hidden !important;
         border-radius: 7px !important;
         background: #0d0c11 !important;
@@ -75,7 +76,7 @@
         align-items: center !important;
         justify-content: center !important;
         width: 100% !important;
-        height: 100% !important;
+        height: calc(100% - 6px) !important;
         text-decoration: none !important;
     }
 
@@ -89,6 +90,7 @@
         border: 0 !important;
         border-radius: 7px !important;
         object-fit: cover !important;
+        object-position: center 35% !important;
     }
 
     main#content .sc-avatar-photo-frame .picture_block {
@@ -97,21 +99,21 @@
         justify-content: center !important;
         width: 100% !important;
         max-width: 100% !important;
-        height: 100% !important;
+        height: calc(100% - 6px) !important;
         margin: 0 !important;
     }
 
     main#content .sc-avatar-photo-placeholder-note {
         position: absolute;
-        left: 8px;
-        right: 8px;
-        bottom: 8px;
+        left: 7px;
+        right: 7px;
+        bottom: 7px;
         display: block;
-        padding: 5px 7px;
+        padding: 4px 6px;
         border-radius: 999px;
         background: rgba(16, 17, 20, .78);
         color: #f7f3ef;
-        font-size: 11px;
+        font-size: 10px;
         font-weight: 700;
         line-height: 1.2;
         text-align: center;
@@ -120,10 +122,10 @@
     main#content .sc-avatar-photo-label {
         display: block;
         width: 100%;
-        min-height: 30px;
+        min-height: 26px;
         margin: 0;
         color: #d9d2dc;
-        font-size: 12px;
+        font-size: 11px;
         font-weight: 700;
         line-height: 1.2;
         text-align: center;
@@ -131,7 +133,7 @@
 
     main#content .sc-avatar-photo-controls {
         display: grid !important;
-        gap: 8px !important;
+        gap: 6px !important;
         width: 100% !important;
         min-width: 0;
         margin-top: auto !important;
@@ -143,7 +145,7 @@
     main#content .sc-avatar-photo-controls .form-horizontal,
     main#content .sc-avatar-photo-controls .form-inline {
         display: grid !important;
-        gap: 8px !important;
+        gap: 6px !important;
         width: 100% !important;
         max-width: none !important;
         min-width: 0 !important;
@@ -164,7 +166,7 @@
     main#content .sc-avatar-photo-controls .btn-group,
     main#content .sc-avatar-photo-controls div[id^="pfbc-element-"] {
         display: grid !important;
-        gap: 6px !important;
+        gap: 5px !important;
         width: 100% !important;
         max-width: none !important;
         min-width: 0 !important;
@@ -178,7 +180,7 @@
     }
 
     main#content .sc-avatar-photo-controls .pfbc-label {
-        margin: 0 0 4px !important;
+        margin: 0 0 3px !important;
         padding: 0 !important;
     }
 
@@ -186,7 +188,7 @@
         display: block !important;
         margin: 0 !important;
         color: #b8b3b0 !important;
-        font-size: 11px !important;
+        font-size: 10px !important;
         font-weight: 700 !important;
         line-height: 1.25 !important;
         text-align: left !important;
@@ -195,14 +197,14 @@
     main#content .sc-avatar-photo-controls input[type="file"] {
         display: block !important;
         width: 100% !important;
-        min-height: 36px !important;
+        min-height: 32px !important;
         box-sizing: border-box !important;
-        padding: 7px !important;
+        padding: 6px !important;
         border: 1px solid rgba(247, 243, 239, .12) !important;
         border-radius: 8px !important;
         background: #101114 !important;
         color: #f7f3ef !important;
-        font-size: 12px !important;
+        font-size: 11px !important;
         box-shadow: none !important;
         text-shadow: none !important;
     }
@@ -215,18 +217,18 @@
         align-items: center !important;
         justify-content: center !important;
         width: 100% !important;
-        min-height: 36px !important;
+        min-height: 32px !important;
         box-sizing: border-box !important;
         margin: 0 !important;
-        padding: 8px 10px !important;
+        padding: 7px 9px !important;
         border: 0 !important;
-        border-radius: 9px !important;
+        border-radius: 8px !important;
         background: #ec0868 !important;
         background-image: none !important;
         color: #f7f3ef !important;
         float: none !important;
         clear: both !important;
-        font-size: 12px !important;
+        font-size: 11px !important;
         font-weight: 700 !important;
         line-height: 1.2 !important;
         text-align: center !important;
@@ -277,7 +279,7 @@
         }
 
         main#content .sc-avatar-photo-card {
-            padding: 16px;
+            padding: 14px;
         }
     }
 </style>
