@@ -696,7 +696,7 @@ main#content .sc-settings-public-photo-slot form {
 
 main#content .sc-settings-public-photo-grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(170px, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 12px;
     margin-top: 16px;
 }
@@ -706,10 +706,12 @@ main#content .sc-settings-public-photo-slot {
     flex-direction: column;
     gap: 10px;
     min-height: 100%;
+    min-width: 0;
     padding: 12px;
     border: 1px solid rgba(247, 243, 239, .10);
     border-radius: 10px;
     background: #202127;
+    overflow: hidden;
 }
 
 main#content .sc-settings-public-photo-preview {
@@ -742,6 +744,31 @@ main#content .sc-settings-public-photo-slot h3 {
     line-height: 1.25;
 }
 
+main#content .sc-settings-public-photo-controls {
+    display: grid;
+    gap: 9px;
+    width: 100%;
+    min-width: 0;
+    margin-top: auto;
+}
+
+main#content .sc-settings-public-photo-controls form,
+main#content .sc-settings-public-photo-controls fieldset,
+main#content .sc-settings-public-photo-controls .pfbc-form,
+main#content .sc-settings-public-photo-controls .form-horizontal,
+main#content .sc-settings-public-photo-controls .form-inline {
+    display: grid !important;
+    gap: 9px;
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
 main#content .sc-settings-photo-panel input[type="file"] {
     width: 100%;
     box-sizing: border-box;
@@ -751,6 +778,25 @@ main#content .sc-settings-photo-panel input[type="file"] {
     border-radius: 10px;
     background: #101114;
     color: #f7f3ef;
+}
+
+main#content .sc-settings-public-photo-controls .control-group,
+main#content .sc-settings-public-photo-controls .controls,
+main#content .sc-settings-public-photo-controls .form-group,
+main#content .sc-settings-public-photo-controls .form-actions,
+main#content .sc-settings-public-photo-controls .pfbc-form-group,
+main#content .sc-settings-public-photo-controls .pfbc-buttons,
+main#content .sc-settings-public-photo-controls .btn-group {
+    display: grid !important;
+    gap: 7px;
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+    float: none !important;
+    clear: both !important;
+    text-align: left !important;
 }
 
 main#content .sc-settings-public-photo-slot .form-group,
@@ -770,11 +816,20 @@ main#content .sc-settings-public-photo-slot label {
 }
 
 main#content .sc-settings-public-photo-slot input[type="submit"],
-main#content .sc-settings-public-photo-slot button {
+main#content .sc-settings-public-photo-slot button,
+main#content .sc-settings-public-photo-slot .btn,
+main#content .sc-settings-public-photo-slot a.btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     min-height: 38px;
+    box-sizing: border-box;
     padding: 9px 12px !important;
     border-radius: 10px !important;
+    float: none !important;
+    clear: both !important;
+    text-align: center !important;
 }
 
 main#content .sc-settings-photo-panel .sc-public-photo-delete-wrap input[type="submit"],

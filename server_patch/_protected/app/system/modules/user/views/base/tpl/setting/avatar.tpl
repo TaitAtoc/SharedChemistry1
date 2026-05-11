@@ -43,7 +43,9 @@
                     {/if}
                 </div>
                 <h3>{lang 'Public profile photo 1'}</h3>
-                {{ PublicProfilePhotoForm::display(1, $photo1) }}
+                <div class="sc-settings-public-photo-controls">
+                    {{ PublicProfilePhotoForm::display(1, $photo1) }}
+                </div>
             </article>
 
             {{ $photo2 = isset($public_profile_photos[2]) ? $public_profile_photos[2] : null }}
@@ -60,7 +62,9 @@
                     {/if}
                 </div>
                 <h3>{lang 'Public profile photo 2'}</h3>
-                {{ PublicProfilePhotoForm::display(2, $photo2) }}
+                <div class="sc-settings-public-photo-controls">
+                    {{ PublicProfilePhotoForm::display(2, $photo2) }}
+                </div>
             </article>
 
             {{ $photo3 = isset($public_profile_photos[3]) ? $public_profile_photos[3] : null }}
@@ -77,7 +81,9 @@
                     {/if}
                 </div>
                 <h3>{lang 'Public profile photo 3'}</h3>
-                {{ PublicProfilePhotoForm::display(3, $photo3) }}
+                <div class="sc-settings-public-photo-controls">
+                    {{ PublicProfilePhotoForm::display(3, $photo3) }}
+                </div>
             </article>
 
             {{ $photo4 = isset($public_profile_photos[4]) ? $public_profile_photos[4] : null }}
@@ -94,7 +100,9 @@
                     {/if}
                 </div>
                 <h3>{lang 'Public profile photo 4'}</h3>
-                {{ PublicProfilePhotoForm::display(4, $photo4) }}
+                <div class="sc-settings-public-photo-controls">
+                    {{ PublicProfilePhotoForm::display(4, $photo4) }}
+                </div>
             </article>
         </div>
     </section>
