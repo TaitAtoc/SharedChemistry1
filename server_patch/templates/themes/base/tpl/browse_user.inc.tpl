@@ -209,9 +209,42 @@
 
     main#content .sc-meet-status {
         position: absolute;
-        left: 8px;
+        right: 8px;
         top: 8px;
         z-index: 2;
+    }
+
+    main#content .sc-meet-status .user_status {
+        display: block !important;
+        width: 14px !important;
+        height: 14px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    main#content .sc-meet-status .user_status span {
+        display: block !important;
+        width: 14px !important;
+        height: 14px !important;
+        overflow: hidden !important;
+        border: 2px solid #101114 !important;
+        border-radius: 999px !important;
+        background: #ff2d20 !important;
+        color: transparent !important;
+        font-size: 0 !important;
+        line-height: 0 !important;
+        text-indent: -999px !important;
+        box-shadow: 0 0 0 1px rgba(247, 243, 239, .12), 0 3px 8px rgba(0, 0, 0, .3) !important;
+    }
+
+    main#content .sc-meet-status .user_status span.green {
+        background: #18e35f !important;
+    }
+
+    main#content .sc-meet-status .user_status span.red,
+    main#content .sc-meet-status .user_status span.gray,
+    main#content .sc-meet-status .user_status span.orange {
+        background: #ff2d20 !important;
     }
 
     main#content .sc-meet-meta {
@@ -364,3 +397,24 @@
         {/if}
     </section>
 </div>
+
+{literal}
+<script>
+    (function () {
+        var meetPeople = document.querySelector('main#content .sc-meet-people');
+        var placeholder = '{/literal}{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png{literal}';
+
+        if (!meetPeople) {
+            return;
+        }
+
+        meetPeople.querySelectorAll('.sc-meet-avatar img').forEach(function (image) {
+            var imageSource = image.getAttribute('src') || '';
+
+            if (/(^|\/)(male|female|couple|visitor|admin|ghost)_no_picture(?:-\d+)?\.(?:svg|png|gif|jpe?g)(?:[?#].*)?$/i.test(imageSource)) {
+                image.setAttribute('src', placeholder);
+            }
+        });
+    }());
+</script>
+{/literal}
