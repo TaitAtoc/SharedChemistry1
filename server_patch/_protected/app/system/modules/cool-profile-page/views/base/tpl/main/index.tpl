@@ -14,7 +14,7 @@
     .grey_bar,
     .grey-bar,
     .gray-bar{display:none!important;height:0!important;min-height:0!important;margin:0!important;padding:0!important;overflow:hidden!important;border:0!important;background:transparent!important}
-    main#content{max-width:1180px!important;margin:0 auto!important;padding:155px 15px 0!important;background:transparent!important}
+    main#content{max-width:1180px!important;margin:0 auto!important;padding:108px 15px 0!important;background:transparent!important}
     .sc-public-profile{color:#f4f1f6}
     .sc-public-profile *{box-sizing:border-box}
     .sc-profile-photo-strip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:0 0 18px}
@@ -27,7 +27,7 @@
     .sc-profile-photo-empty{display:flex;align-items:center;justify-content:center;width:100%;min-height:122px;padding:12px;color:#8f8794;font-size:12px;font-weight:bold;line-height:1.35;text-align:center}
     .sc-profile-hero,
     .sc-profile-card{background:#17151c;border:1px solid rgba(255,255,255,.09);border-radius:8px;box-shadow:0 14px 36px rgba(0,0,0,.28);color:#f4f1f6}
-    .sc-profile-hero{padding:26px;margin:0 0 16px}
+    .sc-profile-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(170px,210px);gap:22px;align-items:start;padding:26px;margin:0 0 16px}
     .sc-profile-hero-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;margin-bottom:10px}
     .sc-profile-hero h1{margin:0 0 10px;color:#fff;font-size:36px;font-weight:700;line-height:1.15}
     .sc-profile-status{display:inline-flex;align-items:center;gap:7px;min-height:30px;margin-top:3px;padding:6px 10px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:#24212b;color:#f5edf6;font-size:13px;font-weight:bold;line-height:1.2;white-space:nowrap}
@@ -37,13 +37,16 @@
     .sc-profile-meta li,
     .sc-chip{display:inline-flex;align-items:center;min-height:30px;padding:6px 10px;border:1px solid rgba(255,255,255,.1);border-radius:999px;background:#24212b;color:#f5edf6;font-size:13px;line-height:1.25}
     .sc-profile-summary{max-width:900px;margin:0;color:#d9d2dc;font-size:15px;line-height:1.55}
-    .sc-profile-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
-    .sc-profile-button{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:9px 14px;border:1px solid rgba(255,255,255,.1);border-radius:6px;background:#24212b;color:#f5edf6;font-size:13px;font-weight:bold;line-height:1.25;text-align:center;text-decoration:none}
+    .sc-profile-side{display:grid;gap:16px;justify-items:end}
+    .sc-profile-actions{display:grid;gap:12px;width:100%;margin:0}
+    .sc-profile-inline-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+    .sc-profile-button{display:inline-flex;align-items:center;justify-content:center;width:100%;min-height:44px;padding:11px 16px;border:1px solid rgba(247,243,239,.12);border-radius:12px;background:#202127;color:#f7f3ef;font-size:15px;font-weight:bold;line-height:1.25;text-align:center;text-decoration:none;box-shadow:0 10px 22px rgba(0,0,0,.22);transition:background .18s ease,border-color .18s ease,transform .18s ease}
     .sc-profile-button:hover,
-    .sc-profile-button:focus{background:#2e2935;color:#fff;text-decoration:none}
-    .sc-profile-button.is-primary{background:#ff2f8d;border-color:#ff2f8d;color:#fff}
+    .sc-profile-button:focus{background:#2a1723;border-color:#ec0868;color:#fff;text-decoration:none;transform:translateY(-1px)}
+    .sc-profile-button.is-primary{background:linear-gradient(90deg,#ec0868,#c200fb);border-color:transparent;color:#fff}
     .sc-profile-button.is-primary:hover,
-    .sc-profile-button.is-primary:focus{background:#ff4fa0;border-color:#ff4fa0;color:#fff}
+    .sc-profile-button.is-primary:focus{background:linear-gradient(90deg,#f32482,#d035ff);border-color:transparent;color:#fff}
+    .sc-profile-inline-actions .sc-profile-button{width:auto;min-height:34px;padding:8px 12px;border-radius:8px;background:#24212b;font-size:12px;box-shadow:none}
     .sc-profile-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:16px}
     .sc-profile-grid.is-wide{grid-template-columns:1fr}
     .sc-profile-card{padding:22px}
@@ -82,10 +85,11 @@
         .sc-profile-grid{grid-template-columns:1fr}
     }
     @media (max-width:767px){
-        main#content{padding:125px 10px 0!important}
+        main#content{padding:96px 10px 0!important}
         .sc-profile-photo-strip{grid-template-columns:repeat(2,minmax(0,1fr))}
-        .sc-profile-hero{padding:18px}
+        .sc-profile-hero{grid-template-columns:1fr;padding:18px}
         .sc-profile-hero-head{display:block}
+        .sc-profile-side{justify-items:stretch}
         .sc-profile-status{margin-bottom:12px}
         .sc-profile-hero h1{font-size:28px}
         .sc-profile-details{grid-template-columns:1fr}
@@ -116,7 +120,7 @@
                     <span class="sc-profile-photo-empty">{lang 'No public photo yet'}</span>
                 {/if}
             </div>
-            <span class="sc-profile-photo-label">{lang 'Public Profile Photo 1'}</span>
+            <span class="sc-profile-photo-label">{lang 'Photo 2'}</span>
         </div>
 
         {{ $photo2 = isset($public_profile_photos[2]) ? $public_profile_photos[2] : null }}
@@ -132,7 +136,7 @@
                     <span class="sc-profile-photo-empty">{lang 'No public photo yet'}</span>
                 {/if}
             </div>
-            <span class="sc-profile-photo-label">{lang 'Public Profile Photo 2'}</span>
+            <span class="sc-profile-photo-label">{lang 'Photo 3'}</span>
         </div>
 
         {{ $photo3 = isset($public_profile_photos[3]) ? $public_profile_photos[3] : null }}
@@ -148,7 +152,7 @@
                     <span class="sc-profile-photo-empty">{lang 'No public photo yet'}</span>
                 {/if}
             </div>
-            <span class="sc-profile-photo-label">{lang 'Public Profile Photo 3'}</span>
+            <span class="sc-profile-photo-label">{lang 'Photo 4'}</span>
         </div>
 
         {{ $photo4 = isset($public_profile_photos[4]) ? $public_profile_photos[4] : null }}
@@ -164,61 +168,67 @@
                     <span class="sc-profile-photo-empty">{lang 'No public photo yet'}</span>
                 {/if}
             </div>
-            <span class="sc-profile-photo-label">{lang 'Public Profile Photo 4'}</span>
+            <span class="sc-profile-photo-label">{lang 'Photo 5'}</span>
         </div>
     </div>
 
     <section class="sc-profile-hero">
-        <div class="sc-profile-hero-head">
-            <div>
-                <h1 itemprop="name">{profile_title}</h1>
+        <div class="sc-profile-main">
+            <div class="sc-profile-hero-head">
+                <div>
+                    <h1 itemprop="name">{profile_title}</h1>
+                </div>
             </div>
+
+            <ul class="sc-profile-meta">
+                {if !empty($profile_location)}
+                    <li>{profile_location}</li>
+                {/if}
+                {if !empty($profile_age_text)}
+                    <li>{lang 'Ages'} {profile_age_text}</li>
+                {/if}
+                {if !empty($username)}
+                    <li>@{username}</li>
+                {/if}
+            </ul>
+
+            {if !empty($about_us)}
+                <p class="sc-profile-summary" itemprop="description">{% nl2br(escape($about_us)) %}</p>
+            {else}
+                <p class="sc-profile-summary sc-empty">{lang 'Not added yet.'}</p>
+            {/if}
+
+            <div class="sc-profile-inline-actions">
+                <a class="sc-profile-button" href="#">{lang 'Verify Couple Later'}</a>
+            </div>
+        </div>
+
+        <div class="sc-profile-side">
             <div class="sc-profile-status {if $is_profile_online}is-online{/if}" aria-label="{profile_status_label}">
                 <span class="sc-profile-status-dot"></span>
                 <span>{profile_status_label}</span>
             </div>
-        </div>
-
-        <ul class="sc-profile-meta">
-            {if !empty($profile_location)}
-                <li>{profile_location}</li>
-            {/if}
-            {if !empty($profile_age_text)}
-                <li>{lang 'Ages'} {profile_age_text}</li>
-            {/if}
-            {if !empty($username)}
-                <li>@{username}</li>
-            {/if}
-        </ul>
-
-        {if !empty($about_us)}
-            <p class="sc-profile-summary" itemprop="description">{% nl2br(escape($about_us)) %}</p>
-        {else}
-            <p class="sc-profile-summary sc-empty">{lang 'Not added yet.'}</p>
-        {/if}
-
-        <div class="sc-profile-actions">
-            {if $is_mail_enabled AND !empty($mail_link) AND !$is_own_profile}
-                <a class="sc-profile-button is-primary" rel="nofollow" href="{mail_link}">{lang 'Message'}</a>
-            {else}
-                <a class="sc-profile-button is-primary" href="#">{lang 'Message'}</a>
-            {/if}
-
+            <div class="sc-profile-actions">
             {if $is_friend_enabled AND !empty($friend_link) AND !$is_own_profile}
-                <a class="sc-profile-button" rel="nofollow" href="{friend_link}">
+                <a class="sc-profile-button is-primary" rel="nofollow" href="{friend_link}">
                     {if $is_approved_friend}
                         {lang 'Remove Friend'}
                     {elseif $is_pending_friend}
                         {lang 'Manage Friend'}
                     {else}
-                        {lang 'Add Friend'}
+                        {lang 'Friend Request'}
                     {/if}
                 </a>
             {else}
-                <a class="sc-profile-button" href="#">{lang 'Add Friend'}</a>
+                <a class="sc-profile-button is-primary" href="#">{lang 'Friend Request'}</a>
             {/if}
 
-            <a class="sc-profile-button" href="#">{lang 'Verify Couple Later'}</a>
+            {if $is_mail_enabled AND !empty($mail_link) AND !$is_own_profile}
+                <a class="sc-profile-button" rel="nofollow" href="{mail_link}">{lang 'Message'}</a>
+            {else}
+                <a class="sc-profile-button" href="#">{lang 'Message'}</a>
+            {/if}
+            </div>
         </div>
     </section>
 
