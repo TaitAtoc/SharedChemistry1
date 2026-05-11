@@ -14,7 +14,7 @@
     .grey_bar,
     .grey-bar,
     .gray-bar{display:none!important;height:0!important;min-height:0!important;margin:0!important;padding:0!important;overflow:hidden!important;border:0!important;background:transparent!important}
-    main#content{max-width:1180px!important;margin:0 auto!important;padding:108px 15px 0!important;background:transparent!important}
+    main#content{max-width:1180px!important;margin:0 auto!important;padding:18px 15px 0!important;background:transparent!important;border:0!important;box-shadow:none!important}
     .sc-public-profile{color:#f4f1f6}
     .sc-public-profile *{box-sizing:border-box}
     .sc-profile-photo-strip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:0 0 18px}
@@ -46,6 +46,14 @@
     .sc-profile-button.is-primary{background:linear-gradient(90deg,#ec0868,#c200fb);border-color:transparent;color:#fff}
     .sc-profile-button.is-primary:hover,
     .sc-profile-button.is-primary:focus{background:linear-gradient(90deg,#f32482,#d035ff);border-color:transparent;color:#fff}
+    .sc-public-profile .sc-profile-side .sc-profile-actions a.sc-profile-button,
+    .sc-public-profile .sc-profile-side .sc-profile-actions a.sc-profile-button:visited{display:inline-flex!important;width:100%!important;min-height:44px!important;border-radius:12px!important;color:#f7f3ef!important;text-decoration:none!important;text-shadow:none!important}
+    .sc-public-profile .sc-profile-side .sc-profile-actions a.sc-profile-button.is-primary,
+    .sc-public-profile .sc-profile-side .sc-profile-actions a.sc-profile-button.is-primary:visited{border-color:transparent!important;background:#ec0868!important;background-image:linear-gradient(90deg,#ec0868,#c200fb)!important;color:#f7f3ef!important}
+    .sc-public-profile .sc-profile-side .sc-profile-actions a.sc-profile-button:not(.is-primary),
+    .sc-public-profile .sc-profile-side .sc-profile-actions a.sc-profile-button:not(.is-primary):visited{border:1px solid rgba(236,8,104,.65)!important;background:#202127!important;background-image:none!important;color:#f7f3ef!important}
+    .sc-public-profile .sc-profile-side .sc-profile-actions a.sc-profile-button:hover,
+    .sc-public-profile .sc-profile-side .sc-profile-actions a.sc-profile-button:focus{border-color:#c200fb!important;background:#c200fb!important;background-image:none!important;color:#fff!important}
     .sc-profile-inline-actions .sc-profile-button{width:auto;min-height:34px;padding:8px 12px;border-radius:8px;background:#24212b;font-size:12px;box-shadow:none}
     .sc-profile-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:16px}
     .sc-profile-grid.is-wide{grid-template-columns:1fr}
@@ -85,7 +93,7 @@
         .sc-profile-grid{grid-template-columns:1fr}
     }
     @media (max-width:767px){
-        main#content{padding:96px 10px 0!important}
+        main#content{padding:12px 10px 0!important}
         .sc-profile-photo-strip{grid-template-columns:repeat(2,minmax(0,1fr))}
         .sc-profile-hero{grid-template-columns:1fr;padding:18px}
         .sc-profile-hero-head{display:block}
@@ -117,7 +125,7 @@
                         <img src="{% $photo_url %}" alt="{lang 'Public profile photo 1'}" />
                     </a>
                 {else}
-                    <span class="sc-profile-photo-empty">{lang 'No public photo yet'}</span>
+                    <img class="sc-profile-photo-placeholder" src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Photo 2 placeholder'}" />
                 {/if}
             </div>
             <span class="sc-profile-photo-label">{lang 'Photo 2'}</span>
@@ -133,7 +141,7 @@
                         <img src="{% $photo_url %}" alt="{lang 'Public profile photo 2'}" />
                     </a>
                 {else}
-                    <span class="sc-profile-photo-empty">{lang 'No public photo yet'}</span>
+                    <img class="sc-profile-photo-placeholder" src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Photo 3 placeholder'}" />
                 {/if}
             </div>
             <span class="sc-profile-photo-label">{lang 'Photo 3'}</span>
@@ -149,7 +157,7 @@
                         <img src="{% $photo_url %}" alt="{lang 'Public profile photo 3'}" />
                     </a>
                 {else}
-                    <span class="sc-profile-photo-empty">{lang 'No public photo yet'}</span>
+                    <img class="sc-profile-photo-placeholder" src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Photo 4 placeholder'}" />
                 {/if}
             </div>
             <span class="sc-profile-photo-label">{lang 'Photo 4'}</span>
@@ -165,7 +173,7 @@
                         <img src="{% $photo_url %}" alt="{lang 'Public profile photo 4'}" />
                     </a>
                 {else}
-                    <span class="sc-profile-photo-empty">{lang 'No public photo yet'}</span>
+                    <img class="sc-profile-photo-placeholder" src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Photo 5 placeholder'}" />
                 {/if}
             </div>
             <span class="sc-profile-photo-label">{lang 'Photo 5'}</span>
