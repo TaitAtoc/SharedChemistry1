@@ -1,0 +1,146 @@
+div.content {
+    clear: left;
+    float: none;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 18px;
+    border: 0 !important;
+    background: #101114 !important;
+    color: #f7f3ef;
+}
+
+div.content.inactive {
+    display: none;
+}
+
+ol#toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 0;
+    height: auto;
+    margin: 0 0 14px;
+    padding: 10px;
+    list-style: none;
+    border: 1px solid rgba(247, 243, 239, .08);
+    border-radius: 10px;
+    background: #17181d;
+}
+
+ol#toc li {
+    display: block;
+    float: none;
+    margin: 0;
+    padding: 0;
+}
+
+ol#toc li:has(a[href="#design"]),
+ol#toc li:has(a[href="#notification"]),
+ol#toc li:has(a[href*="/payment/main/info"]),
+ol#toc li:has(a[href*="payment/main/info"]) {
+    display: none !important;
+}
+
+ol#toc a,
+ol#toc li a.inactive {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    box-sizing: border-box;
+    padding: 8px 13px;
+    border: 1px solid rgba(247, 243, 239, .10);
+    border-radius: 12px;
+    background: #202127;
+    color: #f7f3ef;
+    font: 700 13px/1.2 "Open Sans", Verdana, Arial, sans-serif;
+    text-decoration: none;
+    text-shadow: none;
+}
+
+ol#toc span,
+ol#toc li a span {
+    display: inline;
+    height: auto;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    text-shadow: none;
+}
+
+ol#toc li a.active,
+ol#toc li a.active span {
+    background: linear-gradient(90deg, #ec0868, #c200fb);
+    color: #f7f3ef;
+    font-weight: 700;
+}
+
+ol#toc li a:hover,
+ol#toc li a:focus {
+    border-color: #ec0868;
+    background: #2a1723;
+    color: #ffbc0a;
+    outline: none;
+}
+
+ol#toc li a:hover span,
+ol#toc li a:focus span {
+    background: transparent;
+    color: inherit;
+}
+
+ol#toc ~ div.content input[type="submit"],
+ol#toc ~ div.content input[type="button"],
+ol#toc ~ div.content button,
+ol#toc ~ div.content .btn,
+ol#toc ~ div.content a.btn {
+    min-height: 40px;
+    box-sizing: border-box;
+    padding: 10px 16px !important;
+    border: 0 !important;
+    border-radius: 12px !important;
+    background: #ec0868 !important;
+    background-image: none !important;
+    color: #f7f3ef !important;
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+}
+
+ol#toc ~ div.content input[type="submit"]:hover,
+ol#toc ~ div.content input[type="button"]:hover,
+ol#toc ~ div.content button:hover,
+ol#toc ~ div.content .btn:hover,
+ol#toc ~ div.content a.btn:hover,
+ol#toc ~ div.content input[type="submit"]:focus,
+ol#toc ~ div.content input[type="button"]:focus,
+ol#toc ~ div.content button:focus,
+ol#toc ~ div.content .btn:focus,
+ol#toc ~ div.content a.btn:focus {
+    background: #c200fb !important;
+    color: #f7f3ef !important;
+    outline: none;
+}
+
+@media (max-width: 640px) {
+    div.content {
+        padding: 14px 0;
+    }
+
+    ol#toc {
+        gap: 6px;
+        padding: 8px;
+    }
+
+    ol#toc a,
+    ol#toc li a.inactive {
+        min-height: 34px;
+        padding: 7px 11px;
+        font-size: 12px;
+    }
+}

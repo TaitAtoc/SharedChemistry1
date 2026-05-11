@@ -45,16 +45,16 @@ main#content:has(.sharedchemistry-edit) > .well {
 main#content:has(.sharedchemistry-edit) ol#toc {
     display: flex !important;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 8px;
     max-width: 1120px;
-    margin: 14px auto 18px !important;
-    padding: 12px 20px !important;
+    margin: 0 auto 14px !important;
+    padding: 10px !important;
     list-style: none !important;
     border: 1px solid rgba(247, 243, 239, .08) !important;
-    border-radius: 8px !important;
+    border-radius: 10px !important;
     background: #17181d !important;
     background-image: none !important;
-    box-shadow: 0 16px 42px rgba(0, 0, 0, .28) !important;
+    box-shadow: none !important;
 }
 
 #content:has(.sharedchemistry-edit) ol#toc li,
@@ -68,16 +68,28 @@ main#content:has(.sharedchemistry-edit) ol#toc li {
     list-style: none !important;
 }
 
+#content:has(.sharedchemistry-edit) ol#toc li:has(a[href="#design"]),
+#content:has(.sharedchemistry-edit) ol#toc li:has(a[href="#notification"]),
+#content:has(.sharedchemistry-edit) ol#toc li:has(a[href*="/payment/main/info"]),
+#content:has(.sharedchemistry-edit) ol#toc li:has(a[href*="payment/main/info"]),
+main#content:has(.sharedchemistry-edit) ol#toc li:has(a[href="#design"]),
+main#content:has(.sharedchemistry-edit) ol#toc li:has(a[href="#notification"]),
+main#content:has(.sharedchemistry-edit) ol#toc li:has(a[href*="/payment/main/info"]),
+main#content:has(.sharedchemistry-edit) ol#toc li:has(a[href*="payment/main/info"]) {
+    display: none !important;
+}
+
 #content:has(.sharedchemistry-edit) ol#toc li a,
 main#content:has(.sharedchemistry-edit) ol#toc li a,
 #content:has(.sharedchemistry-edit) ol#toc li a.inactive,
 main#content:has(.sharedchemistry-edit) ol#toc li a.inactive {
     display: inline-flex !important;
     align-items: center;
-    min-height: 38px;
-    padding: 9px 14px !important;
+    justify-content: center;
+    min-height: 36px;
+    padding: 8px 13px !important;
     border: 1px solid rgba(247, 243, 239, .10) !important;
-    border-radius: 999px !important;
+    border-radius: 12px !important;
     background: #202127 !important;
     background-image: none !important;
     color: #f7f3ef !important;
@@ -102,8 +114,8 @@ main#content:has(.sharedchemistry-edit) ol#toc li a span {
 #content:has(.sharedchemistry-edit) ol#toc li a:focus,
 main#content:has(.sharedchemistry-edit) ol#toc li a:hover,
 main#content:has(.sharedchemistry-edit) ol#toc li a:focus {
-    border-color: #ffbc0a !important;
-    background: rgba(236, 8, 104, .18) !important;
+    border-color: #ec0868 !important;
+    background: #2a1723 !important;
     background-image: none !important;
     color: #ffbc0a !important;
 }
@@ -113,7 +125,7 @@ main#content:has(.sharedchemistry-edit) ol#toc li a.active {
     border-color: transparent !important;
     background: linear-gradient(90deg, #ec0868, #c200fb) !important;
     color: #f7f3ef !important;
-    box-shadow: 0 10px 24px rgba(236, 8, 104, .22) !important;
+    box-shadow: none !important;
 }
 
 .sharedchemistry-edit-logo {

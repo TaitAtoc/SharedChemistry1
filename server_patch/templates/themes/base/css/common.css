@@ -475,3 +475,165 @@ small,
 .muted {
     color: #8F8A88 !important;
 }
+
+/* SharedChemistry settings tabs */
+main#content:has(ol#toc) {
+    border: 0 !important;
+    border-color: transparent !important;
+    background: #101114 !important;
+    box-shadow: none !important;
+}
+
+main#content:has(ol#toc) div.content {
+    clear: left;
+    float: none;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 18px;
+    border: 0 !important;
+    background: #101114 !important;
+    color: #f7f3ef !important;
+    box-shadow: none !important;
+}
+
+main#content:has(ol#toc) div.content.inactive {
+    display: none;
+}
+
+main#content ol#toc {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 0 !important;
+    height: auto !important;
+    margin: 0 0 14px !important;
+    padding: 10px !important;
+    list-style: none !important;
+    border: 1px solid rgba(247, 243, 239, .08) !important;
+    border-radius: 10px !important;
+    background: #17181d !important;
+    background-image: none !important;
+    box-shadow: none !important;
+}
+
+main#content ol#toc li {
+    display: block !important;
+    float: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    list-style: none !important;
+}
+
+main#content ol#toc li:has(a[href="#design"]),
+main#content ol#toc li:has(a[href="#notification"]),
+main#content ol#toc li:has(a[href*="/payment/main/info"]),
+main#content ol#toc li:has(a[href*="payment/main/info"]) {
+    display: none !important;
+}
+
+main#content ol#toc a,
+main#content ol#toc li a.inactive {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    box-sizing: border-box;
+    padding: 8px 13px !important;
+    border: 1px solid rgba(247, 243, 239, .10) !important;
+    border-radius: 12px !important;
+    background: #202127 !important;
+    background-image: none !important;
+    color: #f7f3ef !important;
+    font: 700 13px/1.2 "Open Sans", Verdana, Arial, sans-serif;
+    text-decoration: none !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+}
+
+main#content ol#toc span,
+main#content ol#toc li a span {
+    display: inline !important;
+    height: auto !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    color: inherit !important;
+    text-shadow: none !important;
+}
+
+main#content ol#toc li a.active {
+    border-color: transparent !important;
+    background: linear-gradient(90deg, #ec0868, #c200fb) !important;
+    color: #f7f3ef !important;
+}
+
+main#content ol#toc li a.active span {
+    background: transparent !important;
+    color: inherit !important;
+    font-weight: 700;
+}
+
+main#content ol#toc li a:hover,
+main#content ol#toc li a:focus {
+    border-color: #ec0868 !important;
+    background: #2a1723 !important;
+    color: #ffbc0a !important;
+    outline: none;
+}
+
+main#content:has(ol#toc) div.content input[type="submit"],
+main#content:has(ol#toc) div.content input[type="button"],
+main#content:has(ol#toc) div.content button,
+main#content:has(ol#toc) div.content .btn,
+main#content:has(ol#toc) div.content a.btn {
+    min-height: 40px;
+    box-sizing: border-box;
+    padding: 10px 16px !important;
+    border: 0 !important;
+    border-radius: 12px !important;
+    background: #ec0868 !important;
+    background-image: none !important;
+    color: #f7f3ef !important;
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+}
+
+main#content:has(ol#toc) div.content input[type="submit"]:hover,
+main#content:has(ol#toc) div.content input[type="button"]:hover,
+main#content:has(ol#toc) div.content button:hover,
+main#content:has(ol#toc) div.content .btn:hover,
+main#content:has(ol#toc) div.content a.btn:hover,
+main#content:has(ol#toc) div.content input[type="submit"]:focus,
+main#content:has(ol#toc) div.content input[type="button"]:focus,
+main#content:has(ol#toc) div.content button:focus,
+main#content:has(ol#toc) div.content .btn:focus,
+main#content:has(ol#toc) div.content a.btn:focus {
+    background: #c200fb !important;
+    color: #f7f3ef !important;
+    outline: none;
+}
+
+@media (max-width: 640px) {
+    main#content:has(ol#toc) div.content {
+        padding: 14px 0;
+    }
+
+    main#content ol#toc {
+        gap: 6px;
+        padding: 8px !important;
+    }
+
+    main#content ol#toc a,
+    main#content ol#toc li a.inactive {
+        min-height: 34px;
+        padding: 7px 11px !important;
+        font-size: 12px;
+    }
+}
