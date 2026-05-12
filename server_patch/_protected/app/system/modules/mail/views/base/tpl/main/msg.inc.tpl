@@ -12,7 +12,7 @@ body {
 main#content {
     max-width: 1120px !important;
     margin: 0 auto !important;
-    padding: 44px 15px 104px !important;
+    padding: 140px 15px 104px !important;
     background: transparent !important;
     border: 0 !important;
     box-shadow: none !important;
@@ -184,7 +184,7 @@ main#content {
 
 @media (max-width: 680px) {
     main#content {
-        padding: 30px 12px 90px !important;
+        padding: 100px 12px 90px !important;
     }
 
     .sc-single-mail-title h1 {

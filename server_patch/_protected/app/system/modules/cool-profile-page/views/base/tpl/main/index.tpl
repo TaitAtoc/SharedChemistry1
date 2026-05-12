@@ -14,7 +14,7 @@
     .grey_bar,
     .grey-bar,
     .gray-bar{display:none!important;height:0!important;min-height:0!important;margin:0!important;padding:0!important;overflow:hidden!important;border:0!important;background:transparent!important}
-    main#content{max-width:1180px!important;margin:0 auto!important;padding:44px 15px 0!important;background:transparent!important;border:0!important;box-shadow:none!important}
+    main#content{max-width:1180px!important;margin:0 auto!important;padding:150px 15px 0!important;background:transparent!important;border:0!important;box-shadow:none!important}
     .sc-public-profile{color:#f4f1f6}
     .sc-public-profile *{box-sizing:border-box}
     .sc-profile-photo-strip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:0 0 18px}
@@ -103,7 +103,7 @@
         .sc-profile-grid{grid-template-columns:1fr}
     }
     @media (max-width:767px){
-        main#content{padding:36px 10px 0!important}
+        main#content{padding:110px 10px 0!important}
         .sc-profile-photo-strip{grid-template-columns:repeat(2,minmax(0,1fr))}
         .sc-profile-hero{grid-template-columns:1fr;padding:18px}
         .sc-profile-hero-head{display:block}

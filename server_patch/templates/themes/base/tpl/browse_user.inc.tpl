@@ -10,6 +10,8 @@
         max-width: none !important;
         margin-left: auto !important;
         margin-right: auto !important;
+        padding-top: 140px !important;
+        padding-bottom: 80px !important;
     }
 
     main#content .sc-meet-people {
@@ -320,6 +322,8 @@
     @media (max-width: 700px) {
         main#content:has(.sc-meet-people) {
             width: calc(100vw - 24px) !important;
+            padding-top: 100px !important;
+            padding-bottom: 70px !important;
         }
 
         main#content .sc-meet-people {

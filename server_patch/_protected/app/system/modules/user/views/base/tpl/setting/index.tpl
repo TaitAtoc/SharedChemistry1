@@ -1,3 +1,17 @@
+<style>
+main#content:has(ol#toc) {
+    padding-top: 140px !important;
+    padding-bottom: 80px !important;
+}
+
+@media (max-width: 767px) {
+    main#content:has(ol#toc) {
+        padding-top: 100px !important;
+        padding-bottom: 70px !important;
+    }
+}
+</style>
+
 <ol id="toc">
     <li>
         <a href="#edit">

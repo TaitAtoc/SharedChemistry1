@@ -3,7 +3,7 @@
     body{background:#101114!important}
     #headings{display:none!important}
     #content,
-    main#content{max-width:1120px!important;margin:0 auto!important;padding:44px 15px 104px!important;background:transparent!important;border:0!important;box-shadow:none!important}
+    main#content{max-width:1120px!important;margin:0 auto!important;padding:140px 15px 104px!important;background:transparent!important;border:0!important;box-shadow:none!important}
     .sc-compose-page{width:min(calc(100vw - 32px),1060px);max-width:none;margin-left:50%;transform:translateX(-50%);color:#f7f3ef}
     .sc-compose-page *{box-sizing:border-box}
     .sc-compose-header{width:100%;margin:0 0 22px}
@@ -49,7 +49,7 @@
     .sc-compose-card td{display:block!important;width:100%!important;border:0!important;background:transparent!important}
     @media (max-width:767px){
         #content,
-        main#content{padding:30px 12px 90px!important}
+        main#content{padding:100px 12px 90px!important}
         .sc-compose-header h1{font-size:28px}
         .sc-compose-card{padding:18px}
         .sc-compose-card textarea{min-height:220px!important}
