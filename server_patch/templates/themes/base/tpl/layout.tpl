@@ -988,13 +988,6 @@
         background: #202127;
         color: #F7F3EF;
       }
-      .sharedchemistry-guest-msg {
-        display: none !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        border: 0 !important;
-        background: transparent !important;
-      }
       footer {
         clear: both;
         width: 100%;
@@ -1849,11 +1842,6 @@
     <main role="main" class="container" id="content">
       {* Alert Message *}
       {{ $design->flashMsg() }}
-      {if $is_guest_homepage}
-        <div class="msg sharedchemistry-guest-msg"></div>
-      {else}
-        <div class="msg"></div>
-      {/if}
 
       {* Loading JS Lang *}
       {* The file must be before the content of the site to avoid that the "pH7LangCore"  object is undefined *}
