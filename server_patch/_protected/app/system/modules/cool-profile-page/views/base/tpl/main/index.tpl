@@ -404,6 +404,39 @@
 {literal}
 <script>
     $(document).ready(function() {
+        if (typeof window.friend !== 'function') {
+            window.friend = function(type, friendId, securityToken) {
+                $.post(pH7Url.base + 'friend/asset/ajax/Friend', {
+                    type: type,
+                    friendId: friendId,
+                    security_token: securityToken
+                }, function(response) {
+                    var data = response;
+
+                    if (typeof data === 'string') {
+                        try {
+                            data = $.parseJSON(data);
+                        } catch (e) {
+                            data = {
+                                status: 0,
+                                txt: response
+                            };
+                        }
+                    }
+
+                    $('.msg').html(data.txt || '');
+
+                    if (parseInt(data.status, 10) === 1) {
+                        window.setTimeout(function() {
+                            window.location.reload();
+                        }, 650);
+                    }
+                }).fail(function() {
+                    $('.msg').html('{/literal}{lang 'Unable to update friend request. Please try again.'}{literal}');
+                });
+            };
+        }
+
         if (!document.getElementById('sc-profile-colorbox-style')) {
             $('<style id="sc-profile-colorbox-style">' +
                 '#cboxOverlay.sc-profile-colorbox-overlay{background:#050407!important;opacity:.9!important}' +
