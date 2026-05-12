@@ -14,8 +14,9 @@
                     {* Set Variables *}
                     {{ $username_sender = (empty($msg->username)) ? PH7_ADMIN_USERNAME : $msg->username }}
                     {{ $firstName_sender = (empty($msg->firstName)) ? PH7_ADMIN_USERNAME : $msg->firstName }}
-                    {{ $subject = escape(substr(Framework\Security\Ban\Ban::filterWord($msg->title, false),0,20), true) }}
-                    {{ $message = escape(Framework\Security\Ban\Ban::filterWord($msg->message), true) }}
+                    {{ $display_sender = (!empty($msg->username)) ? escape($msg->username, true) : escape($firstName_sender, true) }}
+                    {{ $subject = escape(substr($msg->title,0,20), true) }}
+                    {{ $message = escape($msg->message, true) }}
                     {{ $is_outbox = ($msg->sender == $member_id) }}
                     {{ $is_trash = (($msg->sender == $member_id && $msg->trash == 'sender') || ($msg->recipient == $member_id && $msg->trash == 'recipient') && !$is_outbox && !$is_admin) }}
                     {{ $slug_url = ($is_trash ? 'trash' : ($is_outbox ? 'outbox' : 'inbox')) }}
@@ -42,7 +43,7 @@
                             <a class="sc-mail-main" href="{{ $design->url('mail','main',$slug_url,$msg->messageId) }}" title="{lang 'See more'}">
                         {/if}
                             <span class="sc-mail-row-top">
-                                <span class="sc-mail-sender">{% $firstName_sender %}</span>
+                                <span class="sc-mail-sender">{% $display_sender %}</span>
                                 {if $msg->status == MailModel::UNREAD_STATUS}
                                     <span class="sc-mail-badge">{lang 'New'}</span>
                                 {/if}

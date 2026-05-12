@@ -8,6 +8,7 @@ body {
     display: none !important;
 }
 
+#content,
 main#content {
     max-width: 1120px !important;
     margin: 0 auto !important;
@@ -23,8 +24,10 @@ main#content {
 }
 
 .sc-single-mail {
-    width: min(100%, 1060px);
-    margin: 0 auto;
+    width: min(calc(100vw - 32px), 1060px);
+    max-width: none;
+    margin-left: 50%;
+    transform: translateX(-50%);
     color: #F7F3EF;
 }
 
@@ -235,8 +238,9 @@ main#content {
     {* Set Variables *}
     {{ $username_sender = (empty($msg->username)) ? PH7_ADMIN_USERNAME : escape($msg->username) }}
     {{ $firstName_sender = (empty($msg->firstName)) ? PH7_ADMIN_USERNAME : escape($msg->firstName) }}
-    {{ $subject = escape(Framework\Security\Ban\Ban::filterWord($msg->title)) }}
-    {{ $message = Framework\Parse\Emoticon::init(Framework\Security\Ban\Ban::filterWord($msg->message)) }}
+    {{ $display_sender = (!empty($msg->username)) ? escape($msg->username) : $firstName_sender }}
+    {{ $subject = escape($msg->title, true) }}
+    {{ $message = Framework\Parse\Emoticon::init(escape($msg->message, true)) }}
     {{ $is_outbox = ($msg->sender == $member_id) }}
     {{ $is_trash = (($msg->sender == $member_id && $msg->trash == 'sender') || ($msg->recipient == $member_id && $msg->trash == 'recipient') && !$is_outbox) }}
     {{ $is_delete = ($is_outbox || $is_trash) }}
@@ -255,7 +259,7 @@ main#content {
                 </div>
 
                 <div>
-                    <p class="sc-single-mail-author">{% $firstName_sender %}</p>
+                    <p class="sc-single-mail-author">{% $display_sender %}</p>
                     <span class="sc-single-mail-date">{% Framework\Date\Various::textTimeStamp($msg->sendDate) %}</span>
                 </div>
             </div>
