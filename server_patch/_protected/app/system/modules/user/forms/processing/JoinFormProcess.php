@@ -42,11 +42,12 @@ class JoinFormProcess extends Form
     public function step1()
     {
         $iAffId = (int)(new Cookie)->get(AffiliateCore::COOKIE_NAME);
+        $sCouplesNickname = trim((string)$this->httpRequest->post('username'));
 
         $aData = [
             'email' => $this->httpRequest->post('mail'),
-            'username' => $this->httpRequest->post('username'),
-            'first_name' => $this->httpRequest->post('first_name'),
+            'username' => $sCouplesNickname,
+            'first_name' => $sCouplesNickname,
             'reference' => $this->getAffiliateReference(),
             'ip' => Ip::get(),
             'hash_validation' => Various::genRnd(null, UserCoreModel::HASH_VALIDATION_LENGTH),
@@ -77,6 +78,8 @@ class JoinFormProcess extends Form
                 AffiliateCore::updateJoinCom($iAffId, $this->config, $this->registry);
             }
 
+            $this->seedCoupleProfileName($iProfileId, $aData['username']);
+
             // Send confirmation email
             (new Registration($this->view))->sendMail($aData);
 
@@ -92,6 +95,21 @@ class JoinFormProcess extends Form
                 Uri::get('user', 'signup', 'step2')
             );
         }
+    }
+
+    private function seedCoupleProfileName($iProfileId, $sCouplesNickname)
+    {
+        $sCouplesNickname = trim((string)$sCouplesNickname);
+        if ($sCouplesNickname === '') {
+            return;
+        }
+
+        $this->oUserModel->updateProfile(
+            'couple_profile_data',
+            json_encode(['couple_name' => $sCouplesNickname], JSON_UNESCAPED_SLASHES),
+            $iProfileId,
+            DbTableName::MEMBER_INFO
+        );
     }
 
     public function step2()

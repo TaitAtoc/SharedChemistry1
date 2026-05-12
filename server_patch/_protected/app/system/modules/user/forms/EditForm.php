@@ -53,6 +53,9 @@ class EditForm
         $oUser = $oUserModel->readProfile($iProfileId);
         $oFields = $oUserModel->getInfoFields($iProfileId);
         $aCoupleProfile = self::getCoupleProfileData($oFields);
+        if (empty($aCoupleProfile['couple_name']) && !empty($oUser->username)) {
+            $aCoupleProfile['couple_name'] = $oUser->username;
+        }
 
         // Birth Date with the date format for the date picker
         $sBirthDate = (new CDateTime)->get($oUser->birthDate)->date('Y-m-d');

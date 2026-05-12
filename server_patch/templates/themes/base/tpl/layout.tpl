@@ -802,6 +802,7 @@
         color: #fff !important;
       }
       #form_login_user-element-4,
+      #form_join_user-element-9,
       #form_join_user-element-11 {
         height: 40px;
         line-height: 40px !important;
@@ -809,6 +810,7 @@
         vertical-align: middle;
       }
       #form_login_user-element-4 .ui-button-icon-primary,
+      #form_join_user-element-9 .ui-button-icon-primary,
       #form_join_user-element-11 .ui-button-icon-primary {
         display: none !important;
         float: none !important;
@@ -826,6 +828,7 @@
         vertical-align: middle;
       }
       #form_login_user-element-4 .ui-button-icon-primary:before,
+      #form_join_user-element-9 .ui-button-icon-primary:before,
       #form_join_user-element-11 .ui-button-icon-primary:before {
         display: inline-block;
         width: 20px;
@@ -846,6 +849,7 @@
       #form_login_user-element-4 .ui-button-icon-primary:before {
         content: "🔑";
       }
+      #form_join_user-element-9 .ui-button-icon-primary:before,
       #form_join_user-element-11 .ui-button-icon-primary:before {
         content: "♥";
       }
@@ -856,11 +860,13 @@
         visibility: visible !important;
       }
       #form_login_user-element-4 .ui-button-icon-primary,
+      #form_join_user-element-9 .ui-button-icon-primary,
       #form_join_user-element-11 .ui-button-icon-primary {
         display: none !important;
         visibility: hidden !important;
       }
       #form_login_user-element-4:before,
+      #form_join_user-element-9:before,
       #form_join_user-element-11:before {
         color: #ffffff !important;
         display: inline-block !important;
@@ -879,10 +885,12 @@
       #form_login_user-element-4:before {
         content: "\f084";
       }
+      #form_join_user-element-9:before,
       #form_join_user-element-11:before {
         content: "\f004";
       }
       #form_login_user-element-4 .ui-button-text,
+      #form_join_user-element-9 .ui-button-text,
       #form_join_user-element-11 .ui-button-text {
         position: relative;
         top: -1px;
@@ -1581,6 +1589,7 @@
         }
         .sharedchemistry-auto-wrap #form_join_user button,
         .sharedchemistry-auto-wrap #form_join_user input[type="submit"],
+        .sharedchemistry-auto-wrap #form_join_user-element-9,
         .sharedchemistry-auto-wrap #form_join_user-element-11 {
           float: none !important;
           display: inline-block !important;
