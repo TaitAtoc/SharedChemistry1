@@ -14,12 +14,16 @@ use PH7\Framework\Analytics\Statistic;
 use PH7\Framework\Date\Various as VDate;
 use PH7\Framework\Module\Various as SysMod;
 use PH7\Framework\Mvc\Model\DbConfig;
+use PH7\Framework\Mvc\Model\Engine\Db;
+use PH7\Framework\Mvc\Router\Uri;
+use PDO;
 
 class MainController extends ProfileBaseController
 {
     const MAP_ZOOM_LEVEL = 10;
     const MAP_WIDTH_SIZE = '100%';
     const MAP_HEIGHT_SIZE = '200px';
+    private const FRIEND_CARD_LIMIT = 6;
 
     private const COUPLE_PROFILE_DATA_FIELD = 'couple_profile_data';
 
@@ -107,6 +111,8 @@ class MainController extends ProfileBaseController
             $this->view->is_profile_online = $this->oUserModel->isOnline($this->iProfileId, DbConfig::getSetting('userTimeout'));
             $this->view->profile_status_label = $this->view->is_profile_online ? t('Online') : t('Offline');
             $this->view->public_profile_photos = (new ScPublicProfilePhoto)->getPhotos((int)$this->iProfileId, '1');
+            $this->view->profile_friends = $this->getApprovedFriendCards((int)$this->iProfileId);
+            $this->view->profile_friends_url = SysMod::isEnabled('friend') ? Uri::get('friend', 'main', 'index', $oUser->username) : '';
 
             // Count number of times the profile is viewed
             Statistic::setView($this->iProfileId, DbTableName::MEMBER);
@@ -317,6 +323,52 @@ class MainController extends ProfileBaseController
         }
 
         return implode(' / ', $aAges);
+    }
+
+    private function getApprovedFriendCards(int $iProfileId): array
+    {
+        $aFriends = [];
+
+        foreach ($this->getApprovedFriendIds($iProfileId) as $iFriendId) {
+            $oFriend = $this->oUserModel->readProfile($iFriendId);
+            if (!$oFriend || (int)$oFriend->ban === UserCore::BAN_STATUS) {
+                continue;
+            }
+
+            $oFields = $this->oUserModel->getInfoFields($iFriendId);
+            $aProfileData = $this->getFilteredData($oFriend, $oFields);
+            $aCoupleProfile = $this->getCoupleProfileData($oFields);
+
+            $aFriends[] = (object)[
+                'profileId' => (int)$iFriendId,
+                'username' => $oFriend->username,
+                'firstName' => $oFriend->firstName,
+                'sex' => $oFriend->sex,
+                'displayName' => !empty($aCoupleProfile['couple_name']) ? $aCoupleProfile['couple_name'] : $oFriend->username,
+                'location' => $this->getProfileLocationText($aProfileData),
+                'profileUrl' => Uri::get('cool-profile-page', 'main', 'index', $iFriendId),
+                'isOnline' => $this->oUserModel->isOnline($iFriendId, DbConfig::getSetting('userTimeout'))
+            ];
+        }
+
+        return $aFriends;
+    }
+
+    private function getApprovedFriendIds(int $iProfileId): array
+    {
+        $rStmt = Db::getInstance()->prepare(
+            'SELECT CASE WHEN profileId = :profileId THEN friendId ELSE profileId END AS friendId FROM' .
+            Db::prefix(DbTableName::MEMBER_FRIEND) .
+            'WHERE pending = :approved AND (profileId = :profileId OR friendId = :profileId) ORDER BY requestDate DESC LIMIT :limit'
+        );
+        $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
+        $rStmt->bindValue(':approved', FriendCoreModel::APPROVED_REQUEST, PDO::PARAM_INT);
+        $rStmt->bindValue(':limit', self::FRIEND_CARD_LIMIT, PDO::PARAM_INT);
+        $rStmt->execute();
+        $aFriendIds = array_map('intval', $rStmt->fetchAll(PDO::FETCH_COLUMN));
+        Db::free($rStmt);
+
+        return $aFriendIds;
     }
 
     private function getDefaultCoupleProfileData(): array

@@ -76,6 +76,20 @@
     .sc-profile-detail strong{display:block;margin-bottom:3px;color:#fff;font-size:12px;line-height:1.2}
     .sc-profile-detail span{display:block;color:#d9d2dc;font-size:13px;line-height:1.3}
     .sc-chip-list{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+    .sc-profile-friend-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0}
+    .sc-profile-friend-card{display:grid;grid-template-columns:54px minmax(0,1fr);gap:10px;align-items:center;min-width:0;padding:10px;border:1px solid rgba(247,243,239,.1);border-radius:8px;background:#202127;color:#f7f3ef;text-decoration:none;transition:border-color .18s ease,background .18s ease,transform .18s ease}
+    .sc-profile-friend-card:hover,
+    .sc-profile-friend-card:focus{border-color:#ec0868;background:#2a1723;color:#fff;text-decoration:none;transform:translateY(-1px)}
+    .sc-profile-friend-avatar{position:relative;width:54px;height:54px;overflow:hidden;border-radius:50%;background:#101114}
+    .sc-profile-friend-avatar img{display:block;width:100%;height:100%;object-fit:cover;border:0;border-radius:50%;box-shadow:none}
+    .sc-profile-friend-status{position:absolute;right:2px;bottom:3px;width:11px;height:11px;border:2px solid #202127;border-radius:50%;background:#d84c59}
+    .sc-profile-friend-status.is-online{background:#46d66f}
+    .sc-profile-friend-info{min-width:0}
+    .sc-profile-friend-name{display:block;overflow:hidden;color:#f7f3ef;font-size:13px;font-weight:bold;line-height:1.25;text-overflow:ellipsis;white-space:nowrap}
+    .sc-profile-friend-location{display:block;overflow:hidden;margin-top:4px;color:#b8b3b0;font-size:12px;line-height:1.25;text-overflow:ellipsis;white-space:nowrap}
+    .sc-profile-card-action{display:inline-flex;align-items:center;justify-content:center;margin-top:14px;min-height:34px;padding:8px 12px;border:1px solid rgba(236,8,104,.62);border-radius:8px;background:#202127;color:#f7f3ef;font-size:12px;font-weight:bold;line-height:1.2;text-decoration:none}
+    .sc-profile-card-action:hover,
+    .sc-profile-card-action:focus{border-color:#c200fb;background:#c200fb;color:#fff;text-decoration:none}
     .sc-empty{color:#8f8794!important;font-style:italic}
     #cboxOverlay.sc-profile-colorbox-overlay{background:#050407!important;opacity:.9!important}
     #colorbox.sc-profile-colorbox,
@@ -111,6 +125,7 @@
         .sc-profile-status{margin-bottom:12px}
         .sc-profile-hero h1{font-size:28px}
         .sc-profile-details{grid-template-columns:1fr}
+        .sc-profile-friend-grid{grid-template-columns:1fr}
         .sc-profile-button{width:100%}
     }
 </style>
@@ -391,7 +406,33 @@
     <div class="sc-profile-grid">
         <section class="sc-profile-card">
             <h2>{lang 'Friends'}</h2>
-            <p>{lang 'Friend cards will appear here when this couple connects with other couples.'}</p>
+            {if !empty($profile_friends)}
+                <div class="sc-profile-friend-grid">
+                    {each $friend in $profile_friends}
+                        <a class="sc-profile-friend-card" href="{% $friend->profileUrl %}" title="{% escape($friend->displayName) %}">
+                            <span class="sc-profile-friend-avatar">
+                                <img src="{{ $design->getUserAvatar($friend->username, $friend->sex, 150, false) }}" alt="{% escape($friend->displayName) %}" loading="lazy" />
+                                <span class="sc-profile-friend-status {if $friend->isOnline}is-online{/if}" aria-hidden="true"></span>
+                            </span>
+                            <span class="sc-profile-friend-info">
+                                <span class="sc-profile-friend-name">{% escape($friend->displayName) %}</span>
+                                <span class="sc-profile-friend-location">
+                                    {if !empty($friend->location)}
+                                        {% escape($friend->location) %}
+                                    {else}
+                                        @{% escape($friend->username) %}
+                                    {/if}
+                                </span>
+                            </span>
+                        </a>
+                    {/each}
+                </div>
+                {if !empty($profile_friends_url)}
+                    <a class="sc-profile-card-action" href="{% $profile_friends_url %}">{lang 'View all friends'}</a>
+                {/if}
+            {else}
+                <p class="sc-empty">{lang 'Friend cards will appear here when this couple connects with other couples.'}</p>
+            {/if}
         </section>
 
         <section class="sc-profile-card">
