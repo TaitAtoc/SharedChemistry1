@@ -76,20 +76,22 @@
     .sc-profile-detail strong{display:block;margin-bottom:3px;color:#fff;font-size:12px;line-height:1.2}
     .sc-profile-detail span{display:block;color:#d9d2dc;font-size:13px;line-height:1.3}
     .sc-chip-list{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
-    .sc-profile-friend-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0}
-    .sc-profile-friend-card{display:grid;grid-template-columns:54px minmax(0,1fr);gap:10px;align-items:center;min-width:0;padding:10px;border:1px solid rgba(247,243,239,.1);border-radius:8px;background:#202127;color:#f7f3ef;text-decoration:none;transition:border-color .18s ease,background .18s ease,transform .18s ease}
-    .sc-profile-friend-card:hover,
-    .sc-profile-friend-card:focus{border-color:#ec0868;background:#2a1723;color:#fff;text-decoration:none;transform:translateY(-1px)}
-    .sc-profile-friend-avatar{position:relative;width:54px;height:54px;overflow:hidden;border-radius:50%;background:#101114}
-    .sc-profile-friend-avatar img{display:block;width:100%;height:100%;object-fit:cover;border:0;border-radius:50%;box-shadow:none}
-    .sc-profile-friend-status{position:absolute;right:2px;bottom:3px;width:11px;height:11px;border:2px solid #202127;border-radius:50%;background:#d84c59}
-    .sc-profile-friend-status.is-online{background:#46d66f}
-    .sc-profile-friend-info{min-width:0}
-    .sc-profile-friend-name{display:block;overflow:hidden;color:#f7f3ef;font-size:13px;font-weight:bold;line-height:1.25;text-overflow:ellipsis;white-space:nowrap}
-    .sc-profile-friend-location{display:block;overflow:hidden;margin-top:4px;color:#b8b3b0;font-size:12px;line-height:1.25;text-overflow:ellipsis;white-space:nowrap}
-    .sc-profile-card-action{display:inline-flex;align-items:center;justify-content:center;margin-top:14px;min-height:34px;padding:8px 12px;border:1px solid rgba(236,8,104,.62);border-radius:8px;background:#202127;color:#f7f3ef;font-size:12px;font-weight:bold;line-height:1.2;text-decoration:none}
-    .sc-profile-card-action:hover,
-    .sc-profile-card-action:focus{border-color:#c200fb;background:#c200fb;color:#fff;text-decoration:none}
+    .sc-public-profile .sc-profile-friend-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0}
+    .sc-public-profile a.sc-profile-friend-card,
+    .sc-public-profile a.sc-profile-friend-card:visited{display:grid!important;grid-template-columns:54px minmax(0,1fr)!important;gap:10px!important;align-items:center!important;min-width:0!important;padding:10px!important;border:1px solid rgba(247,243,239,.1)!important;border-radius:8px!important;background:#202127!important;background-image:none!important;color:#f7f3ef!important;text-decoration:none!important;text-shadow:none!important;box-shadow:none!important;transition:border-color .18s ease,background .18s ease,transform .18s ease}
+    .sc-public-profile a.sc-profile-friend-card:hover,
+    .sc-public-profile a.sc-profile-friend-card:focus{border-color:#ec0868!important;background:#2a1723!important;color:#fff!important;text-decoration:none!important;transform:translateY(-1px)}
+    .sc-public-profile .sc-profile-friend-avatar{position:relative!important;display:block!important;width:54px!important;height:54px!important;overflow:hidden!important;border-radius:50%!important;background:#101114!important}
+    .sc-public-profile .sc-profile-friend-avatar img{display:block!important;width:100%!important;height:100%!important;object-fit:cover!important;border:0!important;border-radius:50%!important;box-shadow:none!important}
+    .sc-public-profile .sc-profile-friend-status{position:absolute!important;right:2px!important;bottom:3px!important;width:11px!important;height:11px!important;border:2px solid #202127!important;border-radius:50%!important;background:#d84c59!important}
+    .sc-public-profile .sc-profile-friend-status.is-online{background:#46d66f!important}
+    .sc-public-profile .sc-profile-friend-info{display:block!important;min-width:0!important}
+    .sc-public-profile .sc-profile-friend-name{display:block!important;overflow:hidden!important;color:#f7f3ef!important;font-size:13px!important;font-weight:bold!important;line-height:1.25!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+    .sc-public-profile .sc-profile-friend-location{display:block!important;overflow:hidden!important;margin-top:4px!important;color:#b8b3b0!important;font-size:12px!important;line-height:1.25!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+    .sc-public-profile a.sc-profile-card-action,
+    .sc-public-profile a.sc-profile-card-action:visited{display:inline-flex!important;align-items:center!important;justify-content:center!important;margin-top:14px!important;min-height:34px!important;padding:8px 12px!important;border:1px solid rgba(236,8,104,.62)!important;border-radius:8px!important;background:#202127!important;background-image:none!important;color:#f7f3ef!important;font-size:12px!important;font-weight:bold!important;line-height:1.2!important;text-decoration:none!important;text-shadow:none!important;box-shadow:none!important}
+    .sc-public-profile a.sc-profile-card-action:hover,
+    .sc-public-profile a.sc-profile-card-action:focus{border-color:#c200fb!important;background:#c200fb!important;color:#fff!important;text-decoration:none!important}
     .sc-empty{color:#8f8794!important;font-style:italic}
     #cboxOverlay.sc-profile-colorbox-overlay{background:#050407!important;opacity:.9!important}
     #colorbox.sc-profile-colorbox,
@@ -125,7 +127,7 @@
         .sc-profile-status{margin-bottom:12px}
         .sc-profile-hero h1{font-size:28px}
         .sc-profile-details{grid-template-columns:1fr}
-        .sc-profile-friend-grid{grid-template-columns:1fr}
+        .sc-public-profile .sc-profile-friend-grid{grid-template-columns:1fr!important}
         .sc-profile-button{width:100%}
     }
 </style>
@@ -231,9 +233,11 @@
                 <p class="sc-profile-summary sc-empty">{lang 'Not added yet.'}</p>
             {/if}
 
-            <div class="sc-profile-inline-actions">
-                <a class="sc-profile-button sc-profile-verify-button" href="#">{lang 'Verify Couple Later'}</a>
-            </div>
+            {if !$is_own_profile}
+                <div class="sc-profile-inline-actions">
+                    <a class="sc-profile-button sc-profile-verify-button" href="#">{lang 'Verify Couple Later'}</a>
+                </div>
+            {/if}
         </div>
 
         <div class="sc-profile-side">
@@ -241,27 +245,30 @@
                 <span class="sc-profile-status-dot"></span>
                 <span>{profile_status_label}</span>
             </div>
-            <div class="sc-profile-actions">
-            {if $is_friend_enabled AND !empty($friend_link) AND !$is_own_profile}
-                <a class="sc-profile-button sc-profile-action-primary is-primary" rel="nofollow" href="{friend_link}">
-                    {if $is_approved_friend}
-                        {lang 'Remove Friend'}
-                    {elseif $is_pending_friend}
-                        {lang 'Manage Friend'}
-                    {else}
-                        {lang 'Friend Request'}
-                    {/if}
-                </a>
+            {if $is_own_profile}
+                <div class="sc-profile-actions sc-profile-owner-actions">
+                    <a class="sc-profile-button sc-profile-action-primary is-primary" rel="nofollow" href="{{ $design->url('user','setting','edit') }}">{lang 'Edit Profile'}</a>
+                    <a class="sc-profile-button sc-profile-action-secondary" rel="nofollow" href="{{ $design->url('user','setting','avatar') }}">{lang 'Profile Photo'}</a>
+                </div>
             {else}
-                <a class="sc-profile-button sc-profile-action-primary is-primary" href="#">{lang 'Friend Request'}</a>
-            {/if}
+                <div class="sc-profile-actions">
+                {if $is_friend_enabled AND !empty($friend_link)}
+                    <a class="sc-profile-button sc-profile-action-primary is-primary" rel="nofollow" href="{friend_link}">
+                        {if $is_approved_friend}
+                            {lang 'Remove Friend'}
+                        {elseif $is_pending_friend}
+                            {lang 'Manage Friend'}
+                        {else}
+                            {lang 'Friend Request'}
+                        {/if}
+                    </a>
+                {/if}
 
-            {if $is_mail_enabled AND !empty($mail_link) AND !$is_own_profile}
-                <a class="sc-profile-button sc-profile-action-secondary" rel="nofollow" href="{mail_link}">{lang 'Message'}</a>
-            {else}
-                <a class="sc-profile-button sc-profile-action-secondary" href="#">{lang 'Message'}</a>
+                {if $is_mail_enabled AND !empty($mail_link)}
+                    <a class="sc-profile-button sc-profile-action-secondary" rel="nofollow" href="{mail_link}">{lang 'Message'}</a>
+                {/if}
+                </div>
             {/if}
-            </div>
         </div>
     </section>
 
@@ -411,7 +418,7 @@
                     {each $friend in $profile_friends}
                         <a class="sc-profile-friend-card" href="{% $friend->profileUrl %}" title="{% escape($friend->displayName) %}">
                             <span class="sc-profile-friend-avatar">
-                                <img src="{{ $design->getUserAvatar($friend->username, $friend->sex, 150, false) }}" alt="{% escape($friend->displayName) %}" loading="lazy" />
+                                <img src="{% $friend->avatarUrl %}" alt="{% escape($friend->displayName) %}" loading="lazy" onerror="this.onerror=null;this.src='{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png';" />
                                 <span class="sc-profile-friend-status {if $friend->isOnline}is-online{/if}" aria-hidden="true"></span>
                             </span>
                             <span class="sc-profile-friend-info">

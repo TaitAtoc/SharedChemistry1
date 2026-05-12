@@ -107,7 +107,7 @@ class MainController extends ProfileBaseController
             $this->view->last_activity = VDate::textTimeStamp($oUser->lastActivity);
             $this->view->fields = $oFields;
             $this->view->is_logged = $this->bUserAuth;
-            $this->view->is_own_profile = $this->isOwnProfile();
+            $this->view->is_own_profile = $this->isProfileOwner();
             $this->view->is_profile_online = $this->oUserModel->isOnline($this->iProfileId, DbConfig::getSetting('userTimeout'));
             $this->view->profile_status_label = $this->view->is_profile_online ? t('Online') : t('Offline');
             $this->view->public_profile_photos = (new ScPublicProfilePhoto)->getPhotos((int)$this->iProfileId, '1');
@@ -347,11 +347,24 @@ class MainController extends ProfileBaseController
                 'displayName' => !empty($aCoupleProfile['couple_name']) ? $aCoupleProfile['couple_name'] : $oFriend->username,
                 'location' => $this->getProfileLocationText($aProfileData),
                 'profileUrl' => Uri::get('cool-profile-page', 'main', 'index', $iFriendId),
+                'avatarUrl' => $this->getFriendAvatarUrl($oFriend),
                 'isOnline' => $this->oUserModel->isOnline($iFriendId, DbConfig::getSetting('userTimeout'))
             ];
         }
 
         return $aFriends;
+    }
+
+    private function isProfileOwner(): bool
+    {
+        return $this->bUserAuth && (int)$this->iProfileId > 0 && (int)$this->iProfileId === (int)$this->iVisitorId;
+    }
+
+    private function getFriendAvatarUrl(\stdClass $oFriend): string
+    {
+        $sAvatarUrl = (string)$this->design->getUserAvatar($oFriend->username, $oFriend->sex, 150, false);
+
+        return !empty($sAvatarUrl) ? $sAvatarUrl : PH7_URL_TPL . PH7_TPL_NAME . PH7_SH . PH7_IMG . 'sharedchemistry/SharedChemistyAvatar.png';
     }
 
     private function getApprovedFriendIds(int $iProfileId): array
