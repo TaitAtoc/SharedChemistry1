@@ -397,7 +397,7 @@
                                 <span class="sc-dashboard-verified-friend-avatar" tabindex="0">
                                     <img src="{% $verified->avatarUrl %}" alt="{% escape($verified->displayName) %}" loading="lazy" onerror="this.onerror=null;this.src='{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png';" />
                                     <span class="sc-dashboard-verified-note">
-                                        <span class="sc-dashboard-verified-reviewer">{lang 'Reviewed by'} {% escape($verified->reviewerDisplayName) %}</span>
+                                        <span class="sc-dashboard-verified-reviewer">{lang 'Verified by'} {% escape($verified->reviewerDisplayName) %}</span>
                                         <span class="sc-dashboard-verified-review-text">{% nl2br(escape($verified->note)) %}</span>
                                     </span>
                                 </span>
