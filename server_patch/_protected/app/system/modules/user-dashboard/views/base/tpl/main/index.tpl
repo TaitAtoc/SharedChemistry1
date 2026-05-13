@@ -183,6 +183,96 @@
         </div>
 
         <div class="sc-dashboard-grid">
+{literal}
+<style id="sc-dashboard-friends-final-css">
+.sc-dashboard-card.is-friends .sc-dashboard-friend-grid {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    gap: 28px !important;
+    margin: 0 0 22px !important;
+    padding: 0 !important;
+}
+
+.sc-dashboard-card.is-friends .sc-dashboard-friend-grid > a.sc-dashboard-friend-card,
+.sc-dashboard-card.is-friends .sc-dashboard-friend-grid > a.sc-dashboard-friend-card:visited {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    width: 170px !important;
+    min-width: 170px !important;
+    max-width: 170px !important;
+    float: none !important;
+    clear: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    text-align: center !important;
+    text-decoration: none !important;
+}
+
+.sc-dashboard-card.is-friends .sc-dashboard-friend-avatar {
+    display: block !important;
+    width: 150px !important;
+    height: 150px !important;
+    margin: 0 auto !important;
+    overflow: hidden !important;
+    background: #101114 !important;
+}
+
+.sc-dashboard-card.is-friends .sc-dashboard-friend-avatar img {
+    display: block !important;
+    width: 150px !important;
+    height: 150px !important;
+    max-width: none !important;
+    max-height: none !important;
+    object-fit: cover !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+.sc-dashboard-card.is-friends .sc-dashboard-friend-name {
+    display: block !important;
+    width: 100% !important;
+    margin: 10px 0 0 !important;
+    padding: 0 !important;
+    color: #ffbc0a !important;
+    font-size: 18px !important;
+    line-height: 1.25 !important;
+    text-align: center !important;
+    white-space: normal !important;
+}
+
+.sc-dashboard-card.is-friends .sc-dashboard-button {
+    margin-top: 24px !important;
+}
+
+@media screen and (max-width: 767px) {
+    .sc-dashboard-card.is-friends .sc-dashboard-friend-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 20px 12px !important;
+    }
+
+    .sc-dashboard-card.is-friends .sc-dashboard-friend-grid > a.sc-dashboard-friend-card,
+    .sc-dashboard-card.is-friends .sc-dashboard-friend-grid > a.sc-dashboard-friend-card:visited {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: none !important;
+    }
+
+    .sc-dashboard-card.is-friends .sc-dashboard-friend-avatar,
+    .sc-dashboard-card.is-friends .sc-dashboard-friend-avatar img {
+        width: 130px !important;
+        height: 130px !important;
+    }
+}
+</style>
+{/literal}
             <div class="sc-dashboard-card is-friends">
                 <h2>{lang 'Friends'}</h2>
                 {if !empty($dashboard_friends)}
