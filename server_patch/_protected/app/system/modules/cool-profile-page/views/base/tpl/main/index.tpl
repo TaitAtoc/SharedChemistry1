@@ -69,6 +69,25 @@
     .sc-verify-couple-tooltip{display:none;position:absolute;left:0;bottom:calc(100% + 10px);z-index:20;width:260px;padding:10px 12px;border:1px solid rgba(255,255,255,.14);border-radius:8px;background:#202127;color:#f7f3ef;font-size:13px;line-height:1.35;box-shadow:0 10px 28px rgba(0,0,0,.35)}
     .sc-verify-couple-wrap:hover .sc-verify-couple-tooltip,
     .sc-verify-couple-wrap:focus-within .sc-verify-couple-tooltip{display:block}
+    .sc-verify-modal-overlay{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;padding:120px 18px 24px;background:rgba(5,4,7,.72);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .18s ease,visibility .18s ease}
+    .sc-verify-modal-overlay.is-open{opacity:1;visibility:visible;pointer-events:auto}
+    .sc-verify-modal{width:min(100%,560px)}
+    .sc-verify-modal-card{position:relative;padding:26px;border:1px solid rgba(255,255,255,.13);border-radius:12px;background:#17181d;color:#f7f3ef;box-shadow:0 28px 80px rgba(0,0,0,.58)}
+    .sc-verify-modal-close{position:absolute;top:12px;right:12px;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border:1px solid rgba(255,255,255,.12);border-radius:8px;background:#202127;color:#f7f3ef;font-size:20px;line-height:1;cursor:pointer}
+    .sc-verify-modal-close:hover,.sc-verify-modal-close:focus{border-color:#ffbc0a;color:#ffbc0a}
+    .sc-verify-modal-card h2{margin:0 44px 10px 0;color:#fff;font-size:24px;line-height:1.2}
+    .sc-verify-modal-card p{margin:0 0 16px;color:#b8b3b0;font-size:14px;line-height:1.5}
+    .sc-verify-modal-textarea{display:block;width:100%;min-height:170px;margin:0;padding:12px;border:1px solid rgba(255,255,255,.16);border-radius:10px;background:#101114;color:#f7f3ef;font-size:14px;line-height:1.45;resize:vertical}
+    .sc-verify-modal-textarea:focus{outline:0;border-color:#ec0868;box-shadow:0 0 0 3px rgba(236,8,104,.18)}
+    .sc-verify-modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:16px}
+    .sc-verify-modal-submit,.sc-verify-modal-cancel{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 16px;border-radius:10px;font-size:14px;font-weight:bold;line-height:1.2;cursor:pointer}
+    .sc-verify-modal-submit{border:0;background:linear-gradient(90deg,#ec0868,#c200fb);color:#fff}
+    .sc-verify-modal-submit:hover,.sc-verify-modal-submit:focus{background:linear-gradient(90deg,#f32482,#d035ff)}
+    .sc-verify-modal-cancel{border:1px solid rgba(247,243,239,.18);background:#202127;color:#f7f3ef}
+    .sc-verify-modal-cancel:hover,.sc-verify-modal-cancel:focus{border-color:#ffbc0a;color:#ffbc0a}
+    .sc-verify-modal-message{display:none;margin-top:12px!important;color:#ffbc0a!important;font-size:13px!important;line-height:1.4!important}
+    .sc-verify-modal-message.is-visible{display:block}
+    body.sc-verify-modal-open{overflow:hidden}
     .sc-profile-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:16px}
     .sc-profile-grid.is-wide{grid-template-columns:1fr}
     .sc-profile-card{padding:22px}
@@ -138,6 +157,11 @@
     }
     @media (max-width:767px){
         main#content{padding:110px 10px 0!important}
+        .sc-verify-modal-overlay{align-items:flex-start;padding:92px 12px 18px}
+        .sc-verify-modal-card{padding:22px 16px 18px}
+        .sc-verify-modal-card h2{font-size:21px}
+        .sc-verify-modal-actions{flex-direction:column}
+        .sc-verify-modal-submit,.sc-verify-modal-cancel{width:100%}
         .sc-profile-photo-strip{grid-template-columns:repeat(2,minmax(0,1fr))}
         .sc-profile-hero{grid-template-columns:1fr;padding:18px}
         .sc-profile-hero-head{display:block}
@@ -268,7 +292,7 @@
             {if !$is_own_profile}
                 <div class="sc-profile-inline-actions">
                     <span class="sc-verify-couple-wrap">
-                        <a class="sc-profile-button sc-profile-verify-button" href="#">
+                        <a class="sc-profile-button sc-profile-verify-button" href="#" data-sc-verify-open="1">
                             {lang 'Verify Couple'}
                         </a>
                         <span class="sc-verify-couple-tooltip">
@@ -310,6 +334,26 @@
             {/if}
         </div>
     </section>
+
+    {if !$is_own_profile}
+        <div class="sc-verify-modal-overlay" data-sc-verify-overlay="1" aria-hidden="true">
+            <div class="sc-verify-modal" role="dialog" aria-modal="true" aria-labelledby="sc-verify-modal-title">
+                <div class="sc-verify-modal-card">
+                    <button class="sc-verify-modal-close" type="button" data-sc-verify-close="1" aria-label="{lang 'Close'}">&times;</button>
+                    <h2 id="sc-verify-modal-title">{lang 'Tell Us About This Couple'}</h2>
+                    <p>{lang 'Share a short note about your real experience with this couple. Keep it classy.'}</p>
+                    <form class="sc-verify-modal-form" action="#" method="post" data-sc-verify-form="1">
+                        <textarea class="sc-verify-modal-textarea" name="verification_note" placeholder="{lang 'Write a short note about your experience...'}"></textarea>
+                        <div class="sc-verify-modal-actions">
+                            <button class="sc-verify-modal-submit" type="submit">{lang 'Submit Verification'}</button>
+                            <button class="sc-verify-modal-cancel" type="button" data-sc-verify-close="1">{lang 'Cancel'}</button>
+                        </div>
+                        <p class="sc-verify-modal-message" data-sc-verify-message="1" role="status" aria-live="polite"></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {/if}
 
     <div class="sc-profile-grid">
         <section class="sc-profile-card sc-profile-person-card">
@@ -618,6 +662,54 @@
                     $('.msg').html('{/literal}{lang 'Unable to update friend request. Please try again.'}{literal}');
                 });
             };
+        }
+
+        var $verifyOverlay = $('.sc-verify-modal-overlay[data-sc-verify-overlay="1"]');
+        var $verifyOpen = $('[data-sc-verify-open="1"]');
+
+        if ($verifyOverlay.length) {
+            var closeVerifyModal = function() {
+                $verifyOverlay.removeClass('is-open').attr('aria-hidden', 'true');
+                $('body').removeClass('sc-verify-modal-open');
+            };
+
+            var openVerifyModal = function() {
+                $verifyOverlay.addClass('is-open').attr('aria-hidden', 'false');
+                $('body').addClass('sc-verify-modal-open');
+                $verifyOverlay.find('[data-sc-verify-message="1"]').removeClass('is-visible').text('');
+                window.setTimeout(function() {
+                    $verifyOverlay.find('.sc-verify-modal-textarea').trigger('focus');
+                }, 50);
+            };
+
+            $verifyOpen.on('click.scVerifyCouple', function(event) {
+                event.preventDefault();
+                openVerifyModal();
+            });
+
+            $verifyOverlay.on('click.scVerifyCouple', function(event) {
+                if ($(event.target).is($verifyOverlay)) {
+                    closeVerifyModal();
+                }
+            });
+
+            $verifyOverlay.find('[data-sc-verify-close="1"]').on('click.scVerifyCouple', function(event) {
+                event.preventDefault();
+                closeVerifyModal();
+            });
+
+            $verifyOverlay.find('[data-sc-verify-form="1"]').on('submit.scVerifyCouple', function(event) {
+                event.preventDefault();
+                $verifyOverlay.find('[data-sc-verify-message="1"]')
+                    .text('Verification form ready. Backend save comes next.')
+                    .addClass('is-visible');
+            });
+
+            $(document).on('keydown.scVerifyCouple', function(event) {
+                if (event.key === 'Escape' && $verifyOverlay.hasClass('is-open')) {
+                    closeVerifyModal();
+                }
+            });
         }
 
         if (!document.getElementById('sc-profile-colorbox-style')) {
