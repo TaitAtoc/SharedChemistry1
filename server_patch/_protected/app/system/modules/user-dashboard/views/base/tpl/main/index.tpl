@@ -5,6 +5,7 @@
     header .ad_468_60,
     main#content + .ad_468_60{display:none!important;height:0!important;min-height:0!important;margin:0!important;padding:0!important;overflow:hidden!important;border:0!important;background:transparent!important}
     main#content{max-width:1180px!important;margin:0 auto!important;padding:20px 15px 0!important;background:transparent!important}
+    body main#content#content:has(.sc-dashboard){padding:132px 15px 0!important}
     .navbar .container{max-width:1180px;width:100%}
     .navbar-collapse{padding-left:0;padding-right:0}
     .navbar-nav > li > a{padding-left:8px!important;padding-right:8px!important;font-size:13px;white-space:nowrap}
@@ -64,7 +65,7 @@
     #colorbox.sc-dashboard-colorbox #cboxCurrent{display:none!important;height:0!important;margin:0!important;padding:0!important;overflow:hidden!important;font-size:0!important;line-height:0!important;color:transparent!important}
     @media (min-width:768px){.navbar-toggle{display:none!important}}
     @media (max-width:991px){.navbar-nav > li > a{padding-left:6px!important;padding-right:6px!important;font-size:12px}.sc-public-photo-row{grid-template-columns:repeat(3,minmax(0,1fr))!important}.sc-dashboard-grid{grid-template-columns:1fr!important}}
-    @media (max-width:767px){main#content{padding:20px 10px 0!important}main#content .sc-dashboard,.sc-dashboard{padding-top:130px!important}.navbar-toggle{display:block!important}.sc-dashboard-card{padding:14px!important}.sc-public-photo-row{grid-template-columns:repeat(2,minmax(0,1fr))!important}.sc-profile-actions a,.sc-dashboard-button{width:100%!important}}
+    @media (max-width:767px){main#content{padding:20px 10px 0!important}body main#content#content:has(.sc-dashboard){padding:118px 10px 0!important}main#content .sc-dashboard,.sc-dashboard{padding-top:130px!important}.navbar-toggle{display:block!important}.sc-dashboard-card{padding:14px!important}.sc-public-photo-row{grid-template-columns:repeat(2,minmax(0,1fr))!important}.sc-profile-actions a,.sc-dashboard-button{width:100%!important}}
 </style>
 {/literal}
 
