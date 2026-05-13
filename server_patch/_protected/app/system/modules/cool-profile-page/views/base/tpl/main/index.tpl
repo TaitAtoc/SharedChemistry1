@@ -65,6 +65,10 @@
     .sc-public-profile .sc-profile-inline-actions a.sc-profile-verify-button:visited{border:1px solid rgba(255,188,10,.48)!important;background:#202127!important;background-image:none!important;color:#ffbc0a!important;text-decoration:none!important;text-shadow:none!important}
     .sc-public-profile .sc-profile-inline-actions a.sc-profile-verify-button:hover,
     .sc-public-profile .sc-profile-inline-actions a.sc-profile-verify-button:focus{border-color:#ffbc0a!important;background:#2a2416!important;color:#f7f3ef!important}
+    .sc-verify-couple-wrap{position:relative;display:inline-block}
+    .sc-verify-couple-tooltip{display:none;position:absolute;left:0;bottom:calc(100% + 10px);z-index:20;width:260px;padding:10px 12px;border:1px solid rgba(255,255,255,.14);border-radius:8px;background:#202127;color:#f7f3ef;font-size:13px;line-height:1.35;box-shadow:0 10px 28px rgba(0,0,0,.35)}
+    .sc-verify-couple-wrap:hover .sc-verify-couple-tooltip,
+    .sc-verify-couple-wrap:focus-within .sc-verify-couple-tooltip{display:block}
     .sc-profile-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:16px}
     .sc-profile-grid.is-wide{grid-template-columns:1fr}
     .sc-profile-card{padding:22px}
@@ -263,7 +267,14 @@
 
             {if !$is_own_profile}
                 <div class="sc-profile-inline-actions">
-                    <a class="sc-profile-button sc-profile-verify-button" href="#">{lang 'Verify Couple Later'}</a>
+                    <span class="sc-verify-couple-wrap">
+                        <a class="sc-profile-button sc-profile-verify-button" href="#">
+                            {lang 'Verify Couple'}
+                        </a>
+                        <span class="sc-verify-couple-tooltip">
+                            {lang 'Verify a couple you have met or played with. Add a short note about your experience.'}
+                        </span>
+                    </span>
                 </div>
             {/if}
         </div>
