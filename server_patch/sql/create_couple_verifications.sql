@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `ph7_couple_verifications` (
+CREATE TABLE IF NOT EXISTS `ph7vz_couple_verifications` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `verifier_profile_id` INT UNSIGNED NOT NULL,
   `verified_profile_id` INT UNSIGNED NOT NULL,
@@ -11,3 +11,4 @@ CREATE TABLE IF NOT EXISTS `ph7_couple_verifications` (
   KEY `idx_couple_verifier_status` (`verifier_profile_id`, `status`),
   KEY `idx_couple_verified_status` (`verified_profile_id`, `status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
