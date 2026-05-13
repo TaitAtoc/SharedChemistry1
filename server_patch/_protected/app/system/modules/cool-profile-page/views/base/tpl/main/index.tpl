@@ -97,6 +97,15 @@
     .sc-public-profile .sc-profile-friends-card a.sc-profile-card-action:visited{display:flex!important;width:fit-content!important;margin:90px auto 0!important;justify-content:center!important;border:0!important;background:transparent!important;color:#ffbc0a!important;font-size:15px!important;font-weight:400!important}
     .sc-public-profile .sc-profile-friends-card a.sc-profile-card-action:hover,
     .sc-public-profile .sc-profile-friends-card a.sc-profile-card-action:focus{background:transparent!important;color:#ec7d10!important}
+    .sc-public-profile .sc-profile-card.sc-profile-friends-card .sc-profile-friend-grid{display:flex!important;flex-wrap:wrap!important;align-items:flex-start!important;justify-content:flex-start!important;gap:28px!important;margin:0!important;padding:0!important}
+    .sc-public-profile .sc-profile-card.sc-profile-friends-card .sc-profile-friend-grid > a.sc-profile-friend-card,
+    .sc-public-profile .sc-profile-card.sc-profile-friends-card .sc-profile-friend-grid > a.sc-profile-friend-card:visited{display:flex!important;float:none!important;clear:none!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important;width:170px!important;min-width:170px!important;max-width:170px!important;margin:0!important;padding:0!important;border:0!important;background:transparent!important;background-image:none!important;box-shadow:none!important;color:#ffbc0a!important;text-align:center!important;text-decoration:none!important;text-shadow:none!important}
+    .sc-public-profile .sc-profile-card.sc-profile-friends-card .sc-profile-friend-avatar{display:block!important;float:none!important;width:150px!important;height:150px!important;margin:0 auto!important;overflow:hidden!important;border:0!important;border-radius:0!important;background:#101114!important}
+    .sc-public-profile .sc-profile-card.sc-profile-friends-card .sc-profile-friend-avatar img{display:block!important;width:150px!important;height:150px!important;max-width:none!important;max-height:none!important;object-fit:cover!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+    .sc-public-profile .sc-profile-card.sc-profile-friends-card .sc-profile-friend-info{display:block!important;float:none!important;width:100%!important;min-width:0!important;margin:10px 0 0!important;padding:0!important;text-align:center!important}
+    .sc-public-profile .sc-profile-card.sc-profile-friends-card .sc-profile-friend-name{display:block!important;float:none!important;width:100%!important;margin:0!important;padding:0!important;color:#ffbc0a!important;font-size:18px!important;font-weight:400!important;line-height:1.25!important;text-align:center!important;white-space:normal!important}
+    .sc-public-profile .sc-profile-card.sc-profile-friends-card a.sc-profile-card-action,
+    .sc-public-profile .sc-profile-card.sc-profile-friends-card a.sc-profile-card-action:visited{display:flex!important;width:fit-content!important;margin:90px auto 0!important;justify-content:center!important;border:0!important;background:transparent!important;color:#ffbc0a!important}
     .sc-empty{color:#8f8794!important;font-style:italic}
     #cboxOverlay.sc-profile-colorbox-overlay{background:#050407!important;opacity:.9!important}
     #colorbox.sc-profile-colorbox,
@@ -140,6 +149,13 @@
         .sc-public-profile .sc-profile-friend-avatar img{width:130px!important;height:130px!important}
         .sc-public-profile .sc-profile-friends-card a.sc-profile-card-action,
         .sc-public-profile .sc-profile-friends-card a.sc-profile-card-action:visited{margin-top:44px!important}
+        .sc-public-profile .sc-profile-card.sc-profile-friends-card .sc-profile-friend-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:20px 12px!important}
+        .sc-public-profile .sc-profile-card.sc-profile-friends-card .sc-profile-friend-grid > a.sc-profile-friend-card,
+        .sc-public-profile .sc-profile-card.sc-profile-friends-card .sc-profile-friend-grid > a.sc-profile-friend-card:visited{width:100%!important;min-width:0!important;max-width:none!important}
+        .sc-public-profile .sc-profile-card.sc-profile-friends-card .sc-profile-friend-avatar,
+        .sc-public-profile .sc-profile-card.sc-profile-friends-card .sc-profile-friend-avatar img{width:130px!important;height:130px!important}
+        .sc-public-profile .sc-profile-card.sc-profile-friends-card a.sc-profile-card-action,
+        .sc-public-profile .sc-profile-card.sc-profile-friends-card a.sc-profile-card-action:visited{margin-top:44px!important}
         .sc-profile-button{width:100%}
     }
 </style>
