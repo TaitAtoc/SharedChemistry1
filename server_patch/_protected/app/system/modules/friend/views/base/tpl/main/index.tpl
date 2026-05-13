@@ -12,9 +12,9 @@
     .sc-friend-title a:hover,
     .sc-friend-title a:focus{color:#f7f3ef;text-decoration:none}
     .sc-friend-list{display:grid;gap:12px;margin:0;padding:0;list-style:none}
-    .sc-friend-card{display:grid;grid-template-columns:78px minmax(0,1fr) auto;gap:14px;align-items:center;min-width:0;padding:14px;border:1px solid rgba(247,243,239,.08);border-radius:10px;background:#202127;color:#f7f3ef;box-shadow:0 12px 28px rgba(0,0,0,.22)}
-    .sc-friend-avatar{position:relative;width:78px;height:78px;overflow:hidden;border-radius:10px;background:#101114}
-    .sc-friend-avatar img{display:block;width:100%;height:100%;object-fit:cover;border:0;border-radius:10px;box-shadow:none}
+    .sc-friend-card{display:grid;grid-template-columns:82px minmax(0,1fr) auto;gap:16px;align-items:center;min-width:0;padding:16px;border:1px solid rgba(247,243,239,.08);border-radius:10px;background:#202127;color:#f7f3ef;box-shadow:0 12px 28px rgba(0,0,0,.22)}
+    .sc-friend-avatar{position:relative;display:block;width:82px;height:82px;overflow:hidden;border:1px solid rgba(247,243,239,.08);border-radius:12px;background:#101114 url('{/literal}{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png{literal}') center/cover no-repeat;text-decoration:none}
+    .sc-friend-avatar img{display:block;width:100%;height:100%;object-fit:cover;border:0!important;border-radius:12px!important;box-shadow:none!important;color:transparent;font-size:0;line-height:0;text-indent:-9999px}
     .sc-friend-info{min-width:0}
     .sc-friend-name{display:inline-flex;max-width:100%;overflow:hidden;color:#f7f3ef;font-size:18px;font-weight:700;line-height:1.25;text-overflow:ellipsis;white-space:nowrap;text-decoration:none}
     .sc-friend-name:hover,
@@ -22,7 +22,7 @@
     .sc-friend-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
     .sc-friend-pill{display:inline-flex;align-items:center;min-height:26px;padding:5px 9px;border:1px solid rgba(247,243,239,.1);border-radius:999px;background:#17181d;color:#b8b3b0;font-size:12px;font-weight:700;line-height:1.2}
     .sc-friend-pill.is-pending{border-color:rgba(255,188,10,.5);color:#ffbc0a}
-    .sc-friend-actions{display:flex;align-items:center;justify-content:flex-end;gap:10px;min-width:190px}
+    .sc-friend-actions{display:flex;align-items:center;justify-content:flex-end;gap:10px;min-width:190px;justify-self:end}
     .sc-friend-button{display:inline-flex!important;align-items:center;justify-content:center;min-width:86px;min-height:38px;padding:9px 13px!important;border:1px solid rgba(247,243,239,.16)!important;border-radius:9px!important;background:#202127!important;background-image:none!important;color:#f7f3ef!important;font-size:13px!important;font-weight:700!important;line-height:1.2!important;text-align:center!important;text-decoration:none!important;text-shadow:none!important;box-shadow:none!important;cursor:pointer;transition:background .18s ease,border-color .18s ease,transform .18s ease}
     .sc-friend-button:hover,
     .sc-friend-button:focus{border-color:#ec0868!important;background:#2a1723!important;color:#fff!important;text-decoration:none!important;transform:translateY(-1px)}
@@ -39,9 +39,9 @@
         .sc-friend-title h1{font-size:26px}
         .sc-friend-tools{justify-content:stretch}
         .sc-friend-tools .sc-friend-button{width:100%}
-        .sc-friend-card{grid-template-columns:64px minmax(0,1fr);align-items:start}
+        .sc-friend-card{grid-template-columns:66px minmax(0,1fr);align-items:start;padding:14px}
         .sc-friend-avatar{width:64px;height:64px}
-        .sc-friend-actions{grid-column:1 / -1;justify-content:stretch;min-width:0}
+        .sc-friend-actions{grid-column:1 / -1;justify-content:stretch;justify-self:stretch;min-width:0}
         .sc-friend-actions .sc-friend-button{width:100%}
     }
 </style>
@@ -72,7 +72,7 @@
             {each $f in $friends}
                 <article class="sc-friend-card" id="friend_{% $f->fdId %}">
                     <a class="sc-friend-avatar" href="{{ $design->url('cool-profile-page','main','index',$f->fdId) }}" aria-label="{lang 'View profile'}">
-                        <img src="{{ $design->getUserAvatar($f->username, $f->sex, 150, false) }}" alt="{% escape($f->username) %}" loading="lazy" />
+                        <img src="{{ $design->getUserAvatar($f->username, $f->sex, 150) }}" alt="{% escape($f->username) %}" loading="lazy" onerror="this.onerror=null;this.src='{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png';" />
                     </a>
 
                     <div class="sc-friend-info">
@@ -111,3 +111,21 @@
         <p class="sc-friend-empty">{error}</p>
     {/if}
 </div>
+
+{literal}
+<script>
+    (function() {
+        var placeholder = '{/literal}{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png{literal}';
+        var avatars = document.querySelectorAll('.sc-friend-avatar img');
+
+        for (var i = 0; i < avatars.length; i++) {
+            var img = avatars[i];
+            var src = img.getAttribute('src') || '';
+
+            if (!src || src.indexOf('_no_picture') !== -1) {
+                img.setAttribute('src', placeholder);
+            }
+        }
+    })();
+</script>
+{/literal}
