@@ -439,6 +439,109 @@
     </div>
 
     <div class="sc-profile-grid">
+{literal}
+<style id="sc-profile-friends-final-css">
+.sc-public-profile .sc-profile-card.sc-profile-friends-card .sc-profile-friend-grid {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    gap: 28px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.sc-public-profile .sc-profile-card.sc-profile-friends-card .sc-profile-friend-grid > a.sc-profile-friend-card,
+.sc-public-profile .sc-profile-card.sc-profile-friends-card .sc-profile-friend-grid > a.sc-profile-friend-card:visited {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    width: 170px !important;
+    min-width: 170px !important;
+    max-width: 170px !important;
+    float: none !important;
+    clear: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    text-align: center !important;
+    text-decoration: none !important;
+}
+
+.sc-public-profile .sc-profile-card.sc-profile-friends-card .sc-profile-friend-avatar {
+    display: block !important;
+    width: 150px !important;
+    height: 150px !important;
+    margin: 0 auto !important;
+    overflow: hidden !important;
+}
+
+.sc-public-profile .sc-profile-card.sc-profile-friends-card .sc-profile-friend-avatar img {
+    display: block !important;
+    width: 150px !important;
+    height: 150px !important;
+    max-width: none !important;
+    max-height: none !important;
+    object-fit: cover !important;
+}
+
+.sc-public-profile .sc-profile-card.sc-profile-friends-card .sc-profile-friend-info {
+    display: block !important;
+    width: 100% !important;
+    margin: 10px 0 0 !important;
+    padding: 0 !important;
+    text-align: center !important;
+}
+
+.sc-public-profile .sc-profile-card.sc-profile-friends-card .sc-profile-friend-name {
+    display: block !important;
+    width: 100% !important;
+    color: #ffbc0a !important;
+    font-size: 18px !important;
+    line-height: 1.25 !important;
+    text-align: center !important;
+    white-space: normal !important;
+}
+
+.sc-public-profile .sc-profile-card.sc-profile-friends-card a.sc-profile-card-action,
+.sc-public-profile .sc-profile-card.sc-profile-friends-card a.sc-profile-card-action:visited {
+    display: flex !important;
+    width: fit-content !important;
+    margin: 90px auto 0 !important;
+    justify-content: center !important;
+    color: #ffbc0a !important;
+    background: transparent !important;
+    border: 0 !important;
+}
+
+@media screen and (max-width: 767px) {
+    .sc-public-profile .sc-profile-card.sc-profile-friends-card .sc-profile-friend-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 20px 12px !important;
+    }
+
+    .sc-public-profile .sc-profile-card.sc-profile-friends-card .sc-profile-friend-grid > a.sc-profile-friend-card {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: none !important;
+    }
+
+    .sc-public-profile .sc-profile-card.sc-profile-friends-card .sc-profile-friend-avatar,
+    .sc-public-profile .sc-profile-card.sc-profile-friends-card .sc-profile-friend-avatar img {
+        width: 130px !important;
+        height: 130px !important;
+    }
+
+    .sc-public-profile .sc-profile-card.sc-profile-friends-card a.sc-profile-card-action {
+        margin-top: 44px !important;
+    }
+}
+</style>
+{/literal}
         <section class="sc-profile-card sc-profile-friends-card">
             <h2>{lang 'Friends'}</h2>
             {if !empty($profile_friends)}
