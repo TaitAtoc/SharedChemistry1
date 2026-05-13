@@ -641,6 +641,141 @@
             {/if}
         </section>
 
+{literal}
+<style id="sc-public-verified-friends-final-css">
+.sc-public-profile .sc-profile-card.sc-profile-verified-friends-card {
+    overflow: visible !important;
+}
+
+.sc-public-profile .sc-profile-card.sc-profile-verified-friends-card .sc-profile-verified-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 150px) !important;
+    align-items: start !important;
+    justify-content: start !important;
+    gap: 28px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+}
+
+.sc-public-profile .sc-profile-card.sc-profile-verified-friends-card .sc-profile-verified-card {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    width: 150px !important;
+    min-width: 150px !important;
+    max-width: 150px !important;
+    float: none !important;
+    clear: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-align: center !important;
+    overflow: visible !important;
+}
+
+.sc-public-profile .sc-profile-card.sc-profile-verified-friends-card .sc-profile-verified-avatar {
+    position: relative !important;
+    display: block !important;
+    width: 150px !important;
+    height: 150px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    background: #101114 !important;
+}
+
+.sc-public-profile .sc-profile-card.sc-profile-verified-friends-card .sc-profile-verified-avatar img {
+    display: block !important;
+    width: 150px !important;
+    height: 150px !important;
+    max-width: none !important;
+    max-height: none !important;
+    object-fit: cover !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+.sc-public-profile .sc-profile-card.sc-profile-verified-friends-card .sc-profile-verified-note {
+    display: none !important;
+    position: absolute !important;
+    left: 0 !important;
+    bottom: calc(100% + 10px) !important;
+    z-index: 100 !important;
+    width: 270px !important;
+    padding: 11px 13px !important;
+    border: 1px solid rgba(255,255,255,.14) !important;
+    border-radius: 8px !important;
+    background: #202127 !important;
+    color: #f7f3ef !important;
+    font-size: 13px !important;
+    line-height: 1.35 !important;
+    text-align: left !important;
+    white-space: normal !important;
+    box-shadow: 0 10px 28px rgba(0,0,0,.35) !important;
+}
+
+.sc-public-profile .sc-profile-card.sc-profile-verified-friends-card .sc-profile-verified-avatar:hover .sc-profile-verified-note,
+.sc-public-profile .sc-profile-card.sc-profile-verified-friends-card .sc-profile-verified-avatar:focus-within .sc-profile-verified-note {
+    display: block !important;
+}
+
+.sc-public-profile .sc-profile-card.sc-profile-verified-friends-card .sc-profile-verified-reviewer {
+    display: block !important;
+    margin: 0 0 7px !important;
+    color: #ffbc0a !important;
+    font-weight: bold !important;
+    line-height: 1.3 !important;
+}
+
+.sc-public-profile .sc-profile-card.sc-profile-verified-friends-card .sc-profile-verified-review-text {
+    display: block !important;
+    color: #f7f3ef !important;
+    white-space: pre-line !important;
+}
+
+.sc-public-profile .sc-profile-card.sc-profile-verified-friends-card a.sc-profile-verified-name,
+.sc-public-profile .sc-profile-card.sc-profile-verified-friends-card a.sc-profile-verified-name:visited {
+    display: block !important;
+    width: 150px !important;
+    margin: 10px 0 0 !important;
+    padding: 0 !important;
+    color: #ffbc0a !important;
+    font-size: 18px !important;
+    line-height: 1.25 !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    white-space: normal !important;
+}
+
+@media screen and (max-width: 767px) {
+    .sc-public-profile .sc-profile-card.sc-profile-verified-friends-card .sc-profile-verified-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 20px 12px !important;
+    }
+
+    .sc-public-profile .sc-profile-card.sc-profile-verified-friends-card .sc-profile-verified-card,
+    .sc-public-profile .sc-profile-card.sc-profile-verified-friends-card a.sc-profile-verified-name {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: none !important;
+    }
+
+    .sc-public-profile .sc-profile-card.sc-profile-verified-friends-card .sc-profile-verified-avatar,
+    .sc-public-profile .sc-profile-card.sc-profile-verified-friends-card .sc-profile-verified-avatar img {
+        width: 130px !important;
+        height: 130px !important;
+    }
+
+    .sc-public-profile .sc-profile-card.sc-profile-verified-friends-card .sc-profile-verified-note {
+        left: 50% !important;
+        width: min(270px, calc(100vw - 36px)) !important;
+        transform: translateX(-50%) !important;
+    }
+}
+</style>
+{/literal}
         <section class="sc-profile-card sc-profile-verified-friends-card">
             <h2>{lang 'Verified Friends'}</h2>
             {if !empty($profile_verified_friends)}
