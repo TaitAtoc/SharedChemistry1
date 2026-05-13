@@ -44,8 +44,17 @@
     .sc-profile-actions .sc-main-profile-link i{color:#fff!important}
     .sc-dashboard-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:14px!important;width:100%!important;align-items:stretch!important}
     .sc-dashboard-grid .sc-dashboard-card{display:flex!important;flex-direction:column!important;height:100%!important}
+    .sc-dashboard-grid .sc-dashboard-card.is-friends{grid-column:span 2!important}
     .sc-dashboard-grid .sc-dashboard-button{margin-top:auto!important;align-self:flex-start!important}
     .sc-dashboard-actions{display:flex!important;flex-wrap:wrap!important;gap:8px!important;margin-top:auto!important}
+    .sc-dashboard-friend-grid{display:flex!important;flex-wrap:wrap!important;align-items:flex-start!important;justify-content:flex-start!important;gap:18px!important;margin:0 0 18px!important;padding:0!important}
+    .sc-dashboard-friend-card,
+    .sc-dashboard-friend-card:visited{display:flex!important;float:none!important;clear:none!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important;width:128px!important;min-width:128px!important;max-width:128px!important;margin:0!important;padding:0!important;border:0!important;background:transparent!important;background-image:none!important;box-shadow:none!important;color:#ffbc0a!important;text-align:center!important;text-decoration:none!important;text-shadow:none!important}
+    .sc-dashboard-friend-card:hover,
+    .sc-dashboard-friend-card:focus{color:#f7f3ef!important;text-decoration:none!important;transform:translateY(-1px)}
+    .sc-dashboard-friend-avatar{display:block!important;width:118px!important;height:118px!important;margin:0 auto!important;overflow:hidden!important;border:0!important;border-radius:0!important;background:#101114!important}
+    .sc-dashboard-friend-avatar img{display:block!important;width:118px!important;height:118px!important;max-width:none!important;max-height:none!important;object-fit:cover!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+    .sc-dashboard-friend-name{display:block!important;width:100%!important;margin:9px 0 0!important;padding:0!important;color:#ffbc0a!important;font-size:15px!important;font-weight:400!important;line-height:1.25!important;text-align:center!important;white-space:normal!important}
     #cboxOverlay.sc-dashboard-colorbox-overlay{background:#050407!important;opacity:.9!important}
     #colorbox.sc-dashboard-colorbox{overflow:visible!important;background:transparent!important}
     #colorbox.sc-dashboard-colorbox #cboxWrapper{overflow:visible!important;background:transparent!important}
@@ -64,8 +73,8 @@
     #colorbox.sc-dashboard-colorbox #cboxTitle,
     #colorbox.sc-dashboard-colorbox #cboxCurrent{display:none!important;height:0!important;margin:0!important;padding:0!important;overflow:hidden!important;font-size:0!important;line-height:0!important;color:transparent!important}
     @media (min-width:768px){.navbar-toggle{display:none!important}}
-    @media (max-width:991px){.navbar-nav > li > a{padding-left:6px!important;padding-right:6px!important;font-size:12px}.sc-public-photo-row{grid-template-columns:repeat(3,minmax(0,1fr))!important}.sc-dashboard-grid{grid-template-columns:1fr!important}}
-    @media (max-width:767px){main#content{padding:20px 10px 0!important}body main#content#content:has(.sc-dashboard){padding:118px 10px 0!important}main#content .sc-dashboard,.sc-dashboard{padding-top:130px!important}.navbar-toggle{display:block!important}.sc-dashboard-card{padding:14px!important}.sc-public-photo-row{grid-template-columns:repeat(2,minmax(0,1fr))!important}.sc-profile-actions a,.sc-dashboard-button{width:100%!important}}
+    @media (max-width:991px){.navbar-nav > li > a{padding-left:6px!important;padding-right:6px!important;font-size:12px}.sc-public-photo-row{grid-template-columns:repeat(3,minmax(0,1fr))!important}.sc-dashboard-grid{grid-template-columns:1fr!important}.sc-dashboard-grid .sc-dashboard-card.is-friends{grid-column:auto!important}}
+    @media (max-width:767px){main#content{padding:20px 10px 0!important}body main#content#content:has(.sc-dashboard){padding:118px 10px 0!important}main#content .sc-dashboard,.sc-dashboard{padding-top:130px!important}.navbar-toggle{display:block!important}.sc-dashboard-card{padding:14px!important}.sc-public-photo-row{grid-template-columns:repeat(2,minmax(0,1fr))!important}.sc-profile-actions a,.sc-dashboard-button{width:100%!important}.sc-dashboard-friend-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:18px 12px!important}.sc-dashboard-friend-card,.sc-dashboard-friend-card:visited{width:100%!important;min-width:0!important;max-width:none!important}.sc-dashboard-friend-avatar,.sc-dashboard-friend-avatar img{width:120px!important;height:120px!important}}
 </style>
 {/literal}
 
@@ -174,10 +183,23 @@
         </div>
 
         <div class="sc-dashboard-grid">
-            <div class="sc-dashboard-card">
+            <div class="sc-dashboard-card is-friends">
                 <h2>{lang 'Friends'}</h2>
-                <p>{lang 'Friend cards will appear here when you connect with other couples.'}</p>
-                <a class="sc-dashboard-button" href="#">{lang 'Manage Friends'}</a>
+                {if !empty($dashboard_friends)}
+                    <div class="sc-dashboard-friend-grid">
+                        {each $friend in $dashboard_friends}
+                            <a class="sc-dashboard-friend-card" href="{% $friend->profileUrl %}" title="{% escape($friend->displayName) %}">
+                                <span class="sc-dashboard-friend-avatar">
+                                    <img src="{% $friend->avatarUrl %}" alt="{% escape($friend->displayName) %}" loading="lazy" onerror="this.onerror=null;this.src='{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png';" />
+                                </span>
+                                <span class="sc-dashboard-friend-name">{% escape($friend->displayName) %}</span>
+                            </a>
+                        {/each}
+                    </div>
+                {else}
+                    <p>{lang 'Friend cards will appear here when you connect with other couples.'}</p>
+                {/if}
+                <a class="sc-dashboard-button" href="{% $dashboard_friends_url %}">{lang 'Manage Friends'}</a>
             </div>
 
             <div class="sc-dashboard-card">

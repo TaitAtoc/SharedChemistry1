@@ -9,9 +9,15 @@
 namespace PH7;
 
 use PH7\Framework\Module\Various as SysMod;
+use PH7\Framework\Mvc\Model\Engine\Db;
+use PH7\Framework\Mvc\Router\Uri;
+use PDO;
 
 class MainController extends Controller
 {
+    private const FRIEND_CARD_LIMIT = 6;
+    private const COUPLE_PROFILE_DATA_FIELD = 'couple_profile_data';
+
     public function index()
     {
         $this->view->page_title = $this->view->h1_title = t('My Dashboard');
@@ -34,6 +40,15 @@ class MainController extends Controller
         $this->view->sex = $this->session->get('member_sex');
         $this->view->avatarDesign = new AvatarDesignCore; // For the avatar lightBox
         $this->view->userDesignModel = new UserDesignModel; // For the profilesBlock
+        $this->view->dashboard_friends = [];
+        $this->view->dashboard_friends_url = '';
+
+        if (SysMod::isEnabled('friend')) {
+            $iMemberId = (int)$this->session->get('member_id');
+
+            $this->view->dashboard_friends = $this->getApprovedFriendCards($iMemberId);
+            $this->view->dashboard_friends_url = Uri::get('friend', 'main', 'index', $this->view->username);
+        }
 
         $this->output();
     }
@@ -49,5 +64,66 @@ class MainController extends Controller
             PH7_LAYOUT . PH7_SYS . PH7_MOD . 'friend' . PH7_SH . PH7_TPL . PH7_TPL_MOD_NAME . PH7_SH . PH7_JS,
             'friend.js'
         );
+    }
+
+    private function getApprovedFriendCards(int $iProfileId): array
+    {
+        $aFriends = [];
+        $oUserModel = new UserCoreModel;
+
+        foreach ($this->getApprovedFriendIds($iProfileId) as $iFriendId) {
+            $oFriend = $oUserModel->readProfile($iFriendId);
+            if (!$oFriend || (int)$oFriend->ban === UserCore::BAN_STATUS) {
+                continue;
+            }
+
+            $oFields = $oUserModel->getInfoFields($iFriendId);
+            $aCoupleProfile = $this->getCoupleProfileData($oFields);
+
+            $aFriends[] = (object)[
+                'profileId' => (int)$iFriendId,
+                'username' => $oFriend->username,
+                'sex' => $oFriend->sex,
+                'displayName' => !empty($aCoupleProfile['couple_name']) ? $aCoupleProfile['couple_name'] : $oFriend->username,
+                'profileUrl' => Uri::get('cool-profile-page', 'main', 'index', $iFriendId),
+                'avatarUrl' => $this->getFriendAvatarUrl($oFriend)
+            ];
+        }
+
+        unset($oUserModel);
+
+        return $aFriends;
+    }
+
+    private function getApprovedFriendIds(int $iProfileId): array
+    {
+        $rStmt = Db::getInstance()->prepare(
+            'SELECT CASE WHEN profileId = :profileId THEN friendId ELSE profileId END AS friendId FROM' .
+            Db::prefix(DbTableName::MEMBER_FRIEND) .
+            'WHERE pending = :approved AND (profileId = :profileId OR friendId = :profileId) ORDER BY requestDate DESC LIMIT :limit'
+        );
+        $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
+        $rStmt->bindValue(':approved', FriendCoreModel::APPROVED_REQUEST, PDO::PARAM_INT);
+        $rStmt->bindValue(':limit', self::FRIEND_CARD_LIMIT, PDO::PARAM_INT);
+        $rStmt->execute();
+        $aFriendIds = array_map('intval', $rStmt->fetchAll(PDO::FETCH_COLUMN));
+        Db::free($rStmt);
+
+        return $aFriendIds;
+    }
+
+    private function getCoupleProfileData(\stdClass $oFields): array
+    {
+        $sJson = isset($oFields->{self::COUPLE_PROFILE_DATA_FIELD}) ? (string)$oFields->{self::COUPLE_PROFILE_DATA_FIELD} : '';
+        $aData = json_decode($sJson, true);
+
+        return is_array($aData) ? $aData : [];
+    }
+
+    private function getFriendAvatarUrl(\stdClass $oFriend): string
+    {
+        $sAvatarUrl = (string)$this->design->getUserAvatar($oFriend->username, $oFriend->sex, 150, false);
+
+        return !empty($sAvatarUrl) ? $sAvatarUrl : PH7_URL_TPL . PH7_TPL_NAME . PH7_SH . PH7_IMG . 'sharedchemistry/SharedChemistyAvatar.png';
     }
 }
