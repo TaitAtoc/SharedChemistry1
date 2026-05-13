@@ -76,21 +76,27 @@
     .sc-profile-detail strong{display:block;margin-bottom:3px;color:#fff;font-size:12px;line-height:1.2}
     .sc-profile-detail span{display:block;color:#d9d2dc;font-size:13px;line-height:1.3}
     .sc-chip-list{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
-    .sc-public-profile .sc-profile-friend-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px!important;margin:0!important}
+    .sc-public-profile .sc-profile-friends-card{padding:28px 32px 34px!important}
+    .sc-public-profile .sc-profile-friends-card h2{margin-bottom:24px!important;text-transform:uppercase!important;letter-spacing:0!important}
+    .sc-public-profile .sc-profile-friend-grid{display:flex!important;flex-wrap:wrap!important;align-items:flex-start!important;justify-content:flex-start!important;gap:28px!important;margin:0!important;padding:0!important}
     .sc-public-profile a.sc-profile-friend-card,
-    .sc-public-profile a.sc-profile-friend-card:visited{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important;gap:8px!important;min-width:0!important;padding:12px!important;border:1px solid rgba(247,243,239,.1)!important;border-radius:8px!important;background:#202127!important;background-image:none!important;color:#f7f3ef!important;text-align:center!important;text-decoration:none!important;text-shadow:none!important;box-shadow:none!important;transition:border-color .18s ease,background .18s ease,transform .18s ease}
+    .sc-public-profile a.sc-profile-friend-card:visited{display:flex!important;float:none!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important;gap:0!important;width:170px!important;min-width:170px!important;max-width:170px!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;background-image:none!important;color:#ffbc0a!important;text-align:center!important;text-decoration:none!important;text-shadow:none!important;box-shadow:none!important;vertical-align:top!important;transition:color .18s ease,transform .18s ease}
     .sc-public-profile a.sc-profile-friend-card:hover,
-    .sc-public-profile a.sc-profile-friend-card:focus{border-color:#ec0868!important;background:#2a1723!important;color:#fff!important;text-decoration:none!important;transform:translateY(-1px)}
-    .sc-public-profile .sc-profile-friend-avatar{position:relative!important;display:block!important;width:86px!important;height:86px!important;overflow:hidden!important;border:1px solid rgba(247,243,239,.08)!important;border-radius:10px!important;background:#101114!important}
-    .sc-public-profile .sc-profile-friend-avatar img{display:block!important;width:100%!important;height:100%!important;object-fit:cover!important;border:0!important;border-radius:10px!important;box-shadow:none!important}
-    .sc-public-profile .sc-profile-friend-status{position:absolute!important;right:2px!important;bottom:3px!important;width:11px!important;height:11px!important;border:2px solid #202127!important;border-radius:50%!important;background:#d84c59!important}
+    .sc-public-profile a.sc-profile-friend-card:focus{color:#f7f3ef!important;text-decoration:none!important;transform:translateY(-1px)}
+    .sc-public-profile .sc-profile-friend-avatar{position:relative!important;display:block!important;flex:0 0 auto!important;width:150px!important;height:150px!important;margin:0 auto!important;overflow:hidden!important;border:0!important;border-radius:0!important;background:#101114!important}
+    .sc-public-profile .sc-profile-friend-avatar img{display:block!important;width:150px!important;height:150px!important;max-width:none!important;max-height:none!important;object-fit:cover!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+    .sc-public-profile .sc-profile-friend-status{position:absolute!important;right:6px!important;bottom:6px!important;width:11px!important;height:11px!important;border:2px solid #202127!important;border-radius:50%!important;background:#d84c59!important}
     .sc-public-profile .sc-profile-friend-status.is-online{background:#46d66f!important}
-    .sc-public-profile .sc-profile-friend-info{display:block!important;width:100%!important;min-width:0!important}
-    .sc-public-profile .sc-profile-friend-name{display:block!important;overflow:hidden!important;width:100%!important;color:#f7f3ef!important;font-size:13px!important;font-weight:bold!important;line-height:1.25!important;text-align:center!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+    .sc-public-profile .sc-profile-friend-info{display:block!important;float:none!important;width:100%!important;min-width:0!important;margin:10px 0 0!important;padding:0!important;text-align:center!important}
+    .sc-public-profile .sc-profile-friend-name{display:block!important;float:none!important;overflow:hidden!important;width:100%!important;margin:0!important;padding:0!important;color:#ffbc0a!important;font-size:18px!important;font-weight:400!important;line-height:1.25!important;text-align:center!important;text-overflow:clip!important;white-space:normal!important}
     .sc-public-profile a.sc-profile-card-action,
     .sc-public-profile a.sc-profile-card-action:visited{display:inline-flex!important;align-items:center!important;justify-content:center!important;margin-top:14px!important;min-height:34px!important;padding:8px 12px!important;border:1px solid rgba(236,8,104,.62)!important;border-radius:8px!important;background:#202127!important;background-image:none!important;color:#f7f3ef!important;font-size:12px!important;font-weight:bold!important;line-height:1.2!important;text-decoration:none!important;text-shadow:none!important;box-shadow:none!important}
     .sc-public-profile a.sc-profile-card-action:hover,
     .sc-public-profile a.sc-profile-card-action:focus{border-color:#c200fb!important;background:#c200fb!important;color:#fff!important;text-decoration:none!important}
+    .sc-public-profile .sc-profile-friends-card a.sc-profile-card-action,
+    .sc-public-profile .sc-profile-friends-card a.sc-profile-card-action:visited{display:flex!important;width:fit-content!important;margin:90px auto 0!important;justify-content:center!important;border:0!important;background:transparent!important;color:#ffbc0a!important;font-size:15px!important;font-weight:400!important}
+    .sc-public-profile .sc-profile-friends-card a.sc-profile-card-action:hover,
+    .sc-public-profile .sc-profile-friends-card a.sc-profile-card-action:focus{background:transparent!important;color:#ec7d10!important}
     .sc-empty{color:#8f8794!important;font-style:italic}
     #cboxOverlay.sc-profile-colorbox-overlay{background:#050407!important;opacity:.9!important}
     #colorbox.sc-profile-colorbox,
@@ -126,7 +132,14 @@
         .sc-profile-status{margin-bottom:12px}
         .sc-profile-hero h1{font-size:28px}
         .sc-profile-details{grid-template-columns:1fr}
-        .sc-public-profile .sc-profile-friend-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+        .sc-public-profile .sc-profile-friends-card{padding:22px 18px 28px!important}
+        .sc-public-profile .sc-profile-friend-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:20px 12px!important}
+        .sc-public-profile a.sc-profile-friend-card,
+        .sc-public-profile a.sc-profile-friend-card:visited{width:100%!important;min-width:0!important;max-width:none!important}
+        .sc-public-profile .sc-profile-friend-avatar,
+        .sc-public-profile .sc-profile-friend-avatar img{width:130px!important;height:130px!important}
+        .sc-public-profile .sc-profile-friends-card a.sc-profile-card-action,
+        .sc-public-profile .sc-profile-friends-card a.sc-profile-card-action:visited{margin-top:44px!important}
         .sc-profile-button{width:100%}
     }
 </style>
@@ -410,7 +423,7 @@
     </div>
 
     <div class="sc-profile-grid">
-        <section class="sc-profile-card">
+        <section class="sc-profile-card sc-profile-friends-card">
             <h2>{lang 'Friends'}</h2>
             {if !empty($profile_friends)}
                 <div class="sc-profile-friend-grid">
