@@ -141,7 +141,7 @@
           </li>
         {/if}
 
-        {if $is_note_enabled}
+        {if $is_note_enabled AND !$is_user_auth}
           <li class="dropdown"><a href="{{ $design->url('note','main','index') }}" title="{lang 'Community Notes'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown" data-load="ajax"><i class="fa fa-newspaper-o"></i> {lang 'Note'} <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="{{ $design->url('note','main','index') }}" rel="nofollow" title="{lang 'Community Notes'}" data-load="ajax"><i class="fa fa-newspaper-o"></i> {lang 'Notes'}</a></li>
@@ -245,6 +245,12 @@
 
               <li><a href="{{ $design->url('user','main','logout') }}" title="{lang 'Logout'}"><i class="fa fa-sign-out"></i> {lang 'Logout'}</a></li>
             </ul>
+          </li>
+
+          <li>
+            <a class="sharedchemistry-dashboard-nav-link" href="{{ $design->url('user-dashboard','main','index') }}" title="{lang 'Our Dashboard'}">
+              <i class="fa fa-dashboard"></i> {lang 'Our Dashboard'}
+            </a>
           </li>
       {/if}
 
@@ -536,3 +542,12 @@
       <a href="{{ $design->url('affiliate', 'admin', 'logoutuseras') }}">{lang}Switch back to Admin Panel{/lang}</a>
     </p>
   {/if}
+
+{literal}
+<style>
+  .navbar .nav > li > a.sharedchemistry-dashboard-nav-link,
+  .navbar .nav > li > a.sharedchemistry-dashboard-nav-link:visited{color:#ffbc0a!important;font-weight:700}
+  .navbar .nav > li > a.sharedchemistry-dashboard-nav-link:hover,
+  .navbar .nav > li > a.sharedchemistry-dashboard-nav-link:focus{color:#ec7d10!important;background:transparent!important}
+</style>
+{/literal}
