@@ -1,5 +1,11 @@
 {literal}
 <style>
+    body main#content#content:has(.sc-avatar-photo-manager) {
+        padding-top: 132px !important;
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+
     main#content .sc-avatar-photo-manager,
     main#content .sc-avatar-photo-manager * {
         box-sizing: border-box;
@@ -274,6 +280,12 @@
     }
 
     @media (max-width: 760px) {
+        body main#content#content:has(.sc-avatar-photo-manager) {
+            padding-top: 118px !important;
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+        }
+
         main#content .sc-avatar-photo-strip {
             grid-template-columns: 1fr !important;
         }

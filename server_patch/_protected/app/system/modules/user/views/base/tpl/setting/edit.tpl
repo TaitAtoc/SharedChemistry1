@@ -24,6 +24,12 @@ main#content:has(.sharedchemistry-edit),
     background: #101114 !important;
 }
 
+body main#content#content:has(.sharedchemistry-edit) {
+    padding-top: 132px !important;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+}
+
 #content:has(.sharedchemistry-edit) > .border,
 main#content:has(.sharedchemistry-edit) > .border,
 #content:has(.sharedchemistry-edit) > .design-box,
@@ -413,6 +419,12 @@ main#content:has(.sharedchemistry-edit) ol#toc li a.active {
 }
 
 @media (max-width: 779px) {
+    body main#content#content:has(.sharedchemistry-edit) {
+        padding-top: 118px !important;
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
     .sharedchemistry-edit-logo {
         margin-top: 16px;
     }
