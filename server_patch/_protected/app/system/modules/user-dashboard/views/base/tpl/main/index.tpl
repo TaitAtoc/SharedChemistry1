@@ -57,9 +57,12 @@
     .sc-dashboard-friend-card:focus,
     .sc-dashboard-verified-friend-card:hover,
     .sc-dashboard-verified-friend-card:focus{color:#f7f3ef!important;text-decoration:none!important;transform:translateY(-1px)}
-    .sc-dashboard-friend-avatar,.sc-dashboard-verified-friend-avatar{display:block!important;width:150px!important;height:150px!important;margin:0 auto!important;overflow:hidden!important;border:0!important;border-radius:0!important;background:#101114!important}
+    .sc-dashboard-friend-avatar,.sc-dashboard-verified-friend-avatar{position:relative!important;display:block!important;width:150px!important;height:150px!important;margin:0 auto!important;overflow:hidden!important;border:0!important;border-radius:0!important;background:#101114!important}
     .sc-dashboard-friend-avatar img,.sc-dashboard-verified-friend-avatar img{display:block!important;width:150px!important;height:150px!important;max-width:none!important;max-height:none!important;object-fit:cover!important;border:0!important;border-radius:0!important;box-shadow:none!important}
     .sc-dashboard-friend-name,.sc-dashboard-verified-friend-name{display:block!important;width:150px!important;margin:10px 0 0!important;padding:0!important;color:#ffbc0a!important;font-size:18px!important;font-weight:400!important;line-height:1.25!important;text-align:center!important;white-space:normal!important}
+    .sc-dashboard-verified-note{display:none;position:absolute;left:0;bottom:calc(100% + 10px);z-index:12;width:260px;padding:10px 12px;border:1px solid rgba(255,255,255,.14);border-radius:8px;background:#202127;color:#f7f3ef;font-size:13px;line-height:1.35;text-align:left;white-space:pre-line;box-shadow:0 10px 28px rgba(0,0,0,.35)}
+    .sc-dashboard-verified-friend-avatar:hover .sc-dashboard-verified-note,
+    .sc-dashboard-verified-friend-avatar:focus-within .sc-dashboard-verified-note{display:block}
     #cboxOverlay.sc-dashboard-colorbox-overlay{background:#050407!important;opacity:.9!important}
     #colorbox.sc-dashboard-colorbox{overflow:visible!important;background:transparent!important}
     #colorbox.sc-dashboard-colorbox #cboxWrapper{overflow:visible!important;background:transparent!important}
@@ -79,7 +82,7 @@
     #colorbox.sc-dashboard-colorbox #cboxCurrent{display:none!important;height:0!important;margin:0!important;padding:0!important;overflow:hidden!important;font-size:0!important;line-height:0!important;color:transparent!important}
     @media (min-width:768px){.navbar-toggle{display:none!important}}
     @media (max-width:991px){.navbar-nav > li > a{padding-left:6px!important;padding-right:6px!important;font-size:12px}.sc-public-photo-row{grid-template-columns:repeat(3,minmax(0,1fr))!important}.sc-dashboard-grid{grid-template-columns:1fr!important}.sc-dashboard-lower-grid{grid-template-columns:1fr!important}.sc-dashboard-lower-grid .sc-dashboard-card{min-height:0!important}}
-    @media (max-width:767px){main#content{padding:20px 10px 0!important}body main#content#content:has(.sc-dashboard){padding:118px 10px 0!important}main#content .sc-dashboard,.sc-dashboard{padding-top:130px!important}.navbar-toggle{display:block!important}.sc-dashboard-card{padding:14px!important}.sc-public-photo-row{grid-template-columns:repeat(2,minmax(0,1fr))!important}.sc-profile-actions a,.sc-dashboard-button{width:100%!important}.sc-dashboard-friend-grid,.sc-dashboard-verified-friend-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:18px 12px!important}.sc-dashboard-friend-card,.sc-dashboard-friend-card:visited,.sc-dashboard-verified-friend-card,.sc-dashboard-verified-friend-card:visited{width:100%!important;min-width:0!important;max-width:none!important}.sc-dashboard-friend-avatar,.sc-dashboard-friend-avatar img,.sc-dashboard-verified-friend-avatar,.sc-dashboard-verified-friend-avatar img{width:120px!important;height:120px!important}}
+    @media (max-width:767px){main#content{padding:20px 10px 0!important}body main#content#content:has(.sc-dashboard){padding:118px 10px 0!important}main#content .sc-dashboard,.sc-dashboard{padding-top:130px!important}.navbar-toggle{display:block!important}.sc-dashboard-card{padding:14px!important}.sc-public-photo-row{grid-template-columns:repeat(2,minmax(0,1fr))!important}.sc-profile-actions a,.sc-dashboard-button{width:100%!important}.sc-dashboard-friend-grid,.sc-dashboard-verified-friend-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:18px 12px!important}.sc-dashboard-friend-card,.sc-dashboard-friend-card:visited,.sc-dashboard-verified-friend-card,.sc-dashboard-verified-friend-card:visited{width:100%!important;min-width:0!important;max-width:none!important}.sc-dashboard-friend-avatar,.sc-dashboard-friend-avatar img,.sc-dashboard-verified-friend-avatar,.sc-dashboard-verified-friend-avatar img{width:120px!important;height:120px!important}.sc-dashboard-verified-note{left:50%;width:min(260px, calc(100vw - 36px));transform:translateX(-50%)}}
 </style>
 {/literal}
 
@@ -240,6 +243,7 @@
 
 .sc-dashboard-card.is-friends .sc-dashboard-friend-avatar,
 .sc-dashboard-card.is-verified-friends .sc-dashboard-verified-friend-avatar {
+    position: relative !important;
     display: block !important;
     width: 150px !important;
     height: 150px !important;
@@ -271,6 +275,30 @@
     line-height: 1.25 !important;
     text-align: center !important;
     white-space: normal !important;
+}
+
+.sc-dashboard-card.is-verified-friends .sc-dashboard-verified-note {
+    display: none;
+    position: absolute;
+    left: 0;
+    bottom: calc(100% + 10px);
+    z-index: 12;
+    width: 260px;
+    padding: 10px 12px;
+    border: 1px solid rgba(255,255,255,.14);
+    border-radius: 8px;
+    background: #202127;
+    color: #f7f3ef;
+    font-size: 13px;
+    line-height: 1.35;
+    text-align: left;
+    white-space: pre-line;
+    box-shadow: 0 10px 28px rgba(0,0,0,.35);
+}
+
+.sc-dashboard-card.is-verified-friends .sc-dashboard-verified-friend-avatar:hover .sc-dashboard-verified-note,
+.sc-dashboard-card.is-verified-friends .sc-dashboard-verified-friend-avatar:focus-within .sc-dashboard-verified-note {
+    display: block;
 }
 
 .sc-dashboard-card.is-friends .sc-dashboard-button {
@@ -312,6 +340,12 @@
         width: 130px !important;
         height: 130px !important;
     }
+
+    .sc-dashboard-card.is-verified-friends .sc-dashboard-verified-note {
+        left: 50%;
+        width: min(260px, calc(100vw - 36px));
+        transform: translateX(-50%);
+    }
 }
 </style>
 {/literal}
@@ -336,8 +370,21 @@
 
             <div class="sc-dashboard-card is-verified-friends">
                 <h2>{lang 'Verified Friends'}</h2>
-                <p>{lang 'Verified couple cards will appear here after trusted couples confirm they know you.'}</p>
-                <a class="sc-dashboard-button" href="#">{lang 'View Verified Friends'}</a>
+                {if !empty($dashboard_verified_friends)}
+                    <div class="sc-dashboard-verified-friend-grid">
+                        {each $verified in $dashboard_verified_friends}
+                            <div class="sc-dashboard-verified-friend-card">
+                                <span class="sc-dashboard-verified-friend-avatar" tabindex="0">
+                                    <img src="{% $verified->avatarUrl %}" alt="{% escape($verified->displayName) %}" loading="lazy" onerror="this.onerror=null;this.src='{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png';" />
+                                    <span class="sc-dashboard-verified-note">{% nl2br(escape($verified->note)) %}</span>
+                                </span>
+                                <a class="sc-dashboard-verified-friend-name" href="{% $verified->profileUrl %}">{% escape($verified->displayName) %}</a>
+                            </div>
+                        {/each}
+                    </div>
+                {else}
+                    <p>{lang 'Verified couple cards will appear here after you verify couples you have met.'}</p>
+                {/if}
             </div>
         </div>
     </div>

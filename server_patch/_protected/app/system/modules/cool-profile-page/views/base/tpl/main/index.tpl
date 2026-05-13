@@ -129,6 +129,17 @@
     .sc-public-profile .sc-profile-card.sc-profile-friends-card .sc-profile-friend-name{display:block!important;float:none!important;width:100%!important;margin:0!important;padding:0!important;color:#ffbc0a!important;font-size:18px!important;font-weight:400!important;line-height:1.25!important;text-align:center!important;white-space:normal!important}
     .sc-public-profile .sc-profile-card.sc-profile-friends-card a.sc-profile-card-action,
     .sc-public-profile .sc-profile-card.sc-profile-friends-card a.sc-profile-card-action:visited{display:flex!important;width:fit-content!important;margin:90px auto 0!important;justify-content:center!important;border:0!important;background:transparent!important;color:#ffbc0a!important}
+    .sc-public-profile .sc-profile-card.sc-profile-verified-friends-card .sc-profile-verified-grid{display:flex!important;flex-wrap:wrap!important;align-items:flex-start!important;justify-content:flex-start!important;gap:28px!important;margin:0!important;padding:0!important}
+    .sc-public-profile .sc-profile-verified-card{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important;width:170px!important;min-width:170px!important;max-width:170px!important;margin:0!important;padding:0!important;text-align:center!important}
+    .sc-public-profile .sc-profile-verified-avatar{position:relative!important;display:block!important;width:150px!important;height:150px!important;margin:0 auto!important;background:#101114!important}
+    .sc-public-profile .sc-profile-verified-avatar img{display:block!important;width:150px!important;height:150px!important;max-width:none!important;max-height:none!important;object-fit:cover!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+    .sc-public-profile .sc-profile-verified-note{display:none;position:absolute;left:0;bottom:calc(100% + 10px);z-index:12;width:260px;padding:10px 12px;border:1px solid rgba(255,255,255,.14);border-radius:8px;background:#202127;color:#f7f3ef;font-size:13px;line-height:1.35;text-align:left;white-space:pre-line;box-shadow:0 10px 28px rgba(0,0,0,.35)}
+    .sc-public-profile .sc-profile-verified-avatar:hover .sc-profile-verified-note,
+    .sc-public-profile .sc-profile-verified-avatar:focus-within .sc-profile-verified-note{display:block}
+    .sc-public-profile a.sc-profile-verified-name,
+    .sc-public-profile a.sc-profile-verified-name:visited{display:block!important;width:100%!important;margin:10px 0 0!important;padding:0!important;color:#ffbc0a!important;font-size:18px!important;font-weight:400!important;line-height:1.25!important;text-align:center!important;text-decoration:none!important;text-shadow:none!important;white-space:normal!important}
+    .sc-public-profile a.sc-profile-verified-name:hover,
+    .sc-public-profile a.sc-profile-verified-name:focus{color:#f7f3ef!important;text-decoration:none!important}
     .sc-empty{color:#8f8794!important;font-style:italic}
     #cboxOverlay.sc-profile-colorbox-overlay{background:#050407!important;opacity:.9!important}
     #colorbox.sc-profile-colorbox,
@@ -184,6 +195,11 @@
         .sc-public-profile .sc-profile-card.sc-profile-friends-card .sc-profile-friend-avatar img{width:130px!important;height:130px!important}
         .sc-public-profile .sc-profile-card.sc-profile-friends-card a.sc-profile-card-action,
         .sc-public-profile .sc-profile-card.sc-profile-friends-card a.sc-profile-card-action:visited{margin-top:44px!important}
+        .sc-public-profile .sc-profile-card.sc-profile-verified-friends-card .sc-profile-verified-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:20px 12px!important}
+        .sc-public-profile .sc-profile-verified-card{width:100%!important;min-width:0!important;max-width:none!important}
+        .sc-public-profile .sc-profile-verified-avatar,
+        .sc-public-profile .sc-profile-verified-avatar img{width:130px!important;height:130px!important}
+        .sc-public-profile .sc-profile-verified-note{left:50%;width:min(260px, calc(100vw - 36px));transform:translateX(-50%)}
         .sc-profile-button{width:100%}
     }
 </style>
@@ -343,6 +359,8 @@
                     <h2 id="sc-verify-modal-title">{lang 'Tell Us About This Couple'}</h2>
                     <p>{lang 'Share a short note about your real experience with this couple. Keep it classy.'}</p>
                     <form class="sc-verify-modal-form" action="#" method="post" data-sc-verify-form="1">
+                        <input type="hidden" name="verified_profile_id" value="{% $id %}" />
+                        <input type="hidden" name="security_token" value="{% $verification_csrf_token %}" />
                         <textarea class="sc-verify-modal-textarea" name="verification_note" placeholder="{lang 'Write a short note about your experience...'}"></textarea>
                         <div class="sc-verify-modal-actions">
                             <button class="sc-verify-modal-submit" type="submit">{lang 'Submit Verification'}</button>
@@ -621,9 +639,23 @@
             {/if}
         </section>
 
-        <section class="sc-profile-card">
+        <section class="sc-profile-card sc-profile-verified-friends-card">
             <h2>{lang 'Verified Friends'}</h2>
-            <p>{lang 'Verified couple cards will appear here after trusted couples confirm they know this couple.'}</p>
+            {if !empty($profile_verified_friends)}
+                <div class="sc-profile-verified-grid">
+                    {each $verified in $profile_verified_friends}
+                        <div class="sc-profile-verified-card">
+                            <span class="sc-profile-verified-avatar" tabindex="0">
+                                <img src="{% $verified->avatarUrl %}" alt="{% escape($verified->displayName) %}" loading="lazy" onerror="this.onerror=null;this.src='{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png';" />
+                                <span class="sc-profile-verified-note">{% nl2br(escape($verified->note)) %}</span>
+                            </span>
+                            <a class="sc-profile-verified-name" href="{% $verified->profileUrl %}">{% escape($verified->displayName) %}</a>
+                        </div>
+                    {/each}
+                </div>
+            {else}
+                <p>{lang 'Verified couple cards will appear here after this couple verifies couples they have met.'}</p>
+            {/if}
         </section>
     </div>
 </div>
@@ -700,9 +732,37 @@
 
             $verifyOverlay.find('[data-sc-verify-form="1"]').on('submit.scVerifyCouple', function(event) {
                 event.preventDefault();
-                $verifyOverlay.find('[data-sc-verify-message="1"]')
-                    .text('Verification form ready. Backend save comes next.')
-                    .addClass('is-visible');
+                var $form = $(this);
+                var $message = $verifyOverlay.find('[data-sc-verify-message="1"]');
+                var $submit = $form.find('.sc-verify-modal-submit');
+
+                $message.removeClass('is-visible').text('');
+                $submit.prop('disabled', true);
+
+                $.post(pH7Url.base + 'cool-profile-page/asset/ajax/CoupleVerification', $form.serialize(), function(response) {
+                    var data = response;
+
+                    if (typeof data === 'string') {
+                        try {
+                            data = $.parseJSON(data);
+                        } catch (e) {
+                            data = {
+                                status: 0,
+                                txt: response
+                            };
+                        }
+                    }
+
+                    $message
+                        .text(data.txt || 'Verification saved.')
+                        .addClass('is-visible');
+                }).fail(function() {
+                    $message
+                        .text('Unable to save verification. Please try again.')
+                        .addClass('is-visible');
+                }).always(function() {
+                    $submit.prop('disabled', false);
+                });
             });
 
             $(document).on('keydown.scVerifyCouple', function(event) {

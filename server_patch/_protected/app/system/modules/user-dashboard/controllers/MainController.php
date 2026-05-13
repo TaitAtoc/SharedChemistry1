@@ -16,6 +16,8 @@ use PDO;
 class MainController extends Controller
 {
     private const FRIEND_CARD_LIMIT = 6;
+    private const VERIFIED_CARD_LIMIT = 6;
+    private const COUPLE_VERIFICATION_TABLE = 'couple_verifications';
     private const COUPLE_PROFILE_DATA_FIELD = 'couple_profile_data';
 
     public function index()
@@ -42,13 +44,16 @@ class MainController extends Controller
         $this->view->userDesignModel = new UserDesignModel; // For the profilesBlock
         $this->view->dashboard_friends = [];
         $this->view->dashboard_friends_url = '';
+        $this->view->dashboard_verified_friends = [];
+
+        $iMemberId = (int)$this->session->get('member_id');
 
         if (SysMod::isEnabled('friend')) {
-            $iMemberId = (int)$this->session->get('member_id');
-
             $this->view->dashboard_friends = $this->getApprovedFriendCards($iMemberId);
             $this->view->dashboard_friends_url = Uri::get('friend', 'main', 'index', $this->view->username);
         }
+
+        $this->view->dashboard_verified_friends = $this->getVerifiedCoupleCards($iMemberId);
 
         $this->output();
     }
@@ -125,5 +130,56 @@ class MainController extends Controller
         $sAvatarUrl = (string)$this->design->getUserAvatar($oFriend->username, $oFriend->sex, 150, false);
 
         return !empty($sAvatarUrl) ? $sAvatarUrl : PH7_URL_TPL . PH7_TPL_NAME . PH7_SH . PH7_IMG . 'sharedchemistry/SharedChemistyAvatar.png';
+    }
+
+    private function getVerifiedCoupleCards(int $iVerifierProfileId): array
+    {
+        $aVerifiedCouples = [];
+        $oUserModel = new UserCoreModel;
+
+        foreach ($this->getVerifiedCoupleRows($iVerifierProfileId) as $oVerification) {
+            $oVerified = $oUserModel->readProfile((int)$oVerification->verified_profile_id);
+            if (!$oVerified || (int)$oVerified->ban === UserCore::BAN_STATUS) {
+                continue;
+            }
+
+            $oFields = $oUserModel->getInfoFields((int)$oVerification->verified_profile_id);
+            $aCoupleProfile = $this->getCoupleProfileData($oFields);
+
+            $aVerifiedCouples[] = (object)[
+                'profileId' => (int)$oVerification->verified_profile_id,
+                'username' => $oVerified->username,
+                'sex' => $oVerified->sex,
+                'displayName' => !empty($aCoupleProfile['couple_name']) ? $aCoupleProfile['couple_name'] : $oVerified->username,
+                'profileUrl' => Uri::get('cool-profile-page', 'main', 'index', (int)$oVerification->verified_profile_id),
+                'avatarUrl' => $this->getFriendAvatarUrl($oVerified),
+                'note' => (string)$oVerification->note
+            ];
+        }
+
+        unset($oUserModel);
+
+        return $aVerifiedCouples;
+    }
+
+    private function getVerifiedCoupleRows(int $iVerifierProfileId): array
+    {
+        try {
+            $rStmt = Db::getInstance()->prepare(
+                'SELECT verified_profile_id, note FROM' .
+                Db::prefix(self::COUPLE_VERIFICATION_TABLE) .
+                'WHERE verifier_profile_id = :verifierProfileId AND status = :status ORDER BY updated_at DESC LIMIT :limit'
+            );
+            $rStmt->bindValue(':verifierProfileId', $iVerifierProfileId, PDO::PARAM_INT);
+            $rStmt->bindValue(':status', 'active', PDO::PARAM_STR);
+            $rStmt->bindValue(':limit', self::VERIFIED_CARD_LIMIT, PDO::PARAM_INT);
+            $rStmt->execute();
+            $aRows = $rStmt->fetchAll(PDO::FETCH_OBJ);
+            Db::free($rStmt);
+
+            return is_array($aRows) ? $aRows : [];
+        } catch (\Exception $oException) {
+            return [];
+        }
     }
 }
