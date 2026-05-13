@@ -76,18 +76,17 @@
     .sc-profile-detail strong{display:block;margin-bottom:3px;color:#fff;font-size:12px;line-height:1.2}
     .sc-profile-detail span{display:block;color:#d9d2dc;font-size:13px;line-height:1.3}
     .sc-chip-list{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
-    .sc-public-profile .sc-profile-friend-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0}
+    .sc-public-profile .sc-profile-friend-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px!important;margin:0!important}
     .sc-public-profile a.sc-profile-friend-card,
-    .sc-public-profile a.sc-profile-friend-card:visited{display:grid!important;grid-template-columns:54px minmax(0,1fr)!important;gap:10px!important;align-items:center!important;min-width:0!important;padding:10px!important;border:1px solid rgba(247,243,239,.1)!important;border-radius:8px!important;background:#202127!important;background-image:none!important;color:#f7f3ef!important;text-decoration:none!important;text-shadow:none!important;box-shadow:none!important;transition:border-color .18s ease,background .18s ease,transform .18s ease}
+    .sc-public-profile a.sc-profile-friend-card:visited{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important;gap:8px!important;min-width:0!important;padding:12px!important;border:1px solid rgba(247,243,239,.1)!important;border-radius:8px!important;background:#202127!important;background-image:none!important;color:#f7f3ef!important;text-align:center!important;text-decoration:none!important;text-shadow:none!important;box-shadow:none!important;transition:border-color .18s ease,background .18s ease,transform .18s ease}
     .sc-public-profile a.sc-profile-friend-card:hover,
     .sc-public-profile a.sc-profile-friend-card:focus{border-color:#ec0868!important;background:#2a1723!important;color:#fff!important;text-decoration:none!important;transform:translateY(-1px)}
-    .sc-public-profile .sc-profile-friend-avatar{position:relative!important;display:block!important;width:54px!important;height:54px!important;overflow:hidden!important;border-radius:50%!important;background:#101114!important}
-    .sc-public-profile .sc-profile-friend-avatar img{display:block!important;width:100%!important;height:100%!important;object-fit:cover!important;border:0!important;border-radius:50%!important;box-shadow:none!important}
+    .sc-public-profile .sc-profile-friend-avatar{position:relative!important;display:block!important;width:86px!important;height:86px!important;overflow:hidden!important;border:1px solid rgba(247,243,239,.08)!important;border-radius:10px!important;background:#101114!important}
+    .sc-public-profile .sc-profile-friend-avatar img{display:block!important;width:100%!important;height:100%!important;object-fit:cover!important;border:0!important;border-radius:10px!important;box-shadow:none!important}
     .sc-public-profile .sc-profile-friend-status{position:absolute!important;right:2px!important;bottom:3px!important;width:11px!important;height:11px!important;border:2px solid #202127!important;border-radius:50%!important;background:#d84c59!important}
     .sc-public-profile .sc-profile-friend-status.is-online{background:#46d66f!important}
-    .sc-public-profile .sc-profile-friend-info{display:block!important;min-width:0!important}
-    .sc-public-profile .sc-profile-friend-name{display:block!important;overflow:hidden!important;color:#f7f3ef!important;font-size:13px!important;font-weight:bold!important;line-height:1.25!important;text-overflow:ellipsis!important;white-space:nowrap!important}
-    .sc-public-profile .sc-profile-friend-location{display:block!important;overflow:hidden!important;margin-top:4px!important;color:#b8b3b0!important;font-size:12px!important;line-height:1.25!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+    .sc-public-profile .sc-profile-friend-info{display:block!important;width:100%!important;min-width:0!important}
+    .sc-public-profile .sc-profile-friend-name{display:block!important;overflow:hidden!important;width:100%!important;color:#f7f3ef!important;font-size:13px!important;font-weight:bold!important;line-height:1.25!important;text-align:center!important;text-overflow:ellipsis!important;white-space:nowrap!important}
     .sc-public-profile a.sc-profile-card-action,
     .sc-public-profile a.sc-profile-card-action:visited{display:inline-flex!important;align-items:center!important;justify-content:center!important;margin-top:14px!important;min-height:34px!important;padding:8px 12px!important;border:1px solid rgba(236,8,104,.62)!important;border-radius:8px!important;background:#202127!important;background-image:none!important;color:#f7f3ef!important;font-size:12px!important;font-weight:bold!important;line-height:1.2!important;text-decoration:none!important;text-shadow:none!important;box-shadow:none!important}
     .sc-public-profile a.sc-profile-card-action:hover,
@@ -127,7 +126,7 @@
         .sc-profile-status{margin-bottom:12px}
         .sc-profile-hero h1{font-size:28px}
         .sc-profile-details{grid-template-columns:1fr}
-        .sc-public-profile .sc-profile-friend-grid{grid-template-columns:1fr!important}
+        .sc-public-profile .sc-profile-friend-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
         .sc-profile-button{width:100%}
     }
 </style>
@@ -423,13 +422,6 @@
                             </span>
                             <span class="sc-profile-friend-info">
                                 <span class="sc-profile-friend-name">{% escape($friend->displayName) %}</span>
-                                <span class="sc-profile-friend-location">
-                                    {if !empty($friend->location)}
-                                        {% escape($friend->location) %}
-                                    {else}
-                                        @{% escape($friend->username) %}
-                                    {/if}
-                                </span>
                             </span>
                         </a>
                     {/each}
