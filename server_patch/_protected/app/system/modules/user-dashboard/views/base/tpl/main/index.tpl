@@ -58,11 +58,14 @@
     .sc-dashboard-verified-friend-card:hover,
     .sc-dashboard-verified-friend-card:focus{color:#f7f3ef!important;text-decoration:none!important;transform:translateY(-1px)}
     .sc-dashboard-friend-avatar,.sc-dashboard-verified-friend-avatar{position:relative!important;display:block!important;width:150px!important;height:150px!important;margin:0 auto!important;overflow:hidden!important;border:0!important;border-radius:0!important;background:#101114!important}
+    .sc-dashboard-verified-friend-avatar{overflow:visible!important}
     .sc-dashboard-friend-avatar img,.sc-dashboard-verified-friend-avatar img{display:block!important;width:150px!important;height:150px!important;max-width:none!important;max-height:none!important;object-fit:cover!important;border:0!important;border-radius:0!important;box-shadow:none!important}
     .sc-dashboard-friend-name,.sc-dashboard-verified-friend-name{display:block!important;width:150px!important;margin:10px 0 0!important;padding:0!important;color:#ffbc0a!important;font-size:18px!important;font-weight:400!important;line-height:1.25!important;text-align:center!important;white-space:normal!important}
-    .sc-dashboard-verified-note{display:none;position:absolute;left:0;bottom:calc(100% + 10px);z-index:12;width:260px;padding:10px 12px;border:1px solid rgba(255,255,255,.14);border-radius:8px;background:#202127;color:#f7f3ef;font-size:13px;line-height:1.35;text-align:left;white-space:pre-line;box-shadow:0 10px 28px rgba(0,0,0,.35)}
+    .sc-dashboard-verified-note{display:none;position:absolute;left:0;bottom:calc(100% + 10px);z-index:12;width:260px;padding:10px 12px;border:1px solid rgba(255,255,255,.14);border-radius:8px;background:#202127;color:#f7f3ef;font-size:13px;line-height:1.35;text-align:left;box-shadow:0 10px 28px rgba(0,0,0,.35)}
     .sc-dashboard-verified-friend-avatar:hover .sc-dashboard-verified-note,
     .sc-dashboard-verified-friend-avatar:focus-within .sc-dashboard-verified-note{display:block}
+    .sc-dashboard-verified-reviewer{display:block;margin:0 0 7px;color:#ffbc0a;font-weight:bold;line-height:1.3}
+    .sc-dashboard-verified-review-text{display:block;color:#f7f3ef;white-space:pre-line}
     #cboxOverlay.sc-dashboard-colorbox-overlay{background:#050407!important;opacity:.9!important}
     #colorbox.sc-dashboard-colorbox{overflow:visible!important;background:transparent!important}
     #colorbox.sc-dashboard-colorbox #cboxWrapper{overflow:visible!important;background:transparent!important}
@@ -221,7 +224,7 @@
 
 .sc-dashboard-card.is-friends .sc-dashboard-friend-grid > a.sc-dashboard-friend-card,
 .sc-dashboard-card.is-friends .sc-dashboard-friend-grid > a.sc-dashboard-friend-card:visited,
-.sc-dashboard-card.is-verified-friends .sc-dashboard-verified-friend-grid > a.sc-dashboard-verified-friend-card,
+.sc-dashboard-card.is-verified-friends .sc-dashboard-verified-friend-grid > .sc-dashboard-verified-friend-card,
 .sc-dashboard-card.is-verified-friends .sc-dashboard-verified-friend-grid > a.sc-dashboard-verified-friend-card:visited {
     display: flex !important;
     flex-direction: column !important;
@@ -250,6 +253,10 @@
     margin: 0 auto !important;
     overflow: hidden !important;
     background: #101114 !important;
+}
+
+.sc-dashboard-card.is-verified-friends .sc-dashboard-verified-friend-avatar {
+    overflow: visible !important;
 }
 
 .sc-dashboard-card.is-friends .sc-dashboard-friend-avatar img,
@@ -292,13 +299,26 @@
     font-size: 13px;
     line-height: 1.35;
     text-align: left;
-    white-space: pre-line;
     box-shadow: 0 10px 28px rgba(0,0,0,.35);
 }
 
 .sc-dashboard-card.is-verified-friends .sc-dashboard-verified-friend-avatar:hover .sc-dashboard-verified-note,
 .sc-dashboard-card.is-verified-friends .sc-dashboard-verified-friend-avatar:focus-within .sc-dashboard-verified-note {
     display: block;
+}
+
+.sc-dashboard-card.is-verified-friends .sc-dashboard-verified-reviewer {
+    display: block;
+    margin: 0 0 7px;
+    color: #ffbc0a;
+    font-weight: bold;
+    line-height: 1.3;
+}
+
+.sc-dashboard-card.is-verified-friends .sc-dashboard-verified-review-text {
+    display: block;
+    color: #f7f3ef;
+    white-space: pre-line;
 }
 
 .sc-dashboard-card.is-friends .sc-dashboard-button {
@@ -326,7 +346,7 @@
 
     .sc-dashboard-card.is-friends .sc-dashboard-friend-grid > a.sc-dashboard-friend-card,
     .sc-dashboard-card.is-friends .sc-dashboard-friend-grid > a.sc-dashboard-friend-card:visited,
-    .sc-dashboard-card.is-verified-friends .sc-dashboard-verified-friend-grid > a.sc-dashboard-verified-friend-card,
+    .sc-dashboard-card.is-verified-friends .sc-dashboard-verified-friend-grid > .sc-dashboard-verified-friend-card,
     .sc-dashboard-card.is-verified-friends .sc-dashboard-verified-friend-grid > a.sc-dashboard-verified-friend-card:visited {
         width: 100% !important;
         min-width: 0 !important;
@@ -376,7 +396,10 @@
                             <div class="sc-dashboard-verified-friend-card">
                                 <span class="sc-dashboard-verified-friend-avatar" tabindex="0">
                                     <img src="{% $verified->avatarUrl %}" alt="{% escape($verified->displayName) %}" loading="lazy" onerror="this.onerror=null;this.src='{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png';" />
-                                    <span class="sc-dashboard-verified-note">{% nl2br(escape($verified->note)) %}</span>
+                                    <span class="sc-dashboard-verified-note">
+                                        <span class="sc-dashboard-verified-reviewer">{lang 'Reviewed by'} {% escape($verified->reviewerDisplayName) %}</span>
+                                        <span class="sc-dashboard-verified-review-text">{% nl2br(escape($verified->note)) %}</span>
+                                    </span>
                                 </span>
                                 <a class="sc-dashboard-verified-friend-name" href="{% $verified->profileUrl %}">{% escape($verified->displayName) %}</a>
                             </div>

@@ -116,7 +116,8 @@ class MainController extends ProfileBaseController
             $this->view->public_profile_photos = (new ScPublicProfilePhoto)->getPhotos((int)$this->iProfileId, '1');
             $this->view->profile_friends = $this->getApprovedFriendCards((int)$this->iProfileId);
             $this->view->profile_friends_url = SysMod::isEnabled('friend') ? Uri::get('friend', 'main', 'index', $oUser->username) : '';
-            $this->view->profile_verified_friends = $this->getVerifiedCoupleCards((int)$this->iProfileId);
+            $sReviewerDisplayName = !empty($aCoupleProfile['couple_name']) ? $aCoupleProfile['couple_name'] : $oUser->username;
+            $this->view->profile_verified_friends = $this->getVerifiedCoupleCards((int)$this->iProfileId, $sReviewerDisplayName);
             $this->view->verification_csrf_token = (new Token)->generate('couple_verification');
 
             // Count number of times the profile is viewed
@@ -372,7 +373,7 @@ class MainController extends ProfileBaseController
         return !empty($sAvatarUrl) ? $sAvatarUrl : PH7_URL_TPL . PH7_TPL_NAME . PH7_SH . PH7_IMG . 'sharedchemistry/SharedChemistyAvatar.png';
     }
 
-    private function getVerifiedCoupleCards(int $iVerifierProfileId): array
+    private function getVerifiedCoupleCards(int $iVerifierProfileId, string $sReviewerDisplayName): array
     {
         $aVerifiedCouples = [];
 
@@ -392,6 +393,7 @@ class MainController extends ProfileBaseController
                 'displayName' => !empty($aCoupleProfile['couple_name']) ? $aCoupleProfile['couple_name'] : $oVerified->username,
                 'profileUrl' => Uri::get('cool-profile-page', 'main', 'index', (int)$oVerification->verified_profile_id),
                 'avatarUrl' => $this->getFriendAvatarUrl($oVerified),
+                'reviewerDisplayName' => $sReviewerDisplayName,
                 'note' => (string)$oVerification->note
             ];
         }

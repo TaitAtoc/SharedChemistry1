@@ -136,6 +136,7 @@ class MainController extends Controller
     {
         $aVerifiedCouples = [];
         $oUserModel = new UserCoreModel;
+        $sReviewerDisplayName = $this->getReviewerDisplayName($iVerifierProfileId, $oUserModel);
 
         foreach ($this->getVerifiedCoupleRows($iVerifierProfileId) as $oVerification) {
             $oVerified = $oUserModel->readProfile((int)$oVerification->verified_profile_id);
@@ -153,6 +154,7 @@ class MainController extends Controller
                 'displayName' => !empty($aCoupleProfile['couple_name']) ? $aCoupleProfile['couple_name'] : $oVerified->username,
                 'profileUrl' => Uri::get('cool-profile-page', 'main', 'index', (int)$oVerification->verified_profile_id),
                 'avatarUrl' => $this->getFriendAvatarUrl($oVerified),
+                'reviewerDisplayName' => $sReviewerDisplayName,
                 'note' => (string)$oVerification->note
             ];
         }
@@ -160,6 +162,19 @@ class MainController extends Controller
         unset($oUserModel);
 
         return $aVerifiedCouples;
+    }
+
+    private function getReviewerDisplayName(int $iVerifierProfileId, UserCoreModel $oUserModel): string
+    {
+        $oVerifier = $oUserModel->readProfile($iVerifierProfileId);
+        if (!$oVerifier) {
+            return (string)$this->view->username;
+        }
+
+        $oFields = $oUserModel->getInfoFields($iVerifierProfileId);
+        $aCoupleProfile = $this->getCoupleProfileData($oFields);
+
+        return !empty($aCoupleProfile['couple_name']) ? $aCoupleProfile['couple_name'] : $oVerifier->username;
     }
 
     private function getVerifiedCoupleRows(int $iVerifierProfileId): array
