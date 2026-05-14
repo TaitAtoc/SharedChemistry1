@@ -92,7 +92,7 @@ class HomeController extends Controller
         $sMemberInfoTable = Db::prefix(DbTableName::MEMBER_INFO, false);
 
         $rStmt = Db::getInstance()->prepare(
-            'SELECT chat.messageId, chat.senderId, chat.messageText, chat.createdAt, m.username, m.firstName, m.sex, i.' . self::COUPLE_PROFILE_DATA_FIELD . ' FROM ' .
+            'SELECT chat.messageId, chat.senderId, chat.messageText, chat.createdAt, GREATEST(0, TIMESTAMPDIFF(SECOND, chat.createdAt, NOW())) AS secondsAgo, m.username, m.firstName, m.sex, i.' . self::COUPLE_PROFILE_DATA_FIELD . ' FROM ' .
             '(SELECT messageId, senderId, messageText, createdAt FROM ' . $sChatroomTable .
             ' ORDER BY createdAt DESC, messageId DESC LIMIT :limit) AS chat INNER JOIN ' .
             $sMemberTable . ' AS m ON m.profileId = chat.senderId LEFT JOIN ' .
@@ -107,7 +107,7 @@ class HomeController extends Controller
         foreach ($aRows as $oMessage) {
             $oMessage->displayName = $this->getDisplayName($oMessage);
             $oMessage->avatarUrl = $this->getAvatarUrl($oMessage);
-            $oMessage->displayTime = $this->getDisplayTime($oMessage->createdAt);
+            $oMessage->displayTime = $this->getDisplayTimeFromSeconds((int)$oMessage->secondsAgo, $oMessage->createdAt);
         }
 
         return is_array($aRows) ? $aRows : [];
@@ -163,15 +163,9 @@ class HomeController extends Controller
         return !empty($sAvatarUrl) ? $sAvatarUrl : PH7_URL_TPL . PH7_TPL_NAME . PH7_SH . PH7_IMG . 'sharedchemistry/SharedChemistyAvatar.png';
     }
 
-    private function getDisplayTime(string $sCreatedAt): string
+    private function getDisplayTimeFromSeconds(int $iSecondsAgo, string $sCreatedAt): string
     {
-        $iCreatedAt = strtotime($sCreatedAt);
-
-        if ($iCreatedAt === false) {
-            return '';
-        }
-
-        $iSecondsAgo = max(0, time() - $iCreatedAt);
+        $iSecondsAgo = max(0, $iSecondsAgo);
 
         if ($iSecondsAgo < 60) {
             return t('Just now');
@@ -182,8 +176,15 @@ class HomeController extends Controller
             return $iMinutes === 1 ? t('1 minute ago') : t('%0% minutes ago', $iMinutes);
         }
 
-        if (date('Y-m-d', $iCreatedAt) === date('Y-m-d')) {
-            return date('g:i A', $iCreatedAt);
+        if ($iSecondsAgo < 86400) {
+            $iHours = max(1, (int)floor($iSecondsAgo / 3600));
+            return $iHours === 1 ? t('1 hour ago') : t('%0% hours ago', $iHours);
+        }
+
+        $iCreatedAt = strtotime($sCreatedAt);
+
+        if ($iCreatedAt === false) {
+            return '';
         }
 
         return date('M j, g:i A', $iCreatedAt);
