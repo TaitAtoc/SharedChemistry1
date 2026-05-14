@@ -13,14 +13,8 @@ class Permission extends PermissionCore
     {
         parent::__construct();
 
-        if (!UserCore::auth() && !AdminCore::auth()) {
+        if (!UserCore::auth()) {
             $this->signInRedirect();
-        }
-
-        if ($this->isNotAdmin()) {
-            if (!$this->checkMembership() || !$this->group->chat) {
-                $this->paymentRedirect();
-            }
         }
     }
 }
