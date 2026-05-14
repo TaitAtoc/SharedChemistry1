@@ -126,6 +126,7 @@ main#content {
 }
 
 .sc-single-mail-reply,
+.sc-single-mail-close,
 .sc-single-mail-secondary form button,
 .sc-single-mail-secondary form input[type="submit"] {
     display: inline-flex;
@@ -156,6 +157,7 @@ main#content {
 }
 
 .sc-single-mail-secondary form button,
+.sc-single-mail-close,
 .sc-single-mail-secondary form input[type="submit"] {
     color: #F7F3EF !important;
     background: transparent !important;
@@ -165,6 +167,8 @@ main#content {
 
 .sc-single-mail-secondary form button:hover,
 .sc-single-mail-secondary form button:focus,
+.sc-single-mail-close:hover,
+.sc-single-mail-close:focus,
 .sc-single-mail-secondary form input[type="submit"]:hover,
 .sc-single-mail-secondary form input[type="submit"]:focus {
     border-color: rgba(236, 8, 104, .65) !important;
@@ -221,6 +225,7 @@ main#content {
 
     .sc-single-mail-actions form,
     .sc-single-mail-reply,
+    .sc-single-mail-close,
     .sc-single-mail-secondary,
     .sc-single-mail-secondary form button,
     .sc-single-mail-secondary form input[type="submit"] {
@@ -272,6 +277,7 @@ main#content {
 
             <div class="sc-single-mail-actions">
                 <a class="sc-single-mail-reply" href="{{ $design->url('mail','main','compose',"$username_sender,$subject") }}">{lang 'Reply'}</a>
+                <a class="sc-single-mail-close" href="{{ $design->url('mail','main','inbox') }}">{lang 'Close'}</a>
                 <span class="sc-single-mail-secondary">{{ LinkCoreForm::display($label_txt, 'mail', 'main', $set_to, array('id'=>$msg->messageId)) }}</span>
                 {if $is_trash}
                     <span class="sc-single-mail-secondary">{{ LinkCoreForm::display(t('Move to Inbox'), 'mail', 'main', 'setrestore', array('id'=>$msg->messageId)) }}</span>
