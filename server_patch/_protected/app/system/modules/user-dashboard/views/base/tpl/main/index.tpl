@@ -321,6 +321,62 @@
     white-space: pre-line;
 }
 
+.sc-dashboard-card.sc-dashboard-viewed-us-card {
+    margin-top: 18px !important;
+}
+
+.sc-dashboard-card.sc-dashboard-viewed-us-card .sc-dashboard-viewed-us-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, 150px) !important;
+    gap: 24px !important;
+    align-items: start !important;
+    justify-content: start !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.sc-dashboard-card.sc-dashboard-viewed-us-card .sc-dashboard-viewed-us-profile-card,
+.sc-dashboard-card.sc-dashboard-viewed-us-card .sc-dashboard-viewed-us-profile-card:visited {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    width: 150px !important;
+    min-width: 150px !important;
+    max-width: 150px !important;
+    float: none !important;
+    clear: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    text-align: center !important;
+    text-decoration: none !important;
+}
+
+.sc-dashboard-card.sc-dashboard-viewed-us-card .sc-dashboard-viewed-us-avatar,
+.sc-dashboard-card.sc-dashboard-viewed-us-card .sc-dashboard-viewed-us-avatar img {
+    display: block !important;
+    width: 150px !important;
+    height: 150px !important;
+    object-fit: cover !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+.sc-dashboard-card.sc-dashboard-viewed-us-card .sc-dashboard-viewed-us-name {
+    display: block !important;
+    width: 150px !important;
+    margin: 10px 0 0 !important;
+    padding: 0 !important;
+    color: #ffbc0a !important;
+    font-size: 18px !important;
+    line-height: 1.25 !important;
+    text-align: center !important;
+    white-space: normal !important;
+}
+
 .sc-dashboard-card.is-friends .sc-dashboard-button {
     margin-top: 24px !important;
     align-self: flex-start !important;
@@ -366,6 +422,25 @@
         width: min(260px, calc(100vw - 36px));
         transform: translateX(-50%);
     }
+
+    .sc-dashboard-card.sc-dashboard-viewed-us-card .sc-dashboard-viewed-us-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 20px 12px !important;
+    }
+
+    .sc-dashboard-card.sc-dashboard-viewed-us-card .sc-dashboard-viewed-us-profile-card,
+    .sc-dashboard-card.sc-dashboard-viewed-us-card .sc-dashboard-viewed-us-profile-card:visited {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: none !important;
+    }
+
+    .sc-dashboard-card.sc-dashboard-viewed-us-card .sc-dashboard-viewed-us-avatar,
+    .sc-dashboard-card.sc-dashboard-viewed-us-card .sc-dashboard-viewed-us-avatar img {
+        width: 130px !important;
+        height: 130px !important;
+    }
 }
 </style>
 {/literal}
@@ -409,6 +484,24 @@
                     <p>{lang 'Verified couple cards will appear here after you verify couples you have met.'}</p>
                 {/if}
             </div>
+        </div>
+
+        <div class="sc-dashboard-card sc-dashboard-viewed-us-card">
+            <h2>{lang 'Who Viewed Us'}</h2>
+            {if !empty($dashboard_profile_viewers)}
+                <div class="sc-dashboard-viewed-us-grid">
+                    {each $viewer in $dashboard_profile_viewers}
+                        <a class="sc-dashboard-viewed-us-profile-card" href="{% $viewer->profileUrl %}" title="{% escape($viewer->displayName) %}">
+                            <span class="sc-dashboard-viewed-us-avatar">
+                                <img src="{% $viewer->avatarUrl %}" alt="{% escape($viewer->displayName) %}" loading="lazy" onerror="this.onerror=null;this.src='{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png';" />
+                            </span>
+                            <span class="sc-dashboard-viewed-us-name">{% escape($viewer->displayName) %}</span>
+                        </a>
+                    {/each}
+                </div>
+            {else}
+                <p>{lang 'No recent profile views yet.'}</p>
+            {/if}
         </div>
     </div>
 </div>

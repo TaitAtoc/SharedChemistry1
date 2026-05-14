@@ -122,6 +122,7 @@ class MainController extends ProfileBaseController
 
             // Count number of times the profile is viewed
             Statistic::setView($this->iProfileId, DbTableName::MEMBER);
+            $this->recordProfileViewer((int)$this->iProfileId, (int)$this->iVisitorId);
         } else {
             $this->displayPageNotFound();
         }
@@ -419,6 +420,49 @@ class MainController extends ProfileBaseController
             return is_array($aRows) ? $aRows : [];
         } catch (\Exception $oException) {
             return [];
+        }
+    }
+
+    private function recordProfileViewer(int $iProfileId, int $iViewerProfileId): void
+    {
+        if (!$this->bUserAuth || $iProfileId < 1 || $iViewerProfileId < 1 || $iProfileId === $iViewerProfileId) {
+            return;
+        }
+
+        try {
+            $sLastVisit = date('Y-m-d H:i:s');
+            $rStmt = Db::getInstance()->prepare(
+                'SELECT COUNT(*) FROM' .
+                Db::prefix(DbTableName::MEMBER_WHO_VIEW) .
+                'WHERE profileId = :profileId AND visitorId = :viewerProfileId LIMIT 1'
+            );
+            $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
+            $rStmt->bindValue(':viewerProfileId', $iViewerProfileId, PDO::PARAM_INT);
+            $rStmt->execute();
+            $bAlreadyViewed = (int)$rStmt->fetchColumn() > 0;
+            Db::free($rStmt);
+
+            if ($bAlreadyViewed) {
+                $rStmt = Db::getInstance()->prepare(
+                    'UPDATE' .
+                    Db::prefix(DbTableName::MEMBER_WHO_VIEW) .
+                    'SET lastVisit = :lastVisit WHERE profileId = :profileId AND visitorId = :viewerProfileId'
+                );
+            } else {
+                $rStmt = Db::getInstance()->prepare(
+                    'INSERT INTO' .
+                    Db::prefix(DbTableName::MEMBER_WHO_VIEW) .
+                    '(profileId, visitorId, lastVisit) VALUES(:profileId, :viewerProfileId, :lastVisit)'
+                );
+            }
+
+            $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
+            $rStmt->bindValue(':viewerProfileId', $iViewerProfileId, PDO::PARAM_INT);
+            $rStmt->bindValue(':lastVisit', $sLastVisit, PDO::PARAM_STR);
+            $rStmt->execute();
+            Db::free($rStmt);
+        } catch (\Exception $oException) {
+            return;
         }
     }
 

@@ -17,6 +17,7 @@ class MainController extends Controller
 {
     private const FRIEND_CARD_LIMIT = 6;
     private const VERIFIED_CARD_LIMIT = 6;
+    private const PROFILE_VIEWER_CARD_LIMIT = 6;
     private const COUPLE_VERIFICATION_TABLE = 'couple_verifications';
     private const COUPLE_PROFILE_DATA_FIELD = 'couple_profile_data';
 
@@ -45,6 +46,7 @@ class MainController extends Controller
         $this->view->dashboard_friends = [];
         $this->view->dashboard_friends_url = '';
         $this->view->dashboard_verified_friends = [];
+        $this->view->dashboard_profile_viewers = [];
 
         $iMemberId = (int)$this->session->get('member_id');
 
@@ -54,6 +56,7 @@ class MainController extends Controller
         }
 
         $this->view->dashboard_verified_friends = $this->getVerifiedCoupleCards($iMemberId);
+        $this->view->dashboard_profile_viewers = $this->getProfileViewerCards($iMemberId);
 
         $this->output();
     }
@@ -193,6 +196,57 @@ class MainController extends Controller
             Db::free($rStmt);
 
             return is_array($aRows) ? $aRows : [];
+        } catch (\Exception $oException) {
+            return [];
+        }
+    }
+
+    private function getProfileViewerCards(int $iProfileId): array
+    {
+        $aViewers = [];
+        $oUserModel = new UserCoreModel;
+
+        foreach ($this->getRecentProfileViewerIds($iProfileId) as $iViewerProfileId) {
+            $oViewer = $oUserModel->readProfile($iViewerProfileId);
+            if (!$oViewer || (int)$oViewer->ban === UserCore::BAN_STATUS) {
+                continue;
+            }
+
+            $oFields = $oUserModel->getInfoFields($iViewerProfileId);
+            $aCoupleProfile = $this->getCoupleProfileData($oFields);
+
+            $aViewers[] = (object)[
+                'profileId' => (int)$iViewerProfileId,
+                'username' => $oViewer->username,
+                'sex' => $oViewer->sex,
+                'displayName' => !empty($aCoupleProfile['couple_name']) ? $aCoupleProfile['couple_name'] : $oViewer->username,
+                'profileUrl' => Uri::get('cool-profile-page', 'main', 'index', $iViewerProfileId),
+                'avatarUrl' => $this->getFriendAvatarUrl($oViewer)
+            ];
+        }
+
+        unset($oUserModel);
+
+        return $aViewers;
+    }
+
+    private function getRecentProfileViewerIds(int $iProfileId): array
+    {
+        try {
+            $rStmt = Db::getInstance()->prepare(
+                'SELECT visitorId FROM (' .
+                'SELECT visitorId, MAX(lastVisit) AS lastVisit FROM' .
+                Db::prefix(DbTableName::MEMBER_WHO_VIEW) .
+                'WHERE profileId = :profileId AND visitorId <> :profileId GROUP BY visitorId' .
+                ') AS recentViewers ORDER BY lastVisit DESC LIMIT :limit'
+            );
+            $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
+            $rStmt->bindValue(':limit', self::PROFILE_VIEWER_CARD_LIMIT, PDO::PARAM_INT);
+            $rStmt->execute();
+            $aViewerIds = array_map('intval', $rStmt->fetchAll(PDO::FETCH_COLUMN));
+            Db::free($rStmt);
+
+            return $aViewerIds;
         } catch (\Exception $oException) {
             return [];
         }
