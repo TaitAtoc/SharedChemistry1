@@ -77,7 +77,7 @@
             </div>
 
             <form class="sc-chatroom-form" method="post" action="/free-chat-room">
-                {{ $designSecurity->inputToken('sharedchemistry_chatroom') }}
+                <input type="hidden" name="security_token" value="{% $chat_csrf_token %}" />
                 <textarea name="message" maxlength="500" required="required" placeholder="{lang 'Write a short message...'}"></textarea>
                 <div class="sc-chatroom-actions">
                     <span class="sc-chatroom-helper">{lang 'Maximum 500 characters.'}</span>

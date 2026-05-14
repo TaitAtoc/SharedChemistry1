@@ -9,7 +9,6 @@ defined('PH7') or exit('Restricted access');
 
 use PDO;
 use PH7\Framework\Layout\Html\Design;
-use PH7\Framework\Layout\Html\Security;
 use PH7\Framework\Mvc\Model\Engine\Db;
 use PH7\Framework\Security\CSRF\Token;
 use PH7\Framework\Url\Header;
@@ -25,7 +24,6 @@ class HomeController extends Controller
     {
         $this->view->page_title = $this->view->h1_title = t('Shared Chat Room');
         $this->view->meta_description = t('SharedChemistry member chat room.');
-        $this->view->designSecurity = new Security;
         $this->view->chat_error = '';
         $this->view->table_ready = $this->isTableReady();
 
@@ -33,6 +31,7 @@ class HomeController extends Controller
             $this->handlePost();
         }
 
+        $this->view->chat_csrf_token = (new Token)->generate('sharedchemistry_chatroom');
         $this->view->chat_messages = $this->view->table_ready ? $this->getMessages() : [];
         $this->output();
     }
