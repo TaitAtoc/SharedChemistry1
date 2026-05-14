@@ -11,7 +11,6 @@ use PDO;
 use PH7\Framework\Layout\Html\Design;
 use PH7\Framework\Layout\Html\Security;
 use PH7\Framework\Mvc\Model\Engine\Db;
-use PH7\Framework\Mvc\Router\Uri;
 use PH7\Framework\Security\CSRF\Token;
 use PH7\Framework\Url\Header;
 
@@ -36,6 +35,13 @@ class HomeController extends Controller
 
         $this->view->chat_messages = $this->view->table_ready ? $this->getMessages() : [];
         $this->output();
+    }
+
+    public function messages(): void
+    {
+        $this->outputJson([
+            'messages' => $this->isTableReady() ? $this->formatMessagesForJson($this->getMessages()) : []
+        ]);
     }
 
     private function handlePost(): void
@@ -74,7 +80,7 @@ class HomeController extends Controller
         Db::free($rStmt);
 
         Header::redirect(
-            Uri::get('chat', 'home', 'index'),
+            PH7_URL_ROOT . 'free-chat-room',
             t('Message sent.'),
             Design::SUCCESS_TYPE
         );
@@ -102,6 +108,7 @@ class HomeController extends Controller
         foreach ($aRows as $oMessage) {
             $oMessage->displayName = $this->getDisplayName($oMessage);
             $oMessage->avatarUrl = $this->getAvatarUrl($oMessage);
+            $oMessage->displayTime = $this->getDisplayTime($oMessage->createdAt);
         }
 
         return is_array($aRows) ? $aRows : [];
@@ -155,5 +162,56 @@ class HomeController extends Controller
         $sAvatarUrl = (string)$this->design->getUserAvatar($oMessage->username, $oMessage->sex, 150, false);
 
         return !empty($sAvatarUrl) ? $sAvatarUrl : PH7_URL_TPL . PH7_TPL_NAME . PH7_SH . PH7_IMG . 'sharedchemistry/SharedChemistyAvatar.png';
+    }
+
+    private function getDisplayTime(string $sCreatedAt): string
+    {
+        $iCreatedAt = strtotime($sCreatedAt);
+
+        if ($iCreatedAt === false) {
+            return '';
+        }
+
+        $iSecondsAgo = max(0, time() - $iCreatedAt);
+
+        if ($iSecondsAgo < 60) {
+            return t('Just now');
+        }
+
+        if ($iSecondsAgo < 3600) {
+            $iMinutes = max(1, (int)floor($iSecondsAgo / 60));
+            return $iMinutes === 1 ? t('1 minute ago') : t('%0% minutes ago', $iMinutes);
+        }
+
+        if (date('Y-m-d', $iCreatedAt) === date('Y-m-d')) {
+            return date('g:i A', $iCreatedAt);
+        }
+
+        return date('M j, g:i A', $iCreatedAt);
+    }
+
+    private function formatMessagesForJson(array $aMessages): array
+    {
+        $aFormattedMessages = [];
+
+        foreach ($aMessages as $oMessage) {
+            $aFormattedMessages[] = [
+                'messageId' => (int)$oMessage->messageId,
+                'displayName' => (string)$oMessage->displayName,
+                'avatarUrl' => (string)$oMessage->avatarUrl,
+                'messageText' => (string)$oMessage->messageText,
+                'createdAt' => (string)$oMessage->createdAt,
+                'displayTime' => (string)$oMessage->displayTime
+            ];
+        }
+
+        return $aFormattedMessages;
+    }
+
+    private function outputJson(array $aPayload): void
+    {
+        header('Content-Type: application/json; charset=' . PH7_ENCODING);
+        echo json_encode($aPayload, JSON_UNESCAPED_SLASHES);
+        exit;
     }
 }

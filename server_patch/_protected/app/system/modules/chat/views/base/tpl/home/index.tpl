@@ -55,7 +55,7 @@
         {if !$table_ready}
             <p class="sc-chatroom-error">{lang 'The chat room database table has not been created yet.'}</p>
         {else}
-            <div class="sc-chatroom-list" aria-live="polite">
+            <div class="sc-chatroom-list" data-chatroom-list="1" data-messages-url="{{ $design->url('chat','home','messages') }}" data-avatar-fallback="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" data-empty-text="{lang 'No messages yet. Start the conversation.'}" aria-live="polite">
                 {if empty($chat_messages)}
                     <p class="sc-chatroom-empty">{lang 'No messages yet. Start the conversation.'}</p>
                 {else}
@@ -67,7 +67,7 @@
                             <div>
                                 <div class="sc-chatroom-meta">
                                     <span class="sc-chatroom-name">{% escape($message->displayName) %}</span>
-                                    <span class="sc-chatroom-time">{% Framework\Date\Various::textTimeStamp($message->createdAt) %}</span>
+                                    <span class="sc-chatroom-time">{% escape($message->displayTime) %}</span>
                                 </div>
                                 <p class="sc-chatroom-text">{% escape($message->messageText) %}</p>
                             </div>
@@ -76,7 +76,7 @@
                 {/if}
             </div>
 
-            <form class="sc-chatroom-form" method="post" action="{{ $design->url('chat','home','index') }}">
+            <form class="sc-chatroom-form" method="post" action="/free-chat-room">
                 {{ $designSecurity->inputToken('sharedchemistry_chatroom') }}
                 <textarea name="message" maxlength="500" required="required" placeholder="{lang 'Write a short message...'}"></textarea>
                 <div class="sc-chatroom-actions">
@@ -87,3 +87,126 @@
         {/if}
     </section>
 </div>
+
+{literal}
+<script>
+    (function() {
+        var list = document.querySelector('[data-chatroom-list="1"]');
+
+        if (!list || !window.fetch) {
+            return;
+        }
+
+        var messagesUrl = list.getAttribute('data-messages-url');
+        var avatarFallback = list.getAttribute('data-avatar-fallback') || '';
+        var emptyText = list.getAttribute('data-empty-text') || '';
+        var lastSignature = '';
+        var isPolling = false;
+
+        function isNearBottom() {
+            return list.scrollHeight - list.scrollTop - list.clientHeight < 80;
+        }
+
+        function setText(node, text) {
+            node.textContent = text || '';
+        }
+
+        function renderMessages(messages) {
+            var shouldScroll = isNearBottom();
+            var fragment = document.createDocumentFragment();
+
+            if (!messages.length) {
+                var empty = document.createElement('p');
+                empty.className = 'sc-chatroom-empty';
+                setText(empty, emptyText);
+                fragment.appendChild(empty);
+            } else {
+                messages.forEach(function(message) {
+                    var article = document.createElement('article');
+                    var avatarWrap = document.createElement('span');
+                    var avatar = document.createElement('img');
+                    var body = document.createElement('div');
+                    var meta = document.createElement('div');
+                    var name = document.createElement('span');
+                    var time = document.createElement('span');
+                    var text = document.createElement('p');
+
+                    article.className = 'sc-chatroom-message';
+                    avatarWrap.className = 'sc-chatroom-avatar';
+                    avatar.src = message.avatarUrl || avatarFallback;
+                    avatar.alt = message.displayName || '';
+                    avatar.loading = 'lazy';
+                    avatar.onerror = function() {
+                        this.onerror = null;
+                        this.src = avatarFallback;
+                    };
+                    meta.className = 'sc-chatroom-meta';
+                    name.className = 'sc-chatroom-name';
+                    time.className = 'sc-chatroom-time';
+                    text.className = 'sc-chatroom-text';
+
+                    setText(name, message.displayName);
+                    setText(time, message.displayTime);
+                    setText(text, message.messageText);
+
+                    avatarWrap.appendChild(avatar);
+                    meta.appendChild(name);
+                    meta.appendChild(time);
+                    body.appendChild(meta);
+                    body.appendChild(text);
+                    article.appendChild(avatarWrap);
+                    article.appendChild(body);
+                    fragment.appendChild(article);
+                });
+            }
+
+            list.innerHTML = '';
+            list.appendChild(fragment);
+
+            if (shouldScroll) {
+                list.scrollTop = list.scrollHeight;
+            }
+        }
+
+        function pollMessages() {
+            if (isPolling) {
+                return;
+            }
+
+            isPolling = true;
+
+            fetch(messagesUrl, {
+                credentials: 'same-origin',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+                .then(function(response) {
+                    return response.ok ? response.json() : null;
+                })
+                .then(function(payload) {
+                    var messages = payload && payload.messages ? payload.messages : [];
+                    var signature = messages.map(function(message) {
+                        return message.messageId + ':' + message.displayTime;
+                    }).join('|');
+
+                    if (signature !== lastSignature) {
+                        lastSignature = signature;
+                        renderMessages(messages);
+                    }
+                })
+                .catch(function() {})
+                .then(function() {
+                    isPolling = false;
+                });
+        }
+
+        if (isNearBottom()) {
+            list.scrollTop = list.scrollHeight;
+        }
+
+        pollMessages();
+        window.setInterval(pollMessages, 5000);
+    })();
+</script>
+{/literal}
