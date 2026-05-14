@@ -154,14 +154,18 @@
 
     {* Member menu *}
       {if $is_user_auth AND ( !$is_aff_auth AND !$is_admin_auth ) OR $admin_logged_as_user}
+          {{
+            $hasUnreadMessages = !empty($count_unread_mail);
+            $hasPendingFriendRequests = !empty($count_pen_friend_request);
+          }}
           {if $is_mail_enabled}
             <li class="dropdown">
-              <a href="{{ $design->url('mail','main','inbox') }}" title="{lang 'My Messages'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown">
+              <a href="{{ $design->url('mail','main','inbox') }}" title="{lang 'My Messages'}" class="dropdown-toggle{if $hasUnreadMessages} sharedchemistry-alert-blink{/if}" role="button" aria-expanded="false" data-toggle="dropdown">
                 <i class="fa fa-envelope-o fa-fw"></i> {lang 'Messages'} {if $count_unread_mail}<span class="badge">{count_unread_mail}</span>{/if} <span class="caret"></span>
               </a>
               <ul class="dropdown-menu" role="menu">
                 <li><a href="{{ $design->url('mail','main','compose') }}" title="{lang 'Compose'}"><i class="fa fa-pencil"></i> {lang 'Compose'}</a></li>
-                <li><a href="{{ $design->url('mail','main','inbox') }}" title="{lang 'Inbox'}"><i class="fa fa-inbox"></i> {lang 'Inbox'}</a></li>
+                <li><a href="{{ $design->url('mail','main','inbox') }}" title="{lang 'Inbox'}"{if $hasUnreadMessages} class="sharedchemistry-alert-blink"{/if}><i class="fa fa-inbox"></i> {lang 'Inbox'}</a></li>
                 <li><a href="{{ $design->url('mail','main','outbox') }}" title="{lang 'Sent'}"><i class="fa fa-paper-plane-o"></i> {lang 'Sent'}</a></li>
                 <li><a href="{{ $design->url('mail','main','trash') }}" title="{lang 'Trash'}"><i class="fa fa-trash-o"></i> {lang 'Trash'}</a></li>
                 <li><a href="{{ $design->url('mail','main','search') }}" title="{lang 'Search'}"><i class="fa fa-search"></i> {lang 'Search'}</a></li>
@@ -186,7 +190,7 @@
           </noscript>
 
           <li class="dropdown">
-            <a href="{{ $design->url('user','account','index') }}" title="{lang 'My Account'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown">
+            <a href="{{ $design->url('user','account','index') }}" title="{lang 'My Account'}" class="dropdown-toggle{if $hasPendingFriendRequests} sharedchemistry-alert-blink{/if}" role="button" aria-expanded="false" data-toggle="dropdown">
               <i class="fa fa-cog"></i> {lang 'Account'} <span class="caret"></span>
             </a>
             <ul class="dropdown-menu" role="menu">
@@ -223,7 +227,7 @@
 
               {if $is_friend_enabled}
                   <li class="menu-item dropdown dropdown-submenu">
-                    <a href="{{ $design->url('friend','main','index') }}" title="{lang 'Friends Manager'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown">
+                    <a href="{{ $design->url('friend','main','index') }}" title="{lang 'Friends Manager'}" class="dropdown-toggle{if $hasPendingFriendRequests} sharedchemistry-alert-blink{/if}" role="button" aria-expanded="false" data-toggle="dropdown">
                       <i class="fa fa-users"></i> {lang 'Friends Manager'} {if $count_pen_friend_request}<span class="badge">{count_pen_friend_request}</span>{/if}
                       </a>
                   <ul class="dropdown-menu" role="menu">
@@ -549,5 +553,13 @@
   .navbar .nav > li > a.sharedchemistry-dashboard-nav-link:visited{color:#ffbc0a!important;font-weight:700}
   .navbar .nav > li > a.sharedchemistry-dashboard-nav-link:hover,
   .navbar .nav > li > a.sharedchemistry-dashboard-nav-link:focus{color:#ec7d10!important;background:transparent!important}
+  .navbar .nav a.sharedchemistry-alert-blink,
+  .navbar .nav a.sharedchemistry-alert-blink:visited,
+  .navbar .nav a.sharedchemistry-alert-blink:hover,
+  .navbar .nav a.sharedchemistry-alert-blink:focus{animation:sharedchemistryAlertBlink .8s infinite;font-weight:800}
+  @keyframes sharedchemistryAlertBlink{
+    0%,100%{color:#ff0000}
+    50%{color:#ffffff}
+  }
 </style>
 {/literal}
