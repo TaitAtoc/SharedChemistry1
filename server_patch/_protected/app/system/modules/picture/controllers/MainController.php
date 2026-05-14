@@ -1,20 +1,20 @@
 <?php
+/**
+ * @author         Pierre-Henry Soria <hello@ph7builder.com>
+ * @copyright      (c) 2012-2020, Pierre-Henry Soria. All Rights Reserved.
+ * @license        MIT License; See LICENSE.md and COPYRIGHT.md in the root directory.
+ * @package        PH7 / App / System / Module / Picture / Controller
+ */
 
 namespace PH7;
 
 use PH7\Datatype\Type;
 use PH7\Framework\Analytics\Statistic;
-use PH7\Framework\File\File;
 use PH7\Framework\Http\Http;
-use PH7\Framework\Image\FileStorage as FileStorageImage;
-use PH7\Framework\Mvc\Model\DbConfig;
 use PH7\Framework\Mvc\Router\Uri;
 use PH7\Framework\Navigation\Page;
 use PH7\Framework\Security\Ban\Ban;
-use PH7\Framework\Security\CSRF\Token as CSRFToken;
-use PH7\Framework\Security\Moderation\Filter;
 use PH7\Framework\Url\Header;
-use PH7\Framework\Util\Various;
 use PH7\JustHttp\StatusCode;
 use stdClass;
 
@@ -24,20 +24,23 @@ class MainController extends Controller
 
     const ALBUMS_PER_PAGE = 16;
     const PHOTOS_PER_PAGE = 10;
-    const MAX_IMAGE_WIDTH = 2500;
-    const MAX_IMAGE_HEIGHT = 2500;
-    const PICTURE2_SIZE = 400;
-    const PICTURE3_SIZE = 600;
-    const PICTURE4_SIZE = 800;
-    const PICTURE5_SIZE = 1000;
-    const PICTURE6_SIZE = 1200;
-    const MAX_PUBLIC_GALLERY_COMMENT_LENGTH = 500;
 
+    /** @var PictureModel */
     private $oPictureModel;
+
+    /** @var Page */
     private $oPage;
+
+    /** @var string */
     private $sUsername;
+
+    /** @var bool|int */
     private $iProfileId;
+
+    /** @var string */
     private $sTitle;
+
+    /** @var int */
     private $iTotalPictures;
 
     public function __construct()
@@ -46,30 +49,20 @@ class MainController extends Controller
 
         $this->oPictureModel = new PictureModel;
         $this->oPage = new Page;
+
         $this->sUsername = $this->httpRequest->get('username');
+
         $this->view->member_id = $this->session->get('member_id');
         $this->iProfileId = (new UserCoreModel)->getId(null, $this->sUsername);
+
+        // Predefined meta_keywords tags
         $this->view->meta_keywords = t('picture,photo,pictures,photos,album,albums,photo album,picture album,gallery,picture dating');
     }
 
     public function index()
     {
-        $this->handlePublicGalleryPost();
-
-        $aPhotos = $this->oPictureModel->getPublicGalleryPhotos();
-        $iSelectedPhotoId = $this->httpRequest->get('selected_photo_id', Type::INTEGER);
-        $oSelectedPhoto = $this->selectPublicGalleryPhoto($aPhotos, $iSelectedPhotoId);
-
-        $this->view->page_title = $this->view->h1_title = $this->view->h2_title = t('Shared Photo Gallery');
-        $this->view->meta_description = t('Shared member photo gallery for signed-in SharedChemistry members.');
-        $this->view->photos = $aPhotos;
-        $this->view->selected_photo = $oSelectedPhoto;
-        $this->view->comments = $oSelectedPhoto ? $this->oPictureModel->getPublicGalleryComments((int)$oSelectedPhoto->pictureId) : [];
-        $this->view->avatarDesign = new AvatarDesignCore();
-        $this->view->csrf_token = (new CSRFToken)->generate('public_gallery');
-
-        $this->manualTplInclude('index.tpl');
-        $this->output();
+        // Header::redirect(Uri::get('picture','main','albums'));
+        $this->albums();
     }
 
     public function addAlbum()
@@ -115,12 +108,14 @@ class MainController extends Controller
         $this->view->is_add_album_btn_shown = $this->httpRequest->get('show_add_album_btn', 'bool');
 
         if (empty($oAlbums)) {
-            $this->sTitle = t('Oops! Nothing here for the moment.');
-            $this->notFound(false);
+            $this->sTitle = t('Oops! 😵 Nothing here for the moment.');
+            $this->notFound(false); // Because the Ajax blocks profile, we cannot put HTTP error code 404, so the attribute is FALSE
         } else {
+            // We can include HTML tags in the title since the template will erase them before displaying
             $this->sTitle = !empty($iProfileId) ? t("The %0%'s photo album", $this->design->getProfileLink($this->sUsername, false)) : t('Photo Gallery Community');
             $this->view->page_title = $this->view->h2_title = $this->sTitle;
             $this->view->meta_description = t("%0%'s Albums | Photo Albums of the Dating Social Community - %site_name%", $this->sUsername);
+
             $this->view->albums = $oAlbums;
         }
 
@@ -152,9 +147,14 @@ class MainController extends Controller
             $this->notFound();
         } else {
             $this->sTitle = t("%0%'s photo album", $this->design->getProfileLink($this->sUsername, false));
-            $this->view->page_title = $this->view->h2_title = $this->sTitle;
+            $this->view->page_title = $this->view->h2_title = $this->sTitle; // We can include HTML tags in the title since the template will erase them before displaying
             $this->view->meta_description = t("Browse %0%'s Photos | Photo Album Social Community - %site_name%", $this->sUsername);
             $this->view->album = $oAlbum;
+
+            /**
+             * @internal FYI, we don't call `Statistic::setView()`, because it needs a foreach loop,
+             * and it is unnecessary to do both, that's why it is located in the album.tpl view instead.
+             */
         }
 
         $this->output();
@@ -176,6 +176,7 @@ class MainController extends Controller
             $this->notFound();
         } else {
             $this->sTitle = t("%0%'s photo", $this->design->getProfileLink($this->sUsername, false));
+
             $sTitle = Ban::filterWord($oPicture->title, false);
             $this->view->page_title = t("%0%'s photo, %1%", $oPicture->firstName, $sTitle);
             $this->view->meta_description = t("%0%'s photo, %1%, %2%", $oPicture->firstName, $sTitle, substr(Ban::filterWord($oPicture->description, false), 0, 100));
@@ -183,6 +184,7 @@ class MainController extends Controller
             $this->view->h1_title = $this->sTitle;
             $this->view->picture = $oPicture;
             $this->imageToSocialMetaTags($oPicture);
+
             Statistic::setView($oPicture->pictureId, DbTableName::PICTURE);
         }
 
@@ -192,7 +194,9 @@ class MainController extends Controller
     public function deletePhoto()
     {
         $iPictureId = $this->httpRequest->post('picture_id', Type::INTEGER);
+
         CommentCoreModel::deleteRecipient($iPictureId, 'picture');
+
         $this->oPictureModel->deletePhoto(
             $this->session->get('member_id'),
             $this->httpRequest->post('album_id', Type::INTEGER),
@@ -206,6 +210,7 @@ class MainController extends Controller
         );
 
         Picture::clearCache();
+
         Header::redirect(
             Uri::get(
                 'picture',
@@ -223,8 +228,17 @@ class MainController extends Controller
         $this->oPictureModel->deleteAlbum($this->session->get('member_id'), $this->httpRequest->post('album_id', Type::INTEGER));
         $sDir = PH7_PATH_PUBLIC_DATA_SYS_MOD . 'picture/img/' . $this->session->get('member_username') . PH7_DS . $this->httpRequest->post('album_id') . PH7_DS;
         $this->file->deleteDir($sDir);
+
         Picture::clearCache();
-        Header::redirect(Uri::get('picture', 'main', 'albums'), t('Your album has been removed.'));
+
+        Header::redirect(
+            Uri::get(
+                'picture',
+                'main',
+                'albums'
+            ),
+            t('Your album has been removed.')
+        );
     }
 
     public function search()
@@ -243,7 +257,10 @@ class MainController extends Controller
             null,
             null
         );
-        $this->view->total_pages = $this->oPage->getTotalPages($this->iTotalPictures, self::PHOTOS_PER_PAGE);
+        $this->view->total_pages = $this->oPage->getTotalPages(
+            $this->iTotalPictures,
+            self::PHOTOS_PER_PAGE
+        );
         $this->view->current_page = $this->oPage->getCurrentPage();
         $oSearch = $this->oPictureModel->search(
             $this->httpRequest->get('looking'),
@@ -278,170 +295,13 @@ class MainController extends Controller
         $this->view->image_social_meta_tag = $sImageUrl;
     }
 
-    private function handlePublicGalleryPost(): void
-    {
-        if (!$this->httpRequest->postExists('public_gallery_action')) {
-            return;
-        }
-
-        if (!(new CSRFToken)->check('public_gallery', $this->httpRequest->post('security_token'))) {
-            $this->view->gallery_error = t('The form security token expired. Please try again.');
-            return;
-        }
-
-        if ($this->httpRequest->post('public_gallery_action') === 'upload') {
-            $this->handlePublicGalleryUpload();
-            return;
-        }
-
-        if ($this->httpRequest->post('public_gallery_action') === 'comment') {
-            $this->handlePublicGalleryComment();
-        }
-    }
-
-    private function handlePublicGalleryUpload(): void
-    {
-        if (empty($_FILES['photo']['tmp_name']) || !is_uploaded_file($_FILES['photo']['tmp_name'])) {
-            $this->view->gallery_error = t('Please choose an image to upload.');
-            return;
-        }
-
-        $oOriginal = new FileStorageImage($_FILES['photo']['tmp_name'], self::MAX_IMAGE_WIDTH, self::MAX_IMAGE_HEIGHT);
-        if (!$oOriginal->validate()) {
-            $this->view->gallery_error = Form::wrongImgFileTypeMsg();
-            return;
-        }
-
-        $iProfileId = (int)$this->session->get('member_id');
-        $sUsername = (string)$this->session->get('member_username');
-        $sNow = $this->dateTime->get()->dateTime('Y-m-d H:i:s');
-        $iAlbumId = $this->oPictureModel->getOrCreatePublicGalleryAlbumId($iProfileId, $sNow);
-        $sApproved = DbConfig::getSetting('pictureManualApproval') == 0 ? '1' : '0';
-
-        if ($sApproved === '1' && DbConfig::getSetting('nudityFilter') && Filter::isNudity($_FILES['photo']['tmp_name'])) {
-            $sApproved = '0';
-        }
-
-        $aSizedImages = [
-            self::PICTURE2_SIZE => clone $oOriginal,
-            self::PICTURE3_SIZE => clone $oOriginal,
-            self::PICTURE4_SIZE => clone $oOriginal,
-            self::PICTURE5_SIZE => clone $oOriginal,
-            self::PICTURE6_SIZE => clone $oOriginal
-        ];
-
-        foreach ($aSizedImages as $iSize => $oImage) {
-            $oImage->square($iSize);
-        }
-
-        $sWatermarkText = DbConfig::getSetting('watermarkTextImage');
-        if (!empty(trim((string)$sWatermarkText))) {
-            $iSizeWatermarkText = DbConfig::getSetting('sizeWatermarkTextImage');
-            $oOriginal->watermarkText($sWatermarkText, $iSizeWatermarkText);
-            foreach ($aSizedImages as $oImage) {
-                $oImage->watermarkText($sWatermarkText, $iSizeWatermarkText);
-            }
-        }
-
-        $sPath = PH7_PATH_PUBLIC_DATA_SYS_MOD . 'picture/img/' . $sUsername . PH7_DS . $iAlbumId . PH7_DS;
-        (new File)->createDir($sPath);
-
-        $sFileName = Various::genRnd($oOriginal->getFileName(), 20);
-        $sFileOriginal = $sFileName . '-original.' . $oOriginal->getExt();
-        $oOriginal->save($sPath . $sFileOriginal);
-
-        foreach ($aSizedImages as $iSize => $oImage) {
-            $oImage->save($sPath . $sFileName . '-' . $iSize . PH7_DOT . $oImage->getExt());
-        }
-
-        $sTitle = trim(strip_tags((string)$this->httpRequest->post('title')));
-        if ($sTitle === '') {
-            $sTitle = $this->getTitleFromUploadedFile($oOriginal);
-        }
-
-        $this->oPictureModel->addPhoto(
-            $iProfileId,
-            $iAlbumId,
-            MediaCore::cleanTitle($sTitle),
-            '',
-            $sFileOriginal,
-            $sNow,
-            $sApproved
-        );
-        $this->oPictureModel->updateAlbumThumb($iProfileId, $iAlbumId, $sFileOriginal, $sNow);
-        Picture::clearCache();
-
-        $sMessage = $sApproved === '1' ? t('Photo uploaded to the shared gallery.') : t('Your photo was uploaded and is awaiting moderator approval.');
-        Header::redirect(Uri::get('picture', 'main', 'index'), $sMessage);
-    }
-
-    private function handlePublicGalleryComment(): void
-    {
-        $iPictureId = $this->httpRequest->post('picture_id', Type::INTEGER);
-        $sComment = $this->cleanPublicGalleryComment((string)$this->httpRequest->post('comment'));
-
-        if ($iPictureId < 1 || $this->oPictureModel->getPublicGalleryPhoto($iPictureId) === null) {
-            $this->view->gallery_error = t('Please choose a gallery photo before commenting.');
-            return;
-        }
-
-        if ($sComment === '') {
-            $this->view->gallery_error = t('Please write a comment before posting.');
-            return;
-        }
-
-        if (!$this->oPictureModel->addPublicGalleryComment(
-            $iPictureId,
-            (int)$this->session->get('member_id'),
-            $sComment,
-            $this->dateTime->get()->dateTime('Y-m-d H:i:s')
-        )) {
-            $this->view->gallery_error = t('Oops! Error occurred when adding comment.');
-            return;
-        }
-
-        CommentCore::clearCache();
-        Header::redirect(Uri::get('picture', 'main', 'index') . '?selected_photo_id=' . $iPictureId, t('Comment posted!'));
-    }
-
-    private function selectPublicGalleryPhoto(array $aPhotos, int $iSelectedPhotoId): ?stdClass
-    {
-        if (empty($aPhotos)) {
-            return null;
-        }
-
-        foreach ($aPhotos as $oPhoto) {
-            if ((int)$oPhoto->pictureId === $iSelectedPhotoId) {
-                return $oPhoto;
-            }
-        }
-
-        return $aPhotos[0];
-    }
-
-    private function cleanPublicGalleryComment(string $sComment): string
-    {
-        $sComment = trim(strip_tags($sComment));
-        $sComment = preg_replace('/\s+/', ' ', $sComment);
-
-        if (function_exists('mb_substr')) {
-            return mb_substr($sComment, 0, self::MAX_PUBLIC_GALLERY_COMMENT_LENGTH);
-        }
-
-        return substr($sComment, 0, self::MAX_PUBLIC_GALLERY_COMMENT_LENGTH);
-    }
-
-    private function getTitleFromUploadedFile(FileStorageImage $oPicture): string
-    {
-        return $this->str->upperFirst(
-            str_replace(
-                ['-', '_'],
-                ' ',
-                str_ireplace(PH7_DOT . $oPicture->getExt(), '', escape($_FILES['photo']['name'], true))
-            )
-        );
-    }
-
+    /**
+     * Set a Not Found Error Message with HTTP 404 Code Status.
+     *
+     * @param bool $b404Status For the Ajax blocks profile, we can not put HTTP error code 404, so the attribute must be set to "false". Default TRUE
+     *
+     * @return void
+     */
     private function notFound($b404Status = true)
     {
         if ($b404Status === true) {
