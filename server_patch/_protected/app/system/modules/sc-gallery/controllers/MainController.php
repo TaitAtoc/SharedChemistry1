@@ -35,11 +35,9 @@ class MainController extends Controller
 
     public function index(): void
     {
-        if ($this->httpRequest->get('diag') === '1') {
-            header('Content-Type: text/plain; charset=UTF-8');
-            echo "sc-gallery controller reached\n";
-            echo "member_id=" . (string)$this->session->get('member_id') . "\n";
-            exit;
+        $sDiagStage = (string)$this->httpRequest->get('diag');
+        if ($sDiagStage !== '') {
+            $this->runDiagnosticStage($sDiagStage);
         }
 
         try {
@@ -73,6 +71,72 @@ class MainController extends Controller
         $this->view->image_base_url = PH7_URL_DATA_SYS_MOD . self::IMAGE_DIR;
 
         $this->output();
+    }
+
+    private function runDiagnosticStage(string $sStage): void
+    {
+        header('Content-Type: text/plain; charset=UTF-8');
+        echo "stage=" . $sStage . "\n";
+
+        try {
+            switch ($sStage) {
+                case '1':
+                    echo "sc-gallery controller reached\n";
+                    echo "member_id=" . (string)$this->session->get('member_id') . "\n";
+                    break;
+
+                case 'model':
+                    $oGalleryModel = new GalleryModel();
+                    $aPhotos = $oGalleryModel->getPhotos();
+                    echo "photos_count=" . count($aPhotos) . "\n";
+                    break;
+
+                case 'csrf':
+                    $sToken = (new CSRFToken())->generate('sc_gallery');
+                    echo "token_generated=" . ($sToken !== '' ? 'YES' : 'NO') . "\n";
+                    break;
+
+                case 'avatar':
+                    $oAvatarDesign = new AvatarDesignCore();
+                    echo "avatar_design_class=" . get_class($oAvatarDesign) . "\n";
+                    break;
+
+                case 'view':
+                    $aPhotos = $this->oGalleryModel->getPhotos();
+                    $iSelectedPhotoId = $this->httpRequest->get('photo_id', Type::INTEGER);
+                    $oSelectedPhoto = $this->selectPhoto($aPhotos, $iSelectedPhotoId);
+                    $aComments = [];
+
+                    if ($oSelectedPhoto) {
+                        $aComments = $this->oGalleryModel->getComments((int)$oSelectedPhoto->photoId);
+                    }
+
+                    $this->view->page_title = $this->view->h1_title = $this->view->h2_title = t('Shared Photo Gallery');
+                    $this->view->meta_description = t('Shared member photo gallery for signed-in SharedChemistry members.');
+                    $this->view->photos = $aPhotos;
+                    $this->view->selected_photo = $oSelectedPhoto;
+                    $this->view->comments = $aComments;
+                    $this->view->avatarDesign = new AvatarDesignCore();
+                    $this->view->csrf_token = (new CSRFToken())->generate('sc_gallery');
+                    $this->view->image_base_url = PH7_URL_DATA_SYS_MOD . self::IMAGE_DIR;
+                    echo "view variables set\n";
+                    break;
+
+                default:
+                    echo "unknown diagnostic stage\n";
+                    break;
+            }
+
+            echo "OK\n";
+        } catch (\Throwable $oThrowable) {
+            echo "ERROR\n";
+            echo "exception_class=" . get_class($oThrowable) . "\n";
+            echo "exception_message=" . $oThrowable->getMessage() . "\n";
+            echo "file=" . $oThrowable->getFile() . "\n";
+            echo "line=" . $oThrowable->getLine() . "\n";
+        }
+
+        exit;
     }
 
     private function handlePost(): void
