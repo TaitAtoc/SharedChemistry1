@@ -145,7 +145,7 @@ class MainController extends Controller
             return;
         }
 
-        if (!(new CSRFToken())->check('sc_gallery', $this->httpRequest->post('security_token'))) {
+        if (!(new CSRFToken())->check('sc_gallery')) {
             $this->view->gallery_error = t('The form security token expired. Please try again.');
             return;
         }
