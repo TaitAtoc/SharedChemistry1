@@ -20,12 +20,6 @@
         <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
           <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
             <div role="banner" id="logo" class="navbar-brand sharedchemistry-member-logo">
               <a href="{{ $design->homePageUrl() }}" title="{slogan}" class="sharedchemistry-logo-link">
                 <img src="{url_tpl_img}sharedchemistry/sharedchemistry-header-logo.png" alt="SharedChemistry" class="sharedchemistry-header-logo" />

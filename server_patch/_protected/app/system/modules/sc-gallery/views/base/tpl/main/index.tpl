@@ -20,6 +20,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
     gap: 16px;
     margin-bottom: 18px;
 }
@@ -116,18 +117,63 @@ body {
     overflow: hidden;
 }
 
+.sc-carousel-stage {
+    position: relative;
+    background: radial-gradient(circle at center, #201827 0, #0f0c12 68%);
+}
+
 .sc-selected-photo {
     display: flex;
+    align-items: center;
     justify-content: center;
-    min-height: 420px;
-    background: #0f0c12;
+    min-height: 280px;
+    padding: 22px 64px;
 }
 
 .sc-selected-photo img {
     display: block;
     max-width: 100%;
-    max-height: 70vh;
+    max-height: 520px;
     object-fit: contain;
+}
+
+.sc-carousel-arrow {
+    position: absolute;
+    top: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 58px;
+    border: 1px solid rgba(255, 255, 255, .15);
+    border-radius: 8px;
+    background: rgba(15, 12, 18, .78);
+    color: #fff !important;
+    font-size: 34px;
+    line-height: 1;
+    text-decoration: none;
+    transform: translateY(-50%);
+}
+
+.sc-carousel-arrow:hover,
+.sc-carousel-arrow:focus {
+    background: linear-gradient(135deg, #d64c8a, #8754d8);
+    color: #fff !important;
+    text-decoration: none;
+}
+
+.sc-carousel-arrow.is-disabled {
+    cursor: default;
+    opacity: .28;
+    pointer-events: none;
+}
+
+.sc-carousel-prev {
+    left: 12px;
+}
+
+.sc-carousel-next {
+    right: 12px;
 }
 
 .sc-photo-info {
@@ -158,15 +204,16 @@ body {
     display: flex;
     gap: 10px;
     overflow-x: auto;
-    padding: 14px;
+    padding: 14px 16px;
     border-top: 1px solid rgba(255, 255, 255, .09);
     background: #19151d;
+    scrollbar-color: #d64c8a #0f0c12;
 }
 
 .sc-thumb {
     flex: 0 0 auto;
-    width: 96px;
-    height: 96px;
+    width: 82px;
+    height: 82px;
     border: 2px solid transparent;
     border-radius: 8px;
     overflow: hidden;
@@ -175,6 +222,7 @@ body {
 
 .sc-thumb.is-active {
     border-color: #d64c8a;
+    box-shadow: 0 0 0 2px rgba(135, 84, 216, .55);
 }
 
 .sc-thumb img {
@@ -188,11 +236,39 @@ body {
     padding: 18px;
 }
 
+.sc-comments-title {
+    margin: 0 0 8px;
+    color: #fff7fb;
+    font-size: 20px;
+}
+
 .sc-comment {
     display: flex;
+    align-items: flex-start;
     gap: 12px;
     padding: 14px 0;
     border-bottom: 1px solid rgba(255, 255, 255, .09);
+}
+
+.sc-comment-avatar {
+    flex: 0 0 48px;
+    width: 48px;
+    height: 48px;
+    overflow: hidden;
+    border-radius: 50%;
+    background: #0f0c12;
+}
+
+.sc-gallery .sc-comment-avatar img,
+.sc-gallery .sc-comment img,
+.sc-gallery .sc-comment-avatar picture,
+.sc-gallery .sc-comment-avatar a img {
+    width: 48px !important;
+    height: 48px !important;
+    max-width: 48px !important;
+    max-height: 48px !important;
+    object-fit: cover !important;
+    border-radius: 50% !important;
 }
 
 .sc-comment:last-of-type {
@@ -209,6 +285,13 @@ body {
     font-weight: 700;
 }
 
+.sc-comment-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: baseline;
+}
+
 .sc-comment-text {
     margin-top: 6px;
     color: #f4edf4;
@@ -216,6 +299,8 @@ body {
 
 .sc-comment-form {
     margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, .09);
 }
 
 .sc-empty {
@@ -237,6 +322,17 @@ body {
 
     .sc-selected-photo {
         min-height: 260px;
+        padding: 18px 52px;
+    }
+
+    .sc-gallery-title {
+        font-size: 25px;
+    }
+
+    .sc-carousel-arrow {
+        width: 38px;
+        height: 50px;
+        font-size: 28px;
     }
 }
 </style>
@@ -278,8 +374,22 @@ body {
 
     {if !empty($selected_photo)}
         <section class="sc-photo-card">
-            <div class="sc-selected-photo">
-                <img src="{image_base_url}{% escape($selected_photo->fileName) %}" alt="{% escape($selected_photo->title) %}" />
+            <div class="sc-carousel-stage">
+                {if !empty($previous_photo)}
+                    <a class="sc-carousel-arrow sc-carousel-prev" href="{url_root}photo-gallery?photo_id={% $previous_photo->photoId %}" aria-label="{lang 'Previous'}">&lsaquo;</a>
+                {else}
+                    <span class="sc-carousel-arrow sc-carousel-prev is-disabled" aria-hidden="true">&lsaquo;</span>
+                {/if}
+
+                <div class="sc-selected-photo">
+                    <img src="{image_base_url}{% escape($selected_photo->fileName) %}" alt="{% escape($selected_photo->title) %}" />
+                </div>
+
+                {if !empty($next_photo)}
+                    <a class="sc-carousel-arrow sc-carousel-next" href="{url_root}photo-gallery?photo_id={% $next_photo->photoId %}" aria-label="{lang 'Next'}">&rsaquo;</a>
+                {else}
+                    <span class="sc-carousel-arrow sc-carousel-next is-disabled" aria-hidden="true">&rsaquo;</span>
+                {/if}
             </div>
 
             <div class="sc-photo-info">
@@ -307,18 +417,18 @@ body {
         </section>
 
         <section class="sc-comments-card">
-            <h3>{lang 'Comments'}</h3>
+            <h3 class="sc-comments-title">{lang 'Comments'}</h3>
 
             {if empty($comments)}
                 <p class="sc-muted">{lang 'No comments yet.'}</p>
             {else}
                 {each $com in $comments}
                     <div class="sc-comment">
-                        <div>
+                        <div class="sc-comment-avatar">
                             {{ $avatarDesign->get($com->username, $com->firstName, $com->sex, 48) }}
                         </div>
                         <div class="sc-comment-body">
-                            <div>
+                            <div class="sc-comment-meta">
                                 <span class="sc-comment-name">{% escape($com->firstName) %}</span>
                                 <span class="sc-muted">{% Framework\Date\Various::textTimeStamp($com->createdAt) %}</span>
                             </div>

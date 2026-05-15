@@ -128,6 +128,31 @@
 }
 
 @media screen and (min-width: 768px) {
+    .navbar > .container {
+        display: flex;
+        align-items: center;
+    }
+
+    .navbar-header {
+        flex: 0 0 auto;
+    }
+
+    .navbar-collapse {
+        display: block !important;
+        flex: 1 1 auto;
+        width: auto !important;
+        padding-right: 0;
+    }
+
+    .navbar .navbar-nav {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        flex-wrap: nowrap;
+        float: none;
+        margin: 0;
+    }
+
     .navbar-toggle,
     button.navbar-toggle {
         display: none !important;
