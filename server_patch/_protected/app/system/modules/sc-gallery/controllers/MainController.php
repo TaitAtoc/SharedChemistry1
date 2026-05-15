@@ -35,6 +35,13 @@ class MainController extends Controller
 
     public function index(): void
     {
+        if ($this->httpRequest->get('diag') === '1') {
+            header('Content-Type: text/plain; charset=UTF-8');
+            echo "sc-gallery controller reached\n";
+            echo "member_id=" . (string)$this->session->get('member_id') . "\n";
+            exit;
+        }
+
         try {
             $aPhotos = $this->oGalleryModel->getPhotos();
             $this->handlePost();
