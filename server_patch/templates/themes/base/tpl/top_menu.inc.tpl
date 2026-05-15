@@ -108,11 +108,11 @@
 
         {if $is_picture_enabled}
           <li class="dropdown">
-            <a href="{{ $design->url('picture','main','index') }}" title="{lang 'Photo Gallery'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown" data-load="ajax">
+            <a href="{url_root}photo-gallery" title="{lang 'Photo Gallery'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown">
               <i class="fa fa-picture-o"></i> {lang 'Photo'} <span class="caret"></span>
             </a>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="{{ $design->url('picture','main','index') }}" rel="nofollow" title="{lang 'Photo Gallery'}" data-load="ajax"><i class="fa fa-picture-o"></i> {lang 'Photos'}</a></li>
+              <li><a href="{url_root}photo-gallery" rel="nofollow" title="{lang 'Photo Gallery'}"><i class="fa fa-picture-o"></i> {lang 'Photos'}</a></li>
 
               {if $is_hotornot_enabled}
                 <li><a href="{{ $design->url('hotornot','main','rating') }}" title="{lang 'Hot Or Not'}" data-load="ajax"><i class="fa fa-heart-o"></i> {lang 'Hot Or Not'}</a></li>
@@ -195,7 +195,7 @@
               <li><a href="{{ $design->url('user','setting','avatar') }}" title="{lang 'Change Profile Photo'}"><i class="fa fa-upload"></i> {lang 'Profile Photo'}</a></li>
 
               {if $is_picture_enabled}
-                <li class="menu-item dropdown dropdown-submenu"><a href="{{ $design->url('picture','main','index') }}" title="{lang 'Photo Gallery'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown" data-load="ajax"><i class="fa fa-picture-o"></i> {lang 'Photos'}</a>
+                <li class="menu-item dropdown dropdown-submenu"><a href="{url_root}photo-gallery" title="{lang 'Photo Gallery'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown"><i class="fa fa-picture-o"></i> {lang 'Photos'}</a>
                   <ul class="dropdown-menu" role="menu">
                     <li><a href="{{ $design->url('picture','main','addalbum') }}" title="{lang 'Add a Photo Album'}">{lang 'Add Photos'}</a></li>
                     <li><a href="{{ $design->url('picture','main','albums',$username) }}" title="{lang 'My Photo Albums'}" data-load="ajax">{lang 'My Photos'}</a></li>
