@@ -49,7 +49,7 @@ class MainController extends Controller
             $this->view->gallery_error = t('The shared gallery database tables are not installed yet.');
         }
 
-        $iSelectedPhotoId = $this->httpRequest->get('photo_id', Type::INTEGER);
+        $iSelectedPhotoId = (int)$this->httpRequest->get('photo_id', Type::INTEGER);
         $oSelectedPhoto = $this->selectPhoto($aPhotos, $iSelectedPhotoId);
         $aComments = [];
 
@@ -103,7 +103,7 @@ class MainController extends Controller
 
                 case 'view':
                     $aPhotos = $this->oGalleryModel->getPhotos();
-                    $iSelectedPhotoId = $this->httpRequest->get('photo_id', Type::INTEGER);
+                    $iSelectedPhotoId = (int)$this->httpRequest->get('photo_id', Type::INTEGER);
                     $oSelectedPhoto = $this->selectPhoto($aPhotos, $iSelectedPhotoId);
                     $aComments = [];
 
@@ -200,7 +200,7 @@ class MainController extends Controller
 
     private function handleComment(): void
     {
-        $iPhotoId = $this->httpRequest->post('photo_id', Type::INTEGER);
+        $iPhotoId = (int)$this->httpRequest->post('photo_id', Type::INTEGER);
         $sComment = $this->cleanText((string)$this->httpRequest->post('comment'), self::MAX_COMMENT_LENGTH);
 
         if ($iPhotoId < 1 || $this->oGalleryModel->getPhoto($iPhotoId) === null) {
