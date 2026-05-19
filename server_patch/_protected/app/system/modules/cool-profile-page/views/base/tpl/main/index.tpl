@@ -329,8 +329,8 @@
             {else}
                 <p class="sc-empty">{lang 'Private photo thumbnails will appear here when private media is available.'}</p>
             {/if}
-            {{ $private_photos_url = !empty($privatePhotosUrl) ? $privatePhotosUrl : '#' }}
-            <a class="sc-profile-card-action" href="{% $private_photos_url %}">{lang 'View More'}</a>
+            {{ $private_photos_url = $design->url('user', 'private-photos', 'index') }}
+            <a class="sc-profile-card-action" href="{% $private_photos_url %}">{lang 'Private Photos'}</a>
         </section>
 
         <section class="sc-profile-card sc-profile-private-media-card sc-profile-private-media-video">
@@ -356,8 +356,8 @@
             {else}
                 <p class="sc-empty">{lang 'Private video thumbnails will appear here when private media is available.'}</p>
             {/if}
-            {{ $private_videos_url = !empty($privateVideosUrl) ? $privateVideosUrl : '#' }}
-            <a class="sc-profile-card-action" href="{% $private_videos_url %}">{lang 'View More'}</a>
+            {{ $private_videos_url = $design->url('user', 'private-videos', 'index') }}
+            <a class="sc-profile-card-action" href="{% $private_videos_url %}">{lang 'Private Videos'}</a>
         </section>
     </div>
 

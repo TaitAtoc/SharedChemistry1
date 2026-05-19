@@ -269,55 +269,6 @@ main#content:has(.sharedchemistry-edit) ol#toc li a.active {
     margin: 0;
 }
 
-.sharedchemistry-edit .sc-private-access-list {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-    margin-top: 14px;
-}
-
-.sharedchemistry-edit .sc-private-access-card {
-    display: grid;
-    gap: 10px;
-    padding: 14px;
-    border: 1px solid rgba(247, 243, 239, .10);
-    border-radius: 8px;
-    background: #101114;
-}
-
-.sharedchemistry-edit .sc-private-access-name {
-    color: #f7f3ef;
-    font-weight: 800;
-    line-height: 1.3;
-}
-
-.sharedchemistry-edit .sc-private-access-controls {
-    display: grid;
-    gap: 8px;
-}
-
-.sharedchemistry-edit .sc-private-access-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    min-height: 42px;
-    padding: 9px 11px;
-    border: 1px solid rgba(236, 8, 104, .28);
-    border-radius: 8px;
-    background: #202127;
-    color: #f7f3ef;
-    font-weight: 700;
-}
-
-.sharedchemistry-edit .sc-private-access-toggle input {
-    flex: 0 0 auto;
-    width: 18px;
-    height: 18px;
-    margin: 0;
-    accent-color: #ec0868;
-}
-
 .sharedchemistry-edit__card {
     padding: 28px;
 }
@@ -504,9 +455,6 @@ main#content:has(.sharedchemistry-edit) ol#toc li a.active {
         grid-template-columns: 1fr;
     }
 
-    .sharedchemistry-edit .sc-private-access-list {
-        grid-template-columns: 1fr;
-    }
 }
 </style>
 
@@ -526,3 +474,14 @@ main#content:has(.sharedchemistry-edit) ol#toc li a.active {
         </div>
     </section>
 </div>
+
+{literal}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var privateAccessSection = document.querySelector('.sharedchemistry-edit .sc-private-access-section');
+    if (privateAccessSection) {
+        privateAccessSection.parentNode.removeChild(privateAccessSection);
+    }
+});
+</script>
+{/literal}
