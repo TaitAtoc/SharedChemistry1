@@ -23,14 +23,18 @@ use PFBC\Element\Token;
 use PFBC\Validation\BirthDate;
 use PFBC\Validation\Name;
 use PH7\Framework\Date\CDateTime;
+use PH7\Framework\Mvc\Model\Engine\Db;
 use PH7\Framework\Mvc\Request\Http as HttpRequest;
 use PH7\Framework\Mvc\Router\Uri;
 use PH7\Framework\Session\Session;
 use PH7\Framework\Url\Header;
+use PDO;
 
 class EditForm
 {
     private const COUPLE_PROFILE_DATA_FIELD = 'couple_profile_data';
+    private const COUPLE_VERIFICATION_TABLE = 'couple_verifications';
+    private const PRIVATE_MEDIA_ACCESS_TABLE = 'private_media_access';
 
     public static function display()
     {
@@ -117,8 +121,9 @@ class EditForm
         $oForm->addElement(new Textarea(t('Boundaries / not interested in:'), 'boundaries', ['id' => 'boundaries', 'value' => self::getVal($aCoupleProfile, 'boundaries')]));
         $oForm->addElement(new HTMLExternal('</div></section><section class="sc-profile-section sc-profile-section--wide"><h2>Ideal match</h2><p class="sc-profile-helper">Describe the kind of couple, vibe, or situation that feels right for you.</p><div class="sc-profile-field-row">'));
         $oForm->addElement(new Textarea(t('Ideal match:'), 'ideal_match', ['id' => 'ideal_match', 'value' => self::getVal($aCoupleProfile, 'ideal_match')]));
+        $oForm->addElement(new HTMLExternal('</div></section>' . self::renderPrivateMediaAccessSection($iProfileId, $oUserModel)));
         if (self::isAdminLoggedAndUserIdExists($oHttpRequest)) {
-            $oForm->addElement(new HTMLExternal('</div></section><section class="sc-profile-section sc-profile-section--wide sc-profile-section--core"><h2>Core account details</h2><div class="sc-profile-field-row">'));
+            $oForm->addElement(new HTMLExternal('<section class="sc-profile-section sc-profile-section--wide sc-profile-section--core"><h2>Core account details</h2><div class="sc-profile-field-row">'));
             $oForm->addElement(new Textbox(t('First Name:'), 'first_name', ['id' => 'name_first', 'onblur' => 'CValid(this.value,this.id)', 'value' => $oUser->firstName, 'required' => 1, 'validation' => new Name]));
             $oForm->addElement(new HTMLExternal('<span class="input_error name_first"></span>'));
 
@@ -184,7 +189,7 @@ class EditForm
             }
         }
 
-        $oForm->addElement(new HTMLExternal('</div></section></div>'));
+        $oForm->addElement(new HTMLExternal(self::isAdminLoggedAndUserIdExists($oHttpRequest) ? '</div></section></div>' : '</div>'));
         $oForm->addElement(new Button(t('Save Couple Profile'), 'submit', ['icon' => 'check']));
         $oForm->addElement(new HTMLExternal('<script src="' . PH7_URL_STATIC . PH7_JS . 'validate.js"></script><script src="' . PH7_URL_STATIC . PH7_JS . 'geo/autocompleteCity.js"></script>'));
         $oForm->render();
@@ -213,6 +218,204 @@ class EditForm
     {
         return AdminCore::auth() && !User::auth() &&
             $oHttpRequest->getExists('profile_id');
+    }
+
+    private static function renderPrivateMediaAccessSection($iProfileId, UserCoreModel $oUserModel)
+    {
+        $aRecipients = self::getPrivateMediaAccessRecipients((int)$iProfileId, $oUserModel);
+
+        $sHtml = '<section class="sc-profile-section sc-profile-section--wide sc-private-access-section">' .
+            '<h2>' . self::e(t('Private Media Access')) . '</h2>' .
+            '<p class="sc-profile-helper">' . self::e(t('Choose which friends and verified couples can view your private photos and private videos.')) . '</p>';
+
+        if (empty($aRecipients)) {
+            return $sHtml . '<p class="sc-profile-helper">' . self::e(t('Friend and verified friend access controls will appear here after you connect with other couples.')) . '</p></section>';
+        }
+
+        $sHtml .= '<div class="sc-private-access-list">';
+
+        foreach ($aRecipients as $aRecipient) {
+            $iRecipientId = (int)$aRecipient['profileId'];
+            $sName = self::e($aRecipient['displayName']);
+            $sType = self::e($aRecipient['relationship']);
+            $bPhotoAccess = self::hasPrivateMediaAccess((int)$iProfileId, $iRecipientId, 'photo');
+            $bVideoAccess = self::hasPrivateMediaAccess((int)$iProfileId, $iRecipientId, 'video');
+
+            $sHtml .= '<div class="sc-private-access-card">' .
+                '<input type="hidden" name="private_media_access_ids[]" value="' . $iRecipientId . '" />' .
+                '<span class="sc-private-access-name">' . $sName . ' <small>(' . $sType . ')</small></span>' .
+                '<div class="sc-private-access-controls">' .
+                '<!-- Private photo access toggle for friend/verified profile ID ' . $iRecipientId . '. Field: private_media_access[' . $iRecipientId . '][photo]. -->' .
+                '<label class="sc-private-access-toggle" for="private_media_access_' . $iRecipientId . '_photo">' .
+                '<span>' . self::e(t('Allow Private Media Access')) . ' - ' . self::e(t('Photos')) . '</span>' .
+                '<input id="private_media_access_' . $iRecipientId . '_photo" type="checkbox" name="private_media_access[' . $iRecipientId . '][photo]" value="1"' . ($bPhotoAccess ? ' checked="checked"' : '') . ' />' .
+                '</label>' .
+                '<!-- Private video access toggle for friend/verified profile ID ' . $iRecipientId . '. Field: private_media_access[' . $iRecipientId . '][video]. -->' .
+                '<label class="sc-private-access-toggle" for="private_media_access_' . $iRecipientId . '_video">' .
+                '<span>' . self::e(t('Allow Private Media Access')) . ' - ' . self::e(t('Videos')) . '</span>' .
+                '<input id="private_media_access_' . $iRecipientId . '_video" type="checkbox" name="private_media_access[' . $iRecipientId . '][video]" value="1"' . ($bVideoAccess ? ' checked="checked"' : '') . ' />' .
+                '</label>' .
+                '</div></div>';
+        }
+
+        return $sHtml . '</div></section>';
+    }
+
+    private static function getPrivateMediaAccessRecipients($iProfileId, UserCoreModel $oUserModel)
+    {
+        $aRecipients = [];
+
+        foreach (self::getApprovedFriendIds((int)$iProfileId) as $iFriendId) {
+            self::addAccessRecipient($aRecipients, $iFriendId, t('Friend'), $oUserModel);
+        }
+
+        foreach (self::getVerifiedCoupleIds((int)$iProfileId) as $iVerifiedId) {
+            self::addAccessRecipient($aRecipients, $iVerifiedId, t('Verified Friend'), $oUserModel);
+        }
+
+        return array_values($aRecipients);
+    }
+
+    private static function addAccessRecipient(array &$aRecipients, $iRecipientId, $sRelationship, UserCoreModel $oUserModel)
+    {
+        $iRecipientId = (int)$iRecipientId;
+        if ($iRecipientId < 1 || isset($aRecipients[$iRecipientId])) {
+            return;
+        }
+
+        $oRecipient = $oUserModel->readProfile($iRecipientId);
+        if (!$oRecipient || (int)$oRecipient->ban === UserCore::BAN_STATUS) {
+            return;
+        }
+
+        $oFields = $oUserModel->getInfoFields($iRecipientId);
+        $aCoupleProfile = self::getCoupleProfileData($oFields);
+
+        $aRecipients[$iRecipientId] = [
+            'profileId' => $iRecipientId,
+            'displayName' => !empty($aCoupleProfile['couple_name']) ? $aCoupleProfile['couple_name'] : $oRecipient->username,
+            'relationship' => $sRelationship
+        ];
+    }
+
+    private static function getApprovedFriendIds($iProfileId)
+    {
+        try {
+            $rStmt = Db::getInstance()->prepare(
+                'SELECT CASE WHEN profileId = :profileId THEN friendId ELSE profileId END AS friendId FROM' .
+                Db::prefix(DbTableName::MEMBER_FRIEND) .
+                'WHERE pending = :approved AND (profileId = :profileId OR friendId = :profileId) ORDER BY requestDate DESC'
+            );
+            $rStmt->bindValue(':profileId', (int)$iProfileId, PDO::PARAM_INT);
+            $rStmt->bindValue(':approved', FriendCoreModel::APPROVED_REQUEST, PDO::PARAM_INT);
+            $rStmt->execute();
+            $aIds = array_map('intval', $rStmt->fetchAll(PDO::FETCH_COLUMN));
+            Db::free($rStmt);
+
+            return $aIds;
+        } catch (\Exception $oException) {
+            return [];
+        }
+    }
+
+    private static function getVerifiedCoupleIds($iProfileId)
+    {
+        try {
+            $rStmt = Db::getInstance()->prepare(
+                'SELECT CASE WHEN verifier_profile_id = :profileId THEN verified_profile_id ELSE verifier_profile_id END AS profileId FROM' .
+                Db::prefix(self::COUPLE_VERIFICATION_TABLE) .
+                'WHERE status = :status AND (verifier_profile_id = :profileId OR verified_profile_id = :profileId) ORDER BY updated_at DESC'
+            );
+            $rStmt->bindValue(':profileId', (int)$iProfileId, PDO::PARAM_INT);
+            $rStmt->bindValue(':status', 'active', PDO::PARAM_STR);
+            $rStmt->execute();
+            $aIds = array_map('intval', $rStmt->fetchAll(PDO::FETCH_COLUMN));
+            Db::free($rStmt);
+
+            return $aIds;
+        } catch (\Exception $oException) {
+            return [];
+        }
+    }
+
+    private static function hasPrivateMediaAccess($iProfileId, $iRecipientId, $sMediaType)
+    {
+        $aColumns = self::getPrivateMediaAccessColumns($sMediaType);
+        if (empty($aColumns['owner']) || empty($aColumns['viewer'])) {
+            return false;
+        }
+
+        try {
+            $sSql = 'SELECT COUNT(*) FROM' . Db::prefix(self::PRIVATE_MEDIA_ACCESS_TABLE) .
+                'WHERE ' . $aColumns['owner'] . ' = :profileId AND ' . $aColumns['viewer'] . ' = :recipientId';
+            if (!empty($aColumns['mediaType'])) {
+                $sSql .= ' AND ' . $aColumns['mediaType'] . ' = :mediaType';
+            }
+            $sSql .= ' LIMIT 1';
+
+            $rStmt = Db::getInstance()->prepare($sSql);
+            $rStmt->bindValue(':profileId', (int)$iProfileId, PDO::PARAM_INT);
+            $rStmt->bindValue(':recipientId', (int)$iRecipientId, PDO::PARAM_INT);
+            if (!empty($aColumns['mediaType'])) {
+                $rStmt->bindValue(':mediaType', $sMediaType, PDO::PARAM_STR);
+            }
+            $rStmt->execute();
+            $bHasAccess = (int)$rStmt->fetchColumn() > 0;
+            Db::free($rStmt);
+
+            return $bHasAccess;
+        } catch (\Exception $oException) {
+            return false;
+        }
+    }
+
+    private static function getPrivateMediaAccessColumns($sMediaType)
+    {
+        $aTableColumns = self::getTableColumns(self::PRIVATE_MEDIA_ACCESS_TABLE);
+
+        return [
+            'owner' => self::getFirstExistingColumn($aTableColumns, ['owner_profile_id', 'profile_id', 'profileId']),
+            'viewer' => self::getFirstExistingColumn($aTableColumns, ['viewer_profile_id', 'viewer_id', 'viewerId', 'member_id', 'memberId', 'friend_id', 'friendId']),
+            'mediaId' => self::getFirstExistingColumn(
+                $aTableColumns,
+                $sMediaType === 'photo' ? ['media_id', 'mediaId', 'picture_id', 'pictureId'] : ['media_id', 'mediaId', 'video_id', 'videoId']
+            ),
+            'mediaType' => self::getFirstExistingColumn($aTableColumns, ['media_type', 'mediaType', 'type'])
+        ];
+    }
+
+    private static function getTableColumns($sTableName)
+    {
+        static $aTableColumns = [];
+        if (isset($aTableColumns[$sTableName])) {
+            return $aTableColumns[$sTableName];
+        }
+
+        try {
+            $rStmt = Db::getInstance()->query('DESCRIBE' . Db::prefix($sTableName));
+            $aTableColumns[$sTableName] = array_map('strval', $rStmt->fetchAll(PDO::FETCH_COLUMN));
+            Db::free($rStmt);
+        } catch (\Exception $oException) {
+            $aTableColumns[$sTableName] = [];
+        }
+
+        return $aTableColumns[$sTableName];
+    }
+
+    private static function getFirstExistingColumn(array $aColumns, array $aCandidates)
+    {
+        foreach ($aCandidates as $sCandidate) {
+            if (in_array($sCandidate, $aColumns, true)) {
+                return $sCandidate;
+            }
+        }
+
+        return '';
+    }
+
+    private static function e($sValue)
+    {
+        return htmlspecialchars((string)$sValue, ENT_QUOTES, 'UTF-8');
     }
 
     private static function getCoupleProfileData($oFields)

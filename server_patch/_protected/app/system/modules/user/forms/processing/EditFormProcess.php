@@ -11,12 +11,27 @@ namespace PH7;
 defined('PH7') or exit('Restricted access');
 
 use PH7\Framework\Cache\Cache;
+use PH7\Framework\Mvc\Model\Engine\Db;
 use PH7\Framework\Mvc\Request\Http;
+use PH7\Framework\Session\Session;
+use PDO;
 use stdClass;
 
 class EditFormProcess extends Form
 {
     private const COUPLE_PROFILE_DATA_FIELD = 'couple_profile_data';
+    private const COUPLE_VERIFICATION_TABLE = 'couple_verifications';
+    private const PRIVATE_MEDIA_ACCESS_TABLE = 'private_media_access';
+    private const PRIVATE_PHOTO_ALBUM_NAMES = [
+        'Private Photos',
+        'Private',
+        'SharedChemistry Private Photos'
+    ];
+    private const PRIVATE_VIDEO_ALBUM_NAMES = [
+        'Private Videos',
+        'Private',
+        'SharedChemistry Private Videos'
+    ];
 
     /**
      * @param int $iProfileId
@@ -79,6 +94,7 @@ class EditFormProcess extends Form
         }
 
         $this->updateCoupleProfileData($iProfileId, $oUserModel);
+        $this->updatePrivateMediaAccess((int)$iProfileId);
         $this->updateDynamicFields($iProfileId, $oUserModel);
         $oUserModel->setLastEdit($iProfileId);
         $this->clearCaches($iProfileId);
@@ -310,6 +326,327 @@ class EditFormProcess extends Form
             'Not sure yet',
             'Prefer to discuss privately'
         ];
+    }
+
+    /**
+     * Persist the private media permission toggles emitted by EditForm.php.
+     * Only the logged-in owner can update this list; forged IDs are discarded by
+     * rebuilding the eligible friend/verified-friend set on the server.
+     */
+    private function updatePrivateMediaAccess($iProfileId)
+    {
+        $iProfileId = (int)$iProfileId;
+        $iLoggedProfileId = (int)(new Session)->get('member_id');
+        if (!User::auth() || $iProfileId < 1 || $iLoggedProfileId !== $iProfileId) {
+            return;
+        }
+
+        $aEligibleRecipientIds = array_fill_keys($this->getPrivateMediaAccessRecipientIds($iProfileId), true);
+        $aPostedAccess = $this->httpRequest->postExists('private_media_access')
+            ? $this->httpRequest->post('private_media_access', Http::NO_CLEAN)
+            : [];
+        $aPostedAccess = is_array($aPostedAccess) ? $aPostedAccess : [];
+
+        foreach (array_keys($aEligibleRecipientIds) as $iRecipientId) {
+            $iRecipientId = (int)$iRecipientId;
+            if ($iRecipientId < 1 || $iRecipientId === $iProfileId) {
+                continue;
+            }
+
+            foreach (['photo', 'video'] as $sMediaType) {
+                $bShouldGrant = $this->isPrivateMediaAccessChecked($aPostedAccess, $iRecipientId, $sMediaType);
+                if ($bShouldGrant) {
+                    $this->grantPrivateMediaAccess($iProfileId, $iRecipientId, $sMediaType);
+                } else {
+                    $this->revokePrivateMediaAccess($iProfileId, $iRecipientId, $sMediaType);
+                }
+            }
+        }
+    }
+
+    private function isPrivateMediaAccessChecked(array $aPostedAccess, $iRecipientId, $sMediaType)
+    {
+        $iRecipientId = (int)$iRecipientId;
+        if (!isset($aPostedAccess[$iRecipientId]) || !is_array($aPostedAccess[$iRecipientId])) {
+            return false;
+        }
+
+        $mValue = $aPostedAccess[$iRecipientId][$sMediaType] ?? null;
+
+        return $mValue === '1' || $mValue === 1 || $mValue === true || $mValue === 'on';
+    }
+
+    private function grantPrivateMediaAccess($iProfileId, $iRecipientId, $sMediaType)
+    {
+        $aMediaIds = $this->getPrivateMediaIds((int)$iProfileId, $sMediaType);
+        $aExistingIds = $this->getExistingPrivateMediaAccessIds((int)$iProfileId, (int)$iRecipientId, $sMediaType);
+
+        foreach ($aMediaIds as $iMediaId) {
+            if (!isset($aExistingIds[$iMediaId])) {
+                $this->insertPrivateMediaAccess((int)$iProfileId, (int)$iRecipientId, $sMediaType, (int)$iMediaId);
+            }
+        }
+    }
+
+    private function revokePrivateMediaAccess($iProfileId, $iRecipientId, $sMediaType)
+    {
+        $aColumns = $this->getPrivateMediaAccessColumns($sMediaType);
+        if (empty($aColumns['owner']) || empty($aColumns['viewer'])) {
+            return;
+        }
+
+        try {
+            $sSql = 'DELETE FROM' . Db::prefix(self::PRIVATE_MEDIA_ACCESS_TABLE) .
+                'WHERE ' . $aColumns['owner'] . ' = :profileId AND ' . $aColumns['viewer'] . ' = :recipientId';
+            if (!empty($aColumns['mediaType'])) {
+                $sSql .= ' AND ' . $aColumns['mediaType'] . ' = :mediaType';
+            }
+
+            $rStmt = Db::getInstance()->prepare($sSql);
+            $rStmt->bindValue(':profileId', (int)$iProfileId, PDO::PARAM_INT);
+            $rStmt->bindValue(':recipientId', (int)$iRecipientId, PDO::PARAM_INT);
+            if (!empty($aColumns['mediaType'])) {
+                $rStmt->bindValue(':mediaType', $sMediaType, PDO::PARAM_STR);
+            }
+            $rStmt->execute();
+            Db::free($rStmt);
+        } catch (\Exception $oException) {
+            return;
+        }
+    }
+
+    private function insertPrivateMediaAccess($iProfileId, $iRecipientId, $sMediaType, $iMediaId)
+    {
+        $aColumns = $this->getPrivateMediaAccessColumns($sMediaType);
+        if (empty($aColumns['owner']) || empty($aColumns['viewer'])) {
+            return;
+        }
+
+        try {
+            $aInsertColumns = [$aColumns['owner'], $aColumns['viewer']];
+            $aInsertParams = [':profileId', ':recipientId'];
+
+            if (!empty($aColumns['mediaId'])) {
+                $aInsertColumns[] = $aColumns['mediaId'];
+                $aInsertParams[] = ':mediaId';
+            }
+
+            if (!empty($aColumns['mediaType'])) {
+                $aInsertColumns[] = $aColumns['mediaType'];
+                $aInsertParams[] = ':mediaType';
+            }
+
+            if (!empty($aColumns['createdAt'])) {
+                $aInsertColumns[] = $aColumns['createdAt'];
+                $aInsertParams[] = 'NOW()';
+            }
+
+            $rStmt = Db::getInstance()->prepare(
+                'INSERT INTO' . Db::prefix(self::PRIVATE_MEDIA_ACCESS_TABLE) .
+                '(' . implode(',', $aInsertColumns) . ') VALUES(' . implode(',', $aInsertParams) . ')'
+            );
+            $rStmt->bindValue(':profileId', (int)$iProfileId, PDO::PARAM_INT);
+            $rStmt->bindValue(':recipientId', (int)$iRecipientId, PDO::PARAM_INT);
+            if (!empty($aColumns['mediaId'])) {
+                $rStmt->bindValue(':mediaId', (int)$iMediaId, PDO::PARAM_INT);
+            }
+            if (!empty($aColumns['mediaType'])) {
+                $rStmt->bindValue(':mediaType', $sMediaType, PDO::PARAM_STR);
+            }
+            $rStmt->execute();
+            Db::free($rStmt);
+        } catch (\Exception $oException) {
+            return;
+        }
+    }
+
+    private function getExistingPrivateMediaAccessIds($iProfileId, $iRecipientId, $sMediaType)
+    {
+        $aColumns = $this->getPrivateMediaAccessColumns($sMediaType);
+        if (empty($aColumns['owner']) || empty($aColumns['viewer'])) {
+            return [];
+        }
+
+        try {
+            $sSelect = !empty($aColumns['mediaId']) ? $aColumns['mediaId'] : '0';
+            $sSql = 'SELECT ' . $sSelect . ' FROM' . Db::prefix(self::PRIVATE_MEDIA_ACCESS_TABLE) .
+                'WHERE ' . $aColumns['owner'] . ' = :profileId AND ' . $aColumns['viewer'] . ' = :recipientId';
+            if (!empty($aColumns['mediaType'])) {
+                $sSql .= ' AND ' . $aColumns['mediaType'] . ' = :mediaType';
+            }
+
+            $rStmt = Db::getInstance()->prepare($sSql);
+            $rStmt->bindValue(':profileId', (int)$iProfileId, PDO::PARAM_INT);
+            $rStmt->bindValue(':recipientId', (int)$iRecipientId, PDO::PARAM_INT);
+            if (!empty($aColumns['mediaType'])) {
+                $rStmt->bindValue(':mediaType', $sMediaType, PDO::PARAM_STR);
+            }
+            $rStmt->execute();
+            $aIds = array_map('intval', $rStmt->fetchAll(PDO::FETCH_COLUMN));
+            Db::free($rStmt);
+
+            return array_fill_keys($aIds, true);
+        } catch (\Exception $oException) {
+            return [];
+        }
+    }
+
+    private function getPrivateMediaIds($iProfileId, $sMediaType)
+    {
+        return $sMediaType === 'photo' ? $this->getPrivatePhotoIds($iProfileId) : $this->getPrivateVideoIds($iProfileId);
+    }
+
+    private function getPrivatePhotoIds($iProfileId)
+    {
+        try {
+            $aAlbumParams = $this->getSqlInParams(self::PRIVATE_PHOTO_ALBUM_NAMES, 'photoAlbum');
+            $rStmt = Db::getInstance()->prepare(
+                'SELECT p.pictureId FROM' . Db::prefix(DbTableName::PICTURE) . 'AS p INNER JOIN' .
+                Db::prefix(DbTableName::ALBUM_PICTURE) . 'AS a ON p.albumId = a.albumId ' .
+                'WHERE p.profileId = :profileId AND a.profileId = :profileId AND a.name IN (' . implode(',', array_keys($aAlbumParams)) . ') ' .
+                'AND p.approved = :approved'
+            );
+            $rStmt->bindValue(':profileId', (int)$iProfileId, PDO::PARAM_INT);
+            $rStmt->bindValue(':approved', '1', PDO::PARAM_STR);
+            foreach ($aAlbumParams as $sParam => $sName) {
+                $rStmt->bindValue($sParam, $sName, PDO::PARAM_STR);
+            }
+            $rStmt->execute();
+            $aIds = array_map('intval', $rStmt->fetchAll(PDO::FETCH_COLUMN));
+            Db::free($rStmt);
+
+            return $aIds;
+        } catch (\Exception $oException) {
+            return [];
+        }
+    }
+
+    private function getPrivateVideoIds($iProfileId)
+    {
+        try {
+            $aAlbumParams = $this->getSqlInParams(self::PRIVATE_VIDEO_ALBUM_NAMES, 'videoAlbum');
+            $rStmt = Db::getInstance()->prepare(
+                'SELECT v.videoId FROM' . Db::prefix(DbTableName::VIDEO) . 'AS v INNER JOIN' .
+                Db::prefix(DbTableName::ALBUM_VIDEO) . 'AS a ON v.albumId = a.albumId ' .
+                'WHERE v.profileId = :profileId AND a.profileId = :profileId AND a.name IN (' . implode(',', array_keys($aAlbumParams)) . ') ' .
+                'AND v.approved = :approved'
+            );
+            $rStmt->bindValue(':profileId', (int)$iProfileId, PDO::PARAM_INT);
+            $rStmt->bindValue(':approved', '1', PDO::PARAM_STR);
+            foreach ($aAlbumParams as $sParam => $sName) {
+                $rStmt->bindValue($sParam, $sName, PDO::PARAM_STR);
+            }
+            $rStmt->execute();
+            $aIds = array_map('intval', $rStmt->fetchAll(PDO::FETCH_COLUMN));
+            Db::free($rStmt);
+
+            return $aIds;
+        } catch (\Exception $oException) {
+            return [];
+        }
+    }
+
+    private function getPrivateMediaAccessRecipientIds($iProfileId)
+    {
+        return array_values(array_unique(array_merge(
+            $this->getApprovedFriendIds($iProfileId),
+            $this->getVerifiedCoupleIds($iProfileId)
+        )));
+    }
+
+    private function getApprovedFriendIds($iProfileId)
+    {
+        try {
+            $rStmt = Db::getInstance()->prepare(
+                'SELECT CASE WHEN profileId = :profileId THEN friendId ELSE profileId END AS friendId FROM' .
+                Db::prefix(DbTableName::MEMBER_FRIEND) .
+                'WHERE pending = :approved AND (profileId = :profileId OR friendId = :profileId)'
+            );
+            $rStmt->bindValue(':profileId', (int)$iProfileId, PDO::PARAM_INT);
+            $rStmt->bindValue(':approved', FriendCoreModel::APPROVED_REQUEST, PDO::PARAM_INT);
+            $rStmt->execute();
+            $aIds = array_map('intval', $rStmt->fetchAll(PDO::FETCH_COLUMN));
+            Db::free($rStmt);
+
+            return $aIds;
+        } catch (\Exception $oException) {
+            return [];
+        }
+    }
+
+    private function getVerifiedCoupleIds($iProfileId)
+    {
+        try {
+            $rStmt = Db::getInstance()->prepare(
+                'SELECT CASE WHEN verifier_profile_id = :profileId THEN verified_profile_id ELSE verifier_profile_id END AS profileId FROM' .
+                Db::prefix(self::COUPLE_VERIFICATION_TABLE) .
+                'WHERE status = :status AND (verifier_profile_id = :profileId OR verified_profile_id = :profileId)'
+            );
+            $rStmt->bindValue(':profileId', (int)$iProfileId, PDO::PARAM_INT);
+            $rStmt->bindValue(':status', 'active', PDO::PARAM_STR);
+            $rStmt->execute();
+            $aIds = array_map('intval', $rStmt->fetchAll(PDO::FETCH_COLUMN));
+            Db::free($rStmt);
+
+            return $aIds;
+        } catch (\Exception $oException) {
+            return [];
+        }
+    }
+
+    private function getPrivateMediaAccessColumns($sMediaType)
+    {
+        $aTableColumns = $this->getTableColumns(self::PRIVATE_MEDIA_ACCESS_TABLE);
+
+        return [
+            'owner' => $this->getFirstExistingColumn($aTableColumns, ['owner_profile_id', 'profile_id', 'profileId']),
+            'viewer' => $this->getFirstExistingColumn($aTableColumns, ['viewer_profile_id', 'viewer_id', 'viewerId', 'member_id', 'memberId', 'friend_id', 'friendId']),
+            'mediaId' => $this->getFirstExistingColumn(
+                $aTableColumns,
+                $sMediaType === 'photo' ? ['media_id', 'mediaId', 'picture_id', 'pictureId'] : ['media_id', 'mediaId', 'video_id', 'videoId']
+            ),
+            'mediaType' => $this->getFirstExistingColumn($aTableColumns, ['media_type', 'mediaType', 'type']),
+            'createdAt' => $this->getFirstExistingColumn($aTableColumns, ['created_at', 'createdDate'])
+        ];
+    }
+
+    private function getTableColumns($sTableName)
+    {
+        static $aTableColumns = [];
+        if (isset($aTableColumns[$sTableName])) {
+            return $aTableColumns[$sTableName];
+        }
+
+        try {
+            $rStmt = Db::getInstance()->query('DESCRIBE' . Db::prefix($sTableName));
+            $aTableColumns[$sTableName] = array_map('strval', $rStmt->fetchAll(PDO::FETCH_COLUMN));
+            Db::free($rStmt);
+        } catch (\Exception $oException) {
+            $aTableColumns[$sTableName] = [];
+        }
+
+        return $aTableColumns[$sTableName];
+    }
+
+    private function getFirstExistingColumn(array $aColumns, array $aCandidates)
+    {
+        foreach ($aCandidates as $sCandidate) {
+            if (in_array($sCandidate, $aColumns, true)) {
+                return $sCandidate;
+            }
+        }
+
+        return '';
+    }
+
+    private function getSqlInParams(array $aValues, $sPrefix)
+    {
+        $aParams = [];
+        foreach (array_values($aValues) as $iIndex => $sValue) {
+            $aParams[':' . $sPrefix . $iIndex] = $sValue;
+        }
+
+        return $aParams;
     }
 
     /**

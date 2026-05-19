@@ -142,6 +142,22 @@
     .sc-public-profile a.sc-profile-verified-name:visited{display:block!important;width:100%!important;margin:10px 0 0!important;padding:0!important;color:#ffbc0a!important;font-size:18px!important;font-weight:400!important;line-height:1.25!important;text-align:center!important;text-decoration:none!important;text-shadow:none!important;white-space:normal!important}
     .sc-public-profile a.sc-profile-verified-name:hover,
     .sc-public-profile a.sc-profile-verified-name:focus{color:#f7f3ef!important;text-decoration:none!important}
+    .sc-profile-private-media-row{margin:0 0 16px}
+    .sc-profile-private-media-card{padding:28px 32px 34px!important}
+    .sc-profile-private-media-card h2{margin-bottom:24px!important;text-transform:uppercase!important;letter-spacing:0!important}
+    .sc-profile-private-media-grid{display:flex!important;flex-wrap:wrap!important;align-items:flex-start!important;justify-content:flex-start!important;gap:28px!important;margin:0!important;padding:0!important}
+    .sc-profile-private-media-item{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important;width:170px!important;min-width:170px!important;max-width:170px!important;margin:0!important;padding:0!important;text-align:center!important}
+    .sc-profile-private-media-thumb,
+    .sc-profile-private-media-thumb:visited{position:relative!important;display:block!important;width:150px!important;height:150px!important;margin:0 auto!important;overflow:hidden!important;border:0!important;border-radius:0!important;background:#101114!important;text-decoration:none!important;box-shadow:none!important}
+    .sc-profile-private-media-thumb img{display:block!important;width:150px!important;height:150px!important;max-width:none!important;max-height:none!important;object-fit:cover!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+    .sc-profile-private-media-thumb.is-locked img{filter:saturate(.65) brightness(.72)!important}
+    .sc-profile-private-media-lock{position:absolute!important;left:8px!important;right:8px!important;bottom:8px!important;display:flex!important;align-items:center!important;justify-content:center!important;min-height:28px!important;padding:5px 8px!important;border:1px solid rgba(236,8,104,.55)!important;border-radius:7px!important;background:rgba(16,15,20,.86)!important;color:#f7f3ef!important;font-size:12px!important;font-weight:bold!important;line-height:1.2!important;text-align:center!important}
+    .sc-profile-private-media-name{display:block!important;width:100%!important;margin:10px 0 0!important;padding:0!important;color:#ffbc0a!important;font-size:18px!important;font-weight:400!important;line-height:1.25!important;text-align:center!important;white-space:normal!important}
+    .sc-profile-private-media-video .sc-profile-private-media-thumb:not(.is-locked):after{content:"";position:absolute;left:50%;top:50%;width:0;height:0;margin:-16px 0 0 -10px;border-top:16px solid transparent;border-bottom:16px solid transparent;border-left:24px solid rgba(255,255,255,.9);filter:drop-shadow(0 2px 7px rgba(0,0,0,.45))}
+    .sc-profile-private-media-card a.sc-profile-card-action,
+    .sc-profile-private-media-card a.sc-profile-card-action:visited{display:flex!important;width:fit-content!important;margin:44px auto 0!important;justify-content:center!important;border:0!important;background:transparent!important;color:#ffbc0a!important;font-size:15px!important;font-weight:400!important}
+    .sc-profile-private-media-card a.sc-profile-card-action:hover,
+    .sc-profile-private-media-card a.sc-profile-card-action:focus{background:transparent!important;color:#ec7d10!important}
     .sc-empty{color:#8f8794!important;font-style:italic}
     #cboxOverlay.sc-profile-colorbox-overlay{background:#050407!important;opacity:.9!important}
     #colorbox.sc-profile-colorbox,
@@ -202,6 +218,13 @@
         .sc-public-profile .sc-profile-verified-avatar,
         .sc-public-profile .sc-profile-verified-avatar img{width:130px!important;height:130px!important}
         .sc-public-profile .sc-profile-verified-note{left:50%;width:min(260px, calc(100vw - 36px));transform:translateX(-50%)}
+        .sc-profile-private-media-card{padding:22px 18px 28px!important}
+        .sc-profile-private-media-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:20px 12px!important}
+        .sc-profile-private-media-item{width:100%!important;min-width:0!important;max-width:none!important}
+        .sc-profile-private-media-thumb,
+        .sc-profile-private-media-thumb img{width:130px!important;height:130px!important}
+        .sc-profile-private-media-card a.sc-profile-card-action,
+        .sc-profile-private-media-card a.sc-profile-card-action:visited{margin-top:44px!important}
         .sc-profile-button{width:100%}
     }
 </style>
@@ -279,6 +302,63 @@
             </div>
             <span class="sc-profile-photo-label">{lang 'Photo 5'}</span>
         </div>
+    </div>
+
+    <!-- Future developers: populate these placeholders from the controller as arrays of media objects with url and hasAccess properties. -->
+    <div class="sc-profile-grid sc-profile-private-media-row">
+        <section class="sc-profile-card sc-profile-private-media-card sc-profile-private-media-photo">
+            <h2>{lang 'Private Photos'}</h2>
+            {if !empty($privatePhotos)}
+                <div class="sc-profile-private-media-grid">
+                    {each $privatePhoto in $privatePhotos}
+                        <div class="sc-profile-private-media-item">
+                            {if !empty($privatePhoto->hasAccess) AND !empty($privatePhoto->url)}
+                                <a class="sc-profile-private-media-thumb" href="{% $privatePhoto->url %}" data-popup="image" title="{lang 'Private photo'}">
+                                    <img src="{% $privatePhoto->url %}" alt="{lang 'Private photo'}" loading="lazy" onerror="this.onerror=null;this.src='{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png';" />
+                                </a>
+                            {else}
+                                <span class="sc-profile-private-media-thumb is-locked" aria-label="{lang 'Private photo locked'}">
+                                    <img src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Locked private photo'}" loading="lazy" />
+                                    <span class="sc-profile-private-media-lock">{lang 'Locked'}</span>
+                                </span>
+                            {/if}
+                            <span class="sc-profile-private-media-name">{lang 'Private Photo'}</span>
+                        </div>
+                    {/each}
+                </div>
+            {else}
+                <p class="sc-empty">{lang 'Private photo thumbnails will appear here when private media is available.'}</p>
+            {/if}
+            {{ $private_photos_url = !empty($privatePhotosUrl) ? $privatePhotosUrl : '#' }}
+            <a class="sc-profile-card-action" href="{% $private_photos_url %}">{lang 'View More'}</a>
+        </section>
+
+        <section class="sc-profile-card sc-profile-private-media-card sc-profile-private-media-video">
+            <h2>{lang 'Private Videos'}</h2>
+            {if !empty($privateVideos)}
+                <div class="sc-profile-private-media-grid">
+                    {each $privateVideo in $privateVideos}
+                        <div class="sc-profile-private-media-item">
+                            {if !empty($privateVideo->hasAccess) AND !empty($privateVideo->url)}
+                                <a class="sc-profile-private-media-thumb" href="{% $privateVideo->url %}" title="{lang 'Private video'}">
+                                    <img src="{% $privateVideo->url %}" alt="{lang 'Private video'}" loading="lazy" onerror="this.onerror=null;this.src='{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png';" />
+                                </a>
+                            {else}
+                                <span class="sc-profile-private-media-thumb is-locked" aria-label="{lang 'Private video locked'}">
+                                    <img src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Locked private video'}" loading="lazy" />
+                                    <span class="sc-profile-private-media-lock">{lang 'Locked'}</span>
+                                </span>
+                            {/if}
+                            <span class="sc-profile-private-media-name">{lang 'Private Video'}</span>
+                        </div>
+                    {/each}
+                </div>
+            {else}
+                <p class="sc-empty">{lang 'Private video thumbnails will appear here when private media is available.'}</p>
+            {/if}
+            {{ $private_videos_url = !empty($privateVideosUrl) ? $privateVideosUrl : '#' }}
+            <a class="sc-profile-card-action" href="{% $private_videos_url %}">{lang 'View More'}</a>
+        </section>
     </div>
 
     <section class="sc-profile-hero">
@@ -926,7 +1006,7 @@
             '</style>').appendTo('head');
         }
 
-        var $links = $('.sc-profile-photo-strip a[data-popup="image"]');
+        var $links = $('.sc-profile-photo-strip a[data-popup="image"], .sc-profile-private-media-photo a[data-popup="image"]');
 
         if ($.fn.colorbox) {
             $links.each(function() {

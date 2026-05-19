@@ -27,6 +27,17 @@ class MainController extends ProfileBaseController
     private const FRIEND_CARD_LIMIT = 6;
     private const VERIFIED_CARD_LIMIT = 6;
     private const COUPLE_VERIFICATION_TABLE = 'couple_verifications';
+    private const PRIVATE_MEDIA_ACCESS_TABLE = 'private_media_access';
+    private const PRIVATE_PHOTO_ALBUM_NAMES = [
+        'Private Photos',
+        'Private',
+        'SharedChemistry Private Photos'
+    ];
+    private const PRIVATE_VIDEO_ALBUM_NAMES = [
+        'Private Videos',
+        'Private',
+        'SharedChemistry Private Videos'
+    ];
 
     private const COUPLE_PROFILE_DATA_FIELD = 'couple_profile_data';
 
@@ -118,6 +129,7 @@ class MainController extends ProfileBaseController
             $this->view->profile_friends_url = SysMod::isEnabled('friend') ? Uri::get('friend', 'main', 'index', $oUser->username) : '';
             $sReviewerDisplayName = !empty($aCoupleProfile['couple_name']) ? $aCoupleProfile['couple_name'] : $oUser->username;
             $this->view->profile_verified_friends = $this->getVerifiedCoupleCards((int)$this->iProfileId, $sReviewerDisplayName);
+            $this->assignPrivateMediaViewData((int)$this->iProfileId, (int)$this->iVisitorId, $oUser->username);
             $this->view->verification_csrf_token = (new Token)->generate('couple_verification');
 
             // Count number of times the profile is viewed
@@ -464,6 +476,250 @@ class MainController extends ProfileBaseController
         } catch (\Exception $oException) {
             return;
         }
+    }
+
+    /**
+     * Build the data contract consumed by index.tpl:
+     * each item has a public-safe "url" value and a boolean "hasAccess" flag.
+     * Unauthorized viewers never receive the private media URL; the template can
+     * render its fallback avatar by checking hasAccess=false.
+     */
+    private function assignPrivateMediaViewData(int $iProfileId, int $iViewerProfileId, string $sUsername): void
+    {
+        $aPrivatePhotos = $this->getPrivatePhotoRows($iProfileId);
+        $aPrivateVideos = $this->getPrivateVideoRows($iProfileId);
+        $bAutomaticAccess = $this->hasAutomaticPrivateMediaAccess($iProfileId, $iViewerProfileId);
+
+        $this->view->privatePhotos = $this->buildPrivateMediaViewRows($aPrivatePhotos, $iProfileId, $iViewerProfileId, 'photo', $sUsername, $bAutomaticAccess);
+        $this->view->privateVideos = $this->buildPrivateMediaViewRows($aPrivateVideos, $iProfileId, $iViewerProfileId, 'video', $sUsername, $bAutomaticAccess);
+        $this->view->privatePhotosUrl = Uri::get('picture', 'main', 'albums', $sUsername);
+        $this->view->privateVideosUrl = Uri::get('video', 'main', 'albums', $sUsername);
+    }
+
+    private function getPrivatePhotoRows(int $iProfileId): array
+    {
+        try {
+            $aAlbumParams = $this->getSqlInParams(self::PRIVATE_PHOTO_ALBUM_NAMES, 'photoAlbum');
+            $rStmt = Db::getInstance()->prepare(
+                'SELECT p.* FROM' . Db::prefix(DbTableName::PICTURE) . 'AS p INNER JOIN' .
+                Db::prefix(DbTableName::ALBUM_PICTURE) . 'AS a ON p.albumId = a.albumId ' .
+                'WHERE p.profileId = :profileId AND a.profileId = :profileId AND a.name IN (' . implode(',', array_keys($aAlbumParams)) . ') ' .
+                'AND p.approved = :approved ORDER BY p.updatedDate DESC, p.createdDate DESC, p.pictureId DESC'
+            );
+            $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
+            $rStmt->bindValue(':approved', '1', PDO::PARAM_STR);
+            foreach ($aAlbumParams as $sParam => $sName) {
+                $rStmt->bindValue($sParam, $sName, PDO::PARAM_STR);
+            }
+            $rStmt->execute();
+            $aRows = $rStmt->fetchAll(PDO::FETCH_OBJ);
+            Db::free($rStmt);
+
+            return is_array($aRows) ? $aRows : [];
+        } catch (\Exception $oException) {
+            return [];
+        }
+    }
+
+    private function getPrivateVideoRows(int $iProfileId): array
+    {
+        try {
+            $aAlbumParams = $this->getSqlInParams(self::PRIVATE_VIDEO_ALBUM_NAMES, 'videoAlbum');
+            $rStmt = Db::getInstance()->prepare(
+                'SELECT v.* FROM' . Db::prefix(DbTableName::VIDEO) . 'AS v INNER JOIN' .
+                Db::prefix(DbTableName::ALBUM_VIDEO) . 'AS a ON v.albumId = a.albumId ' .
+                'WHERE v.profileId = :profileId AND a.profileId = :profileId AND a.name IN (' . implode(',', array_keys($aAlbumParams)) . ') ' .
+                'AND v.approved = :approved ORDER BY v.updatedDate DESC, v.createdDate DESC, v.videoId DESC'
+            );
+            $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
+            $rStmt->bindValue(':approved', '1', PDO::PARAM_STR);
+            foreach ($aAlbumParams as $sParam => $sName) {
+                $rStmt->bindValue($sParam, $sName, PDO::PARAM_STR);
+            }
+            $rStmt->execute();
+            $aRows = $rStmt->fetchAll(PDO::FETCH_OBJ);
+            Db::free($rStmt);
+
+            return is_array($aRows) ? $aRows : [];
+        } catch (\Exception $oException) {
+            return [];
+        }
+    }
+
+    private function buildPrivateMediaViewRows(
+        array $aMediaRows,
+        int $iProfileId,
+        int $iViewerProfileId,
+        string $sMediaType,
+        string $sUsername,
+        bool $bAutomaticAccess
+    ): array {
+        if (empty($aMediaRows)) {
+            return [];
+        }
+
+        $aAllowedMediaIds = $this->getAllowedPrivateMediaIds($iProfileId, $iViewerProfileId, $sMediaType);
+        $aViewRows = [];
+
+        foreach ($aMediaRows as $oMedia) {
+            $iMediaId = $this->getPrivateMediaId($oMedia, $sMediaType);
+            $bHasAccess = $bAutomaticAccess || isset($aAllowedMediaIds[$iMediaId]);
+
+            $aViewRows[] = (object)[
+                'url' => $bHasAccess ? $this->getPrivateMediaUrl($oMedia, $sMediaType, $sUsername) : '',
+                'hasAccess' => $bHasAccess
+            ];
+        }
+
+        return $aViewRows;
+    }
+
+    /**
+     * Owners always see their own media. Friends and verified couples are
+     * resolved through ph7vz_private_media_access so edit-page revokes take
+     * effect immediately instead of being re-granted on the next profile view.
+     */
+    private function hasAutomaticPrivateMediaAccess(int $iProfileId, int $iViewerProfileId): bool
+    {
+        if (!$this->bUserAuth || $iProfileId < 1 || $iViewerProfileId < 1) {
+            return false;
+        }
+
+        if ($iProfileId === $iViewerProfileId) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function getAllowedPrivateMediaIds(int $iProfileId, int $iViewerProfileId, string $sMediaType): array
+    {
+        if (!$this->bUserAuth || $iProfileId < 1 || $iViewerProfileId < 1) {
+            return [];
+        }
+
+        $aColumns = $this->getPrivateMediaAccessColumns($sMediaType);
+        if (empty($aColumns['owner']) || empty($aColumns['viewer']) || empty($aColumns['mediaId'])) {
+            return [];
+        }
+
+        try {
+            $sSql = 'SELECT ' . $aColumns['mediaId'] . ' FROM' . Db::prefix(self::PRIVATE_MEDIA_ACCESS_TABLE) .
+                'WHERE ' . $aColumns['owner'] . ' = :profileId AND ' . $aColumns['viewer'] . ' = :viewerProfileId';
+            if (!empty($aColumns['mediaType'])) {
+                $sSql .= ' AND ' . $aColumns['mediaType'] . ' = :mediaType';
+            }
+
+            $rStmt = Db::getInstance()->prepare($sSql);
+            $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
+            $rStmt->bindValue(':viewerProfileId', $iViewerProfileId, PDO::PARAM_INT);
+            if (!empty($aColumns['mediaType'])) {
+                $rStmt->bindValue(':mediaType', $sMediaType, PDO::PARAM_STR);
+            }
+            $rStmt->execute();
+            $aIds = array_map('intval', $rStmt->fetchAll(PDO::FETCH_COLUMN));
+            Db::free($rStmt);
+
+            return array_fill_keys($aIds, true);
+        } catch (\Exception $oException) {
+            return [];
+        }
+    }
+
+    private function getPrivateMediaAccessColumns(string $sMediaType): array
+    {
+        static $aColumns = [];
+        if (isset($aColumns[$sMediaType])) {
+            return $aColumns[$sMediaType];
+        }
+
+        $aTableColumns = $this->getTableColumns(self::PRIVATE_MEDIA_ACCESS_TABLE);
+        $aColumns[$sMediaType] = [
+            'owner' => $this->getFirstExistingColumn($aTableColumns, ['owner_profile_id', 'profile_id', 'profileId']),
+            'viewer' => $this->getFirstExistingColumn($aTableColumns, ['viewer_profile_id', 'viewer_id', 'viewerId', 'member_id', 'memberId', 'friend_id', 'friendId']),
+            'mediaId' => $this->getFirstExistingColumn(
+                $aTableColumns,
+                $sMediaType === 'photo' ? ['media_id', 'mediaId', 'picture_id', 'pictureId'] : ['media_id', 'mediaId', 'video_id', 'videoId']
+            ),
+            'mediaType' => $this->getFirstExistingColumn($aTableColumns, ['media_type', 'mediaType', 'type']),
+            'createdAt' => $this->getFirstExistingColumn($aTableColumns, ['created_at', 'createdDate'])
+        ];
+
+        return $aColumns[$sMediaType];
+    }
+
+    private function getTableColumns(string $sTableName): array
+    {
+        static $aTableColumns = [];
+        if (isset($aTableColumns[$sTableName])) {
+            return $aTableColumns[$sTableName];
+        }
+
+        try {
+            $rStmt = Db::getInstance()->query('DESCRIBE' . Db::prefix($sTableName));
+            $aTableColumns[$sTableName] = array_map('strval', $rStmt->fetchAll(PDO::FETCH_COLUMN));
+            Db::free($rStmt);
+        } catch (\Exception $oException) {
+            $aTableColumns[$sTableName] = [];
+        }
+
+        return $aTableColumns[$sTableName];
+    }
+
+    private function getFirstExistingColumn(array $aColumns, array $aCandidates): string
+    {
+        foreach ($aCandidates as $sCandidate) {
+            if (in_array($sCandidate, $aColumns, true)) {
+                return $sCandidate;
+            }
+        }
+
+        return '';
+    }
+
+    private function getPrivateMediaUrl(\stdClass $oMedia, string $sMediaType, string $sUsername): string
+    {
+        if ($sMediaType === 'photo') {
+            if (!empty($oMedia->file_cdn_url)) {
+                return (string)$oMedia->file_cdn_url;
+            }
+
+            return PH7_URL_DATA_SYS_MOD . 'picture/img/' . $sUsername . PH7_SH . $oMedia->albumId . PH7_SH .
+                str_replace('original', '400', (string)$oMedia->file);
+        }
+
+        if (!empty($oMedia->thumb_cdn_url)) {
+            return (string)$oMedia->thumb_cdn_url;
+        }
+
+        if (!empty($oMedia->thumb)) {
+            return PH7_URL_DATA_SYS_MOD . 'video/img/' . $sUsername . PH7_SH . $oMedia->albumId . PH7_SH . $oMedia->thumb;
+        }
+
+        if (!empty($oMedia->file_cdn_url)) {
+            return (string)$oMedia->file_cdn_url;
+        }
+
+        if (empty($oMedia->file)) {
+            return '';
+        }
+
+        return PH7_URL_DATA_SYS_MOD . 'video/file/' . $sUsername . PH7_SH . $oMedia->albumId . PH7_SH . $oMedia->file;
+    }
+
+    private function getPrivateMediaId(\stdClass $oMedia, string $sMediaType): int
+    {
+        return $sMediaType === 'photo' ? (int)$oMedia->pictureId : (int)$oMedia->videoId;
+    }
+
+    private function getSqlInParams(array $aValues, string $sPrefix): array
+    {
+        $aParams = [];
+        foreach (array_values($aValues) as $iIndex => $sValue) {
+            $aParams[':' . $sPrefix . $iIndex] = $sValue;
+        }
+
+        return $aParams;
     }
 
     private function getApprovedFriendIds(int $iProfileId): array
