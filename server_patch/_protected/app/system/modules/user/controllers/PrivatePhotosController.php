@@ -35,10 +35,10 @@ class PrivatePhotosController extends Controller
         $this->view->private_media_error = '';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!(new Token)->check('sc_private_photos')) {
+            $sAction = (string)$this->httpRequest->post('private_media_action');
+            if (!(new Token)->check($this->getTokenName($sAction))) {
                 $this->view->private_media_error = Form::errorTokenMsg();
             } else {
-                $sAction = (string)$this->httpRequest->post('private_media_action');
                 if ($sAction === 'upload') {
                     $this->handleUpload($iProfileId, $sUsername);
                 } elseif ($sAction === 'permissions') {
@@ -56,7 +56,10 @@ class PrivatePhotosController extends Controller
         $aPrivatePhotos = $this->getPrivatePhotos($iProfileId, $sUsername);
         $aAccessMap = $this->getPrivateMediaAccessMap($iProfileId, 'photo');
 
-        $this->view->private_media_csrf_token = (new Token)->generate('sc_private_photos');
+        $oToken = new Token;
+        $this->view->private_media_csrf_token = $oToken->generate('sc_private_photos_permissions');
+        $this->view->private_media_upload_csrf_token = $oToken->generate('sc_private_photos_upload');
+        $this->view->private_media_delete_csrf_token = $oToken->generate('sc_private_photos_delete');
         $this->view->privatePhotos = $aPrivatePhotos;
         $this->view->accessMap = $aAccessMap;
         $this->view->accessRecipients = $this->getAccessRecipients($iProfileId, 'photo', $aAccessMap);
@@ -191,15 +194,19 @@ class PrivatePhotosController extends Controller
         $iFallbackCount = 0;
         foreach ($aRows as $oPhoto) {
             $sOriginalFile = (string)$oPhoto->file;
-            $sThumbFile = str_replace('original', (string)self::PHOTO_THUMB_SIZE, $sOriginalFile);
+            $bHasFileValue = $sOriginalFile !== '';
+            $sThumbFile = $bHasFileValue ? str_replace('original', (string)self::PHOTO_THUMB_SIZE, $sOriginalFile) : '';
             $sPhotoDir = PH7_PATH_PUBLIC_DATA_SYS_MOD . 'picture/img/' . $sUsername . PH7_DS . $oPhoto->albumId . PH7_DS;
             // A private photo DB row with a file value should always render the uploaded original URL for the owner.
             // The local thumbnail check is only used to prefer the generated 400 image when PHP can confirm it exists.
-            $sOriginalUrl = $sOriginalFile !== '' ? $this->getPrivatePhotoUrl($sUsername, (int)$oPhoto->albumId, $sOriginalFile) : '';
+            $sOriginalUrl = $bHasFileValue ? $this->getPrivatePhotoUrl($sUsername, (int)$oPhoto->albumId, $sOriginalFile) : '';
             $sThumbUrl = $sThumbFile !== '' && is_file($sPhotoDir . $sThumbFile) ? $this->getPrivatePhotoUrl($sUsername, (int)$oPhoto->albumId, $sThumbFile) : '';
             $sUrl = $sThumbUrl !== '' ? $sThumbUrl : $sOriginalUrl;
+            $bUsedThumb = $sThumbUrl !== '';
+            $bUsedOriginal = $sUrl !== '' && !$bUsedThumb;
+            $bUsedFallback = $sUrl === '';
 
-            if ($sUrl !== '') {
+            if (!$bUsedFallback) {
                 $iRealPhotoCount++;
             } else {
                 $iFallbackCount++;
@@ -209,6 +216,10 @@ class PrivatePhotosController extends Controller
                 'id' => (int)$oPhoto->pictureId,
                 'url' => $sUrl,
                 'originalUrl' => $sOriginalUrl,
+                'hasFileValue' => $bHasFileValue,
+                'usedFallback' => $bUsedFallback,
+                'usedOriginal' => $bUsedOriginal,
+                'usedThumb' => $bUsedThumb,
                 'hasAccess' => true,
                 'isMissing' => $sUrl === ''
             ];
@@ -223,6 +234,19 @@ class PrivatePhotosController extends Controller
     private function getPrivatePhotoUrl(string $sUsername, int $iAlbumId, string $sFileName): string
     {
         return PH7_URL_DATA_SYS_MOD . 'picture/img/' . $sUsername . PH7_SH . $iAlbumId . PH7_SH . rawurlencode($sFileName);
+    }
+
+    private function getTokenName(string $sAction): string
+    {
+        if ($sAction === 'upload') {
+            return 'sc_private_photos_upload';
+        }
+
+        if ($sAction === 'delete') {
+            return 'sc_private_photos_delete';
+        }
+
+        return 'sc_private_photos_permissions';
     }
 
     private function deletePhoto(int $iProfileId, string $sUsername): void

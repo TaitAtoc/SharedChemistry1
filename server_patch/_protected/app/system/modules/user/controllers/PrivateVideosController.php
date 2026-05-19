@@ -33,10 +33,10 @@ class PrivateVideosController extends PrivatePhotosController
         $this->view->private_media_error = '';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (!(new Token)->check('sc_private_videos')) {
+            $sAction = (string)$this->httpRequest->post('private_media_action');
+            if (!(new Token)->check($this->getTokenName($sAction))) {
                 $this->view->private_media_error = Form::errorTokenMsg();
             } else {
-                $sAction = (string)$this->httpRequest->post('private_media_action');
                 if ($sAction === 'upload') {
                     $this->handleVideoUpload($iProfileId, $sUsername);
                 } elseif ($sAction === 'permissions') {
@@ -52,7 +52,10 @@ class PrivateVideosController extends PrivatePhotosController
 
         // Proof marker: when routing reaches this action, the page title is unique to the private manager.
         $this->view->page_title = $this->view->h1_title = t('SharedChemistry Private Videos Manager');
-        $this->view->private_media_csrf_token = (new Token)->generate('sc_private_videos');
+        $oToken = new Token;
+        $this->view->private_media_csrf_token = $oToken->generate('sc_private_videos_permissions');
+        $this->view->private_media_upload_csrf_token = $oToken->generate('sc_private_videos_upload');
+        $this->view->private_media_delete_csrf_token = $oToken->generate('sc_private_videos_delete');
         $this->view->privateVideos = $aPrivateVideos;
         $this->view->accessMap = $aAccessMap;
         $this->view->accessRecipients = $this->getAccessRecipients($iProfileId, 'video', $aAccessMap);
@@ -197,6 +200,19 @@ class PrivateVideosController extends PrivatePhotosController
         }
 
         return $aVideos;
+    }
+
+    private function getTokenName(string $sAction): string
+    {
+        if ($sAction === 'upload') {
+            return 'sc_private_videos_upload';
+        }
+
+        if ($sAction === 'delete') {
+            return 'sc_private_videos_delete';
+        }
+
+        return 'sc_private_videos_permissions';
     }
 
     private function deleteVideo(int $iProfileId, string $sUsername): void

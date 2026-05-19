@@ -48,7 +48,7 @@ main#content{max-width:1180px!important;margin:0 auto!important;padding:132px 15
             <h2>{lang 'Upload'}</h2>
             <p class="sc-private-media__helper">{lang 'Select a video file from your device.'}</p>
             <form class="sc-private-media__upload" action="" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="security_token" value="{% $private_media_csrf_token %}" />
+                <input type="hidden" name="security_token" value="{% $private_media_upload_csrf_token %}" />
                 <input type="hidden" name="private_media_action" value="upload" />
                 <input type="file" name="private_media_file" accept="video/mp4,video/webm,video/quicktime" required="required" />
                 <button class="sc-private-media__button" type="submit">{lang 'Upload Video'}</button>
@@ -67,7 +67,7 @@ main#content{max-width:1180px!important;margin:0 auto!important;padding:132px 15
                                 <img class="sc-private-media__video" src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Locked private video'}" loading="lazy" />
                             {/if}
                             <form action="" method="post">
-                                <input type="hidden" name="security_token" value="{% $private_media_csrf_token %}" />
+                                <input type="hidden" name="security_token" value="{% $private_media_delete_csrf_token %}" />
                                 <input type="hidden" name="private_media_action" value="delete" />
                                 <input type="hidden" name="private_media_id" value="{% $video->id %}" />
                                 <button class="sc-private-media__delete" type="submit">{lang 'Delete'}</button>
