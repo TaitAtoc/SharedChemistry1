@@ -96,4 +96,4 @@ main#content{max-width:1180px!important;margin:0 auto!important;padding:132px 15
         </section>
     </div>
 </div>
-<!-- SC_PRIVATE_VIDEOS_DEBUG {% $privateMediaDebug %} -->
+<!-- SC_PRIVATE_VIDEOS_DEBUG controller=PrivateVideosController template=privatevideos {% $privateMediaDebug %} -->

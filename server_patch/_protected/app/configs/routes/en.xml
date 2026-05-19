@@ -10,6 +10,9 @@
     <route url="manifest\.json" path="system/modules" module="pwa" controller="main" action="manifest" />
     <route url="browserconfig\.xml" path="system/modules" module="pwa" controller="main" action="browserconfig" />
 
+    <!-- Private Videos must be rewritten before simple /user/* fallback handling because the URL slug contains a hyphen. -->
+      <route url="user/private-videos/?" path="system/modules" module="user" controller="privateVideos" action="index" />
+
     <!-- User -->
       <route url="@([a-zA-Z0-9_-]+)" path="system/modules" module="user" controller="profile" action="index" vars="username" />
       <route url="signup" path="system/modules" module="user" controller="signup" action="step1" />
@@ -21,7 +24,6 @@
       <route url="user/avatar/?([0-9]+)?/?([a-zA-Z0-9_-]+)?/?([^/]+)?/?([a-z]+)?" path="system/modules" module="user" controller="setting" action="avatar" vars="profile_id,username,first_name,sex" />
       <route url="user/design/?([0-9]+)?/?([a-zA-Z0-9_-]+)?/?([^/]+)?/?([a-z]+)?" path="system/modules" module="user" controller="setting" action="design" vars="profile_id,username,first_name,sex" />
       <route url="user/private-photos/?" path="system/modules" module="user" controller="privatePhotos" action="index" />
-      <route url="user/private-videos/?" path="system/modules" module="user" controller="privateVideos" action="index" />
       <route url="user/sc-private-photos-test/?" path="system/modules" module="user" controller="privatePhotos" action="index" />
       <route url="user/sc-private-videos-test/?" path="system/modules" module="user" controller="privateVideos" action="index" />
 

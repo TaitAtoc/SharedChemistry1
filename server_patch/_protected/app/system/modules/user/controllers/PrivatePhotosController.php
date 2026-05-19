@@ -49,6 +49,8 @@ class PrivatePhotosController extends Controller
 
         // Proof marker: when routing reaches this action, the page title is unique to the private manager.
         $this->view->page_title = $this->view->h1_title = t('SharedChemistry Private Photos Manager');
+        $this->view->realPhotoCount = 0;
+        $this->view->fallbackPhotoCount = 0;
         $aPrivatePhotos = $this->getPrivatePhotos($iProfileId, $sUsername);
         $aAccessMap = $this->getPrivateMediaAccessMap($iProfileId, 'photo');
 
@@ -56,7 +58,7 @@ class PrivatePhotosController extends Controller
         $this->view->privatePhotos = $aPrivatePhotos;
         $this->view->accessMap = $aAccessMap;
         $this->view->accessRecipients = $this->getAccessRecipients($iProfileId, 'photo', $aAccessMap);
-        $this->view->privateMediaDebug = 'owner_id=' . $iProfileId . ' photo_count=' . count($aPrivatePhotos) . ' access_count=' . count($aAccessMap);
+        $this->view->privateMediaDebug = 'owner_id=' . $iProfileId . ' photo_count=' . count($aPrivatePhotos) . ' real_photo_count=' . (int)$this->view->realPhotoCount . ' fallback_count=' . (int)$this->view->fallbackPhotoCount . ' access_count=' . count($aAccessMap);
         // pH7Builder lowercases PrivatePhotosController to views/base/tpl/privatephotos/index.tpl via output().
         $this->output();
     }
@@ -183,19 +185,31 @@ class PrivatePhotosController extends Controller
         }
 
         $aPhotos = [];
+        $iRealPhotoCount = 0;
+        $iFallbackCount = 0;
         foreach ($aRows as $oPhoto) {
             $sOriginalFile = (string)$oPhoto->file;
             $sThumbFile = str_replace('original', (string)self::PHOTO_THUMB_SIZE, $sOriginalFile);
             $sPhotoDir = PH7_PATH_PUBLIC_DATA_SYS_MOD . 'picture/img/' . $sUsername . PH7_DS . $oPhoto->albumId . PH7_DS;
             $sDisplayFile = is_file($sPhotoDir . $sThumbFile) ? $sThumbFile : $sOriginalFile;
+            $sUrl = $sDisplayFile !== '' ? PH7_URL_DATA_SYS_MOD . 'picture/img/' . $sUsername . PH7_SH . $oPhoto->albumId . PH7_SH . $sDisplayFile : '';
+
+            if ($sUrl !== '') {
+                $iRealPhotoCount++;
+            } else {
+                $iFallbackCount++;
+            }
 
             $aPhotos[] = (object)[
                 'id' => (int)$oPhoto->pictureId,
-                'url' => PH7_URL_DATA_SYS_MOD . 'picture/img/' . $sUsername . PH7_SH . $oPhoto->albumId . PH7_SH . $sDisplayFile,
+                'url' => $sUrl,
                 'hasAccess' => true,
-                'isMissing' => !is_file($sPhotoDir . $sDisplayFile)
+                'isMissing' => $sUrl === ''
             ];
         }
+
+        $this->view->realPhotoCount = $iRealPhotoCount;
+        $this->view->fallbackPhotoCount = $iFallbackCount;
 
         return $aPhotos;
     }

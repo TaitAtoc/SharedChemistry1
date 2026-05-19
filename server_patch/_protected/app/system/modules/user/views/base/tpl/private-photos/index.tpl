@@ -67,7 +67,7 @@ main#content{max-width:1180px!important;margin:0 auto!important;padding:132px 15
                 <div class="sc-private-media__gallery">
                     {each $photo in $privatePhotos}
                         <span class="sc-private-media__thumb">
-                            {if $photo->hasAccess AND empty($photo->isMissing)}
+                            {if $photo->hasAccess AND !empty($photo->url)}
                                 <img src="{% $photo->url %}" alt="{lang 'Private photo'}" loading="lazy" onerror="this.onerror=null;this.src='{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png';" />
                             {else}
                                 <img src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Missing private photo file'}" loading="lazy" />
