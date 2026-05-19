@@ -454,26 +454,6 @@
       .dropdown:hover > .dropdown-menu {
         display: block;
       }
-      @media screen and (min-width: 768px) {
-        .dropdown-submenu {
-          position: relative;
-        }
-        .navbar-nav > li > .dropdown-menu {
-          top: 100%;
-          left: 0;
-          z-index: 10000;
-        }
-        .dropdown-submenu > .dropdown-menu {
-          top: 0;
-          left: 100%;
-          margin-top: -8px;
-          margin-left: 0;
-          z-index: 10001;
-        }
-        .dropdown-submenu:hover > .dropdown-menu {
-          display: block;
-        }
-      }
       .dropdown-menu > li > a {
         display: block;
         padding: 9px 16px;

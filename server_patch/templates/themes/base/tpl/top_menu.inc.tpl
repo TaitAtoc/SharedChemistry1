@@ -179,7 +179,27 @@
             </li>
           </noscript>
 
-          <li class="dropdown">
+          <style type="text/css">
+            @media screen and (min-width: 768px) {
+              .sharedchemistry-account-menu .dropdown-submenu {
+                position: relative;
+              }
+              .sharedchemistry-account-menu > .dropdown-menu {
+                z-index: 10000;
+              }
+              .sharedchemistry-account-menu .dropdown-submenu > .dropdown-menu {
+                top: 0;
+                left: 100%;
+                margin-top: -8px;
+                margin-left: 0;
+                z-index: 10001;
+              }
+              .sharedchemistry-account-menu .dropdown-submenu:hover > .dropdown-menu {
+                display: block;
+              }
+            }
+          </style>
+          <li class="dropdown sharedchemistry-account-menu">
             <a href="{{ $design->url('user','account','index') }}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown">
               <i class="fa fa-cog"></i> {if $count_pen_friend_request}<span class="sharedchemistry-alert-text">{lang 'Account'}</span>{else}{lang 'Account'}{/if} <span class="caret"></span>
             </a>
