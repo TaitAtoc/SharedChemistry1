@@ -70,10 +70,9 @@ main#content{max-width:1180px!important;margin:0 auto!important;padding:132px 15
                 <div class="sc-private-media__gallery">
                     {each $photo in $privatePhotos}
                         <div class="sc-private-media__item">
-                            <!-- SC_PRIVATE_PHOTO_ITEM hasFileValue={% (int)$photo->hasFileValue %} usedThumb={% (int)$photo->usedThumb %} usedOriginal={% (int)$photo->usedOriginal %} usedFallback={% (int)$photo->usedFallback %} -->
                             <span class="sc-private-media__thumb">
                                 {if !empty($photo->url)}
-                                    <img src="{% $photo->url %}" data-original-url="{% $photo->originalUrl %}" alt="{lang 'Private photo'}" loading="lazy" onerror="if(this.dataset.originalUrl && this.dataset.triedOriginal !== '1' && this.src !== this.dataset.originalUrl){this.dataset.triedOriginal='1';this.src=this.dataset.originalUrl;}else{this.onerror=null;this.src='{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png';}" />
+                                    <img src="{% $photo->url %}" alt="{lang 'Private photo'}" loading="lazy" onerror="this.onerror=null;this.src='{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png';" />
                                 {else}
                                     <img src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Missing private photo file'}" loading="lazy" />
                                 {/if}
@@ -81,7 +80,7 @@ main#content{max-width:1180px!important;margin:0 auto!important;padding:132px 15
                             <form action="" method="post">
                                 <input type="hidden" name="security_token" value="{% $private_media_delete_csrf_token %}" />
                                 <input type="hidden" name="private_media_action" value="delete" />
-                                <input type="hidden" name="private_media_id" value="{% $photo->id %}" />
+                                <input type="hidden" name="media_id" value="{% $photo->media_id %}" />
                                 <button class="sc-private-media__delete" type="submit">{lang 'Delete'}</button>
                             </form>
                         </div>
@@ -119,4 +118,4 @@ main#content{max-width:1180px!important;margin:0 auto!important;padding:132px 15
         </section>
     </div>
 </div>
-<!-- SC_PRIVATE_PHOTOS_DEBUG {% $privateMediaDebug %} -->
+<!-- SC_PRIVATE_MEDIA_ITEMS_PHOTOS {% $privateMediaDebug %} -->

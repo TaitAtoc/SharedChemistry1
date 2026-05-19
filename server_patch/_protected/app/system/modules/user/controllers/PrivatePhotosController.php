@@ -5,7 +5,6 @@ namespace PH7;
 defined('PH7') or exit('Restricted access');
 
 use PH7\Framework\File\File;
-use PH7\Framework\Image\FileStorage as FileStorageImage;
 use PH7\Framework\Mvc\Model\Engine\Db;
 use PH7\Framework\Mvc\Router\Uri;
 use PH7\Framework\Security\CSRF\Token;
@@ -14,14 +13,12 @@ use PDO;
 
 class PrivatePhotosController extends Controller
 {
-    private const ALBUM_NAME = 'SharedChemistry Private Photos';
+    private const ITEMS_TABLE = 'private_media_items';
     private const ACCESS_TABLE = 'private_media_access';
     private const COUPLE_VERIFICATION_TABLE = 'couple_verifications';
     private const MAX_UPLOAD_BYTES = 10485760;
-    private const MAX_IMAGE_WIDTH = 2500;
-    private const MAX_IMAGE_HEIGHT = 2500;
-    private const PHOTO_THUMB_SIZE = 400;
     private const ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+    private const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
 
     public function index(): void
     {
@@ -30,7 +27,6 @@ class PrivatePhotosController extends Controller
         }
 
         $iProfileId = (int)$this->session->get('member_id');
-        $sUsername = (string)$this->session->get('member_username');
         $this->view->private_media_message = '';
         $this->view->private_media_error = '';
 
@@ -40,20 +36,18 @@ class PrivatePhotosController extends Controller
                 $this->view->private_media_error = Form::errorTokenMsg();
             } else {
                 if ($sAction === 'upload') {
-                    $this->handleUpload($iProfileId, $sUsername);
+                    $this->handleUpload($iProfileId);
                 } elseif ($sAction === 'permissions') {
                     $this->savePermissions($iProfileId, 'photo');
                 } elseif ($sAction === 'delete') {
-                    $this->deletePhoto($iProfileId, $sUsername);
+                    $this->deletePhoto($iProfileId);
                 }
             }
         }
 
         // Proof marker: when routing reaches this action, the page title is unique to the private manager.
         $this->view->page_title = $this->view->h1_title = t('SharedChemistry Private Photos Manager');
-        $this->view->realPhotoCount = 0;
-        $this->view->fallbackPhotoCount = 0;
-        $aPrivatePhotos = $this->getPrivatePhotos($iProfileId, $sUsername);
+        $aPrivatePhotos = $this->getPrivatePhotos($iProfileId);
         $aAccessMap = $this->getPrivateMediaAccessMap($iProfileId, 'photo');
 
         $oToken = new Token;
@@ -63,12 +57,11 @@ class PrivatePhotosController extends Controller
         $this->view->privatePhotos = $aPrivatePhotos;
         $this->view->accessMap = $aAccessMap;
         $this->view->accessRecipients = $this->getAccessRecipients($iProfileId, 'photo', $aAccessMap);
-        $this->view->privateMediaDebug = 'owner_id=' . $iProfileId . ' photo_count=' . count($aPrivatePhotos) . ' real_photo_count=' . (int)$this->view->realPhotoCount . ' fallback_count=' . (int)$this->view->fallbackPhotoCount . ' access_count=' . count($aAccessMap);
-        // pH7Builder lowercases PrivatePhotosController to views/base/tpl/privatephotos/index.tpl via output().
+        $this->view->privateMediaDebug = 'owner_id=' . $iProfileId . ' count=' . count($aPrivatePhotos) . ' access_count=' . count($aAccessMap);
         $this->output();
     }
 
-    private function handleUpload(int $iProfileId, string $sUsername): void
+    private function handleUpload(int $iProfileId): void
     {
         if (empty($_FILES['private_media_file']['tmp_name']) || !is_uploaded_file($_FILES['private_media_file']['tmp_name'])) {
             $this->view->private_media_error = t('Please choose a private photo to upload.');
@@ -87,101 +80,50 @@ class PrivatePhotosController extends Controller
             return;
         }
 
-        $iAlbumId = $this->getOrCreatePhotoAlbumId($iProfileId);
-        if ($iAlbumId < 1) {
-            $this->view->private_media_error = t('Private photo storage is not ready yet.');
-            return;
-        }
-
-        $oOriginal = new FileStorageImage(
-            $_FILES['private_media_file']['tmp_name'],
-            self::MAX_IMAGE_WIDTH,
-            self::MAX_IMAGE_HEIGHT
-        );
-        if (!$oOriginal->validate()) {
+        $sMimeType = $this->detectMimeType((string)$_FILES['private_media_file']['tmp_name']);
+        if ($sMimeType !== '' && !in_array($sMimeType, self::ALLOWED_MIME_TYPES, true)) {
             $this->view->private_media_error = t('Please upload a valid image file.');
             return;
         }
 
-        $sDir = PH7_PATH_PUBLIC_DATA_SYS_MOD . 'picture/img/' . $sUsername . PH7_DS . $iAlbumId . PH7_DS;
+        $sDir = $this->getPrivateMediaDir($iProfileId, 'photos');
         (new File)->createDir($sDir);
-        $sBaseName = 'private-photo-' . $iProfileId . '-' . time() . '-' . mt_rand(1000, 9999);
-        $sFileName = $sBaseName . '-original.' . $oOriginal->getExt();
+        $sFileName = $this->generatePrivateMediaFilename($iProfileId, 'photo', $sExt);
+        $sPublicPath = $this->getPrivateMediaPublicPath($iProfileId, 'photos', $sFileName);
 
-        if (!$oOriginal->save($sDir . $sFileName)) {
+        if (!move_uploaded_file($_FILES['private_media_file']['tmp_name'], $sDir . $sFileName)) {
             $this->view->private_media_error = t('Unable to save the uploaded private photo.');
             return;
         }
 
-        foreach ([self::PHOTO_THUMB_SIZE, 600, 800, 1000, 1200] as $iSize) {
-            $oSizedPhoto = clone $oOriginal;
-            $oSizedPhoto->square($iSize);
-            $oSizedPhoto->save($sDir . $sBaseName . '-' . $iSize . '.' . $oOriginal->getExt());
-        }
-
         $rStmt = Db::getInstance()->prepare(
-            'INSERT INTO' . Db::prefix(DbTableName::PICTURE) .
-            '(profileId, albumId, title, description, file, file_cdn_url, createdDate, approved) ' .
-            'VALUES (:profileId, :albumId, :title, :description, :file, :fileCdnUrl, :createdDate, :approved)'
+            'INSERT INTO' . Db::prefix(self::ITEMS_TABLE) .
+            '(owner_id, media_type, filename, original_name, mime_type, file_size, public_path, created_at) ' .
+            'VALUES (:ownerId, :mediaType, :filename, :originalName, :mimeType, :fileSize, :publicPath, NOW())'
         );
-        $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
-        $rStmt->bindValue(':albumId', $iAlbumId, PDO::PARAM_INT);
-        $rStmt->bindValue(':title', 'Private Photo', PDO::PARAM_STR);
-        $rStmt->bindValue(':description', 'SharedChemistry private photo.', PDO::PARAM_STR);
-        $rStmt->bindValue(':file', $sFileName, PDO::PARAM_STR);
-        $rStmt->bindValue(':fileCdnUrl', '', PDO::PARAM_STR);
-        $rStmt->bindValue(':createdDate', date('Y-m-d H:i:s'), PDO::PARAM_STR);
-        $rStmt->bindValue(':approved', '1', PDO::PARAM_STR);
+        $rStmt->bindValue(':ownerId', $iProfileId, PDO::PARAM_INT);
+        $rStmt->bindValue(':mediaType', 'photo', PDO::PARAM_STR);
+        $rStmt->bindValue(':filename', $sFileName, PDO::PARAM_STR);
+        $rStmt->bindValue(':originalName', $this->cleanOriginalName($sOriginalName), PDO::PARAM_STR);
+        $rStmt->bindValue(':mimeType', $sMimeType, PDO::PARAM_STR);
+        $rStmt->bindValue(':fileSize', (int)$_FILES['private_media_file']['size'], PDO::PARAM_INT);
+        $rStmt->bindValue(':publicPath', $sPublicPath, PDO::PARAM_STR);
         $rStmt->execute();
         Db::free($rStmt);
 
         $this->view->private_media_message = t('Private photo uploaded.');
     }
 
-    private function getOrCreatePhotoAlbumId(int $iProfileId): int
-    {
-        $rStmt = Db::getInstance()->prepare(
-            'SELECT albumId FROM' . Db::prefix(DbTableName::ALBUM_PICTURE) .
-            'WHERE profileId = :profileId AND name = :name LIMIT 1'
-        );
-        $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
-        $rStmt->bindValue(':name', self::ALBUM_NAME, PDO::PARAM_STR);
-        $rStmt->execute();
-        $iAlbumId = (int)$rStmt->fetchColumn();
-        Db::free($rStmt);
-
-        if ($iAlbumId > 0) {
-            return $iAlbumId;
-        }
-
-        $rStmt = Db::getInstance()->prepare(
-            'INSERT INTO' . Db::prefix(DbTableName::ALBUM_PICTURE) .
-            '(profileId, name, description, thumb, createdDate, approved) VALUES(:profileId, :name, :description, :thumb, :createdDate, :approved)'
-        );
-        $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
-        $rStmt->bindValue(':name', self::ALBUM_NAME, PDO::PARAM_STR);
-        $rStmt->bindValue(':description', 'Private SharedChemistry photos.', PDO::PARAM_STR);
-        $rStmt->bindValue(':thumb', '', PDO::PARAM_STR);
-        $rStmt->bindValue(':createdDate', date('Y-m-d H:i:s'), PDO::PARAM_STR);
-        $rStmt->bindValue(':approved', '1', PDO::PARAM_STR);
-        $rStmt->execute();
-        Db::free($rStmt);
-
-        return (int)Db::getInstance()->lastInsertId();
-    }
-
-    private function getPrivatePhotos(int $iProfileId, string $sUsername): array
+    private function getPrivatePhotos(int $iProfileId): array
     {
         try {
             $rStmt = Db::getInstance()->prepare(
-                'SELECT p.* FROM' . Db::prefix(DbTableName::PICTURE) . 'AS p INNER JOIN' .
-                Db::prefix(DbTableName::ALBUM_PICTURE) . 'AS a ON p.albumId = a.albumId ' .
-                'WHERE p.profileId = :profileId AND a.profileId = :profileId AND a.name = :name AND p.approved = :approved ' .
-                'ORDER BY p.createdDate DESC, p.pictureId DESC'
+                'SELECT media_id, filename, original_name, mime_type, file_size, public_path, created_at FROM' .
+                Db::prefix(self::ITEMS_TABLE) .
+                'WHERE owner_id = :ownerId AND media_type = :mediaType ORDER BY created_at DESC, media_id DESC'
             );
-            $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
-            $rStmt->bindValue(':name', self::ALBUM_NAME, PDO::PARAM_STR);
-            $rStmt->bindValue(':approved', '1', PDO::PARAM_STR);
+            $rStmt->bindValue(':ownerId', $iProfileId, PDO::PARAM_INT);
+            $rStmt->bindValue(':mediaType', 'photo', PDO::PARAM_STR);
             $rStmt->execute();
             $aRows = $rStmt->fetchAll(PDO::FETCH_OBJ);
             Db::free($rStmt);
@@ -190,50 +132,20 @@ class PrivatePhotosController extends Controller
         }
 
         $aPhotos = [];
-        $iRealPhotoCount = 0;
-        $iFallbackCount = 0;
         foreach ($aRows as $oPhoto) {
-            $sOriginalFile = (string)$oPhoto->file;
-            $bHasFileValue = $sOriginalFile !== '';
-            $sThumbFile = $bHasFileValue ? str_replace('original', (string)self::PHOTO_THUMB_SIZE, $sOriginalFile) : '';
-            $sPhotoDir = PH7_PATH_PUBLIC_DATA_SYS_MOD . 'picture/img/' . $sUsername . PH7_DS . $oPhoto->albumId . PH7_DS;
-            // A private photo DB row with a file value should always render the uploaded original URL for the owner.
-            // The local thumbnail check is only used to prefer the generated 400 image when PHP can confirm it exists.
-            $sOriginalUrl = $bHasFileValue ? $this->getPrivatePhotoUrl($sUsername, (int)$oPhoto->albumId, $sOriginalFile) : '';
-            $sThumbUrl = $sThumbFile !== '' && is_file($sPhotoDir . $sThumbFile) ? $this->getPrivatePhotoUrl($sUsername, (int)$oPhoto->albumId, $sThumbFile) : '';
-            $sUrl = $sThumbUrl !== '' ? $sThumbUrl : $sOriginalUrl;
-            $bUsedThumb = $sThumbUrl !== '';
-            $bUsedOriginal = $sUrl !== '' && !$bUsedThumb;
-            $bUsedFallback = $sUrl === '';
-
-            if (!$bUsedFallback) {
-                $iRealPhotoCount++;
-            } else {
-                $iFallbackCount++;
-            }
-
             $aPhotos[] = (object)[
-                'id' => (int)$oPhoto->pictureId,
-                'url' => $sUrl,
-                'originalUrl' => $sOriginalUrl,
-                'hasFileValue' => $bHasFileValue,
-                'usedFallback' => $bUsedFallback,
-                'usedOriginal' => $bUsedOriginal,
-                'usedThumb' => $bUsedThumb,
+                'media_id' => (int)$oPhoto->media_id,
+                'id' => (int)$oPhoto->media_id,
+                'url' => (string)$oPhoto->public_path,
+                'original_name' => (string)$oPhoto->original_name,
+                'file_size' => (int)$oPhoto->file_size,
+                'created_at' => (string)$oPhoto->created_at,
                 'hasAccess' => true,
-                'isMissing' => $sUrl === ''
+                'isMissing' => (string)$oPhoto->public_path === ''
             ];
         }
 
-        $this->view->realPhotoCount = $iRealPhotoCount;
-        $this->view->fallbackPhotoCount = $iFallbackCount;
-
         return $aPhotos;
-    }
-
-    private function getPrivatePhotoUrl(string $sUsername, int $iAlbumId, string $sFileName): string
-    {
-        return PH7_URL_DATA_SYS_MOD . 'picture/img/' . $sUsername . PH7_SH . $iAlbumId . PH7_SH . rawurlencode($sFileName);
     }
 
     private function getTokenName(string $sAction): string
@@ -249,23 +161,22 @@ class PrivatePhotosController extends Controller
         return 'sc_private_photos_permissions';
     }
 
-    private function deletePhoto(int $iProfileId, string $sUsername): void
+    private function deletePhoto(int $iProfileId): void
     {
-        $iPictureId = (int)$this->httpRequest->post('private_media_id');
-        if ($iPictureId < 1) {
+        $iMediaId = (int)$this->httpRequest->post('media_id');
+        if ($iMediaId < 1) {
             $this->view->private_media_error = t('Private photo could not be deleted.');
             return;
         }
 
         try {
             $rStmt = Db::getInstance()->prepare(
-                'SELECT p.pictureId, p.albumId, p.file FROM' . Db::prefix(DbTableName::PICTURE) . 'AS p INNER JOIN' .
-                Db::prefix(DbTableName::ALBUM_PICTURE) . 'AS a ON p.albumId = a.albumId ' .
-                'WHERE p.pictureId = :pictureId AND p.profileId = :profileId AND a.profileId = :profileId AND a.name = :name LIMIT 1'
+                'SELECT media_id, filename, public_path FROM' . Db::prefix(self::ITEMS_TABLE) .
+                'WHERE media_id = :mediaId AND owner_id = :ownerId AND media_type = :mediaType LIMIT 1'
             );
-            $rStmt->bindValue(':pictureId', $iPictureId, PDO::PARAM_INT);
-            $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
-            $rStmt->bindValue(':name', self::ALBUM_NAME, PDO::PARAM_STR);
+            $rStmt->bindValue(':mediaId', $iMediaId, PDO::PARAM_INT);
+            $rStmt->bindValue(':ownerId', $iProfileId, PDO::PARAM_INT);
+            $rStmt->bindValue(':mediaType', 'photo', PDO::PARAM_STR);
             $rStmt->execute();
             $oPhoto = $rStmt->fetch(PDO::FETCH_OBJ);
             Db::free($rStmt);
@@ -276,35 +187,69 @@ class PrivatePhotosController extends Controller
             }
 
             $rStmt = Db::getInstance()->prepare(
-                'DELETE FROM' . Db::prefix(DbTableName::PICTURE) .
-                'WHERE pictureId = :pictureId AND profileId = :profileId AND albumId = :albumId'
+                'DELETE FROM' . Db::prefix(self::ITEMS_TABLE) .
+                'WHERE media_id = :mediaId AND owner_id = :ownerId AND media_type = :mediaType'
             );
-            $rStmt->bindValue(':pictureId', $iPictureId, PDO::PARAM_INT);
-            $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
-            $rStmt->bindValue(':albumId', (int)$oPhoto->albumId, PDO::PARAM_INT);
+            $rStmt->bindValue(':mediaId', $iMediaId, PDO::PARAM_INT);
+            $rStmt->bindValue(':ownerId', $iProfileId, PDO::PARAM_INT);
+            $rStmt->bindValue(':mediaType', 'photo', PDO::PARAM_STR);
             $rStmt->execute();
             Db::free($rStmt);
 
-            $this->deletePhotoFiles((int)$oPhoto->albumId, $sUsername, (string)$oPhoto->file);
+            $this->deletePrivateMediaFile($iProfileId, 'photos', (string)$oPhoto->filename);
             $this->view->private_media_message = t('Private photo deleted.');
         } catch (\Exception $oException) {
             $this->view->private_media_error = t('Private photo could not be deleted.');
         }
     }
 
-    private function deletePhotoFiles(int $iAlbumId, string $sUsername, string $sOriginalFile): void
+    protected function getPrivateMediaDir(int $iOwnerId, string $sFolder): string
     {
-        if ($iAlbumId < 1 || $sOriginalFile === '') {
+        return PH7_PATH_ROOT . 'data' . PH7_DS . 'sharedchemistry' . PH7_DS . 'private-media' . PH7_DS . $sFolder . PH7_DS . $iOwnerId . PH7_DS;
+    }
+
+    protected function getPrivateMediaPublicPath(int $iOwnerId, string $sFolder, string $sFileName): string
+    {
+        return '/data/sharedchemistry/private-media/' . $sFolder . '/' . $iOwnerId . '/' . rawurlencode($sFileName);
+    }
+
+    protected function generatePrivateMediaFilename(int $iOwnerId, string $sMediaType, string $sExt): string
+    {
+        return $sMediaType . '-' . $iOwnerId . '-' . time() . '-' . mt_rand(100000, 999999) . '.' . $sExt;
+    }
+
+    protected function cleanOriginalName(string $sOriginalName): string
+    {
+        $sOriginalName = basename($sOriginalName);
+        $sOriginalName = preg_replace('/[^A-Za-z0-9._ -]/', '', $sOriginalName);
+
+        return $sOriginalName !== '' ? $sOriginalName : 'upload';
+    }
+
+    protected function detectMimeType(string $sTmpPath): string
+    {
+        if (function_exists('finfo_open')) {
+            $rFinfo = finfo_open(FILEINFO_MIME_TYPE);
+            if ($rFinfo) {
+                $sMimeType = (string)finfo_file($rFinfo, $sTmpPath);
+                finfo_close($rFinfo);
+
+                return $sMimeType;
+            }
+        }
+
+        return function_exists('mime_content_type') ? (string)mime_content_type($sTmpPath) : '';
+    }
+
+    protected function deletePrivateMediaFile(int $iOwnerId, string $sFolder, string $sFileName): void
+    {
+        if ($iOwnerId < 1 || $sFileName === '') {
             return;
         }
 
-        $sDir = PH7_PATH_PUBLIC_DATA_SYS_MOD . 'picture/img/' . $sUsername . PH7_DS . $iAlbumId . PH7_DS;
-        foreach (['original', self::PHOTO_THUMB_SIZE, 600, 800, 1000, 1200] as $mSize) {
-            $sFile = $mSize === 'original' ? $sOriginalFile : str_replace('original', (string)$mSize, $sOriginalFile);
-            $sPath = $sDir . $sFile;
-            if (is_file($sPath)) {
-                @unlink($sPath);
-            }
+        $sPath = $this->getPrivateMediaDir($iOwnerId, $sFolder) . basename($sFileName);
+        if (is_file($sPath)) {
+            @unlink($sPath);
         }
     }
 

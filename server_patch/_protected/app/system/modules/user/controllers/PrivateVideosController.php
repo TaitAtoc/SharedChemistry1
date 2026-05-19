@@ -17,9 +17,10 @@ if (!class_exists(PrivatePhotosController::class)) {
 
 class PrivateVideosController extends PrivatePhotosController
 {
-    private const ALBUM_NAME = 'SharedChemistry Private Videos';
+    private const ITEMS_TABLE = 'private_media_items';
     private const MAX_UPLOAD_BYTES = 104857600;
     private const ALLOWED_EXTENSIONS = ['mp4', 'webm', 'mov', 'm4v'];
+    private const ALLOWED_MIME_TYPES = ['video/mp4', 'video/webm', 'video/quicktime', 'video/x-m4v'];
 
     public function index(): void
     {
@@ -38,16 +39,16 @@ class PrivateVideosController extends PrivatePhotosController
                 $this->view->private_media_error = Form::errorTokenMsg();
             } else {
                 if ($sAction === 'upload') {
-                    $this->handleVideoUpload($iProfileId, $sUsername);
+                    $this->handleVideoUpload($iProfileId);
                 } elseif ($sAction === 'permissions') {
                     $this->savePermissions($iProfileId, 'video');
                 } elseif ($sAction === 'delete') {
-                    $this->deleteVideo($iProfileId, $sUsername);
+                    $this->deleteVideo($iProfileId);
                 }
             }
         }
 
-        $aPrivateVideos = $this->getPrivateVideos($iProfileId, $sUsername);
+        $aPrivateVideos = $this->getPrivateVideos($iProfileId);
         $aAccessMap = $this->getPrivateMediaAccessMap($iProfileId, 'video');
 
         // Proof marker: when routing reaches this action, the page title is unique to the private manager.
@@ -59,12 +60,12 @@ class PrivateVideosController extends PrivatePhotosController
         $this->view->privateVideos = $aPrivateVideos;
         $this->view->accessMap = $aAccessMap;
         $this->view->accessRecipients = $this->getAccessRecipients($iProfileId, 'video', $aAccessMap);
-        $this->view->privateMediaDebug = 'owner_id=' . $iProfileId . ' video_count=' . count($aPrivateVideos) . ' access_count=' . count($aAccessMap);
+        $this->view->privateMediaDebug = 'owner_id=' . $iProfileId . ' count=' . count($aPrivateVideos) . ' access_count=' . count($aAccessMap);
         // pH7Builder lowercases PrivateVideosController to views/base/tpl/privatevideos/index.tpl via output().
         $this->output();
     }
 
-    private function handleVideoUpload(int $iProfileId, string $sUsername): void
+    private function handleVideoUpload(int $iProfileId): void
     {
         if (empty($_FILES['private_media_file']['tmp_name']) || !is_uploaded_file($_FILES['private_media_file']['tmp_name'])) {
             $this->view->private_media_error = t('Please choose a private video to upload.');
@@ -76,113 +77,56 @@ class PrivateVideosController extends PrivatePhotosController
             return;
         }
 
-        $sExt = strtolower((string)pathinfo((string)$_FILES['private_media_file']['name'], PATHINFO_EXTENSION));
+        $sOriginalName = (string)$_FILES['private_media_file']['name'];
+        $sExt = strtolower((string)pathinfo($sOriginalName, PATHINFO_EXTENSION));
         if (!in_array($sExt, self::ALLOWED_EXTENSIONS, true)) {
             $this->view->private_media_error = t('Please upload an MP4, WebM, MOV, or M4V video.');
             return;
         }
 
-        $iAlbumId = $this->getOrCreateVideoAlbumId($iProfileId);
-        if ($iAlbumId < 1) {
-            $this->view->private_media_error = t('Private video storage is not ready yet.');
+        $sMimeType = $this->detectMimeType((string)$_FILES['private_media_file']['tmp_name']);
+        if ($sMimeType !== '' && !in_array($sMimeType, self::ALLOWED_MIME_TYPES, true)) {
+            $this->view->private_media_error = t('Please upload a valid video file.');
             return;
         }
 
-        $sDir = PH7_PATH_PUBLIC_DATA_SYS_MOD . 'video/file/' . $sUsername . PH7_DS . $iAlbumId . PH7_DS;
+        $sDir = $this->getPrivateMediaDir($iProfileId, 'videos');
         (new File)->createDir($sDir);
-        $sFileName = 'private-video-' . $iProfileId . '-' . time() . '-' . mt_rand(1000, 9999) . '.' . $sExt;
+        $sFileName = $this->generatePrivateMediaFilename($iProfileId, 'video', $sExt);
+        $sPublicPath = $this->getPrivateMediaPublicPath($iProfileId, 'videos', $sFileName);
         if (!move_uploaded_file($_FILES['private_media_file']['tmp_name'], $sDir . $sFileName)) {
             $this->view->private_media_error = t('Unable to save the uploaded private video.');
             return;
         }
 
-        $this->insertVideoRow($iProfileId, $iAlbumId, $sFileName);
+        $rStmt = Db::getInstance()->prepare(
+            'INSERT INTO' . Db::prefix(self::ITEMS_TABLE) .
+            '(owner_id, media_type, filename, original_name, mime_type, file_size, public_path, created_at) ' .
+            'VALUES (:ownerId, :mediaType, :filename, :originalName, :mimeType, :fileSize, :publicPath, NOW())'
+        );
+        $rStmt->bindValue(':ownerId', $iProfileId, PDO::PARAM_INT);
+        $rStmt->bindValue(':mediaType', 'video', PDO::PARAM_STR);
+        $rStmt->bindValue(':filename', $sFileName, PDO::PARAM_STR);
+        $rStmt->bindValue(':originalName', $this->cleanOriginalName($sOriginalName), PDO::PARAM_STR);
+        $rStmt->bindValue(':mimeType', $sMimeType, PDO::PARAM_STR);
+        $rStmt->bindValue(':fileSize', (int)$_FILES['private_media_file']['size'], PDO::PARAM_INT);
+        $rStmt->bindValue(':publicPath', $sPublicPath, PDO::PARAM_STR);
+        $rStmt->execute();
+        Db::free($rStmt);
+
         $this->view->private_media_message = t('Private video uploaded.');
     }
 
-    private function getOrCreateVideoAlbumId(int $iProfileId): int
-    {
-        $rStmt = Db::getInstance()->prepare(
-            'SELECT albumId FROM' . Db::prefix(DbTableName::ALBUM_VIDEO) .
-            'WHERE profileId = :profileId AND name = :name LIMIT 1'
-        );
-        $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
-        $rStmt->bindValue(':name', self::ALBUM_NAME, PDO::PARAM_STR);
-        $rStmt->execute();
-        $iAlbumId = (int)$rStmt->fetchColumn();
-        Db::free($rStmt);
-
-        if ($iAlbumId > 0) {
-            return $iAlbumId;
-        }
-
-        $rStmt = Db::getInstance()->prepare(
-            'INSERT INTO' . Db::prefix(DbTableName::ALBUM_VIDEO) .
-            '(profileId, name, description, thumb, createdDate, approved) VALUES(:profileId, :name, :description, :thumb, :createdDate, :approved)'
-        );
-        $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
-        $rStmt->bindValue(':name', self::ALBUM_NAME, PDO::PARAM_STR);
-        $rStmt->bindValue(':description', 'Private SharedChemistry videos.', PDO::PARAM_STR);
-        $rStmt->bindValue(':thumb', '', PDO::PARAM_STR);
-        $rStmt->bindValue(':createdDate', date('Y-m-d H:i:s'), PDO::PARAM_STR);
-        $rStmt->bindValue(':approved', '1', PDO::PARAM_STR);
-        $rStmt->execute();
-        Db::free($rStmt);
-
-        return (int)Db::getInstance()->lastInsertId();
-    }
-
-    private function insertVideoRow(int $iProfileId, int $iAlbumId, string $sFileName): void
-    {
-        $aColumns = $this->getTableColumns(DbTableName::VIDEO);
-        $aValues = [
-            'profileId' => $iProfileId,
-            'albumId' => $iAlbumId,
-            'title' => 'Private Video',
-            'description' => 'SharedChemistry private video.',
-            'file' => $sFileName,
-            'file_cdn_url' => '',
-            'thumb' => '',
-            'createdDate' => date('Y-m-d H:i:s'),
-            'approved' => '1'
-        ];
-
-        $aInsertColumns = [];
-        $aInsertParams = [];
-        foreach ($aValues as $sColumn => $mValue) {
-            if (in_array($sColumn, $aColumns, true)) {
-                $aInsertColumns[] = $sColumn;
-                $aInsertParams[] = ':' . $sColumn;
-            }
-        }
-
-        if (empty($aInsertColumns)) {
-            return;
-        }
-
-        $rStmt = Db::getInstance()->prepare(
-            'INSERT INTO' . Db::prefix(DbTableName::VIDEO) .
-            '(' . implode(',', $aInsertColumns) . ') VALUES(' . implode(',', $aInsertParams) . ')'
-        );
-        foreach ($aInsertColumns as $sColumn) {
-            $rStmt->bindValue(':' . $sColumn, $aValues[$sColumn], is_int($aValues[$sColumn]) ? PDO::PARAM_INT : PDO::PARAM_STR);
-        }
-        $rStmt->execute();
-        Db::free($rStmt);
-    }
-
-    private function getPrivateVideos(int $iProfileId, string $sUsername): array
+    private function getPrivateVideos(int $iProfileId): array
     {
         try {
             $rStmt = Db::getInstance()->prepare(
-                'SELECT v.* FROM' . Db::prefix(DbTableName::VIDEO) . 'AS v INNER JOIN' .
-                Db::prefix(DbTableName::ALBUM_VIDEO) . 'AS a ON v.albumId = a.albumId ' .
-                'WHERE v.profileId = :profileId AND a.profileId = :profileId AND a.name = :name AND v.approved = :approved ' .
-                'ORDER BY v.createdDate DESC, v.videoId DESC'
+                'SELECT media_id, filename, original_name, mime_type, file_size, public_path, created_at FROM' .
+                Db::prefix(self::ITEMS_TABLE) .
+                'WHERE owner_id = :ownerId AND media_type = :mediaType ORDER BY created_at DESC, media_id DESC'
             );
-            $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
-            $rStmt->bindValue(':name', self::ALBUM_NAME, PDO::PARAM_STR);
-            $rStmt->bindValue(':approved', '1', PDO::PARAM_STR);
+            $rStmt->bindValue(':ownerId', $iProfileId, PDO::PARAM_INT);
+            $rStmt->bindValue(':mediaType', 'video', PDO::PARAM_STR);
             $rStmt->execute();
             $aRows = $rStmt->fetchAll(PDO::FETCH_OBJ);
             Db::free($rStmt);
@@ -193,8 +137,12 @@ class PrivateVideosController extends PrivatePhotosController
         $aVideos = [];
         foreach ($aRows as $oVideo) {
             $aVideos[] = (object)[
-                'id' => (int)$oVideo->videoId,
-                'url' => PH7_URL_DATA_SYS_MOD . 'video/file/' . $sUsername . PH7_SH . $oVideo->albumId . PH7_SH . $oVideo->file,
+                'media_id' => (int)$oVideo->media_id,
+                'id' => (int)$oVideo->media_id,
+                'url' => (string)$oVideo->public_path,
+                'original_name' => (string)$oVideo->original_name,
+                'file_size' => (int)$oVideo->file_size,
+                'created_at' => (string)$oVideo->created_at,
                 'hasAccess' => true
             ];
         }
@@ -215,23 +163,22 @@ class PrivateVideosController extends PrivatePhotosController
         return 'sc_private_videos_permissions';
     }
 
-    private function deleteVideo(int $iProfileId, string $sUsername): void
+    private function deleteVideo(int $iProfileId): void
     {
-        $iVideoId = (int)$this->httpRequest->post('private_media_id');
-        if ($iVideoId < 1) {
+        $iMediaId = (int)$this->httpRequest->post('media_id');
+        if ($iMediaId < 1) {
             $this->view->private_media_error = t('Private video could not be deleted.');
             return;
         }
 
         try {
             $rStmt = Db::getInstance()->prepare(
-                'SELECT v.videoId, v.albumId, v.file FROM' . Db::prefix(DbTableName::VIDEO) . 'AS v INNER JOIN' .
-                Db::prefix(DbTableName::ALBUM_VIDEO) . 'AS a ON v.albumId = a.albumId ' .
-                'WHERE v.videoId = :videoId AND v.profileId = :profileId AND a.profileId = :profileId AND a.name = :name LIMIT 1'
+                'SELECT media_id, filename, public_path FROM' . Db::prefix(self::ITEMS_TABLE) .
+                'WHERE media_id = :mediaId AND owner_id = :ownerId AND media_type = :mediaType LIMIT 1'
             );
-            $rStmt->bindValue(':videoId', $iVideoId, PDO::PARAM_INT);
-            $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
-            $rStmt->bindValue(':name', self::ALBUM_NAME, PDO::PARAM_STR);
+            $rStmt->bindValue(':mediaId', $iMediaId, PDO::PARAM_INT);
+            $rStmt->bindValue(':ownerId', $iProfileId, PDO::PARAM_INT);
+            $rStmt->bindValue(':mediaType', 'video', PDO::PARAM_STR);
             $rStmt->execute();
             $oVideo = $rStmt->fetch(PDO::FETCH_OBJ);
             Db::free($rStmt);
@@ -242,31 +189,19 @@ class PrivateVideosController extends PrivatePhotosController
             }
 
             $rStmt = Db::getInstance()->prepare(
-                'DELETE FROM' . Db::prefix(DbTableName::VIDEO) .
-                'WHERE videoId = :videoId AND profileId = :profileId AND albumId = :albumId'
+                'DELETE FROM' . Db::prefix(self::ITEMS_TABLE) .
+                'WHERE media_id = :mediaId AND owner_id = :ownerId AND media_type = :mediaType'
             );
-            $rStmt->bindValue(':videoId', $iVideoId, PDO::PARAM_INT);
-            $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
-            $rStmt->bindValue(':albumId', (int)$oVideo->albumId, PDO::PARAM_INT);
+            $rStmt->bindValue(':mediaId', $iMediaId, PDO::PARAM_INT);
+            $rStmt->bindValue(':ownerId', $iProfileId, PDO::PARAM_INT);
+            $rStmt->bindValue(':mediaType', 'video', PDO::PARAM_STR);
             $rStmt->execute();
             Db::free($rStmt);
 
-            $this->deleteVideoFile((int)$oVideo->albumId, $sUsername, (string)$oVideo->file);
+            $this->deletePrivateMediaFile($iProfileId, 'videos', (string)$oVideo->filename);
             $this->view->private_media_message = t('Private video deleted.');
         } catch (\Exception $oException) {
             $this->view->private_media_error = t('Private video could not be deleted.');
-        }
-    }
-
-    private function deleteVideoFile(int $iAlbumId, string $sUsername, string $sFileName): void
-    {
-        if ($iAlbumId < 1 || $sFileName === '') {
-            return;
-        }
-
-        $sPath = PH7_PATH_PUBLIC_DATA_SYS_MOD . 'video/file/' . $sUsername . PH7_DS . $iAlbumId . PH7_DS . $sFileName;
-        if (is_file($sPath)) {
-            @unlink($sPath);
         }
     }
 }
