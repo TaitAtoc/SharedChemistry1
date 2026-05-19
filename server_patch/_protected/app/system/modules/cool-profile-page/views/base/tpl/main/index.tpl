@@ -329,6 +329,7 @@
             {else}
                 <p class="sc-empty">{lang 'Private photo thumbnails will appear here when private media is available.'}</p>
             {/if}
+            <!-- Private Photos now links to the dedicated owner management page at /user/private-photos. -->
             {{ $private_photos_url = $design->url('user', 'private-photos', 'index') }}
             <a class="sc-profile-card-action" href="{% $private_photos_url %}">{lang 'Private Photos'}</a>
         </section>
@@ -356,6 +357,7 @@
             {else}
                 <p class="sc-empty">{lang 'Private video thumbnails will appear here when private media is available.'}</p>
             {/if}
+            <!-- Private Videos now links to the dedicated owner management page at /user/private-videos. -->
             {{ $private_videos_url = $design->url('user', 'private-videos', 'index') }}
             <a class="sc-profile-card-action" href="{% $private_videos_url %}">{lang 'Private Videos'}</a>
         </section>
