@@ -180,64 +180,64 @@
           </noscript>
 
           <li class="dropdown">
-            <a href="{{ $design->url('user','account','index') }}" title="{lang 'My Account'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown">
+            <a href="{{ $design->url('user','account','index') }}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown">
               <i class="fa fa-cog"></i> {if $count_pen_friend_request}<span class="sharedchemistry-alert-text">{lang 'Account'}</span>{else}{lang 'Account'}{/if} <span class="caret"></span>
             </a>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="{{ $design->url('user','setting','index') }}" title="{lang 'My Settings'}"><i class="fa fa-cog fa-fw"></i> {lang 'Edit Profile'}</a></li>
-              <li><a href="{% (new UserCore)->getProfileLink($username) %}" title="{lang 'See My Profile'}"><i class="fa fa-user fa-fw"></i> {lang 'See My Profile'}</a></li>
-              <li><a href="{{ $design->url('user','setting','avatar') }}" title="{lang 'Change Profile Photo'}"><i class="fa fa-upload"></i> {lang 'Profile Photo'}</a></li>
+              <li><a href="{{ $design->url('user','setting','index') }}"><i class="fa fa-cog fa-fw"></i> {lang 'Edit Profile'}</a></li>
+              <li><a href="{% (new UserCore)->getProfileLink($username) %}"><i class="fa fa-user fa-fw"></i> {lang 'See My Profile'}</a></li>
+              <li><a href="{{ $design->url('user','setting','avatar') }}"><i class="fa fa-upload"></i> {lang 'Profile Photo'}</a></li>
 
               {if $is_picture_enabled}
-                <li class="menu-item dropdown dropdown-submenu"><a href="{url_root}photo-gallery" title="{lang 'Photo Gallery'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown"><i class="fa fa-picture-o"></i> {lang 'Photos'}</a>
+                <li class="menu-item dropdown dropdown-submenu"><a href="{url_root}photo-gallery" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown"><i class="fa fa-picture-o"></i> {lang 'Photos'}</a>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="{{ $design->url('picture','main','addalbum') }}" title="{lang 'Add a Photo Album'}">{lang 'Add Photos'}</a></li>
-                    <li><a href="{{ $design->url('picture','main','albums',$username) }}" title="{lang 'My Photo Albums'}" data-load="ajax">{lang 'My Photos'}</a></li>
+                    <li><a href="{{ $design->url('picture','main','addalbum') }}">{lang 'Add Photos'}</a></li>
+                    <li><a href="{{ $design->url('picture','main','albums',$username) }}" data-load="ajax">{lang 'My Photos'}</a></li>
                   </ul>
                 </li>
               {/if}
 
               {if $is_video_enabled}
-                <li class="menu-item dropdown dropdown-submenu"><a href="{{ $design->url('video','main','index') }}" title="{lang 'Videos Gallery'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown" data-load="ajax"><i class="fa fa-youtube-play"></i> {lang 'Videos Gallery'}</a>
+                <li class="menu-item dropdown dropdown-submenu"><a href="{{ $design->url('video','main','index') }}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown" data-load="ajax"><i class="fa fa-youtube-play"></i> {lang 'Videos Gallery'}</a>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="{{ $design->url('video','main','addalbum') }}" title="{lang 'Add an Album'}">{lang 'Add an Album'}</a></li>
-                    <li><a href="{{ $design->url('video','main','albums',$username) }}" title="{lang 'My Albums'}" data-load="ajax">{lang 'My Albums'}</a></li>
+                    <li><a href="{{ $design->url('video','main','addalbum') }}">{lang 'Add an Album'}</a></li>
+                    <li><a href="{{ $design->url('video','main','albums',$username) }}" data-load="ajax">{lang 'My Albums'}</a></li>
                   </ul>
                 </li>
               {/if}
 
               {if $is_note_enabled}
-                <li class="menu-item dropdown dropdown-submenu"><a href="{{ $design->url('note','main','index') }}" title="{lang 'Notes'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown"><i class="fa fa-newspaper-o"></i> {lang 'Note'}</a>
+                <li class="menu-item dropdown dropdown-submenu"><a href="{{ $design->url('note','main','index') }}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown"><i class="fa fa-newspaper-o"></i> {lang 'Note'}</a>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="{{ $design->url('note','main','add') }}" title="{lang 'Add a Note'}">{lang 'Add a Note'}</a></li>
-                    <li><a href="{{ $design->url('note','main','author',$username) }}" title="{lang 'My Notes'}">{lang 'My Notes'}</a></li>
+                    <li><a href="{{ $design->url('note','main','add') }}">{lang 'Add a Note'}</a></li>
+                    <li><a href="{{ $design->url('note','main','author',$username) }}">{lang 'My Notes'}</a></li>
                   </ul>
                 </li>
               {/if}
 
               {if $is_friend_enabled}
                   <li class="menu-item dropdown dropdown-submenu">
-                    <a href="{{ $design->url('friend','main','index') }}" title="{lang 'Friends Manager'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown">
+                    <a href="{{ $design->url('friend','main','index') }}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown">
                       <i class="fa fa-users"></i> {if $count_pen_friend_request}<span class="sharedchemistry-alert-text">{lang 'Friends Manager'}</span>{else}{lang 'Friends Manager'}{/if} {if $count_pen_friend_request}<span class="badge">{count_pen_friend_request}</span>{/if}
                       </a>
                   <ul class="dropdown-menu" role="menu">
-                      <li><a href="{{ $design->url('friend','main','index') }}" title="{lang 'Friends List'}">{lang 'Friends List'}</a></li>
-                    <li><a href="{{ $design->url('friend','main','search',$username) }}" title="{lang 'Find a friend from my list'}">{lang 'Find a Friend'}</a></li>
+                      <li><a href="{{ $design->url('friend','main','index') }}">{lang 'Friends List'}</a></li>
+                    <li><a href="{{ $design->url('friend','main','search',$username) }}">{lang 'Find a Friend'}</a></li>
                   </ul>
                 </li>
               {/if}
 
               <li class="menu-item dropdown dropdown-submenu">
-                <a href="{{ $design->url('user','visitor','index') }}" title="{lang 'Who Visited My Profile'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown">
+                <a href="{{ $design->url('user','visitor','index') }}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown">
                   <i class="fa fa-eye"></i> {lang 'Who See Me'}
                 </a>
                 <ul class="dropdown-menu" role="menu">
-                  <li><a href="{{ $design->url('user','visitor','index') }}" title="{lang 'Who Visited My Profile'}">{lang 'Who See Me'}</a></li>
-                  <li><a href="{{ $design->url('user','visitor','search',$username) }}" title="{lang 'See who visited my profile'}">{lang 'Find Visitor(s)'}</a></li>
+                  <li><a href="{{ $design->url('user','visitor','index') }}">{lang 'Who See Me'}</a></li>
+                  <li><a href="{{ $design->url('user','visitor','search',$username) }}">{lang 'Find Visitor(s)'}</a></li>
                 </ul>
               </li>
 
-              <li><a href="{{ $design->url('user','main','logout') }}" title="{lang 'Logout'}"><i class="fa fa-sign-out"></i> {lang 'Logout'}</a></li>
+              <li><a href="{{ $design->url('user','main','logout') }}"><i class="fa fa-sign-out"></i> {lang 'Logout'}</a></li>
             </ul>
           </li>
 
