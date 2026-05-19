@@ -40,16 +40,21 @@ class PrivateVideosController extends PrivatePhotosController
                 if ($sAction === 'upload') {
                     $this->handleVideoUpload($iProfileId, $sUsername);
                 } elseif ($sAction === 'permissions') {
-                    $this->saveVideoPermissions($iProfileId);
+                    $this->savePermissions($iProfileId, 'video');
                 }
             }
         }
 
+        $aPrivateVideos = $this->getPrivateVideos($iProfileId, $sUsername);
+        $aAccessMap = $this->getPrivateMediaAccessMap($iProfileId, 'video');
+
         // Proof marker: when routing reaches this action, the page title is unique to the private manager.
         $this->view->page_title = $this->view->h1_title = t('SharedChemistry Private Videos Manager');
         $this->view->private_media_csrf_token = (new Token)->generate('sc_private_videos');
-        $this->view->privateVideos = $this->getPrivateVideos($iProfileId, $sUsername);
-        $this->view->accessRecipients = $this->getAccessRecipients($iProfileId, 'video');
+        $this->view->privateVideos = $aPrivateVideos;
+        $this->view->accessMap = $aAccessMap;
+        $this->view->accessRecipients = $this->getAccessRecipients($iProfileId, 'video', $aAccessMap);
+        $this->view->privateMediaDebug = 'owner_id=' . $iProfileId . ' video_count=' . count($aPrivateVideos) . ' access_count=' . count($aAccessMap);
         // pH7Builder lowercases PrivateVideosController to views/base/tpl/privatevideos/index.tpl via output().
         $this->output();
     }
@@ -190,30 +195,5 @@ class PrivateVideosController extends PrivatePhotosController
         }
 
         return $aVideos;
-    }
-
-    private function saveVideoPermissions(int $iProfileId): void
-    {
-        $aEligibleIds = array_fill_keys($this->getRecipientIds($iProfileId), true);
-        $aPosted = $this->httpRequest->postExists('private_media_access') ? $this->httpRequest->post('private_media_access', \PH7\Framework\Mvc\Request\Http::NO_CLEAN) : [];
-        $aPosted = is_array($aPosted) ? $aPosted : [];
-        $aMediaIds = [];
-        foreach ($this->getPrivateVideos($iProfileId, (string)$this->session->get('member_username')) as $oVideo) {
-            $aMediaIds[] = (int)$oVideo->id;
-        }
-
-        foreach (array_keys($aEligibleIds) as $iRecipientId) {
-            $iRecipientId = (int)$iRecipientId;
-            $bAllowed = isset($aPosted[$iRecipientId]['video']) && (string)$aPosted[$iRecipientId]['video'] === '1';
-            if ($bAllowed) {
-                foreach ($aMediaIds as $iMediaId) {
-                    $this->insertAccess($iProfileId, $iRecipientId, 'video', $iMediaId);
-                }
-            } else {
-                $this->deleteAccess($iProfileId, $iRecipientId, 'video');
-            }
-        }
-
-        $this->view->private_media_message = t('Private video permissions updated.');
     }
 }

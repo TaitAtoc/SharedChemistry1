@@ -33,6 +33,7 @@ main#content{max-width:1180px!important;margin:0 auto!important;padding:132px 15
 
 <!-- Template variables:
      $privatePhotos: owner gallery items with url and hasAccess properties.
+     $accessMap: database-backed access rows keyed by viewer_id for checked-state persistence.
      $accessRecipients: friend/verified-friend rows with profileId, displayName, and photoAccess.
      Locked public-profile rendering is handled elsewhere; this owner page only exposes URLs to the owner. -->
 <div class="sc-private-media">
@@ -66,10 +67,10 @@ main#content{max-width:1180px!important;margin:0 auto!important;padding:132px 15
                 <div class="sc-private-media__gallery">
                     {each $photo in $privatePhotos}
                         <span class="sc-private-media__thumb">
-                            {if $photo->hasAccess}
+                            {if $photo->hasAccess AND empty($photo->isMissing)}
                                 <img src="{% $photo->url %}" alt="{lang 'Private photo'}" loading="lazy" onerror="this.onerror=null;this.src='{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png';" />
                             {else}
-                                <img src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Locked private photo'}" loading="lazy" />
+                                <img src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Missing private photo file'}" loading="lazy" />
                             {/if}
                         </span>
                     {/each}
@@ -93,7 +94,7 @@ main#content{max-width:1180px!important;margin:0 auto!important;padding:132px 15
                                 <!-- Photo access for profile ID {% $recipient->profileId %}. Field: private_media_access[{% $recipient->profileId %}][photo]. -->
                                 <label class="sc-private-access-toggle" for="private_photo_access_{% $recipient->profileId %}">
                                     <span>{lang 'Allow Private Media Access'}</span>
-                                    <input id="private_photo_access_{% $recipient->profileId %}" type="checkbox" name="private_media_access[{% $recipient->profileId %}][photo]" value="1" {if $recipient->photoAccess}checked="checked"{/if} />
+                                    <input id="private_photo_access_{% $recipient->profileId %}" type="checkbox" name="private_media_access[{% $recipient->profileId %}][photo]" value="1" {if isset($accessMap[$recipient->profileId])}checked="checked"{/if} />
                                 </label>
                             </div>
                         {/each}
@@ -106,3 +107,4 @@ main#content{max-width:1180px!important;margin:0 auto!important;padding:132px 15
         </section>
     </div>
 </div>
+<!-- SC_PRIVATE_PHOTOS_DEBUG {% $privateMediaDebug %} -->

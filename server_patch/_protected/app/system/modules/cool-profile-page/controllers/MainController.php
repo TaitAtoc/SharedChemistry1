@@ -558,12 +558,11 @@ class MainController extends ProfileBaseController
             return [];
         }
 
-        $aAllowedMediaIds = $this->getAllowedPrivateMediaIds($iProfileId, $iViewerProfileId, $sMediaType);
+        $bAccessGranted = $this->hasPrivateMediaAccess($iProfileId, $iViewerProfileId, $sMediaType);
         $aViewRows = [];
 
         foreach ($aMediaRows as $oMedia) {
-            $iMediaId = $this->getPrivateMediaId($oMedia, $sMediaType);
-            $bHasAccess = $bAutomaticAccess || isset($aAllowedMediaIds[$iMediaId]);
+            $bHasAccess = $bAutomaticAccess || $bAccessGranted;
 
             $aViewRows[] = (object)[
                 'url' => $bHasAccess ? $this->getPrivateMediaUrl($oMedia, $sMediaType, $sUsername) : '',
@@ -592,37 +591,27 @@ class MainController extends ProfileBaseController
         return false;
     }
 
-    private function getAllowedPrivateMediaIds(int $iProfileId, int $iViewerProfileId, string $sMediaType): array
+    private function hasPrivateMediaAccess(int $iProfileId, int $iViewerProfileId, string $sMediaType): bool
     {
         if (!$this->bUserAuth || $iProfileId < 1 || $iViewerProfileId < 1) {
-            return [];
-        }
-
-        $aColumns = $this->getPrivateMediaAccessColumns($sMediaType);
-        if (empty($aColumns['owner']) || empty($aColumns['viewer']) || empty($aColumns['mediaId'])) {
-            return [];
+            return false;
         }
 
         try {
-            $sSql = 'SELECT ' . $aColumns['mediaId'] . ' FROM' . Db::prefix(self::PRIVATE_MEDIA_ACCESS_TABLE) .
-                'WHERE ' . $aColumns['owner'] . ' = :profileId AND ' . $aColumns['viewer'] . ' = :viewerProfileId';
-            if (!empty($aColumns['mediaType'])) {
-                $sSql .= ' AND ' . $aColumns['mediaType'] . ' = :mediaType';
-            }
-
-            $rStmt = Db::getInstance()->prepare($sSql);
+            $rStmt = Db::getInstance()->prepare(
+                'SELECT COUNT(*) FROM' . Db::prefix(self::PRIVATE_MEDIA_ACCESS_TABLE) .
+                'WHERE owner_id = :profileId AND viewer_id = :viewerProfileId AND media_type = :mediaType'
+            );
             $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
             $rStmt->bindValue(':viewerProfileId', $iViewerProfileId, PDO::PARAM_INT);
-            if (!empty($aColumns['mediaType'])) {
-                $rStmt->bindValue(':mediaType', $sMediaType, PDO::PARAM_STR);
-            }
+            $rStmt->bindValue(':mediaType', $sMediaType, PDO::PARAM_STR);
             $rStmt->execute();
-            $aIds = array_map('intval', $rStmt->fetchAll(PDO::FETCH_COLUMN));
+            $bHasAccess = (int)$rStmt->fetchColumn() > 0;
             Db::free($rStmt);
 
-            return array_fill_keys($aIds, true);
+            return $bHasAccess;
         } catch (\Exception $oException) {
-            return [];
+            return false;
         }
     }
 
@@ -684,8 +673,12 @@ class MainController extends ProfileBaseController
                 return (string)$oMedia->file_cdn_url;
             }
 
-            return PH7_URL_DATA_SYS_MOD . 'picture/img/' . $sUsername . PH7_SH . $oMedia->albumId . PH7_SH .
-                str_replace('original', '400', (string)$oMedia->file);
+            $sOriginalFile = (string)$oMedia->file;
+            $sThumbFile = str_replace('original', '400', $sOriginalFile);
+            $sPhotoDir = PH7_PATH_PUBLIC_DATA_SYS_MOD . 'picture/img/' . $sUsername . PH7_DS . $oMedia->albumId . PH7_DS;
+            $sDisplayFile = is_file($sPhotoDir . $sThumbFile) ? $sThumbFile : $sOriginalFile;
+
+            return PH7_URL_DATA_SYS_MOD . 'picture/img/' . $sUsername . PH7_SH . $oMedia->albumId . PH7_SH . $sDisplayFile;
         }
 
         if (!empty($oMedia->thumb_cdn_url)) {

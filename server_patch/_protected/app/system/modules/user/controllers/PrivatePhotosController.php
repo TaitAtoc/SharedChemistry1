@@ -5,6 +5,7 @@ namespace PH7;
 defined('PH7') or exit('Restricted access');
 
 use PH7\Framework\File\File;
+use PH7\Framework\Image\FileStorage as FileStorageImage;
 use PH7\Framework\Mvc\Model\Engine\Db;
 use PH7\Framework\Mvc\Router\Uri;
 use PH7\Framework\Security\CSRF\Token;
@@ -17,6 +18,9 @@ class PrivatePhotosController extends Controller
     private const ACCESS_TABLE = 'private_media_access';
     private const COUPLE_VERIFICATION_TABLE = 'couple_verifications';
     private const MAX_UPLOAD_BYTES = 10485760;
+    private const MAX_IMAGE_WIDTH = 2500;
+    private const MAX_IMAGE_HEIGHT = 2500;
+    private const PHOTO_THUMB_SIZE = 400;
     private const ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
 
     public function index(): void
@@ -45,9 +49,14 @@ class PrivatePhotosController extends Controller
 
         // Proof marker: when routing reaches this action, the page title is unique to the private manager.
         $this->view->page_title = $this->view->h1_title = t('SharedChemistry Private Photos Manager');
+        $aPrivatePhotos = $this->getPrivatePhotos($iProfileId, $sUsername);
+        $aAccessMap = $this->getPrivateMediaAccessMap($iProfileId, 'photo');
+
         $this->view->private_media_csrf_token = (new Token)->generate('sc_private_photos');
-        $this->view->privatePhotos = $this->getPrivatePhotos($iProfileId, $sUsername);
-        $this->view->accessRecipients = $this->getAccessRecipients($iProfileId, 'photo');
+        $this->view->privatePhotos = $aPrivatePhotos;
+        $this->view->accessMap = $aAccessMap;
+        $this->view->accessRecipients = $this->getAccessRecipients($iProfileId, 'photo', $aAccessMap);
+        $this->view->privateMediaDebug = 'owner_id=' . $iProfileId . ' photo_count=' . count($aPrivatePhotos) . ' access_count=' . count($aAccessMap);
         // pH7Builder lowercases PrivatePhotosController to views/base/tpl/privatephotos/index.tpl via output().
         $this->output();
     }
@@ -77,12 +86,30 @@ class PrivatePhotosController extends Controller
             return;
         }
 
+        $oOriginal = new FileStorageImage(
+            $_FILES['private_media_file']['tmp_name'],
+            self::MAX_IMAGE_WIDTH,
+            self::MAX_IMAGE_HEIGHT
+        );
+        if (!$oOriginal->validate()) {
+            $this->view->private_media_error = t('Please upload a valid image file.');
+            return;
+        }
+
         $sDir = PH7_PATH_PUBLIC_DATA_SYS_MOD . 'picture/img/' . $sUsername . PH7_DS . $iAlbumId . PH7_DS;
         (new File)->createDir($sDir);
-        $sFileName = 'private-photo-' . $iProfileId . '-' . time() . '-' . mt_rand(1000, 9999) . '-original.' . $sExt;
-        if (!move_uploaded_file($_FILES['private_media_file']['tmp_name'], $sDir . $sFileName)) {
+        $sBaseName = 'private-photo-' . $iProfileId . '-' . time() . '-' . mt_rand(1000, 9999);
+        $sFileName = $sBaseName . '-original.' . $oOriginal->getExt();
+
+        if (!$oOriginal->save($sDir . $sFileName)) {
             $this->view->private_media_error = t('Unable to save the uploaded private photo.');
             return;
+        }
+
+        foreach ([self::PHOTO_THUMB_SIZE, 600, 800, 1000, 1200] as $iSize) {
+            $oSizedPhoto = clone $oOriginal;
+            $oSizedPhoto->square($iSize);
+            $oSizedPhoto->save($sDir . $sBaseName . '-' . $iSize . '.' . $oOriginal->getExt());
         }
 
         $rStmt = Db::getInstance()->prepare(
@@ -157,50 +184,46 @@ class PrivatePhotosController extends Controller
 
         $aPhotos = [];
         foreach ($aRows as $oPhoto) {
+            $sOriginalFile = (string)$oPhoto->file;
+            $sThumbFile = str_replace('original', (string)self::PHOTO_THUMB_SIZE, $sOriginalFile);
+            $sPhotoDir = PH7_PATH_PUBLIC_DATA_SYS_MOD . 'picture/img/' . $sUsername . PH7_DS . $oPhoto->albumId . PH7_DS;
+            $sDisplayFile = is_file($sPhotoDir . $sThumbFile) ? $sThumbFile : $sOriginalFile;
+
             $aPhotos[] = (object)[
                 'id' => (int)$oPhoto->pictureId,
-                'url' => PH7_URL_DATA_SYS_MOD . 'picture/img/' . $sUsername . PH7_SH . $oPhoto->albumId . PH7_SH . $oPhoto->file,
-                'hasAccess' => true
+                'url' => PH7_URL_DATA_SYS_MOD . 'picture/img/' . $sUsername . PH7_SH . $oPhoto->albumId . PH7_SH . $sDisplayFile,
+                'hasAccess' => true,
+                'isMissing' => !is_file($sPhotoDir . $sDisplayFile)
             ];
         }
 
         return $aPhotos;
     }
 
-    private function savePermissions(int $iProfileId, string $sMediaType): void
+    protected function savePermissions(int $iProfileId, string $sMediaType): void
     {
-        $aEligibleIds = array_fill_keys($this->getRecipientIds($iProfileId), true);
+        $aEligibleIds = $this->getRecipientIds($iProfileId);
         $aPosted = $this->httpRequest->postExists('private_media_access') ? $this->httpRequest->post('private_media_access', \PH7\Framework\Mvc\Request\Http::NO_CLEAN) : [];
         $aPosted = is_array($aPosted) ? $aPosted : [];
-        $aMediaIds = $this->getPrivateMediaIds($iProfileId);
+        $aSelectedIds = [];
 
-        foreach (array_keys($aEligibleIds) as $iRecipientId) {
+        foreach ($aEligibleIds as $iRecipientId) {
             $iRecipientId = (int)$iRecipientId;
-            $bAllowed = isset($aPosted[$iRecipientId][$sMediaType]) && (string)$aPosted[$iRecipientId][$sMediaType] === '1';
-            if ($bAllowed) {
-                foreach ($aMediaIds as $iMediaId) {
-                    $this->insertAccess($iProfileId, $iRecipientId, $sMediaType, $iMediaId);
-                }
-            } else {
-                $this->deleteAccess($iProfileId, $iRecipientId, $sMediaType);
+            if (isset($aPosted[$iRecipientId][$sMediaType]) && (string)$aPosted[$iRecipientId][$sMediaType] === '1') {
+                $aSelectedIds[] = $iRecipientId;
             }
         }
 
-        $this->view->private_media_message = t('Private photo permissions updated.');
+        $this->savePrivateMediaAccess($iProfileId, $aEligibleIds, $aSelectedIds, $sMediaType);
+        $this->view->private_media_message = $sMediaType === 'photo' ? t('Private photo permissions updated.') : t('Private video permissions updated.');
     }
 
-    private function getPrivateMediaIds(int $iProfileId): array
+    protected function getAccessRecipients(int $iProfileId, string $sMediaType, array $aAccessMap = []): array
     {
-        $aIds = [];
-        foreach ($this->getPrivatePhotos($iProfileId, (string)$this->session->get('member_username')) as $oPhoto) {
-            $aIds[] = (int)$oPhoto->id;
+        if (empty($aAccessMap)) {
+            $aAccessMap = $this->getPrivateMediaAccessMap($iProfileId, $sMediaType);
         }
 
-        return $aIds;
-    }
-
-    protected function getAccessRecipients(int $iProfileId, string $sMediaType): array
-    {
         $oUserModel = new UserModel;
         $aRecipients = [];
         foreach ($this->getRecipientIds($iProfileId) as $iRecipientId) {
@@ -212,8 +235,8 @@ class PrivatePhotosController extends Controller
             $aRecipients[] = (object)[
                 'profileId' => (int)$iRecipientId,
                 'displayName' => $oUser->username,
-                'photoAccess' => $this->hasAccess($iProfileId, (int)$iRecipientId, 'photo'),
-                'videoAccess' => $this->hasAccess($iProfileId, (int)$iRecipientId, 'video')
+                'photoAccess' => $sMediaType === 'photo' ? isset($aAccessMap[(int)$iRecipientId]) : $this->hasAccess($iProfileId, (int)$iRecipientId, 'photo'),
+                'videoAccess' => $sMediaType === 'video' ? isset($aAccessMap[(int)$iRecipientId]) : $this->hasAccess($iProfileId, (int)$iRecipientId, 'video')
             ];
         }
 
@@ -267,148 +290,65 @@ class PrivatePhotosController extends Controller
 
     protected function hasAccess(int $iProfileId, int $iRecipientId, string $sMediaType): bool
     {
-        $aColumns = $this->getAccessColumns($sMediaType);
-        if (empty($aColumns['owner']) || empty($aColumns['viewer'])) {
-            return false;
+        return isset($this->getPrivateMediaAccessMap($iProfileId, $sMediaType)[$iRecipientId]);
+    }
+
+    protected function getPrivateMediaAccessMap(int $iOwnerId, string $sMediaType): array
+    {
+        if ($iOwnerId < 1 || !in_array($sMediaType, ['photo', 'video'], true)) {
+            return [];
         }
 
         try {
-            $sSql = 'SELECT COUNT(*) FROM' . Db::prefix(self::ACCESS_TABLE) .
-                'WHERE ' . $aColumns['owner'] . ' = :profileId AND ' . $aColumns['viewer'] . ' = :recipientId';
-            if (!empty($aColumns['mediaType'])) {
-                $sSql .= ' AND ' . $aColumns['mediaType'] . ' = :mediaType';
-            }
-            $rStmt = Db::getInstance()->prepare($sSql);
-            $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
-            $rStmt->bindValue(':recipientId', $iRecipientId, PDO::PARAM_INT);
-            if (!empty($aColumns['mediaType'])) {
-                $rStmt->bindValue(':mediaType', $sMediaType, PDO::PARAM_STR);
-            }
+            $rStmt = Db::getInstance()->prepare(
+                'SELECT viewer_id FROM' . Db::prefix(self::ACCESS_TABLE) .
+                'WHERE owner_id = :ownerId AND media_type = :mediaType'
+            );
+            $rStmt->bindValue(':ownerId', $iOwnerId, PDO::PARAM_INT);
+            $rStmt->bindValue(':mediaType', $sMediaType, PDO::PARAM_STR);
             $rStmt->execute();
-            $bAccess = (int)$rStmt->fetchColumn() > 0;
+            $aViewerIds = array_map('intval', $rStmt->fetchAll(PDO::FETCH_COLUMN));
             Db::free($rStmt);
 
-            return $bAccess;
+            return array_fill_keys($aViewerIds, true);
         } catch (\Exception $oException) {
-            return false;
+            return [];
         }
     }
 
-    protected function insertAccess(int $iProfileId, int $iRecipientId, string $sMediaType, int $iMediaId): void
+    protected function savePrivateMediaAccess(int $iOwnerId, array $aEligibleViewerIds, array $aSelectedViewerIds, string $sMediaType): void
     {
-        if ($iRecipientId === $iProfileId || $this->hasMediaAccess($iProfileId, $iRecipientId, $sMediaType, $iMediaId)) {
-            return;
-        }
-
-        $aColumns = $this->getAccessColumns($sMediaType);
-        if (empty($aColumns['owner']) || empty($aColumns['viewer'])) {
-            return;
-        }
-
-        $aCols = [$aColumns['owner'], $aColumns['viewer']];
-        $aParams = [':profileId', ':recipientId'];
-        if (!empty($aColumns['mediaId'])) {
-            $aCols[] = $aColumns['mediaId'];
-            $aParams[] = ':mediaId';
-        }
-        if (!empty($aColumns['mediaType'])) {
-            $aCols[] = $aColumns['mediaType'];
-            $aParams[] = ':mediaType';
-        }
-        if (!empty($aColumns['createdAt'])) {
-            $aCols[] = $aColumns['createdAt'];
-            $aParams[] = 'NOW()';
-        }
+        $aEligibleMap = array_fill_keys(array_map('intval', $aEligibleViewerIds), true);
+        $aSelectedViewerIds = array_values(array_unique(array_map('intval', $aSelectedViewerIds)));
 
         try {
-            $rStmt = Db::getInstance()->prepare('INSERT INTO' . Db::prefix(self::ACCESS_TABLE) . '(' . implode(',', $aCols) . ') VALUES(' . implode(',', $aParams) . ')');
-            $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
-            $rStmt->bindValue(':recipientId', $iRecipientId, PDO::PARAM_INT);
-            if (!empty($aColumns['mediaId'])) {
-                $rStmt->bindValue(':mediaId', $iMediaId, PDO::PARAM_INT);
-            }
-            if (!empty($aColumns['mediaType'])) {
-                $rStmt->bindValue(':mediaType', $sMediaType, PDO::PARAM_STR);
-            }
+            $rStmt = Db::getInstance()->prepare(
+                'DELETE FROM' . Db::prefix(self::ACCESS_TABLE) .
+                'WHERE owner_id = :ownerId AND media_type = :mediaType'
+            );
+            $rStmt->bindValue(':ownerId', $iOwnerId, PDO::PARAM_INT);
+            $rStmt->bindValue(':mediaType', $sMediaType, PDO::PARAM_STR);
             $rStmt->execute();
             Db::free($rStmt);
+
+            foreach ($aSelectedViewerIds as $iViewerId) {
+                if ($iViewerId < 1 || $iViewerId === $iOwnerId || !isset($aEligibleMap[$iViewerId])) {
+                    continue;
+                }
+
+                $rStmt = Db::getInstance()->prepare(
+                    'INSERT INTO' . Db::prefix(self::ACCESS_TABLE) .
+                    '(owner_id, viewer_id, media_type, created_at) VALUES(:ownerId, :viewerId, :mediaType, NOW())'
+                );
+                $rStmt->bindValue(':ownerId', $iOwnerId, PDO::PARAM_INT);
+                $rStmt->bindValue(':viewerId', $iViewerId, PDO::PARAM_INT);
+                $rStmt->bindValue(':mediaType', $sMediaType, PDO::PARAM_STR);
+                $rStmt->execute();
+                Db::free($rStmt);
+            }
         } catch (\Exception $oException) {
             return;
         }
-    }
-
-    protected function hasMediaAccess(int $iProfileId, int $iRecipientId, string $sMediaType, int $iMediaId): bool
-    {
-        $aColumns = $this->getAccessColumns($sMediaType);
-        if (empty($aColumns['owner']) || empty($aColumns['viewer'])) {
-            return false;
-        }
-
-        try {
-            $sSql = 'SELECT COUNT(*) FROM' . Db::prefix(self::ACCESS_TABLE) .
-                'WHERE ' . $aColumns['owner'] . ' = :profileId AND ' . $aColumns['viewer'] . ' = :recipientId';
-            if (!empty($aColumns['mediaId'])) {
-                $sSql .= ' AND ' . $aColumns['mediaId'] . ' = :mediaId';
-            }
-            if (!empty($aColumns['mediaType'])) {
-                $sSql .= ' AND ' . $aColumns['mediaType'] . ' = :mediaType';
-            }
-            $rStmt = Db::getInstance()->prepare($sSql);
-            $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
-            $rStmt->bindValue(':recipientId', $iRecipientId, PDO::PARAM_INT);
-            if (!empty($aColumns['mediaId'])) {
-                $rStmt->bindValue(':mediaId', $iMediaId, PDO::PARAM_INT);
-            }
-            if (!empty($aColumns['mediaType'])) {
-                $rStmt->bindValue(':mediaType', $sMediaType, PDO::PARAM_STR);
-            }
-            $rStmt->execute();
-            $bAccess = (int)$rStmt->fetchColumn() > 0;
-            Db::free($rStmt);
-
-            return $bAccess;
-        } catch (\Exception $oException) {
-            return false;
-        }
-    }
-
-    protected function deleteAccess(int $iProfileId, int $iRecipientId, string $sMediaType): void
-    {
-        $aColumns = $this->getAccessColumns($sMediaType);
-        if (empty($aColumns['owner']) || empty($aColumns['viewer'])) {
-            return;
-        }
-
-        try {
-            $sSql = 'DELETE FROM' . Db::prefix(self::ACCESS_TABLE) .
-                'WHERE ' . $aColumns['owner'] . ' = :profileId AND ' . $aColumns['viewer'] . ' = :recipientId';
-            if (!empty($aColumns['mediaType'])) {
-                $sSql .= ' AND ' . $aColumns['mediaType'] . ' = :mediaType';
-            }
-            $rStmt = Db::getInstance()->prepare($sSql);
-            $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
-            $rStmt->bindValue(':recipientId', $iRecipientId, PDO::PARAM_INT);
-            if (!empty($aColumns['mediaType'])) {
-                $rStmt->bindValue(':mediaType', $sMediaType, PDO::PARAM_STR);
-            }
-            $rStmt->execute();
-            Db::free($rStmt);
-        } catch (\Exception $oException) {
-            return;
-        }
-    }
-
-    protected function getAccessColumns(string $sMediaType): array
-    {
-        $aColumns = $this->getTableColumns(self::ACCESS_TABLE);
-
-        return [
-            'owner' => $this->firstColumn($aColumns, ['owner_profile_id', 'profile_id', 'profileId']),
-            'viewer' => $this->firstColumn($aColumns, ['viewer_profile_id', 'viewer_id', 'viewerId', 'member_id', 'memberId', 'friend_id', 'friendId']),
-            'mediaId' => $this->firstColumn($aColumns, $sMediaType === 'photo' ? ['media_id', 'mediaId', 'picture_id', 'pictureId'] : ['media_id', 'mediaId', 'video_id', 'videoId']),
-            'mediaType' => $this->firstColumn($aColumns, ['media_type', 'mediaType', 'type']),
-            'createdAt' => $this->firstColumn($aColumns, ['created_at', 'createdDate'])
-        ];
     }
 
     protected function getTableColumns(string $sTable): array

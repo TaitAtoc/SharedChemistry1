@@ -28,6 +28,7 @@ main#content{max-width:1180px!important;margin:0 auto!important;padding:132px 15
 
 <!-- Template variables:
      $privateVideos: owner gallery items with url and hasAccess properties.
+     $accessMap: database-backed access rows keyed by viewer_id for checked-state persistence.
      $accessRecipients: friend/verified-friend rows with profileId, displayName, and videoAccess.
      Private video URLs are only rendered here for the owner; public locked states use fallback media in the profile template. -->
 <div class="sc-private-media">
@@ -82,7 +83,7 @@ main#content{max-width:1180px!important;margin:0 auto!important;padding:132px 15
                                 <!-- Video access for profile ID {% $recipient->profileId %}. Field: private_media_access[{% $recipient->profileId %}][video]. -->
                                 <label class="sc-private-access-toggle" for="private_video_access_{% $recipient->profileId %}">
                                     <span>{lang 'Allow Private Media Access'}</span>
-                                    <input id="private_video_access_{% $recipient->profileId %}" type="checkbox" name="private_media_access[{% $recipient->profileId %}][video]" value="1" {if $recipient->videoAccess}checked="checked"{/if} />
+                                    <input id="private_video_access_{% $recipient->profileId %}" type="checkbox" name="private_media_access[{% $recipient->profileId %}][video]" value="1" {if isset($accessMap[$recipient->profileId])}checked="checked"{/if} />
                                 </label>
                             </div>
                         {/each}
@@ -95,3 +96,4 @@ main#content{max-width:1180px!important;margin:0 auto!important;padding:132px 15
         </section>
     </div>
 </div>
+<!-- SC_PRIVATE_VIDEOS_DEBUG {% $privateMediaDebug %} -->
