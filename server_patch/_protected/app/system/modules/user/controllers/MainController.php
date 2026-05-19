@@ -36,6 +36,11 @@ class MainController extends Controller
             return;
         }
 
+        if (UserCore::auth() && $this->isSharedChemistryGenericHomeRequest()) {
+            Header::redirect(Uri::get('user-dashboard', 'main', 'index'));
+            return;
+        }
+
         /**
          * @internal We don't have to put the title here as it's the homepage, so it's the default title that is used.
          */
@@ -110,6 +115,19 @@ class MainController extends Controller
         }
 
         return false;
+    }
+
+    /**
+     * SharedChemistry uses the dedicated dashboard for authenticated members.
+     * Keep guests on the normal landing page, but prevent the legacy pH7 member
+     * homepage from rendering when a signed-in couple visits the site root.
+     */
+    private function isSharedChemistryGenericHomeRequest(): bool
+    {
+        $sPath = (string)parse_url((string)($_SERVER['REQUEST_URI'] ?? ''), PHP_URL_PATH);
+        $sPath = trim($sPath, '/');
+
+        return $sPath === '' || $sPath === 'user' || $sPath === 'user/main' || $sPath === 'user/main/index';
     }
 
     public function login(): void
