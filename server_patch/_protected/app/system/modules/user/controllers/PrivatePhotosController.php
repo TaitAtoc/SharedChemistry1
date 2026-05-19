@@ -193,7 +193,9 @@ class PrivatePhotosController extends Controller
             $sOriginalFile = (string)$oPhoto->file;
             $sThumbFile = str_replace('original', (string)self::PHOTO_THUMB_SIZE, $sOriginalFile);
             $sPhotoDir = PH7_PATH_PUBLIC_DATA_SYS_MOD . 'picture/img/' . $sUsername . PH7_DS . $oPhoto->albumId . PH7_DS;
-            $sOriginalUrl = $sOriginalFile !== '' && is_file($sPhotoDir . $sOriginalFile) ? $this->getPrivatePhotoUrl($sUsername, (int)$oPhoto->albumId, $sOriginalFile) : '';
+            // A private photo DB row with a file value should always render the uploaded original URL for the owner.
+            // The local thumbnail check is only used to prefer the generated 400 image when PHP can confirm it exists.
+            $sOriginalUrl = $sOriginalFile !== '' ? $this->getPrivatePhotoUrl($sUsername, (int)$oPhoto->albumId, $sOriginalFile) : '';
             $sThumbUrl = $sThumbFile !== '' && is_file($sPhotoDir . $sThumbFile) ? $this->getPrivatePhotoUrl($sUsername, (int)$oPhoto->albumId, $sThumbFile) : '';
             $sUrl = $sThumbUrl !== '' ? $sThumbUrl : $sOriginalUrl;
 
