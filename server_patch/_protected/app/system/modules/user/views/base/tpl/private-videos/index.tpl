@@ -1,3 +1,4 @@
+<!-- SC_PRIVATE_VIDEOS_TEMPLATE_LOADED -->
 {literal}
 <style>
 body,main#content{background:#101114!important}

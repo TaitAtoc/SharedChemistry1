@@ -1,3 +1,4 @@
+<!-- SC_PRIVATE_PHOTOS_TEMPLATE_LOADED -->
 {literal}
 <style>
 body,main#content{background:#101114!important}

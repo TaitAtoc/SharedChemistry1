@@ -22,9 +22,11 @@ if ($root === false) {
 }
 
 $cacheDirectories = [
+    'data/cache/pH7_cache',
     'data/cache/pH7tpl_compile',
     'data/cache/pH7tpl_cache',
     'data/cache/pH7_static',
+    '_protected/data/cache/pH7_cache',
     '_protected/data/cache/pH7tpl_compile',
     '_protected/data/cache/pH7tpl_cache',
     '_protected/data/cache/pH7_static',

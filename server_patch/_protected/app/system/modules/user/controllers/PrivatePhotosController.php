@@ -43,10 +43,12 @@ class PrivatePhotosController extends Controller
             }
         }
 
-        $this->view->page_title = $this->view->h1_title = t('Private Photos');
+        // Proof marker: when routing reaches this action, the page title is unique to the private manager.
+        $this->view->page_title = $this->view->h1_title = t('SharedChemistry Private Photos Manager');
         $this->view->private_media_csrf_token = (new Token)->generate('sc_private_photos');
         $this->view->privatePhotos = $this->getPrivatePhotos($iProfileId, $sUsername);
         $this->view->accessRecipients = $this->getAccessRecipients($iProfileId, 'photo');
+        // pH7Builder resolves this action to views/base/tpl/private-photos/index.tpl via output().
         $this->output();
     }
 
