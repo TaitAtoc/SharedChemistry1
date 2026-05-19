@@ -183,9 +183,9 @@
                 <p>{lang 'Add private photos and videos you only share by choice.'}</p>
                 <div class="sc-dashboard-actions">
                     <!-- Private Photos now links to the dedicated owner management page at /user/private-photos. -->
-                    <a class="sc-dashboard-button" href="{{ $design->url('user', 'private-photos', 'index') }}">{lang 'Private Photos'}</a>
+                    <a class="sc-dashboard-button" href="/user/private-photos">{lang 'Private Photos'}</a>
                     <!-- Private Videos now links to the dedicated owner management page at /user/private-videos. -->
-                    <a class="sc-dashboard-button" href="{{ $design->url('user', 'private-videos', 'index') }}">{lang 'Private Videos'}</a>
+                    <a class="sc-dashboard-button" href="/user/private-videos">{lang 'Private Videos'}</a>
                 </div>
             </div>
         </div>
