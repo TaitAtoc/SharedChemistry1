@@ -13,6 +13,8 @@ class Permission extends PermissionCore
         'AccountController',
         'BrowseController',
         'ProfileController',
+        'PrivatePhotosController',
+        'PrivateVideosController',
         'SearchController',
         'SettingController',
         'VisitorController',
