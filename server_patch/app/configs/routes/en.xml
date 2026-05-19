@@ -20,8 +20,10 @@
       <route url="user/edit/?([0-9]+)?" path="system/modules" module="user" controller="setting" action="edit" vars="profile_id" />
       <route url="user/avatar/?([0-9]+)?/?([a-zA-Z0-9_-]+)?/?([^/]+)?/?([a-z]+)?" path="system/modules" module="user" controller="setting" action="avatar" vars="profile_id,username,first_name,sex" />
       <route url="user/design/?([0-9]+)?/?([a-zA-Z0-9_-]+)?/?([^/]+)?/?([a-z]+)?" path="system/modules" module="user" controller="setting" action="design" vars="profile_id,username,first_name,sex" />
-      <route url="user/private-photos/?" path="system/modules" module="user" controller="private-photos" action="index" />
-      <route url="user/private-videos/?" path="system/modules" module="user" controller="private-videos" action="index" />
+      <route url="user/private-photos/?" path="system/modules" module="user" controller="privatePhotos" action="index" />
+      <route url="user/private-videos/?" path="system/modules" module="user" controller="privateVideos" action="index" />
+      <route url="user/sc-private-photos-test/?" path="system/modules" module="user" controller="privatePhotos" action="index" />
+      <route url="user/sc-private-videos-test/?" path="system/modules" module="user" controller="privateVideos" action="index" />
 
       <!-- search -->
       <route url="meet-people" path="system/modules" module="user" controller="browse" action="index" />

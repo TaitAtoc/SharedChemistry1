@@ -50,7 +50,7 @@ class PrivateVideosController extends PrivatePhotosController
         $this->view->private_media_csrf_token = (new Token)->generate('sc_private_videos');
         $this->view->privateVideos = $this->getPrivateVideos($iProfileId, $sUsername);
         $this->view->accessRecipients = $this->getAccessRecipients($iProfileId, 'video');
-        // pH7Builder resolves this action to views/base/tpl/private-videos/index.tpl via output().
+        // pH7Builder lowercases PrivateVideosController to views/base/tpl/privatevideos/index.tpl via output().
         $this->output();
     }
 
