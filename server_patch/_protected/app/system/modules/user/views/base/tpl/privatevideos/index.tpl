@@ -15,7 +15,10 @@ main#content{max-width:1180px!important;margin:0 auto!important;padding:132px 15
 .sc-private-media__notice{margin:0 0 14px;padding:11px 13px;border-radius:8px;background:rgba(70,214,111,.12);color:#b8f2c6}
 .sc-private-media__error{margin:0 0 14px;padding:11px 13px;border-radius:8px;background:rgba(216,76,89,.16);color:#ffc8ce}
 .sc-private-media__gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:16px}
+.sc-private-media__item{display:grid;gap:10px}
 .sc-private-media__video{display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:8px;background:#101114;object-fit:cover}
+.sc-private-media__delete{width:100%;min-height:36px;padding:8px 12px;border:1px solid rgba(236,8,104,.55);border-radius:8px;background:#202127;color:#f7f3ef;font-weight:800;cursor:pointer}
+.sc-private-media__delete:hover,.sc-private-media__delete:focus{background:#ec0868;color:#fff}
 .sc-private-media__empty{color:#8f8a88;font-style:italic}
 .sc-private-access-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}
 .sc-private-access-card{display:grid;gap:10px;padding:14px;border:1px solid rgba(247,243,239,.10);border-radius:8px;background:#101114}
@@ -57,11 +60,19 @@ main#content{max-width:1180px!important;margin:0 auto!important;padding:132px 15
             {if !empty($privateVideos)}
                 <div class="sc-private-media__gallery">
                     {each $video in $privateVideos}
-                        {if $video->hasAccess}
-                            <video class="sc-private-media__video" src="{% $video->url %}" controls="controls" preload="metadata"></video>
-                        {else}
-                            <img class="sc-private-media__video" src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Locked private video'}" loading="lazy" />
-                        {/if}
+                        <div class="sc-private-media__item">
+                            {if $video->hasAccess}
+                                <video class="sc-private-media__video" src="{% $video->url %}" controls="controls" preload="metadata"></video>
+                            {else}
+                                <img class="sc-private-media__video" src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Locked private video'}" loading="lazy" />
+                            {/if}
+                            <form action="" method="post">
+                                <input type="hidden" name="security_token" value="{% $private_media_csrf_token %}" />
+                                <input type="hidden" name="private_media_action" value="delete" />
+                                <input type="hidden" name="private_media_id" value="{% $video->id %}" />
+                                <button class="sc-private-media__delete" type="submit">{lang 'Delete'}</button>
+                            </form>
+                        </div>
                     {/each}
                 </div>
             {else}

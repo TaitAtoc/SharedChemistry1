@@ -43,6 +43,8 @@ class PrivatePhotosController extends Controller
                     $this->handleUpload($iProfileId, $sUsername);
                 } elseif ($sAction === 'permissions') {
                     $this->savePermissions($iProfileId, 'photo');
+                } elseif ($sAction === 'delete') {
+                    $this->deletePhoto($iProfileId, $sUsername);
                 }
             }
         }
@@ -191,8 +193,9 @@ class PrivatePhotosController extends Controller
             $sOriginalFile = (string)$oPhoto->file;
             $sThumbFile = str_replace('original', (string)self::PHOTO_THUMB_SIZE, $sOriginalFile);
             $sPhotoDir = PH7_PATH_PUBLIC_DATA_SYS_MOD . 'picture/img/' . $sUsername . PH7_DS . $oPhoto->albumId . PH7_DS;
-            $sDisplayFile = is_file($sPhotoDir . $sThumbFile) ? $sThumbFile : $sOriginalFile;
-            $sUrl = $sDisplayFile !== '' ? PH7_URL_DATA_SYS_MOD . 'picture/img/' . $sUsername . PH7_SH . $oPhoto->albumId . PH7_SH . $sDisplayFile : '';
+            $sOriginalUrl = $sOriginalFile !== '' && is_file($sPhotoDir . $sOriginalFile) ? $this->getPrivatePhotoUrl($sUsername, (int)$oPhoto->albumId, $sOriginalFile) : '';
+            $sThumbUrl = $sThumbFile !== '' && is_file($sPhotoDir . $sThumbFile) ? $this->getPrivatePhotoUrl($sUsername, (int)$oPhoto->albumId, $sThumbFile) : '';
+            $sUrl = $sThumbUrl !== '' ? $sThumbUrl : $sOriginalUrl;
 
             if ($sUrl !== '') {
                 $iRealPhotoCount++;
@@ -203,6 +206,7 @@ class PrivatePhotosController extends Controller
             $aPhotos[] = (object)[
                 'id' => (int)$oPhoto->pictureId,
                 'url' => $sUrl,
+                'originalUrl' => $sOriginalUrl,
                 'hasAccess' => true,
                 'isMissing' => $sUrl === ''
             ];
@@ -212,6 +216,70 @@ class PrivatePhotosController extends Controller
         $this->view->fallbackPhotoCount = $iFallbackCount;
 
         return $aPhotos;
+    }
+
+    private function getPrivatePhotoUrl(string $sUsername, int $iAlbumId, string $sFileName): string
+    {
+        return PH7_URL_DATA_SYS_MOD . 'picture/img/' . $sUsername . PH7_SH . $iAlbumId . PH7_SH . rawurlencode($sFileName);
+    }
+
+    private function deletePhoto(int $iProfileId, string $sUsername): void
+    {
+        $iPictureId = (int)$this->httpRequest->post('private_media_id');
+        if ($iPictureId < 1) {
+            $this->view->private_media_error = t('Private photo could not be deleted.');
+            return;
+        }
+
+        try {
+            $rStmt = Db::getInstance()->prepare(
+                'SELECT p.pictureId, p.albumId, p.file FROM' . Db::prefix(DbTableName::PICTURE) . 'AS p INNER JOIN' .
+                Db::prefix(DbTableName::ALBUM_PICTURE) . 'AS a ON p.albumId = a.albumId ' .
+                'WHERE p.pictureId = :pictureId AND p.profileId = :profileId AND a.profileId = :profileId AND a.name = :name LIMIT 1'
+            );
+            $rStmt->bindValue(':pictureId', $iPictureId, PDO::PARAM_INT);
+            $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
+            $rStmt->bindValue(':name', self::ALBUM_NAME, PDO::PARAM_STR);
+            $rStmt->execute();
+            $oPhoto = $rStmt->fetch(PDO::FETCH_OBJ);
+            Db::free($rStmt);
+
+            if (!$oPhoto) {
+                $this->view->private_media_error = t('Private photo could not be found.');
+                return;
+            }
+
+            $rStmt = Db::getInstance()->prepare(
+                'DELETE FROM' . Db::prefix(DbTableName::PICTURE) .
+                'WHERE pictureId = :pictureId AND profileId = :profileId AND albumId = :albumId'
+            );
+            $rStmt->bindValue(':pictureId', $iPictureId, PDO::PARAM_INT);
+            $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
+            $rStmt->bindValue(':albumId', (int)$oPhoto->albumId, PDO::PARAM_INT);
+            $rStmt->execute();
+            Db::free($rStmt);
+
+            $this->deletePhotoFiles((int)$oPhoto->albumId, $sUsername, (string)$oPhoto->file);
+            $this->view->private_media_message = t('Private photo deleted.');
+        } catch (\Exception $oException) {
+            $this->view->private_media_error = t('Private photo could not be deleted.');
+        }
+    }
+
+    private function deletePhotoFiles(int $iAlbumId, string $sUsername, string $sOriginalFile): void
+    {
+        if ($iAlbumId < 1 || $sOriginalFile === '') {
+            return;
+        }
+
+        $sDir = PH7_PATH_PUBLIC_DATA_SYS_MOD . 'picture/img/' . $sUsername . PH7_DS . $iAlbumId . PH7_DS;
+        foreach (['original', self::PHOTO_THUMB_SIZE, 600, 800, 1000, 1200] as $mSize) {
+            $sFile = $mSize === 'original' ? $sOriginalFile : str_replace('original', (string)$mSize, $sOriginalFile);
+            $sPath = $sDir . $sFile;
+            if (is_file($sPath)) {
+                @unlink($sPath);
+            }
+        }
     }
 
     protected function savePermissions(int $iProfileId, string $sMediaType): void

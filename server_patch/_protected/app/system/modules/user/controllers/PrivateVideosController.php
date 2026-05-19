@@ -41,6 +41,8 @@ class PrivateVideosController extends PrivatePhotosController
                     $this->handleVideoUpload($iProfileId, $sUsername);
                 } elseif ($sAction === 'permissions') {
                     $this->savePermissions($iProfileId, 'video');
+                } elseif ($sAction === 'delete') {
+                    $this->deleteVideo($iProfileId, $sUsername);
                 }
             }
         }
@@ -195,5 +197,60 @@ class PrivateVideosController extends PrivatePhotosController
         }
 
         return $aVideos;
+    }
+
+    private function deleteVideo(int $iProfileId, string $sUsername): void
+    {
+        $iVideoId = (int)$this->httpRequest->post('private_media_id');
+        if ($iVideoId < 1) {
+            $this->view->private_media_error = t('Private video could not be deleted.');
+            return;
+        }
+
+        try {
+            $rStmt = Db::getInstance()->prepare(
+                'SELECT v.videoId, v.albumId, v.file FROM' . Db::prefix(DbTableName::VIDEO) . 'AS v INNER JOIN' .
+                Db::prefix(DbTableName::ALBUM_VIDEO) . 'AS a ON v.albumId = a.albumId ' .
+                'WHERE v.videoId = :videoId AND v.profileId = :profileId AND a.profileId = :profileId AND a.name = :name LIMIT 1'
+            );
+            $rStmt->bindValue(':videoId', $iVideoId, PDO::PARAM_INT);
+            $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
+            $rStmt->bindValue(':name', self::ALBUM_NAME, PDO::PARAM_STR);
+            $rStmt->execute();
+            $oVideo = $rStmt->fetch(PDO::FETCH_OBJ);
+            Db::free($rStmt);
+
+            if (!$oVideo) {
+                $this->view->private_media_error = t('Private video could not be found.');
+                return;
+            }
+
+            $rStmt = Db::getInstance()->prepare(
+                'DELETE FROM' . Db::prefix(DbTableName::VIDEO) .
+                'WHERE videoId = :videoId AND profileId = :profileId AND albumId = :albumId'
+            );
+            $rStmt->bindValue(':videoId', $iVideoId, PDO::PARAM_INT);
+            $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
+            $rStmt->bindValue(':albumId', (int)$oVideo->albumId, PDO::PARAM_INT);
+            $rStmt->execute();
+            Db::free($rStmt);
+
+            $this->deleteVideoFile((int)$oVideo->albumId, $sUsername, (string)$oVideo->file);
+            $this->view->private_media_message = t('Private video deleted.');
+        } catch (\Exception $oException) {
+            $this->view->private_media_error = t('Private video could not be deleted.');
+        }
+    }
+
+    private function deleteVideoFile(int $iAlbumId, string $sUsername, string $sFileName): void
+    {
+        if ($iAlbumId < 1 || $sFileName === '') {
+            return;
+        }
+
+        $sPath = PH7_PATH_PUBLIC_DATA_SYS_MOD . 'video/file/' . $sUsername . PH7_DS . $iAlbumId . PH7_DS . $sFileName;
+        if (is_file($sPath)) {
+            @unlink($sPath);
+        }
     }
 }
