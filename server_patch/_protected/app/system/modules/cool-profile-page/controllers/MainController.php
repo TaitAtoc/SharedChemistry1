@@ -151,12 +151,59 @@ class MainController extends ProfileBaseController
 
     public function privatePhotos(): void
     {
-        $this->renderPrivateMediaViewer('photo', 'privatephotos.tpl');
+        try {
+            $this->renderPrivateMediaViewer('photo', 'privatephotos.tpl');
+        } catch (\Throwable $e) {
+            $this->renderPrivateViewerDebugError($e);
+        }
     }
 
     public function privateVideos(): void
     {
-        $this->renderPrivateMediaViewer('video', 'privatevideos.tpl');
+        try {
+            $this->renderPrivateMediaViewer('video', 'privatevideos.tpl');
+        } catch (\Throwable $e) {
+            $this->renderPrivateViewerDebugError($e);
+        }
+    }
+
+    private function renderPrivateViewerDebugError(\Throwable $e): void
+    {
+        // SC_PRIVATE_VIEWER_DEBUG_V1_ACTIVE
+        if (!headers_sent() && function_exists('http_response_code')) {
+            http_response_code(500);
+        }
+
+        $sClass = get_class($e);
+        $sMessage = $this->sanitizePrivateViewerDebugValue($e->getMessage());
+        $sFile = $this->sanitizePrivateViewerDebugValue($e->getFile());
+        $iLine = (int)$e->getLine();
+        $sLogMessage = sprintf(
+            'SC_PRIVATE_VIEWER_DEBUG_ERROR Class: %s Message: %s File: %s Line: %d',
+            $sClass,
+            $sMessage,
+            $sFile,
+            $iLine
+        );
+
+        error_log($sLogMessage);
+
+        echo '<div style="background:#101114;color:#f7f3ef;padding:30px;font-family:Arial">';
+        echo '<h1>SC_PRIVATE_VIEWER_DEBUG_ERROR</h1>';
+        echo '<p>Class: ' . htmlspecialchars($sClass, ENT_QUOTES, 'UTF-8') . '</p>';
+        echo '<p>Message: ' . htmlspecialchars($sMessage, ENT_QUOTES, 'UTF-8') . '</p>';
+        echo '<p>File: ' . htmlspecialchars($sFile, ENT_QUOTES, 'UTF-8') . '</p>';
+        echo '<p>Line: ' . $iLine . '</p>';
+        echo '</div>';
+    }
+
+    private function sanitizePrivateViewerDebugValue(string $sValue): string
+    {
+        return (string)preg_replace(
+            '/((?:password|passwd|pwd|secret|token|key)\s*[=:]\s*)[^&\s;,"\']+/i',
+            '$1[redacted]',
+            $sValue
+        );
     }
 
     /**
