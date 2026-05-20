@@ -148,6 +148,39 @@
 
     {* Member menu *}
       {if $is_user_auth AND ( !$is_aff_auth AND !$is_admin_auth ) OR $admin_logged_as_user}
+          <!-- SC_LOGGED_IN_GAP_FIX_V1_ACTIVE -->
+          <style type="text/css">
+            /*
+             * SC logged-in header gap fix, applies only where the logged-in
+             * member top menu is rendered.
+             */
+            html body main#content {
+              padding-top: 24px !important;
+            }
+
+            .sharedchemistry-guest-top-spacer,
+            .sharedchemistry-member-top-spacer,
+            .sc-member-top-spacer,
+            .sharedchemistry-loggedin-top-spacer,
+            .sc-loggedin-top-spacer {
+              display: none !important;
+              height: 0 !important;
+              min-height: 0 !important;
+              margin: 0 !important;
+              padding: 0 !important;
+              overflow: hidden !important;
+            }
+
+            .sharedchemistry-member-logo::before,
+            .sharedchemistry-member-logo::after,
+            .sharedchemistry-member-logo .sharedchemistry-logo-link::before,
+            .sharedchemistry-member-logo .sharedchemistry-logo-link::after {
+              content: none !important;
+              display: none !important;
+              background: none !important;
+            }
+          </style>
+          <!-- SC_LOGGED_IN_GAP_FIX_V1_END -->
           {if $is_mail_enabled}
             <li class="dropdown">
               <a href="{{ $design->url('mail','main','inbox') }}" title="{lang 'My Messages'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown">
