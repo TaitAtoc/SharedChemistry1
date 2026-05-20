@@ -644,10 +644,10 @@
         </section>
     </div>
 
-    <!-- SC_FORCE_PRIVATE_REDO_LAYOUT_V3_IMAGE_FIX_ACTIVE -->
+    <!-- SC_FORCE_PRIVATE_REDO_LAYOUT_V4_CONTAIN_NO_CROP_ACTIVE -->
     <!-- SC_PUBLIC_PROFILE_PRIVATE_MEDIA_BLOCK_REDO -->
     <!-- SC_PUBLIC_PROFILE_PRIVATE_MEDIA_STATE {privateMediaStateComment} -->
-    <div id="sc-public-profile-private-redo" class="sc-private-redo-layout" data-sc-layout-proof="forced-grid-v3-image-fit" style="display:grid!important;grid-template-columns:280px minmax(0,1fr)!important;gap:24px!important;align-items:stretch!important;width:100%!important;max-width:100%!important;box-sizing:border-box!important;margin:0 0 18px!important;padding:20px!important;">
+    <div id="sc-public-profile-private-redo" class="sc-private-redo-layout" data-sc-layout-proof="forced-grid-v4-contain-no-crop" style="display:grid!important;grid-template-columns:280px minmax(0,1fr)!important;gap:24px!important;align-items:stretch!important;width:100%!important;max-width:100%!important;box-sizing:border-box!important;margin:0 0 18px!important;padding:20px!important;">
         <div class="sc-private-redo-left" data-sc-left-proof="280px-column" style="display:flex!important;flex-direction:column!important;gap:16px!important;width:280px!important;min-width:280px!important;max-width:280px!important;">
             <section class="sc-private-redo-card sc-private-redo-photos" data-sc-card-proof="private-photos-280px" style="display:block!important;width:100%!important;max-width:280px!important;box-sizing:border-box!important;padding:12px!important;">
                 {if !empty($privatePhotoLink)}
@@ -674,11 +674,11 @@
             </section>
         </div>
 
-        <section class="sc-private-redo-feature" data-sc-feature-proof="sharing-right-column" style="display:block!important;width:100%!important;min-width:0!important;box-sizing:border-box!important;padding:8px!important;">
-            <img class="sc-private-redo-feature-img" data-sc-image-proof="sharing-large-right" src="/templates/themes/base/img/sharedchemistry/private-media/sharing-is-caring-couples.png" alt="{lang 'Sharing is caring'}" loading="lazy" style="display:block!important;width:100%!important;height:100%!important;min-height:320px!important;max-height:460px!important;object-fit:cover!important;" />
+        <section class="sc-private-redo-feature" data-sc-feature-proof="sharing-right-column-contain" style="display:flex!important;align-items:stretch!important;justify-content:center!important;width:100%!important;height:100%!important;min-height:0!important;min-width:0!important;box-sizing:border-box!important;padding:8px!important;background:#100f14!important;">
+            <img class="sc-private-redo-feature-img" data-sc-image-proof="sharing-contain-no-crop" src="/templates/themes/base/img/sharedchemistry/private-media/sharing-is-caring-couples.png" alt="{lang 'Sharing is caring'}" loading="lazy" style="display:block!important;width:100%!important;height:100%!important;min-height:0!important;max-height:none!important;object-fit:contain!important;object-position:center center!important;background:#050407!important;" />
         </section>
     </div>
-    <!-- SC_FORCE_PRIVATE_REDO_LAYOUT_V3_IMAGE_FIX_END -->
+    <!-- SC_FORCE_PRIVATE_REDO_LAYOUT_V4_CONTAIN_NO_CROP_END -->
     <div class="sc-profile-grid">
 {literal}
 <style id="sc-profile-friends-final-css">
