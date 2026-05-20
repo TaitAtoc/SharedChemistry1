@@ -1,10 +1,14 @@
 <!-- SC_PRIVATE_VIEWER_VIDEOS_V1_ACTIVE -->
+<!-- SC_PRIVATE_VIEWER_VIDEOS_V2_UI_FIX_ACTIVE -->
 <div id="sc-private-viewer-videos-v1" class="sc-private-viewer-page" data-sc-viewer-proof="private-videos-viewer-v1">
 {literal}
 <style type="text/css">
+    /* SC_PRIVATE_VIEWER_VIDEOS_GAP_FIX_V2 */
+    html body main#content#content:has(#sc-private-viewer-videos-v1),
+    html body main#content:has(#sc-private-viewer-videos-v1){margin-top: 0!important;padding-top: 24px!important}
     #sc-private-viewer-videos-v1,
     #sc-private-viewer-videos-v1 *{box-sizing:border-box}
-    #sc-private-viewer-videos-v1{width:100%;max-width:1180px;margin:28px auto 42px;padding:0 16px;color:#f7f3ef}
+    #sc-private-viewer-videos-v1{width:100%;max-width:1180px;margin:0 auto 42px!important;margin-top: 0!important;padding:0 16px!important;color:#f7f3ef}
     #sc-private-viewer-videos-v1 .sc-private-viewer-hero{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin:0 0 22px;padding:26px;border:1px solid rgba(255,255,255,.1);border-radius:8px;background:linear-gradient(135deg,#17151c 0%,#100f14 62%,#1d1119 100%);box-shadow:0 18px 46px rgba(0,0,0,.32)}
     #sc-private-viewer-videos-v1 .sc-private-viewer-kicker{display:inline-flex;align-items:center;min-height:26px;padding:5px 10px;margin:0 0 10px;border:1px solid rgba(255,188,10,.38);border-radius:999px;color:#ffbc0a;background:rgba(255,188,10,.08);font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
     #sc-private-viewer-videos-v1 h1{margin:0;color:#fff;font-size:34px;line-height:1.15;font-weight:800}
@@ -23,7 +27,7 @@
     #sc-private-viewer-videos-v1 .sc-private-viewer-locked h2{margin:0 0 10px;color:#fff;font-size:28px;line-height:1.2}
     #sc-private-viewer-videos-v1 .sc-private-viewer-locked p{margin:0 0 18px;color:#d9d2dc;font-size:15px;line-height:1.5}
     @media (max-width:900px){#sc-private-viewer-videos-v1 .sc-private-viewer-grid{grid-template-columns:1fr}#sc-private-viewer-videos-v1 .sc-private-viewer-hero{align-items:flex-start;flex-direction:column}#sc-private-viewer-videos-v1 .sc-private-viewer-actions{justify-content:flex-start}}
-    @media (max-width:620px){#sc-private-viewer-videos-v1{margin-top:18px;padding:0 12px}#sc-private-viewer-videos-v1 h1{font-size:28px}}
+    @media (max-width:620px){#sc-private-viewer-videos-v1{margin-top:0!important;padding:0 12px!important}#sc-private-viewer-videos-v1 h1{font-size:28px}}
 </style>
 {/literal}
 
@@ -69,4 +73,5 @@
         {/if}
     {/if}
 </div>
+<!-- SC_PRIVATE_VIEWER_VIDEOS_V2_UI_FIX_END -->
 <!-- SC_PRIVATE_VIEWER_VIDEOS_V1_END -->

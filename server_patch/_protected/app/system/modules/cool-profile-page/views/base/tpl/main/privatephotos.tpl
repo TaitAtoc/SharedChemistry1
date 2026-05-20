@@ -1,10 +1,14 @@
 <!-- SC_PRIVATE_VIEWER_PHOTOS_V1_ACTIVE -->
+<!-- SC_PRIVATE_VIEWER_PHOTOS_V2_UI_FIX_ACTIVE -->
 <div id="sc-private-viewer-photos-v1" class="sc-private-viewer-page" data-sc-viewer-proof="private-photos-viewer-v1">
 {literal}
 <style type="text/css">
+    /* SC_PRIVATE_VIEWER_PHOTOS_GAP_FIX_V2 */
+    html body main#content#content:has(#sc-private-viewer-photos-v1),
+    html body main#content:has(#sc-private-viewer-photos-v1){margin-top: 0!important;padding-top: 24px!important}
     #sc-private-viewer-photos-v1,
     #sc-private-viewer-photos-v1 *{box-sizing:border-box}
-    #sc-private-viewer-photos-v1{width:100%;max-width:1180px;margin:28px auto 42px;padding:0 16px;color:#f7f3ef}
+    #sc-private-viewer-photos-v1{width:100%;max-width:1180px;margin:0 auto 42px!important;margin-top: 0!important;padding:0 16px!important;color:#f7f3ef}
     #sc-private-viewer-photos-v1 .sc-private-viewer-hero{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin:0 0 22px;padding:26px;border:1px solid rgba(255,255,255,.1);border-radius:8px;background:linear-gradient(135deg,#17151c 0%,#100f14 62%,#1d1119 100%);box-shadow:0 18px 46px rgba(0,0,0,.32)}
     #sc-private-viewer-photos-v1 .sc-private-viewer-kicker{display:inline-flex;align-items:center;min-height:26px;padding:5px 10px;margin:0 0 10px;border:1px solid rgba(255,188,10,.38);border-radius:999px;color:#ffbc0a;background:rgba(255,188,10,.08);font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
     #sc-private-viewer-photos-v1 h1{margin:0;color:#fff;font-size:34px;line-height:1.15;font-weight:800}
@@ -21,13 +25,13 @@
     #sc-private-viewer-photos-v1 .sc-private-viewer-locked{padding:34px;border:1px solid rgba(255,47,141,.24);border-radius:8px;background:#17151c;box-shadow:0 18px 46px rgba(0,0,0,.3)}
     #sc-private-viewer-photos-v1 .sc-private-viewer-locked h2{margin:0 0 10px;color:#fff;font-size:28px;line-height:1.2}
     #sc-private-viewer-photos-v1 .sc-private-viewer-locked p{margin:0 0 18px;color:#d9d2dc;font-size:15px;line-height:1.5}
-    #sc-private-viewer-photos-v1 .sc-private-viewer-lightbox{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(5,4,7,.88)}
+    #sc-private-viewer-photos-v1 .sc-private-viewer-lightbox{position:fixed!important;inset:0!important;z-index:99999!important;display:none;align-items:center!important;justify-content:center!important;padding:32px!important;background:rgba(0,0,0,.88)!important}
     #sc-private-viewer-photos-v1 .sc-private-viewer-lightbox.is-open{display:flex}
-    #sc-private-viewer-photos-v1 .sc-private-viewer-lightbox-panel{position:relative;max-width:min(1100px,94vw);max-height:90vh;padding:12px;border:1px solid rgba(255,255,255,.14);border-radius:8px;background:#100f14;box-shadow:0 24px 90px rgba(0,0,0,.6)}
-    #sc-private-viewer-photos-v1 .sc-private-viewer-lightbox-img{display:block;max-width:100%;max-height:82vh;border-radius:6px;background:#050407}
+    #sc-private-viewer-photos-v1 .sc-private-viewer-lightbox-panel{position:relative!important;width: min(1200px, 94vw)!important;max-width:94vw!important;max-height: 90vh!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:14px!important;border:1px solid rgba(255,255,255,.16)!important;border-radius:14px!important;background:#100f14!important;box-shadow:0 24px 80px rgba(0,0,0,.65)!important}
+    #sc-private-viewer-photos-v1 .sc-private-viewer-lightbox-img{display:block!important;width:auto!important;height:auto!important;max-width:calc(94vw - 40px)!important;max-height:calc(90vh - 40px)!important;object-fit: contain!important;border-radius:10px!important;background:#050407}
     #sc-private-viewer-photos-v1 .sc-private-viewer-lightbox-close{position:absolute;top:10px;right:10px;width:36px;height:36px;border:1px solid rgba(255,255,255,.18);border-radius:50%;background:#17151c;color:#fff;font-size:24px;line-height:32px;text-align:center;cursor:pointer}
     @media (max-width:900px){#sc-private-viewer-photos-v1 .sc-private-viewer-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#sc-private-viewer-photos-v1 .sc-private-viewer-hero{align-items:flex-start;flex-direction:column}#sc-private-viewer-photos-v1 .sc-private-viewer-actions{justify-content:flex-start}}
-    @media (max-width:620px){#sc-private-viewer-photos-v1{margin-top:18px;padding:0 12px}#sc-private-viewer-photos-v1 h1{font-size:28px}#sc-private-viewer-photos-v1 .sc-private-viewer-grid{grid-template-columns:1fr}#sc-private-viewer-photos-v1 .sc-private-viewer-photo-card img{height:230px}}
+    @media (max-width:620px){#sc-private-viewer-photos-v1{margin-top:0!important;padding:0 12px!important}#sc-private-viewer-photos-v1 h1{font-size:28px}#sc-private-viewer-photos-v1 .sc-private-viewer-grid{grid-template-columns:1fr}#sc-private-viewer-photos-v1 .sc-private-viewer-photo-card img{height:230px}}
 </style>
 {/literal}
 
@@ -61,7 +65,7 @@
             <div class="sc-private-viewer-grid">
                 {each $item in $privateViewerItems}
                     <button type="button" class="sc-private-viewer-photo-card" data-sc-private-photo="{% escape($item->url) %}" aria-label="{lang 'Open private photo'}">
-                        <img src="{% escape($item->url) %}" alt="{% escape($item->display_name) %}" loading="lazy" />
+                        <img src="{% escape($item->url) %}" data-full="{% escape($item->url) %}" alt="{% escape($item->display_name) %}" loading="lazy" />
                         <span class="sc-private-viewer-caption">{% escape($item->display_name) %}</span>
                     </button>
                 {/each}
@@ -104,7 +108,8 @@
             target = target.parentNode;
         }
         if (target && target.getAttribute && target.getAttribute('data-sc-private-photo')) {
-            openLightbox(target.getAttribute('data-sc-private-photo'));
+            var clickedImg = target.querySelector ? target.querySelector('img') : null;
+            openLightbox((clickedImg && clickedImg.dataset ? clickedImg.dataset.full : '') || target.getAttribute('data-sc-private-photo'));
             return;
         }
         if (event.target === lightbox || event.target === closeButton) {
@@ -120,4 +125,5 @@
 </script>
 {/literal}
 </div>
+<!-- SC_PRIVATE_VIEWER_PHOTOS_V2_UI_FIX_END -->
 <!-- SC_PRIVATE_VIEWER_PHOTOS_V1_END -->
