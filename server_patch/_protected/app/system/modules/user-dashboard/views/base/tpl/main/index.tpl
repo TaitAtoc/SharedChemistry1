@@ -131,48 +131,205 @@
 {/literal}
 <!-- SC_DASHBOARD_GAP_FIX_V2_END -->
 
+<!-- SC_DASHBOARD_PROFILE_PHOTO_SIZE_MATCH_V1_ACTIVE -->
+{literal}
+<style type="text/css">
+    .sc-profile-card .sc-dashboard-profile-photo-grid {
+        display: grid !important;
+        grid-template-columns: repeat(5, 150px) !important;
+        align-items: start !important;
+        justify-content: start !important;
+        gap: 24px !important;
+        margin: 0 0 16px !important;
+        padding: 0 !important;
+        width: 100% !important;
+    }
+
+    .sc-profile-card .sc-dashboard-profile-photo-tile {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        width: 150px !important;
+        min-width: 150px !important;
+        max-width: 150px !important;
+        min-height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        background-image: none !important;
+        box-shadow: none !important;
+        color: #ffbc0a !important;
+        text-align: center !important;
+        text-decoration: none !important;
+        text-shadow: none !important;
+        overflow: visible !important;
+    }
+
+    .sc-profile-card .sc-dashboard-profile-photo-link,
+    .sc-profile-card .sc-dashboard-profile-photo-link:visited {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        width: 150px !important;
+        min-width: 150px !important;
+        max-width: 150px !important;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        color: #ffbc0a !important;
+        text-align: center !important;
+        text-decoration: none !important;
+    }
+
+    .sc-profile-card .sc-dashboard-profile-photo-link:hover,
+    .sc-profile-card .sc-dashboard-profile-photo-link:focus {
+        color: #f7f3ef !important;
+        text-decoration: none !important;
+        transform: translateY(-1px);
+    }
+
+    .sc-profile-card .sc-dashboard-profile-photo-frame {
+        position: relative !important;
+        display: block !important;
+        width: 150px !important;
+        min-width: 150px !important;
+        max-width: 150px !important;
+        height: 150px !important;
+        min-height: 150px !important;
+        max-height: 150px !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        background: #101114 !important;
+    }
+
+    .sc-profile-card .sc-dashboard-profile-photo-frame .picture_block,
+    .sc-profile-card .sc-dashboard-profile-photo-frame .picture_block a {
+        display: block !important;
+        width: 150px !important;
+        height: 150px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+    }
+
+    .sc-profile-card .sc-dashboard-profile-photo-frame img,
+    .sc-profile-card .sc-dashboard-profile-photo-img {
+        display: block !important;
+        width: 150px !important;
+        min-width: 150px !important;
+        max-width: none !important;
+        height: 150px !important;
+        min-height: 150px !important;
+        max-height: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        object-fit: cover !important;
+        box-shadow: none !important;
+    }
+
+    .sc-profile-card .sc-dashboard-profile-photo-label {
+        display: block !important;
+        width: 150px !important;
+        margin: 10px 0 0 !important;
+        padding: 0 !important;
+        color: #ffbc0a !important;
+        font-size: 18px !important;
+        font-weight: 400 !important;
+        line-height: 1.25 !important;
+        text-align: center !important;
+        white-space: normal !important;
+    }
+
+    @media (max-width: 991px) {
+        .sc-profile-card .sc-dashboard-profile-photo-grid {
+            grid-template-columns: repeat(3, 150px) !important;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .sc-profile-card .sc-dashboard-profile-photo-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: 18px 12px !important;
+        }
+
+        .sc-profile-card .sc-dashboard-profile-photo-tile,
+        .sc-profile-card .sc-dashboard-profile-photo-link,
+        .sc-profile-card .sc-dashboard-profile-photo-link:visited {
+            width: 100% !important;
+            min-width: 0 !important;
+            max-width: none !important;
+        }
+
+        .sc-profile-card .sc-dashboard-profile-photo-frame,
+        .sc-profile-card .sc-dashboard-profile-photo-frame .picture_block,
+        .sc-profile-card .sc-dashboard-profile-photo-frame .picture_block a,
+        .sc-profile-card .sc-dashboard-profile-photo-frame img,
+        .sc-profile-card .sc-dashboard-profile-photo-img {
+            width: 120px !important;
+            min-width: 120px !important;
+            height: 120px !important;
+            min-height: 120px !important;
+        }
+
+        .sc-profile-card .sc-dashboard-profile-photo-label {
+            width: 120px !important;
+            font-size: 16px !important;
+        }
+    }
+</style>
+{/literal}
+<!-- SC_DASHBOARD_PROFILE_PHOTO_SIZE_MATCH_V1_END -->
 
 <div class="row sc-dashboard">
     <div class="left col-xs-12">
         <div class="sc-dashboard-card sc-profile-card">
             <h2>{lang 'Our Profile'}</h2>
-            <div class="sc-public-photo-row">
-                <div class="sc-public-photo-slot is-avatar">
-                    <div class="sc-public-photo-frame">
+            <div class="sc-public-photo-row sc-dashboard-profile-photo-grid">
+                <div class="sc-public-photo-slot is-avatar sc-dashboard-profile-photo-tile">
+                    <div class="sc-public-photo-frame sc-dashboard-profile-photo-frame">
                         {{ $avatarDesign->lightBox($username, $first_name, $sex, 400) }}
                     </div>
-                    <span class="sc-public-photo-label">{lang 'Main Photo'}</span>
+                    <span class="sc-public-photo-label sc-dashboard-profile-photo-label">{lang 'Main Photo'}</span>
                 </div>
-                <div class="sc-public-photo-slot">
-                    <a class="sc-public-photo-link" href="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" title="{lang 'Public Photo 2'}" data-popup="image">
-                        <span class="sc-public-photo-frame">
-                            <img src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Public Photo 2'}" class="sc-public-photo-placeholder" />
+                <div class="sc-public-photo-slot sc-dashboard-profile-photo-tile">
+                    <a class="sc-public-photo-link sc-dashboard-profile-photo-link" href="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" title="{lang 'Public Photo 2'}" data-popup="image">
+                        <span class="sc-public-photo-frame sc-dashboard-profile-photo-frame">
+                            <img src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Public Photo 2'}" class="sc-public-photo-placeholder sc-dashboard-profile-photo-img" />
                         </span>
-                        <span class="sc-public-photo-label">{lang 'Public Photo 2'}</span>
+                        <span class="sc-public-photo-label sc-dashboard-profile-photo-label">{lang 'Public Photo 2'}</span>
                     </a>
                 </div>
-                <div class="sc-public-photo-slot">
-                    <a class="sc-public-photo-link" href="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" title="{lang 'Public Photo 3'}" data-popup="image">
-                        <span class="sc-public-photo-frame">
-                            <img src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Public Photo 3'}" class="sc-public-photo-placeholder" />
+                <div class="sc-public-photo-slot sc-dashboard-profile-photo-tile">
+                    <a class="sc-public-photo-link sc-dashboard-profile-photo-link" href="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" title="{lang 'Public Photo 3'}" data-popup="image">
+                        <span class="sc-public-photo-frame sc-dashboard-profile-photo-frame">
+                            <img src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Public Photo 3'}" class="sc-public-photo-placeholder sc-dashboard-profile-photo-img" />
                         </span>
-                        <span class="sc-public-photo-label">{lang 'Public Photo 3'}</span>
+                        <span class="sc-public-photo-label sc-dashboard-profile-photo-label">{lang 'Public Photo 3'}</span>
                     </a>
                 </div>
-                <div class="sc-public-photo-slot">
-                    <a class="sc-public-photo-link" href="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" title="{lang 'Public Photo 4'}" data-popup="image">
-                        <span class="sc-public-photo-frame">
-                            <img src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Public Photo 4'}" class="sc-public-photo-placeholder" />
+                <div class="sc-public-photo-slot sc-dashboard-profile-photo-tile">
+                    <a class="sc-public-photo-link sc-dashboard-profile-photo-link" href="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" title="{lang 'Public Photo 4'}" data-popup="image">
+                        <span class="sc-public-photo-frame sc-dashboard-profile-photo-frame">
+                            <img src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Public Photo 4'}" class="sc-public-photo-placeholder sc-dashboard-profile-photo-img" />
                         </span>
-                        <span class="sc-public-photo-label">{lang 'Public Photo 4'}</span>
+                        <span class="sc-public-photo-label sc-dashboard-profile-photo-label">{lang 'Public Photo 4'}</span>
                     </a>
                 </div>
-                <div class="sc-public-photo-slot">
-                    <a class="sc-public-photo-link" href="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" title="{lang 'Public Photo 5'}" data-popup="image">
-                        <span class="sc-public-photo-frame">
-                            <img src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Public Photo 5'}" class="sc-public-photo-placeholder" />
+                <div class="sc-public-photo-slot sc-dashboard-profile-photo-tile">
+                    <a class="sc-public-photo-link sc-dashboard-profile-photo-link" href="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" title="{lang 'Public Photo 5'}" data-popup="image">
+                        <span class="sc-public-photo-frame sc-dashboard-profile-photo-frame">
+                            <img src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Public Photo 5'}" class="sc-public-photo-placeholder sc-dashboard-profile-photo-img" />
                         </span>
-                        <span class="sc-public-photo-label">{lang 'Public Photo 5'}</span>
+                        <span class="sc-public-photo-label sc-dashboard-profile-photo-label">{lang 'Public Photo 5'}</span>
                     </a>
                 </div>
             </div>
