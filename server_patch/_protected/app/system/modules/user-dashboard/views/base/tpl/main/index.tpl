@@ -89,6 +89,49 @@
 </style>
 {/literal}
 
+<!-- SC_DASHBOARD_GAP_FIX_V2_ACTIVE -->
+{literal}
+<style type="text/css">
+    /* Scoped dashboard gap fix: override dashboard padding that pushes Our Profile down. */
+    html body main#content#content,
+    html body main#content#content:has(.sc-dashboard) {
+        margin-top: 0 !important;
+        padding-top: 24px !important;
+    }
+
+    html body main#content#content .sc-dashboard,
+    html body main#content#content > .sc-dashboard {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    html body main#content#content .sc-dashboard::before,
+    html body main#content#content .sc-dashboard::after {
+        content: none !important;
+        display: none !important;
+        height: 0 !important;
+        min-height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+    }
+
+    @media (max-width: 767px) {
+        html body main#content#content,
+        html body main#content#content:has(.sc-dashboard) {
+            padding-top: 20px !important;
+        }
+
+        html body main#content#content .sc-dashboard,
+        html body main#content#content > .sc-dashboard {
+            padding-top: 0 !important;
+        }
+    }
+</style>
+{/literal}
+<!-- SC_DASHBOARD_GAP_FIX_V2_END -->
+
+
 <div class="row sc-dashboard">
     <div class="left col-xs-12">
         <div class="sc-dashboard-card sc-profile-card">
