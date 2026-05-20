@@ -17,6 +17,7 @@ use PH7\Framework\Mvc\Model\DbConfig;
 use PH7\Framework\Mvc\Model\Engine\Db;
 use PH7\Framework\Mvc\Router\Uri;
 use PH7\Framework\Security\CSRF\Token;
+use PH7\Framework\Url\Header;
 use PDO;
 
 class MainController extends ProfileBaseController
@@ -28,6 +29,8 @@ class MainController extends ProfileBaseController
     private const VERIFIED_CARD_LIMIT = 6;
     private const COUPLE_VERIFICATION_TABLE = 'couple_verifications';
     private const PRIVATE_MEDIA_ACCESS_TABLE = 'private_media_access';
+    // Db::prefix() resolves these to ph7vz_private_media_access / ph7vz_private_media_items.
+    private const PRIVATE_MEDIA_ITEMS_TABLE = 'private_media_items';
     private const PRIVATE_PHOTO_ALBUM_NAMES = [
         'Private Photos',
         'Private',
@@ -144,6 +147,16 @@ class MainController extends ProfileBaseController
         }
 
         $this->output();
+    }
+
+    public function privatePhotos(): void
+    {
+        $this->renderPrivateMediaViewer('photo', 'privatephotos.tpl');
+    }
+
+    public function privateVideos(): void
+    {
+        $this->renderPrivateMediaViewer('video', 'privatevideos.tpl');
     }
 
     /**
@@ -505,14 +518,95 @@ class MainController extends ProfileBaseController
         $this->view->canViewPrivateVideos = $bCanViewPrivateVideos;
         $this->view->privatePhotoPlaceholder = $bCanViewPrivatePhotos ? self::PRIVATE_PHOTO_UNLOCKED_PLACEHOLDER : self::PRIVATE_PHOTO_LOCKED_PLACEHOLDER;
         $this->view->privateVideoPlaceholder = $bCanViewPrivateVideos ? self::PRIVATE_VIDEO_UNLOCKED_PLACEHOLDER : self::PRIVATE_VIDEO_LOCKED_PLACEHOLDER;
-        $this->view->privatePhotoLink = $bAutomaticAccess ? '/user/private-photos' : '';
-        $this->view->privateVideoLink = $bAutomaticAccess ? '/user/private-videos' : '';
+        $this->view->privatePhotoLink = $bAutomaticAccess ? '/user/private-photos' : ($bCanViewPrivatePhotos ? '/new-profile/' . $iProfileId . '/private-photos' : '');
+        $this->view->privateVideoLink = $bAutomaticAccess ? '/user/private-videos' : ($bCanViewPrivateVideos ? '/new-profile/' . $iProfileId . '/private-videos' : '');
         $this->view->privateMediaStateComment = sprintf(
             'photo_access=%s video_access=%s own_profile=%s',
             $bCanViewPrivatePhotos ? '1' : '0',
             $bCanViewPrivateVideos ? '1' : '0',
             $bAutomaticAccess ? '1' : '0'
         );
+    }
+
+    private function renderPrivateMediaViewer(string $sMediaType, string $sTemplate): void
+    {
+        if (!User::auth()) {
+            Header::redirect(Uri::get('user', 'main', 'login'));
+        }
+
+        $iOwnerId = (int)$this->iProfileId;
+        $iViewerId = (int)$this->session->get('member_id');
+        if ($iOwnerId < 1 || $iViewerId < 1 || !in_array($sMediaType, ['photo', 'video'], true)) {
+            $this->displayPageNotFound();
+            $this->output();
+            return;
+        }
+
+        $oUser = $this->oUserModel->readProfile($iOwnerId);
+        if (!$oUser) {
+            $this->displayPageNotFound();
+            $this->output();
+            return;
+        }
+
+        $oFields = $this->oUserModel->getInfoFields($iOwnerId);
+        $aCoupleProfile = $this->getCoupleProfileData($oFields);
+        $sProfileTitle = !empty($aCoupleProfile['couple_name']) ? $aCoupleProfile['couple_name'] : (string)$oUser->username;
+        $bAccessApproved = $iOwnerId === $iViewerId || $this->hasPrivateMediaAccess($iOwnerId, $iViewerId, $sMediaType);
+
+        $this->view->privateViewerMediaType = $sMediaType;
+        $this->view->privateViewerTitle = $sMediaType === 'photo' ? t('Private Photos') : t('Private Videos');
+        $this->view->privateViewerProfileTitle = $sProfileTitle;
+        $this->view->privateViewerProfileUrl = '/new-profile/' . $iOwnerId;
+        $this->view->privateViewerMessageUrl = SysMod::isEnabled('mail') ? Uri::get('mail', 'main', 'compose', (string)$oUser->username) : '';
+        $this->view->privateViewerAccessApproved = $bAccessApproved;
+        $this->view->privateViewerItems = $bAccessApproved ? $this->getPrivateMediaItemRows($iOwnerId, $sMediaType) : [];
+        $this->view->page_title = $sProfileTitle . ' ' . ($sMediaType === 'photo' ? t('Private Photos') : t('Private Videos')) . ' | SharedChemistry';
+        $this->view->h1_title = $this->view->page_title;
+
+        $this->manualTplInclude($sTemplate);
+        $this->output();
+    }
+
+    private function getPrivateMediaItemRows(int $iOwnerId, string $sMediaType): array
+    {
+        try {
+            $rStmt = Db::getInstance()->prepare(
+                'SELECT media_id, owner_id, media_type, filename, original_name, mime_type, file_size, public_path, created_at FROM' .
+                Db::prefix(self::PRIVATE_MEDIA_ITEMS_TABLE) .
+                'WHERE owner_id = :ownerId AND media_type = :mediaType ORDER BY created_at DESC, media_id DESC'
+            );
+            $rStmt->bindValue(':ownerId', $iOwnerId, PDO::PARAM_INT);
+            $rStmt->bindValue(':mediaType', $sMediaType, PDO::PARAM_STR);
+            $rStmt->execute();
+            $aRows = $rStmt->fetchAll(PDO::FETCH_OBJ);
+            Db::free($rStmt);
+        } catch (\Exception $oException) {
+            return [];
+        }
+
+        if (!is_array($aRows)) {
+            return [];
+        }
+
+        $aMedia = [];
+        foreach ($aRows as $oRow) {
+            $aMedia[] = (object)[
+                'media_id' => (int)$oRow->media_id,
+                'owner_id' => (int)$oRow->owner_id,
+                'media_type' => (string)$oRow->media_type,
+                'filename' => (string)$oRow->filename,
+                'original_name' => (string)$oRow->original_name,
+                'mime_type' => (string)$oRow->mime_type,
+                'file_size' => (int)$oRow->file_size,
+                'public_path' => (string)$oRow->public_path,
+                'url' => (string)$oRow->public_path,
+                'display_name' => !empty($oRow->original_name) ? (string)$oRow->original_name : (string)$oRow->filename,
+                'created_at' => (string)$oRow->created_at
+            ];
+        }
+
+        return $aMedia;
     }
 
     private function getPrivatePhotoRows(int $iProfileId): array

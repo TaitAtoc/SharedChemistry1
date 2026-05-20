@@ -46,6 +46,8 @@
       <route url="see-you-soon" path="system/modules" module="user" controller="main" action="soon" />
 
     <!-- Cool Profile Page -->
+      <route url="new-profile/([0-9]+)/private-photos/?" path="system/modules" module="cool-profile-page" controller="main" action="privatePhotos" vars="profile_id" />
+      <route url="new-profile/([0-9]+)/private-videos/?" path="system/modules" module="cool-profile-page" controller="main" action="privateVideos" vars="profile_id" />
       <route url="new-profile/([0-9]+)?" path="system/modules" module="cool-profile-page" controller="main" action="index" vars="profile_id" />
 
     <!-- Map (Country page) -->

@@ -651,7 +651,7 @@
         <div class="sc-private-redo-left" data-sc-left-proof="280px-column" style="display:flex!important;flex-direction:column!important;gap:16px!important;width:280px!important;min-width:280px!important;max-width:280px!important;">
             <section class="sc-private-redo-card sc-private-redo-photos" data-sc-card-proof="private-photos-280px" style="display:block!important;width:100%!important;max-width:280px!important;box-sizing:border-box!important;padding:12px!important;">
                 {if !empty($privatePhotoLink)}
-                    <a class="sc-private-redo-thumb" href="{privatePhotoLink}" title="{lang 'Private Photos'}" style="display:block!important;width:100%!important;height:280px!important;max-height:280px!important;overflow:hidden!important;">
+                    <a class="sc-private-redo-thumb" href="{privatePhotoLink}" title="{lang 'Private Photos'}" data-sc-private-link-proof="photos-viewer-link-v1" style="display:block!important;width:100%!important;height:280px!important;max-height:280px!important;overflow:hidden!important;">
                         <img src="{privatePhotoPlaceholder}" alt="{lang 'Private Photos'}" loading="lazy" style="display:block!important;width:100%!important;height:280px!important;max-height:280px!important;object-fit:contain!important;background:#050407!important;" />
                     </a>
                 {else}
@@ -663,7 +663,7 @@
 
             <section class="sc-private-redo-card sc-private-redo-videos" data-sc-card-proof="private-videos-280px" style="display:block!important;width:100%!important;max-width:280px!important;box-sizing:border-box!important;padding:12px!important;">
                 {if !empty($privateVideoLink)}
-                    <a class="sc-private-redo-thumb" href="{privateVideoLink}" title="{lang 'Private Videos'}" style="display:block!important;width:100%!important;height:280px!important;max-height:280px!important;overflow:hidden!important;">
+                    <a class="sc-private-redo-thumb" href="{privateVideoLink}" title="{lang 'Private Videos'}" data-sc-private-link-proof="videos-viewer-link-v1" style="display:block!important;width:100%!important;height:280px!important;max-height:280px!important;overflow:hidden!important;">
                         <img src="{privateVideoPlaceholder}" alt="{lang 'Private Videos'}" loading="lazy" style="display:block!important;width:100%!important;height:280px!important;max-height:280px!important;object-fit:contain!important;background:#050407!important;" />
                     </a>
                 {else}
