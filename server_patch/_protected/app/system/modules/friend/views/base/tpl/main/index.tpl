@@ -23,6 +23,7 @@
     .sc-friend-pill{display:inline-flex;align-items:center;min-height:26px;padding:5px 9px;border:1px solid rgba(247,243,239,.1);border-radius:999px;background:#17181d;color:#b8b3b0;font-size:12px;font-weight:700;line-height:1.2}
     .sc-friend-pill.is-pending{border-color:rgba(255,188,10,.5);color:#ffbc0a}
     .sc-friend-actions{display:flex;align-items:center;justify-content:flex-end;gap:10px;min-width:190px;justify-self:end}
+    .sc-friend-actions form{display:inline-flex;margin:0;padding:0}
     .sc-friend-button{display:inline-flex!important;align-items:center;justify-content:center;min-width:86px;min-height:38px;padding:9px 13px!important;border:1px solid rgba(247,243,239,.16)!important;border-radius:9px!important;background:#202127!important;background-image:none!important;color:#f7f3ef!important;font-size:13px!important;font-weight:700!important;line-height:1.2!important;text-align:center!important;text-decoration:none!important;text-shadow:none!important;box-shadow:none!important;cursor:pointer;transition:background .18s ease,border-color .18s ease,transform .18s ease}
     .sc-friend-button:hover,
     .sc-friend-button:focus{border-color:#ec0868!important;background:#2a1723!important;color:#fff!important;text-decoration:none!important;transform:translateY(-1px)}
@@ -93,13 +94,18 @@
                             {if $sess_member_id == $f->friendId AND $f->pending == FriendCoreModel::PENDING_REQUEST}
                                 <a class="sc-friend-button is-primary" href="javascript:void(0)" onclick="friend('approval',{% $f->fdId %},'{csrf_token}')">{lang 'Approve'}</a>
                             {/if}
-                            <a class="sc-friend-button" href="javascript:void(0)" onclick="friend('delete',{% $f->fdId %},'{csrf_token}')">
-                                {if $f->pending == FriendCoreModel::PENDING_REQUEST}
-                                    {lang 'Decline'}
-                                {else}
-                                    {lang 'Delete'}
-                                {/if}
-                            </a>
+                            <!-- SC_FRIEND_DELETE_FORM_V1_ACTIVE -->
+                            <form method="post" action="{{ $design->url('friend','main','delete') }}" data-sc-friend-delete-proof="friend-delete-v1">
+                                <input type="hidden" name="friend_id" value="{% $f->fdId %}" />
+                                <input type="hidden" name="security_token" value="{csrf_token}" />
+                                <button type="submit" class="sc-friend-button">
+                                    {if $f->pending == FriendCoreModel::PENDING_REQUEST}
+                                        {lang 'Decline'}
+                                    {else}
+                                        {lang 'Delete'}
+                                    {/if}
+                                </button>
+                            </form>
                         </div>
                     {/if}
                 </article>

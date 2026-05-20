@@ -17,6 +17,8 @@ class FriendModel extends FriendCoreModel
     const EXISTS_STATUS = 1;
     const UNEXISTENT_ID_STATUS = 2;
     const ERROR_STATUS = -1;
+    private const COUPLE_VERIFICATION_TABLE = 'couple_verifications';
+    private const PRIVATE_MEDIA_ACCESS_TABLE = 'private_media_access';
 
     /** @var string */
     private $sStatus;
@@ -100,12 +102,66 @@ class FriendModel extends FriendCoreModel
         $iProfileId = (int)$iProfileId;
         $iFriendId = (int)$iFriendId;
 
+        if (!$this->inList($iProfileId, $iFriendId, self::ALL_REQUEST)) {
+            return false;
+        }
+
         $rStmt = Db::getInstance()->prepare('DELETE FROM' . Db::prefix(DbTableName::MEMBER_FRIEND) .
             'WHERE (profileId = :profileId AND friendId = :friendId) OR (profileId = :friendId AND friendId = :profileId)');
         $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
         $rStmt->bindValue(':friendId', $iFriendId, PDO::PARAM_INT);
 
-        return $rStmt->execute();
+        $bDeleted = $rStmt->execute() && $rStmt->rowCount() > 0;
+        Db::free($rStmt);
+
+        if ($bDeleted) {
+            $this->cleanupDeletedFriendSafetyAccess($iProfileId, $iFriendId);
+        }
+
+        return $bDeleted;
+    }
+
+    private function cleanupDeletedFriendSafetyAccess(int $iProfileId, int $iFriendId): void
+    {
+        // SC_FRIEND_DELETE_SAFETY_CLEANUP_V1_ACTIVE
+        $this->revokePrivateMediaAccessBetweenMembers($iProfileId, $iFriendId);
+        $this->removeCoupleVerificationsBetweenMembers($iProfileId, $iFriendId);
+    }
+
+    private function revokePrivateMediaAccessBetweenMembers(int $iProfileId, int $iFriendId): void
+    {
+        try {
+            $rStmt = Db::getInstance()->prepare(
+                'DELETE FROM' . Db::prefix(self::PRIVATE_MEDIA_ACCESS_TABLE) .
+                'WHERE media_type IN (:photoType, :videoType) AND ' .
+                '((owner_id = :profileId AND viewer_id = :friendId) OR (owner_id = :friendId AND viewer_id = :profileId))'
+            );
+            $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
+            $rStmt->bindValue(':friendId', $iFriendId, PDO::PARAM_INT);
+            $rStmt->bindValue(':photoType', 'photo', PDO::PARAM_STR);
+            $rStmt->bindValue(':videoType', 'video', PDO::PARAM_STR);
+            $rStmt->execute();
+            Db::free($rStmt);
+        } catch (\Exception $oException) {
+            error_log('SC_FRIEND_DELETE_SAFETY_CLEANUP private_media_access failed: ' . $oException->getMessage());
+        }
+    }
+
+    private function removeCoupleVerificationsBetweenMembers(int $iProfileId, int $iFriendId): void
+    {
+        try {
+            $rStmt = Db::getInstance()->prepare(
+                'DELETE FROM' . Db::prefix(self::COUPLE_VERIFICATION_TABLE) .
+                'WHERE (verifier_profile_id = :profileId AND verified_profile_id = :friendId) ' .
+                'OR (verifier_profile_id = :friendId AND verified_profile_id = :profileId)'
+            );
+            $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
+            $rStmt->bindValue(':friendId', $iFriendId, PDO::PARAM_INT);
+            $rStmt->execute();
+            Db::free($rStmt);
+        } catch (\Exception $oException) {
+            error_log('SC_FRIEND_DELETE_SAFETY_CLEANUP couple_verifications failed: ' . $oException->getMessage());
+        }
     }
 
     private function areProfileAndFriendExist(int $iProfileId, int $iFriendId): bool

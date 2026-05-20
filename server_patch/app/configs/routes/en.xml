@@ -34,6 +34,7 @@
       <route url="advanced-search-people" path="system/modules" module="user" controller="search" action="advanced" />
 
       <!-- friend -->
+      <route url="friends/delete/?" path="system/modules" module="friend" controller="main" action="delete" />
       <route url="friends/?([a-zA-Z0-9_-]+)?" path="system/modules" module="friend" controller="main" action="index" vars="username" />
       <route url="mutual-friends/?([a-zA-Z0-9_-]+)?" path="system/modules" module="friend" controller="main" action="mutual" vars="username" />
       <route url="friends/search/([a-zA-Z0-9_-]+)/?(mutual)?" path="system/modules" module="friend" controller="main" action="search" vars="username,action" />
