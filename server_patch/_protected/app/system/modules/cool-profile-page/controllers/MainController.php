@@ -38,6 +38,10 @@ class MainController extends ProfileBaseController
         'Private',
         'SharedChemistry Private Videos'
     ];
+    private const PRIVATE_PHOTO_LOCKED_PLACEHOLDER = '/templates/themes/base/img/sharedchemistry/private-media/private-photos-locked.png';
+    private const PRIVATE_VIDEO_LOCKED_PLACEHOLDER = '/templates/themes/base/img/sharedchemistry/private-media/private-videos-locked.png';
+    private const PRIVATE_PHOTO_UNLOCKED_PLACEHOLDER = '/templates/themes/base/img/sharedchemistry/private-media/private-photos-unlocked.png';
+    private const PRIVATE_VIDEO_UNLOCKED_PLACEHOLDER = '/templates/themes/base/img/sharedchemistry/private-media/private-videos-unlocked.png';
 
     private const COUPLE_PROFILE_DATA_FIELD = 'couple_profile_data';
 
@@ -489,11 +493,26 @@ class MainController extends ProfileBaseController
         $aPrivatePhotos = $this->getPrivatePhotoRows($iProfileId);
         $aPrivateVideos = $this->getPrivateVideoRows($iProfileId);
         $bAutomaticAccess = $this->hasAutomaticPrivateMediaAccess($iProfileId, $iViewerProfileId);
+        $bCanViewPrivatePhotos = $bAutomaticAccess || $this->hasPrivateMediaAccess($iProfileId, $iViewerProfileId, 'photo');
+        $bCanViewPrivateVideos = $bAutomaticAccess || $this->hasPrivateMediaAccess($iProfileId, $iViewerProfileId, 'video');
 
         $this->view->privatePhotos = $this->buildPrivateMediaViewRows($aPrivatePhotos, $iProfileId, $iViewerProfileId, 'photo', $sUsername, $bAutomaticAccess);
         $this->view->privateVideos = $this->buildPrivateMediaViewRows($aPrivateVideos, $iProfileId, $iViewerProfileId, 'video', $sUsername, $bAutomaticAccess);
         $this->view->privatePhotosUrl = Uri::get('picture', 'main', 'albums', $sUsername);
         $this->view->privateVideosUrl = Uri::get('video', 'main', 'albums', $sUsername);
+        $this->view->isOwnProfile = $bAutomaticAccess;
+        $this->view->canViewPrivatePhotos = $bCanViewPrivatePhotos;
+        $this->view->canViewPrivateVideos = $bCanViewPrivateVideos;
+        $this->view->privatePhotoPlaceholder = $bCanViewPrivatePhotos ? self::PRIVATE_PHOTO_UNLOCKED_PLACEHOLDER : self::PRIVATE_PHOTO_LOCKED_PLACEHOLDER;
+        $this->view->privateVideoPlaceholder = $bCanViewPrivateVideos ? self::PRIVATE_VIDEO_UNLOCKED_PLACEHOLDER : self::PRIVATE_VIDEO_LOCKED_PLACEHOLDER;
+        $this->view->privatePhotoLink = $bAutomaticAccess ? '/user/private-photos' : '';
+        $this->view->privateVideoLink = $bAutomaticAccess ? '/user/private-videos' : '';
+        $this->view->privateMediaStateComment = sprintf(
+            'photo_access=%s video_access=%s own_profile=%s',
+            $bCanViewPrivatePhotos ? '1' : '0',
+            $bCanViewPrivateVideos ? '1' : '0',
+            $bAutomaticAccess ? '1' : '0'
+        );
     }
 
     private function getPrivatePhotoRows(int $iProfileId): array
@@ -600,7 +619,7 @@ class MainController extends ProfileBaseController
         try {
             $rStmt = Db::getInstance()->prepare(
                 'SELECT COUNT(*) FROM' . Db::prefix(self::PRIVATE_MEDIA_ACCESS_TABLE) .
-                'WHERE owner_id = :profileId AND viewer_id = :viewerProfileId AND media_type = :mediaType'
+                ' WHERE owner_id = :profileId AND viewer_id = :viewerProfileId AND media_type = :mediaType'
             );
             $rStmt->bindValue(':profileId', $iProfileId, PDO::PARAM_INT);
             $rStmt->bindValue(':viewerProfileId', $iViewerProfileId, PDO::PARAM_INT);
