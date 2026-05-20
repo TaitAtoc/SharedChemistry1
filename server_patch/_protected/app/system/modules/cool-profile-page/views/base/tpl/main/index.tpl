@@ -155,6 +155,95 @@
     .sc-public-profile .sc-profile-private-media-video .sc-profile-private-media-thumb:not(.is-locked):after{content:"";position:absolute;left:50%;top:50%;width:0;height:0;margin:-14px 0 0 -9px;border-top:14px solid transparent;border-bottom:14px solid transparent;border-left:21px solid rgba(255,255,255,.9);filter:drop-shadow(0 2px 7px rgba(0,0,0,.45))}
     .sc-public-profile .sc-profile-private-media-feature{display:block!important;width:100%!important;min-width:0!important;padding:8px!important;box-sizing:border-box!important;border:1px solid rgba(255,255,255,.1)!important;border-radius:8px!important;background:#100f14!important}
     .sc-public-profile .sc-profile-private-media-feature-img{width:100%!important;height:100%!important;min-height:500px!important;max-height:650px!important;object-fit:cover!important;display:block!important;border:0!important;border-radius:6px!important;box-shadow:none!important}
+    #sc-public-profile-private-redo {
+        display: grid !important;
+        grid-template-columns: 280px minmax(0, 1fr) !important;
+        gap: 24px !important;
+        align-items: stretch !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 0 18px !important;
+        padding: 20px !important;
+        box-sizing: border-box !important;
+        border: 1px solid rgba(255,255,255,.09) !important;
+        border-radius: 8px !important;
+        background: #17151c !important;
+        box-shadow: 0 14px 36px rgba(0,0,0,.28) !important;
+    }
+
+    #sc-public-profile-private-redo .sc-private-redo-left {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 16px !important;
+        width: 280px !important;
+        min-width: 280px !important;
+        max-width: 280px !important;
+    }
+
+    #sc-public-profile-private-redo .sc-private-redo-card {
+        display: block !important;
+        width: 100% !important;
+        max-width: 280px !important;
+        margin: 0 !important;
+        padding: 12px !important;
+        box-sizing: border-box !important;
+        border: 1px solid rgba(255,255,255,.1) !important;
+        border-radius: 8px !important;
+        background: #100f14 !important;
+    }
+
+    #sc-public-profile-private-redo .sc-private-redo-thumb {
+        display: block !important;
+        width: 100% !important;
+        height: 155px !important;
+        overflow: hidden !important;
+        border-radius: 6px !important;
+        background: #050407 !important;
+        text-decoration: none !important;
+    }
+
+    #sc-public-profile-private-redo .sc-private-redo-thumb img {
+        display: block !important;
+        width: 100% !important;
+        height: 155px !important;
+        max-width: 100% !important;
+        max-height: 155px !important;
+        object-fit: cover !important;
+        border: 0 !important;
+        border-radius: 6px !important;
+    }
+
+    #sc-public-profile-private-redo .sc-private-redo-card h2 {
+        margin: 8px 0 0 !important;
+        padding: 0 !important;
+        color: #f4f1f6 !important;
+        font-size: 15px !important;
+        font-weight: 700 !important;
+        line-height: 1.2 !important;
+        text-align: left !important;
+    }
+
+    #sc-public-profile-private-redo .sc-private-redo-feature {
+        display: block !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        padding: 8px !important;
+        box-sizing: border-box !important;
+        border: 1px solid rgba(255,255,255,.1) !important;
+        border-radius: 8px !important;
+        background: #100f14 !important;
+    }
+
+    #sc-public-profile-private-redo .sc-private-redo-feature-img {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+        min-height: 360px !important;
+        max-height: 520px !important;
+        object-fit: cover !important;
+        border: 0 !important;
+        border-radius: 6px !important;
+    }
     .sc-empty{color:#8f8794!important;font-style:italic}
     #cboxOverlay.sc-profile-colorbox-overlay{background:#050407!important;opacity:.9!important}
     #colorbox.sc-profile-colorbox,
@@ -220,6 +309,31 @@
         .sc-public-profile .sc-profile-private-media-side-card{max-width:100%!important}
         .sc-public-profile .sc-profile-private-media-feature-img{min-height:auto!important;max-height:none!important}
         .sc-profile-button{width:100%}
+    }
+    @media screen and (max-width: 640px) {
+        #sc-public-profile-private-redo {
+            grid-template-columns: 1fr !important;
+            gap: 16px !important;
+            padding: 14px !important;
+        }
+
+        #sc-public-profile-private-redo .sc-private-redo-left {
+            width: 100% !important;
+            min-width: 0 !important;
+            max-width: 100% !important;
+        }
+
+        #sc-public-profile-private-redo .sc-private-redo-thumb,
+        #sc-public-profile-private-redo .sc-private-redo-thumb img {
+            height: 180px !important;
+            max-height: 180px !important;
+        }
+
+        #sc-public-profile-private-redo .sc-private-redo-feature-img {
+            height: auto !important;
+            min-height: 0 !important;
+            max-height: none !important;
+        }
     }
 </style>
 {/literal}
@@ -530,48 +644,40 @@
         </section>
     </div>
 
-    <!-- SC_PUBLIC_PROFILE_PRIVATE_MEDIA_BLOCK -->
+    <!-- SC_PUBLIC_PROFILE_PRIVATE_MEDIA_BLOCK_REDO -->
     <!-- SC_PUBLIC_PROFILE_PRIVATE_MEDIA_STATE {privateMediaStateComment} -->
-    <div class="sc-profile-private-media-showcase">
-        <div class="sc-profile-private-media-left">
-            <section class="sc-profile-private-media-side-card sc-profile-private-media-photo">
-                <div class="sc-profile-private-media-grid">
-                    <div class="sc-profile-private-media-item">
-                        {if !empty($privatePhotoLink)}
-                            <a class="sc-profile-private-media-thumb" href="{privatePhotoLink}" title="{lang 'Private Photos'}">
-                                <img src="{privatePhotoPlaceholder}" alt="{lang 'Private Photos'}" loading="lazy" />
-                            </a>
-                        {else}
-                            <span class="sc-profile-private-media-thumb {if !$canViewPrivatePhotos}is-locked{/if}" aria-label="{lang 'Private Photos'}">
-                                <img src="{privatePhotoPlaceholder}" alt="{lang 'Private Photos'}" loading="lazy" />
-                            </span>
-                        {/if}
-                    </div>
-                </div>
+    <div id="sc-public-profile-private-redo" class="sc-private-redo-layout">
+        <div class="sc-private-redo-left">
+            <section class="sc-private-redo-card sc-private-redo-photos">
+                {if !empty($privatePhotoLink)}
+                    <a class="sc-private-redo-thumb" href="{privatePhotoLink}" title="{lang 'Private Photos'}">
+                        <img src="{privatePhotoPlaceholder}" alt="{lang 'Private Photos'}" loading="lazy" />
+                    </a>
+                {else}
+                    <span class="sc-private-redo-thumb {if !$canViewPrivatePhotos}is-locked{/if}" aria-label="{lang 'Private Photos'}">
+                        <img src="{privatePhotoPlaceholder}" alt="{lang 'Private Photos'}" loading="lazy" />
+                    </span>
+                {/if}
                 <h2>{lang 'Private Photos'}</h2>
             </section>
 
-            <section class="sc-profile-private-media-side-card sc-profile-private-media-video">
-                <div class="sc-profile-private-media-grid">
-                    <div class="sc-profile-private-media-item">
-                        {if !empty($privateVideoLink)}
-                            <a class="sc-profile-private-media-thumb" href="{privateVideoLink}" title="{lang 'Private Videos'}">
-                                <img src="{privateVideoPlaceholder}" alt="{lang 'Private Videos'}" loading="lazy" />
-                            </a>
-                        {else}
-                            <span class="sc-profile-private-media-thumb {if !$canViewPrivateVideos}is-locked{/if}" aria-label="{lang 'Private Videos'}">
-                                <img src="{privateVideoPlaceholder}" alt="{lang 'Private Videos'}" loading="lazy" />
-                            </span>
-                        {/if}
-                    </div>
-                </div>
+            <section class="sc-private-redo-card sc-private-redo-videos">
+                {if !empty($privateVideoLink)}
+                    <a class="sc-private-redo-thumb" href="{privateVideoLink}" title="{lang 'Private Videos'}">
+                        <img src="{privateVideoPlaceholder}" alt="{lang 'Private Videos'}" loading="lazy" />
+                    </a>
+                {else}
+                    <span class="sc-private-redo-thumb {if !$canViewPrivateVideos}is-locked{/if}" aria-label="{lang 'Private Videos'}">
+                        <img src="{privateVideoPlaceholder}" alt="{lang 'Private Videos'}" loading="lazy" />
+                    </span>
+                {/if}
                 <h2>{lang 'Private Videos'}</h2>
             </section>
         </div>
 
-        <div class="sc-profile-private-media-feature">
-            <img class="sc-profile-private-media-feature-img" src="/templates/themes/base/img/sharedchemistry/private-media/sharing-is-caring-couples.png" alt="{lang 'Sharing is caring'}" loading="lazy" />
-        </div>
+        <section class="sc-private-redo-feature">
+            <img class="sc-private-redo-feature-img" src="/templates/themes/base/img/sharedchemistry/private-media/sharing-is-caring-couples.png" alt="{lang 'Sharing is caring'}" loading="lazy" />
+        </section>
     </div>
     <div class="sc-profile-grid">
 {literal}
