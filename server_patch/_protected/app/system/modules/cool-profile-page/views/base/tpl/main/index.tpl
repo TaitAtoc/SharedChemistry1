@@ -644,41 +644,43 @@
         </section>
     </div>
 
+    <!-- SC_FORCE_PRIVATE_REDO_LAYOUT_V2_ACTIVE -->
     <!-- SC_PUBLIC_PROFILE_PRIVATE_MEDIA_BLOCK_REDO -->
     <!-- SC_PUBLIC_PROFILE_PRIVATE_MEDIA_STATE {privateMediaStateComment} -->
-    <div id="sc-public-profile-private-redo" class="sc-private-redo-layout">
-        <div class="sc-private-redo-left">
-            <section class="sc-private-redo-card sc-private-redo-photos">
+    <div id="sc-public-profile-private-redo" class="sc-private-redo-layout" data-sc-layout-proof="forced-grid-v2" style="display:grid!important;grid-template-columns:280px minmax(0,1fr)!important;gap:24px!important;align-items:stretch!important;width:100%!important;max-width:100%!important;box-sizing:border-box!important;margin:0 0 18px!important;padding:20px!important;">
+        <div class="sc-private-redo-left" data-sc-left-proof="280px-column" style="display:flex!important;flex-direction:column!important;gap:16px!important;width:280px!important;min-width:280px!important;max-width:280px!important;">
+            <section class="sc-private-redo-card sc-private-redo-photos" data-sc-card-proof="private-photos-155px" style="display:block!important;width:100%!important;max-width:280px!important;box-sizing:border-box!important;padding:12px!important;">
                 {if !empty($privatePhotoLink)}
-                    <a class="sc-private-redo-thumb" href="{privatePhotoLink}" title="{lang 'Private Photos'}">
-                        <img src="{privatePhotoPlaceholder}" alt="{lang 'Private Photos'}" loading="lazy" />
+                    <a class="sc-private-redo-thumb" href="{privatePhotoLink}" title="{lang 'Private Photos'}" style="display:block!important;width:100%!important;height:155px!important;max-height:155px!important;overflow:hidden!important;">
+                        <img src="{privatePhotoPlaceholder}" alt="{lang 'Private Photos'}" loading="lazy" style="display:block!important;width:100%!important;height:155px!important;max-height:155px!important;object-fit:cover!important;" />
                     </a>
                 {else}
-                    <span class="sc-private-redo-thumb {if !$canViewPrivatePhotos}is-locked{/if}" aria-label="{lang 'Private Photos'}">
-                        <img src="{privatePhotoPlaceholder}" alt="{lang 'Private Photos'}" loading="lazy" />
+                    <span class="sc-private-redo-thumb {if !$canViewPrivatePhotos}is-locked{/if}" aria-label="{lang 'Private Photos'}" style="display:block!important;width:100%!important;height:155px!important;max-height:155px!important;overflow:hidden!important;">
+                        <img src="{privatePhotoPlaceholder}" alt="{lang 'Private Photos'}" loading="lazy" style="display:block!important;width:100%!important;height:155px!important;max-height:155px!important;object-fit:cover!important;" />
                     </span>
                 {/if}
-                <h2>{lang 'Private Photos'}</h2>
+                <h2 style="margin:8px 0 0!important;padding:0!important;color:#f4f1f6!important;font-size:15px!important;font-weight:700!important;line-height:1.2!important;text-align:left!important;">{lang 'Private Photos'}</h2>
             </section>
 
-            <section class="sc-private-redo-card sc-private-redo-videos">
+            <section class="sc-private-redo-card sc-private-redo-videos" data-sc-card-proof="private-videos-155px" style="display:block!important;width:100%!important;max-width:280px!important;box-sizing:border-box!important;padding:12px!important;">
                 {if !empty($privateVideoLink)}
-                    <a class="sc-private-redo-thumb" href="{privateVideoLink}" title="{lang 'Private Videos'}">
-                        <img src="{privateVideoPlaceholder}" alt="{lang 'Private Videos'}" loading="lazy" />
+                    <a class="sc-private-redo-thumb" href="{privateVideoLink}" title="{lang 'Private Videos'}" style="display:block!important;width:100%!important;height:155px!important;max-height:155px!important;overflow:hidden!important;">
+                        <img src="{privateVideoPlaceholder}" alt="{lang 'Private Videos'}" loading="lazy" style="display:block!important;width:100%!important;height:155px!important;max-height:155px!important;object-fit:cover!important;" />
                     </a>
                 {else}
-                    <span class="sc-private-redo-thumb {if !$canViewPrivateVideos}is-locked{/if}" aria-label="{lang 'Private Videos'}">
-                        <img src="{privateVideoPlaceholder}" alt="{lang 'Private Videos'}" loading="lazy" />
+                    <span class="sc-private-redo-thumb {if !$canViewPrivateVideos}is-locked{/if}" aria-label="{lang 'Private Videos'}" style="display:block!important;width:100%!important;height:155px!important;max-height:155px!important;overflow:hidden!important;">
+                        <img src="{privateVideoPlaceholder}" alt="{lang 'Private Videos'}" loading="lazy" style="display:block!important;width:100%!important;height:155px!important;max-height:155px!important;object-fit:cover!important;" />
                     </span>
                 {/if}
-                <h2>{lang 'Private Videos'}</h2>
+                <h2 style="margin:8px 0 0!important;padding:0!important;color:#f4f1f6!important;font-size:15px!important;font-weight:700!important;line-height:1.2!important;text-align:left!important;">{lang 'Private Videos'}</h2>
             </section>
         </div>
 
-        <section class="sc-private-redo-feature">
-            <img class="sc-private-redo-feature-img" src="/templates/themes/base/img/sharedchemistry/private-media/sharing-is-caring-couples.png" alt="{lang 'Sharing is caring'}" loading="lazy" />
+        <section class="sc-private-redo-feature" data-sc-feature-proof="sharing-right-column" style="display:block!important;width:100%!important;min-width:0!important;box-sizing:border-box!important;padding:8px!important;">
+            <img class="sc-private-redo-feature-img" data-sc-image-proof="sharing-large-right" src="/templates/themes/base/img/sharedchemistry/private-media/sharing-is-caring-couples.png" alt="{lang 'Sharing is caring'}" loading="lazy" style="display:block!important;width:100%!important;height:100%!important;min-height:360px!important;max-height:520px!important;object-fit:cover!important;" />
         </section>
     </div>
+    <!-- SC_FORCE_PRIVATE_REDO_LAYOUT_V2_END -->
     <div class="sc-profile-grid">
 {literal}
 <style id="sc-profile-friends-final-css">
