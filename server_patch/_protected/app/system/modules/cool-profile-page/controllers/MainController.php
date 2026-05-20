@@ -577,13 +577,19 @@ class MainController extends ProfileBaseController
 
     private function renderPrivateMediaViewer(string $sMediaType, string $sTemplate): void
     {
-        if (!User::auth()) {
+        if (!UserCore::auth()) {
             Header::redirect(Uri::get('user', 'main', 'login'));
+            return;
         }
 
         $iOwnerId = (int)$this->iProfileId;
         $iViewerId = (int)$this->session->get('member_id');
-        if ($iOwnerId < 1 || $iViewerId < 1 || !in_array($sMediaType, ['photo', 'video'], true)) {
+        if ($iViewerId < 1) {
+            Header::redirect(Uri::get('user', 'main', 'login'));
+            return;
+        }
+
+        if ($iOwnerId < 1 || !in_array($sMediaType, ['photo', 'video'], true)) {
             $this->displayPageNotFound();
             $this->output();
             return;
