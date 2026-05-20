@@ -142,23 +142,21 @@
     .sc-public-profile a.sc-profile-verified-name:visited{display:block!important;width:100%!important;margin:10px 0 0!important;padding:0!important;color:#ffbc0a!important;font-size:18px!important;font-weight:400!important;line-height:1.25!important;text-align:center!important;text-decoration:none!important;text-shadow:none!important;white-space:normal!important}
     .sc-public-profile a.sc-profile-verified-name:hover,
     .sc-public-profile a.sc-profile-verified-name:focus{color:#f7f3ef!important;text-decoration:none!important}
-    .sc-profile-private-media-row{margin:0 0 16px}
-    .sc-profile-private-media-row{grid-template-columns:repeat(2,170px)!important;justify-content:start!important;gap:28px!important}
-    .sc-profile-private-media-card{display:flex!important;flex-direction:column!important;align-items:center!important;width:170px!important;min-width:170px!important;max-width:170px!important;padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important;text-align:center!important}
-    .sc-profile-private-media-card h2{order:2;width:100%!important;margin:10px 0 0!important;color:#ffbc0a!important;font-size:18px!important;font-weight:400!important;line-height:1.25!important;text-align:center!important;text-transform:none!important;letter-spacing:0!important}
+    .sc-profile-private-media-showcase{display:grid;grid-template-columns:300px minmax(0,1fr);gap:24px;margin:0 0 16px;padding:22px;border:1px solid rgba(255,255,255,.09);border-radius:8px;background:#17151c;box-shadow:0 14px 36px rgba(0,0,0,.28);color:#f4f1f6}
+    .sc-profile-private-media-left{display:grid;gap:16px;align-content:start}
+    .sc-profile-private-media-side-card{display:grid;gap:8px;justify-items:center;margin:0;padding:12px;border:1px solid rgba(255,255,255,.1);border-radius:8px;background:#100f14;text-align:center}
+    .sc-profile-private-media-side-card h2{width:100%;margin:0!important;color:#f4f1f6!important;font-size:15px!important;font-weight:bold!important;line-height:1.25!important;text-align:left!important;text-transform:none!important;letter-spacing:0!important}
     .sc-profile-private-media-grid{display:block!important;margin:0!important;padding:0!important}
-    .sc-profile-private-media-item{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important;width:170px!important;min-width:170px!important;max-width:170px!important;margin:0!important;padding:0!important;text-align:center!important}
+    .sc-profile-private-media-item{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important;width:100%!important;margin:0!important;padding:0!important;text-align:center!important}
     .sc-profile-private-media-thumb,
-    .sc-profile-private-media-thumb:visited{position:relative!important;display:block!important;width:150px!important;height:150px!important;margin:0 auto!important;overflow:hidden!important;border:0!important;border-radius:0!important;background:#101114!important;text-decoration:none!important;box-shadow:none!important}
-    .sc-profile-private-media-thumb img{display:block!important;width:150px!important;height:150px!important;max-width:none!important;max-height:none!important;object-fit:cover!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+    .sc-profile-private-media-thumb:visited{position:relative!important;display:block!important;width:100%!important;height:auto!important;margin:0 auto!important;overflow:hidden!important;border:0!important;border-radius:6px!important;background:#101114!important;text-decoration:none!important;box-shadow:none!important}
+    .sc-profile-private-media-thumb img{display:block!important;width:100%!important;height:auto!important;max-width:none!important;max-height:none!important;aspect-ratio:16/10!important;object-fit:cover!important;border:0!important;border-radius:6px!important;box-shadow:none!important}
     .sc-profile-private-media-thumb.is-locked img{filter:saturate(.65) brightness(.72)!important}
     .sc-profile-private-media-lock{position:absolute!important;left:8px!important;right:8px!important;bottom:8px!important;display:flex!important;align-items:center!important;justify-content:center!important;min-height:28px!important;padding:5px 8px!important;border:1px solid rgba(236,8,104,.55)!important;border-radius:7px!important;background:rgba(16,15,20,.86)!important;color:#f7f3ef!important;font-size:12px!important;font-weight:bold!important;line-height:1.2!important;text-align:center!important}
     .sc-profile-private-media-name{display:none!important}
     .sc-profile-private-media-video .sc-profile-private-media-thumb:not(.is-locked):after{content:"";position:absolute;left:50%;top:50%;width:0;height:0;margin:-16px 0 0 -10px;border-top:16px solid transparent;border-bottom:16px solid transparent;border-left:24px solid rgba(255,255,255,.9);filter:drop-shadow(0 2px 7px rgba(0,0,0,.45))}
-    .sc-profile-private-media-card a.sc-profile-card-action,
-    .sc-profile-private-media-card a.sc-profile-card-action:visited{display:flex!important;width:fit-content!important;margin:12px auto 0!important;justify-content:center!important;border:0!important;background:transparent!important;color:#ffbc0a!important;font-size:15px!important;font-weight:400!important}
-    .sc-profile-private-media-card a.sc-profile-card-action:hover,
-    .sc-profile-private-media-card a.sc-profile-card-action:focus{background:transparent!important;color:#ec7d10!important}
+    .sc-profile-private-media-feature{display:flex;align-items:center;justify-content:center;min-width:0;padding:8px;border:1px solid rgba(255,255,255,.1);border-radius:8px;background:#100f14}
+    .sc-profile-private-media-feature-img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border:0;border-radius:6px;box-shadow:none}
     .sc-empty{color:#8f8794!important;font-style:italic}
     #cboxOverlay.sc-profile-colorbox-overlay{background:#050407!important;opacity:.9!important}
     #colorbox.sc-profile-colorbox,
@@ -219,14 +217,10 @@
         .sc-public-profile .sc-profile-verified-avatar,
         .sc-public-profile .sc-profile-verified-avatar img{width:130px!important;height:130px!important}
         .sc-public-profile .sc-profile-verified-note{left:50%;width:min(260px, calc(100vw - 36px));transform:translateX(-50%)}
-        .sc-profile-private-media-row{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:20px 12px!important}
-        .sc-profile-private-media-card{width:100%!important;min-width:0!important;max-width:none!important;padding:0!important}
-        .sc-profile-private-media-grid{display:block!important}
-        .sc-profile-private-media-item{width:100%!important;min-width:0!important;max-width:none!important}
-        .sc-profile-private-media-thumb,
-        .sc-profile-private-media-thumb img{width:130px!important;height:130px!important}
-        .sc-profile-private-media-card a.sc-profile-card-action,
-        .sc-profile-private-media-card a.sc-profile-card-action:visited{margin-top:12px!important}
+        .sc-profile-private-media-showcase{grid-template-columns:1fr!important;gap:16px!important;padding:16px!important}
+        .sc-profile-private-media-left{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}
+        .sc-profile-private-media-side-card{padding:10px!important}
+        .sc-profile-private-media-side-card h2{font-size:13px!important;text-align:center!important}
         .sc-profile-button{width:100%}
     }
 </style>
@@ -540,44 +534,49 @@
 
     <!-- SC_PUBLIC_PROFILE_PRIVATE_MEDIA_BLOCK -->
     <!-- SC_PUBLIC_PROFILE_PRIVATE_MEDIA_STATE {privateMediaStateComment} -->
-    <div class="sc-profile-grid sc-profile-private-media-row">
-        <section class="sc-profile-card sc-profile-private-media-card sc-profile-private-media-photo">
-            <div class="sc-profile-private-media-grid">
-                <div class="sc-profile-private-media-item">
-                    {if !empty($privatePhotoLink)}
-                        <a class="sc-profile-private-media-thumb" href="{privatePhotoLink}" title="{lang 'Private Photos'}">
-                            <img src="{privatePhotoPlaceholder}" alt="{lang 'Private Photos'}" loading="lazy" />
-                        </a>
-                    {else}
-                        <span class="sc-profile-private-media-thumb {if !$canViewPrivatePhotos}is-locked{/if}" aria-label="{lang 'Private Photos'}">
-                            <img src="{privatePhotoPlaceholder}" alt="{lang 'Private Photos'}" loading="lazy" />
-                        </span>
-                    {/if}
-                    <span class="sc-profile-private-media-name">{lang 'Private Photos'}</span>
+    <div class="sc-profile-private-media-showcase">
+        <div class="sc-profile-private-media-left">
+            <section class="sc-profile-private-media-side-card sc-profile-private-media-photo">
+                <div class="sc-profile-private-media-grid">
+                    <div class="sc-profile-private-media-item">
+                        {if !empty($privatePhotoLink)}
+                            <a class="sc-profile-private-media-thumb" href="{privatePhotoLink}" title="{lang 'Private Photos'}">
+                                <img src="{privatePhotoPlaceholder}" alt="{lang 'Private Photos'}" loading="lazy" />
+                            </a>
+                        {else}
+                            <span class="sc-profile-private-media-thumb {if !$canViewPrivatePhotos}is-locked{/if}" aria-label="{lang 'Private Photos'}">
+                                <img src="{privatePhotoPlaceholder}" alt="{lang 'Private Photos'}" loading="lazy" />
+                            </span>
+                        {/if}
+                        <span class="sc-profile-private-media-name">{lang 'Private Photos'}</span>
+                    </div>
                 </div>
-            </div>
-            <h2>{lang 'Private Photos'}</h2>
-        </section>
+                <h2>{lang 'Private Photos'}</h2>
+            </section>
 
-        <section class="sc-profile-card sc-profile-private-media-card sc-profile-private-media-video">
-            <div class="sc-profile-private-media-grid">
-                <div class="sc-profile-private-media-item">
-                    {if !empty($privateVideoLink)}
-                        <a class="sc-profile-private-media-thumb" href="{privateVideoLink}" title="{lang 'Private Videos'}">
-                            <img src="{privateVideoPlaceholder}" alt="{lang 'Private Videos'}" loading="lazy" />
-                        </a>
-                    {else}
-                        <span class="sc-profile-private-media-thumb {if !$canViewPrivateVideos}is-locked{/if}" aria-label="{lang 'Private Videos'}">
-                            <img src="{privateVideoPlaceholder}" alt="{lang 'Private Videos'}" loading="lazy" />
-                        </span>
-                    {/if}
-                    <span class="sc-profile-private-media-name">{lang 'Private Videos'}</span>
+            <section class="sc-profile-private-media-side-card sc-profile-private-media-video">
+                <div class="sc-profile-private-media-grid">
+                    <div class="sc-profile-private-media-item">
+                        {if !empty($privateVideoLink)}
+                            <a class="sc-profile-private-media-thumb" href="{privateVideoLink}" title="{lang 'Private Videos'}">
+                                <img src="{privateVideoPlaceholder}" alt="{lang 'Private Videos'}" loading="lazy" />
+                            </a>
+                        {else}
+                            <span class="sc-profile-private-media-thumb {if !$canViewPrivateVideos}is-locked{/if}" aria-label="{lang 'Private Videos'}">
+                                <img src="{privateVideoPlaceholder}" alt="{lang 'Private Videos'}" loading="lazy" />
+                            </span>
+                        {/if}
+                        <span class="sc-profile-private-media-name">{lang 'Private Videos'}</span>
+                    </div>
                 </div>
-            </div>
-            <h2>{lang 'Private Videos'}</h2>
-        </section>
+                <h2>{lang 'Private Videos'}</h2>
+            </section>
+        </div>
+
+        <div class="sc-profile-private-media-feature">
+            <img class="sc-profile-private-media-feature-img" src="/templates/themes/base/img/sharedchemistry/private-media/sharing-is-caring-couples.png" alt="{lang 'Sharing is caring'}" loading="lazy" />
+        </div>
     </div>
-
     <div class="sc-profile-grid">
 {literal}
 <style id="sc-profile-friends-final-css">
