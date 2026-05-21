@@ -152,6 +152,11 @@ class ForumController extends Controller
             $this->oPage->getFirstItem(),
             $this->oPage->getNbItemsPerPage()
         );
+        if (!empty($oMessages)) {
+            foreach ($oMessages as $oMessage) {
+                $oMessage->reply_photos = $this->oForumModel->getReplyPhotos((int)$oMessage->messageId);
+            }
+        }
 
         if (empty($oPost)) {
             $this->sTitle = t('Topic Not Found!');
@@ -297,7 +302,7 @@ class ForumController extends Controller
 
     public function reply()
     {
-        $this->sTitle = t('Reply Message');
+        $this->sTitle = t('Reply');
         $this->view->page_title = $this->sTitle;
         $this->view->h2_title = $this->sTitle;
 

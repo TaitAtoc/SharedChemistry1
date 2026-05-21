@@ -202,6 +202,7 @@
             <div class="sc-forum-real-empty">No discussions have been started yet.</div>
         {else}
             <div class="sc-forum-real-grid">
+                <!-- SC_FORUM_LATEST_TOPICS_MULTI_V1_ACTIVE -->
                 {each $topic in $latest_topics}
                     <article class="sc-forum-real-card">
                         <div>
@@ -228,6 +229,7 @@
                         <a class="sc-forum-real-button" href="{{ $design->url('forum', 'forum', 'post', "$topic->name,$topic->forumId,$topic->title,$topic->topicId") }}">Join the Discussion</a>
                     </article>
                 {/each}
+                <!-- SC_FORUM_LATEST_TOPICS_MULTI_V1_END -->
             </div>
         {/if}
     {else}

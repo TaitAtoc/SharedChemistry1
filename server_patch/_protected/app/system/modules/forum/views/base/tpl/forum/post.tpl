@@ -66,25 +66,52 @@
     }
 
     .sc-forum-post-gallery {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        display: flex;
+        flex-wrap: wrap;
         gap: 14px;
         margin: 24px 0 0;
     }
 
     .sc-forum-post-photo {
         display: block;
+        width: 140px;
+        height: 140px;
         overflow: hidden;
         border: 1px solid rgba(233, 187, 99, .22);
         border-radius: 8px;
         background: #0d0b0f;
+        cursor: zoom-in;
     }
 
     .sc-forum-post-photo img {
         display: block;
         width: 100%;
-        aspect-ratio: 4 / 3;
+        height: 100%;
         object-fit: cover;
+    }
+
+    .sc-forum-post-lightbox {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        background: rgba(0, 0, 0, .86);
+    }
+
+    .sc-forum-post-lightbox.is-active {
+        display: flex;
+    }
+
+    .sc-forum-post-lightbox img {
+        display: block;
+        max-width: min(1120px, 96vw);
+        max-height: 88vh;
+        object-fit: contain;
+        border-radius: 8px;
+        box-shadow: 0 24px 80px rgba(0, 0, 0, .58);
     }
 
     .sc-forum-post-actions {
@@ -166,7 +193,7 @@
             {if !empty($post_photos)}
                 <div class="sc-forum-post-gallery">
                     {each $photo in $post_photos}
-                        <a class="sc-forum-post-photo" href="/{% escape($photo->public_path, true) %}" data-popup="image" title="{% escape($photo->original_name, true) %}">
+                        <a class="sc-forum-post-photo" href="/{% escape($photo->public_path, true) %}" data-sc-full="/{% escape($photo->public_path, true) %}" title="{% escape($photo->original_name, true) %}">
                             <img src="/{% escape($photo->public_path, true) %}" alt="{% escape($photo->original_name, true) %}" />
                         </a>
                     {/each}
@@ -198,6 +225,15 @@
                                 - {% escape($msg->username, true) %}
                             {/if}
                         </p>
+                        {if !empty($msg->reply_photos)}
+                            <div class="sc-forum-post-gallery">
+                                {each $photo in $msg->reply_photos}
+                                    <a class="sc-forum-post-photo" href="/{% escape($photo->public_path, true) %}" data-sc-full="/{% escape($photo->public_path, true) %}" title="{% escape($photo->original_name, true) %}">
+                                        <img src="/{% escape($photo->public_path, true) %}" alt="{% escape($photo->original_name, true) %}" />
+                                    </a>
+                                {/each}
+                            </div>
+                        {/if}
                         {if $is_user_auth AND $member_id == $msg->profileId}
                             <div class="sc-forum-post-actions">
                                 <a href="{{ $design->url('forum', 'forum', 'editmessage', "$post->name,$post->forumId,$post->title,$msg->topicId,$msg->messageId") }}">{lang 'Edit'}</a>
@@ -213,4 +249,37 @@
         <article class="sc-forum-post-body">{error}</article>
     {/if}
 </section>
+
+<!-- SC_FORUM_PHOTO_LIGHTBOX_V1_ACTIVE -->
+<div class="sc-forum-post-lightbox" id="sc-forum-post-lightbox" aria-hidden="true">
+    <img src="" alt="" />
+</div>
+<script>
+(function () {
+    var root = document.querySelector('.sc-forum-post-v1');
+    var lightbox = document.getElementById('sc-forum-post-lightbox');
+    if (!root || !lightbox) {
+        return;
+    }
+    var image = lightbox.querySelector('img');
+    root.addEventListener('click', function (event) {
+        var link = event.target.closest('[data-sc-full]');
+        if (!link) {
+            return;
+        }
+        event.preventDefault();
+        image.src = link.getAttribute('data-sc-full');
+        image.alt = link.getAttribute('title') || '';
+        lightbox.className = 'sc-forum-post-lightbox is-active';
+        lightbox.setAttribute('aria-hidden', 'false');
+    });
+    lightbox.addEventListener('click', function () {
+        lightbox.className = 'sc-forum-post-lightbox';
+        lightbox.setAttribute('aria-hidden', 'true');
+        image.src = '';
+        image.alt = '';
+    });
+})();
+</script>
+<!-- SC_FORUM_PHOTO_LIGHTBOX_V1_END -->
 <!-- SC_FORUM_POST_VIEW_V1_END -->
