@@ -1,5 +1,6 @@
 {literal}
 <style>
+    <!-- SC_MEET_PEOPLE_GAP_FIX_V1_ACTIVE -->
     main#content .sc-meet-people,
     main#content .sc-meet-people * {
         box-sizing: border-box;
@@ -8,9 +9,10 @@
     main#content:has(.sc-meet-people) {
         width: min(1280px, calc(100vw - 48px)) !important;
         max-width: none !important;
+        margin-top: 0 !important;
         margin-left: auto !important;
         margin-right: auto !important;
-        padding-top: 140px !important;
+        padding-top: 24px !important;
         padding-bottom: 80px !important;
     }
 
@@ -22,6 +24,8 @@
         width: 100%;
         max-width: 1280px;
         margin: 0 auto;
+        margin-top: 0 !important;
+        padding-top: 0 !important;
         color: #f7f3ef;
     }
 
@@ -322,7 +326,7 @@
     @media (max-width: 700px) {
         main#content:has(.sc-meet-people) {
             width: calc(100vw - 24px) !important;
-            padding-top: 100px !important;
+            padding-top: 24px !important;
             padding-bottom: 70px !important;
         }
 
@@ -334,6 +338,7 @@
             position: static;
         }
     }
+    <!-- SC_MEET_PEOPLE_GAP_FIX_V1_END -->
 </style>
 {/literal}
 
