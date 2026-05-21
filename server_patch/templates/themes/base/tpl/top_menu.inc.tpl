@@ -47,44 +47,13 @@
 
     {* Guest, Member and LoginUserAs (except Affiliate & Admin) *}
       {if (!$is_aff_auth AND !$is_admin_auth) OR $admin_logged_as_user}
+        <!-- SC_LOGGED_IN_MENU_SIMPLIFY_V1_ACTIVE -->
         <li class="dropdown">
           <a href="{{ $design->url('user', 'browse', 'index') }}" title="{lang 'Members'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown" data-load="ajax">
             <i class="fa fa-users fa-fw"></i> {lang 'People'} <span class="caret"></span>
           </a>
           <ul class="dropdown-menu" role="menu">
             <li><a href="{{ $design->url('user', 'browse', 'index') }}" rel="nofollow" title="{lang 'Browse Members'}" data-load="ajax"><i class="fa fa-user"></i> {lang 'Browse'}</a></li>
-
-            <li class="menu-item dropdown dropdown-submenu">
-              <a href="{{ $design->url('user','search', 'index') }}" title="{lang 'Search the members'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown" data-load="ajax">
-                <i class="fa fa-search"></i> {lang 'Search'}
-              </a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="{{ $design->url('user', 'search', 'quick') }}" title="{lang 'Quick Search'}" data-load="ajax">{lang 'Quick Search'}</a></li>
-                <li><a href="{{ $design->url('user', 'search', 'advanced') }}" title="{lang 'Advanced Search'}" data-load="ajax">{lang 'Advanced Search'}</a></li>
-              </ul>
-            </li>
-
-            {if $is_map_enabled}
-              <li>
-                <a href="{{ $design->url('map', 'country', 'index', Framework\Geo\Ip\Geo::getCountry() . PH7_SH. Framework\Geo\Ip\Geo::getCity()) }}" title="{lang 'Users nearby through the map!'}">
-                  <i class="fa fa-map-marker"></i> {lang 'People Nearby'}
-                </a>
-              </li>
-            {/if}
-
-            {if $is_birthday_enabled}
-              <li class="menu-item dropdown dropdown-submenu">
-                <a href="{{ $design->url('birthday', 'user', 'index') }}" title="{lang 'User Birthdays'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown" data-load="ajax">
-                  <i class="fa fa-birthday-cake"></i> {lang 'Birthdays'}
-                </a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a href="{{ $design->url('birthday', 'user', 'index', 'all') }}" rel="nofollow" title="{lang 'All Birthdays'}" data-load="ajax">{lang 'All Birthdays'}</a></li>
-                  <li><a href="{{ $design->url('birthday', 'user', 'index', 'male') }}" title="{lang 'Men Birthdays'}" data-load="ajax">{lang 'Men Birthdays'}</a></li>
-                  <li><a href="{{ $design->url('birthday', 'user', 'index', 'female') }}" title="{lang 'Women Birthdays'}" data-load="ajax">{lang 'Women Birthdays'}</a></li>
-                  <li><a href="{{ $design->url('birthday', 'user', 'index', 'couple') }}" title="{lang 'Couple Birthdays'}" data-load="ajax">{lang 'Couple Birthdays'}</a></li>
-                </ul>
-              </li>
-            {/if}
           </ul>
         </li>
       {/if}
@@ -97,32 +66,6 @@
             <a href="{{ $design->url('chat','home','index') }}" title="{lang 'Chat Rooms'}" data-load="ajax">
               <i class="fa fa-weixin"></i> {lang 'Chat'}
             </a>
-          </li>
-        {/if}
-
-        {if $is_picture_enabled}
-          <li class="dropdown">
-            <a href="{url_root}photo-gallery" title="{lang 'Photo Gallery'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown">
-              <i class="fa fa-picture-o"></i> {lang 'Photo'} <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu" role="menu">
-              <li><a href="{url_root}photo-gallery" rel="nofollow" title="{lang 'Photo Gallery'}"><i class="fa fa-picture-o"></i> {lang 'Photos'}</a></li>
-
-              {if $is_hotornot_enabled}
-                <li><a href="{{ $design->url('hotornot','main','rating') }}" title="{lang 'Hot Or Not'}" data-load="ajax"><i class="fa fa-heart-o"></i> {lang 'Hot Or Not'}</a></li>
-              {/if}
-
-              <li><a href="{{ $design->url('picture','main','search') }}" title="{lang 'Search Photos'}" data-load="ajax"><i class="fa fa-search"></i> {lang 'Search'}</a></li>
-            </ul>
-          </li>
-        {/if}
-
-        {if $is_video_enabled}
-          <li class="dropdown"><a href="{{ $design->url('video','main','index') }}" title="{lang 'Video Gallery'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown" data-load="ajax"><i class="fa fa-youtube-play"></i> {lang 'Video'} <span class="caret"></span></a>
-            <ul class="dropdown-menu" role="menu">
-              <li><a href="{{ $design->url('video','main','index') }}" rel="nofollow" title="{lang 'Video Gallery'}" data-load="ajax"><i class="fa fa-youtube-play"></i> {lang 'Videos'}</a></li>
-              <li><a href="{{ $design->url('video','main','search') }}" title="{lang 'Search Videos'}" data-load="ajax"><i class="fa fa-search"></i> {lang 'Search'}</a></li>
-            </ul>
           </li>
         {/if}
 
@@ -241,33 +184,6 @@
               <li><a href="{% (new UserCore)->getProfileLink($username) %}"><i class="fa fa-user fa-fw"></i> {lang 'See My Profile'}</a></li>
               <li><a href="{{ $design->url('user','setting','avatar') }}"><i class="fa fa-upload"></i> {lang 'Profile Photo'}</a></li>
 
-              {if $is_picture_enabled}
-                <li class="menu-item dropdown dropdown-submenu"><a href="{url_root}photo-gallery" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown"><i class="fa fa-picture-o"></i> {lang 'Photos'}</a>
-                  <ul class="dropdown-menu" role="menu">
-                    <li><a href="{{ $design->url('picture','main','addalbum') }}">{lang 'Add Photos'}</a></li>
-                    <li><a href="{{ $design->url('picture','main','albums',$username) }}" data-load="ajax">{lang 'My Photos'}</a></li>
-                  </ul>
-                </li>
-              {/if}
-
-              {if $is_video_enabled}
-                <li class="menu-item dropdown dropdown-submenu"><a href="{{ $design->url('video','main','index') }}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown" data-load="ajax"><i class="fa fa-youtube-play"></i> {lang 'Videos Gallery'}</a>
-                  <ul class="dropdown-menu" role="menu">
-                    <li><a href="{{ $design->url('video','main','addalbum') }}">{lang 'Add an Album'}</a></li>
-                    <li><a href="{{ $design->url('video','main','albums',$username) }}" data-load="ajax">{lang 'My Albums'}</a></li>
-                  </ul>
-                </li>
-              {/if}
-
-              {if $is_note_enabled}
-                <li class="menu-item dropdown dropdown-submenu"><a href="{{ $design->url('note','main','index') }}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown"><i class="fa fa-newspaper-o"></i> {lang 'Note'}</a>
-                  <ul class="dropdown-menu" role="menu">
-                    <li><a href="{{ $design->url('note','main','add') }}">{lang 'Add a Note'}</a></li>
-                    <li><a href="{{ $design->url('note','main','author',$username) }}">{lang 'My Notes'}</a></li>
-                  </ul>
-                </li>
-              {/if}
-
               {if $is_friend_enabled}
                   <li class="menu-item dropdown dropdown-submenu">
                     <a href="{{ $design->url('friend','main','index') }}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown">
@@ -280,16 +196,6 @@
                 </li>
               {/if}
 
-              <li class="menu-item dropdown dropdown-submenu">
-                <a href="{{ $design->url('user','visitor','index') }}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown">
-                  <i class="fa fa-eye"></i> {lang 'Who See Me'}
-                </a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a href="{{ $design->url('user','visitor','index') }}">{lang 'Who See Me'}</a></li>
-                  <li><a href="{{ $design->url('user','visitor','search',$username) }}">{lang 'Find Visitor(s)'}</a></li>
-                </ul>
-              </li>
-
               <li><a href="{{ $design->url('user','main','logout') }}"><i class="fa fa-sign-out"></i> {lang 'Logout'}</a></li>
             </ul>
           </li>
@@ -299,6 +205,7 @@
               <i class="fa fa-dashboard"></i> {lang 'Our Dashboard'}
             </a>
           </li>
+          <!-- SC_LOGGED_IN_MENU_SIMPLIFY_V1_END -->
       {/if}
 
 
