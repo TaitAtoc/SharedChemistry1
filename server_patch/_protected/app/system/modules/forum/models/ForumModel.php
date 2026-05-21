@@ -186,15 +186,16 @@ class ForumModel extends ForumCoreModel
 
     public function getLatestDiscussionTopics($iLimit = 20)
     {
-        // SC_FORUM_LATEST_TOPICS_MULTI_V1_ACTIVE
+        // SC_FORUM_SHOW_ALL_RECENT_TOPICS_V2_ACTIVE
         $iLimit = max(20, (int)$iLimit);
+        $sTopicTable = 'forums_topics';
 
         try {
             $rStmt = Db::getInstance()->prepare(
                 'SELECT f.name, f.forumId, t.topicId, t.profileId, t.title, t.message, t.createdDate, t.updatedDate, ' .
                 'm.username, m.firstName, m.sex, e.short_description, COALESCE(pc.photo_count, 0) AS photo_count FROM' .
                 Db::prefix(DbTableName::FORUM) . 'AS f INNER JOIN' .
-                Db::prefix(DbTableName::FORUM_TOPIC) . 'AS t ON f.forumId = t.forumId LEFT JOIN' .
+                Db::prefix($sTopicTable) . 'AS t ON f.forumId = t.forumId LEFT JOIN' .
                 Db::prefix(DbTableName::MEMBER) . ' AS m ON t.profileId = m.profileId LEFT JOIN' .
                 Db::prefix('sc_forum_topic_extras') . 'AS e ON t.topicId = e.topic_id LEFT JOIN' .
                 ' (SELECT topic_id, COUNT(photo_id) AS photo_count FROM' . Db::prefix('sc_forum_topic_photos') .
@@ -212,7 +213,7 @@ class ForumModel extends ForumCoreModel
                 'SELECT f.name, f.forumId, t.topicId, t.profileId, t.title, t.message, t.createdDate, t.updatedDate, ' .
                 'm.username, m.firstName, m.sex FROM' .
                 Db::prefix(DbTableName::FORUM) . 'AS f INNER JOIN' .
-                Db::prefix(DbTableName::FORUM_TOPIC) . 'AS t ON f.forumId = t.forumId LEFT JOIN' .
+                Db::prefix($sTopicTable) . 'AS t ON f.forumId = t.forumId LEFT JOIN' .
                 Db::prefix(DbTableName::MEMBER) . ' AS m ON t.profileId = m.profileId ' .
                 'WHERE t.approved = :approved ORDER BY t.createdDate DESC LIMIT 20'
             );
