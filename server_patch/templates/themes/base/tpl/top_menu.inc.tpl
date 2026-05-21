@@ -85,6 +85,13 @@
           </li>
         {/if}
 
+        <!-- SC_LOGGED_IN_BLOG_MENU_V1_ACTIVE -->
+        <li>
+          <a href="{url_root}blog" title="{lang 'Blog'}" data-sc-menu-proof="logged-in-blog-v1">
+            <i class="fa fa-newspaper-o"></i> {lang 'Blog'}
+          </a>
+        </li>
+
         {if $is_note_enabled AND !$is_user_auth}
           <li class="dropdown"><a href="{{ $design->url('note','main','index') }}" title="{lang 'Community Notes'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown" data-load="ajax"><i class="fa fa-newspaper-o"></i> {lang 'Note'} <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
