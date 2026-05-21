@@ -32,6 +32,7 @@
 
     {* Guest menu *}
       {if !$is_user_auth AND !$is_aff_auth AND !$is_admin_auth}
+        <!-- SC_GUEST_MENU_SIMPLIFY_V1_ACTIVE -->
         <li>
           <a class="bold sharedchemistry-nav-join" href="{{ $design->url('user', 'signup', 'step1') }}" title="{lang 'Create your couple profile'}">
             <i class="fa fa-user-plus"></i> {lang 'Create Profile'}
@@ -42,11 +43,17 @@
             <i class="fa fa-sign-in"></i> {lang 'Sign in'}
           </a>
         </li>
+        <li>
+          <a class="sharedchemistry-nav-blog" href="{url_root}blog" title="{lang 'Blog'}">
+            <i class="fa fa-newspaper-o"></i> {lang 'Blog'}
+          </a>
+        </li>
+        <!-- SC_GUEST_MENU_SIMPLIFY_V1_END -->
       {/if}
 
 
     {* Guest, Member and LoginUserAs (except Affiliate & Admin) *}
-      {if (!$is_aff_auth AND !$is_admin_auth) OR $admin_logged_as_user}
+      {if ($is_user_auth AND !$is_aff_auth AND !$is_admin_auth) OR $admin_logged_as_user}
         <!-- SC_LOGGED_IN_MENU_SIMPLIFY_V1_ACTIVE -->
         <li class="dropdown">
           <a href="{{ $design->url('user', 'browse', 'index') }}" title="{lang 'Members'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown" data-load="ajax">
@@ -60,7 +67,7 @@
 
 
     {* Guest, Member and LoginUserAs from Admin Panel *}
-    {if (!$is_aff_auth AND !$is_admin_auth) OR $admin_logged_as_user}
+    {if ($is_user_auth AND !$is_aff_auth AND !$is_admin_auth) OR $admin_logged_as_user}
         {if $is_chat_enabled}
           <li>
             <a href="{{ $design->url('chat','home','index') }}" title="{lang 'Chat Rooms'}" data-load="ajax">
