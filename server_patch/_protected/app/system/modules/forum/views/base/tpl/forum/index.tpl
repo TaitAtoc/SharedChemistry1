@@ -58,18 +58,21 @@
         line-height: 1.7;
     }
 
-    .sc-forum-home-v2 > div {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 18px;
+    .sc-forum-grid-v2 {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+        gap: 22px !important;
+        align-items: stretch !important;
+        margin-top: 28px !important;
     }
 
     .sc-forum-card-v2 {
         position: relative;
-        display: flex;
-        min-height: 264px;
-        flex-direction: column;
-        justify-content: space-between;
+        display: flex !important;
+        width: 100% !important;
+        min-height: 228px !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
         overflow: hidden;
         padding: 24px;
         border: 1px solid rgba(233, 187, 99, .28);
@@ -202,8 +205,8 @@
     }
 
     @media (max-width: 980px) {
-        .sc-forum-home-v2 > div {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
+        .sc-forum-grid-v2 {
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
         }
     }
 
@@ -216,18 +219,18 @@
             font-size: 34px;
         }
 
-        .sc-forum-home-v2 > div {
-            grid-template-columns: 1fr;
+        .sc-forum-grid-v2 {
+            grid-template-columns: 1fr !important;
         }
 
         .sc-forum-card-v2 {
-            min-height: 238px;
+            min-height: 238px !important;
         }
     }
 </style>
 {/literal}
 
-<!-- SC_FORUM_HOME_CARD_IMAGE_REDESIGN_V2_ACTIVE -->
+<!-- SC_FORUM_HOME_CARD_GRID_FIX_V3_ACTIVE -->
 <section class="sc-forum-home-v2">
     <header>
         <p>SharedChemistry Community</p>
@@ -239,10 +242,21 @@
         {if empty($categories) OR empty($forums)}
             <p>Discussion areas are being prepared.</p>
         {else}
-            {{ $sc_forum_new_topic_url = null }}
-            <div id="sc-forum-areas">
-                {each $forum in $forums}
-                    {{ if (empty($sc_forum_new_topic_url)) { $sc_forum_new_topic_url = $design->url('forum', 'forum', 'addtopic', "$forum->name,$forum->forumId"); } }}
+            <div id="sc-forum-areas" class="sc-forum-grid-v2">
+                {each $sc_forum_index => $forum in $forums}
+                    {if $sc_forum_index == 0}
+                        <article class="sc-forum-card-v2 sc-forum-card-bg sc-forum-new-topic-card">
+                            <div>
+                                <h2 class="sc-forum-card-title">Start a New Topic</h2>
+                                <p class="sc-forum-card-desc">Start a new conversation and invite other couples to join in.</p>
+                            </div>
+
+                            <div class="sc-forum-card-actions">
+                                <a rel="nofollow" href="{{ $design->url('forum', 'forum', 'addtopic', "$forum->name,$forum->forumId") }}">Start a New Topic</a>
+                            </div>
+                        </article>
+                    {/if}
+
                     <article class="sc-forum-card-v2 sc-forum-card-bg">
                         <div>
                             <h2 class="sc-forum-card-title">
@@ -258,21 +272,6 @@
                         </div>
                     </article>
                 {/each}
-
-                <article class="sc-forum-card-v2 sc-forum-card-bg sc-forum-new-topic-card">
-                    <div>
-                        <h2 class="sc-forum-card-title">Start a New Topic</h2>
-                        <p class="sc-forum-card-desc">Start a new conversation and invite other couples to join in.</p>
-                    </div>
-
-                    <div class="sc-forum-card-actions">
-                        {if empty($sc_forum_new_topic_url)}
-                            <span>Start a New Topic</span>
-                        {else}
-                            <a rel="nofollow" href="{{ $sc_forum_new_topic_url }}">Start a New Topic</a>
-                        {/if}
-                    </div>
-                </article>
             </div>
 
             <nav>
@@ -290,4 +289,4 @@
         </footer>
     {/if}
 </section>
-<!-- SC_FORUM_HOME_CARD_IMAGE_REDESIGN_V2_END -->
+<!-- SC_FORUM_HOME_CARD_GRID_FIX_V3_END -->
