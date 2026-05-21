@@ -181,6 +181,7 @@
     </header>
 
     {if empty($error)}
+        <h2>Recent Discussions</h2>
         <div class="sc-forum-real-grid">
             {if !empty($forums)}
                 {each $sc_forum_index => $forum in $forums}
@@ -195,13 +196,9 @@
                     {/if}
                 {/each}
             {/if}
-        </div>
 
-        <h2>Recent Discussions</h2>
-        {if empty($latest_topics)}
-            <div class="sc-forum-real-empty">No discussions have been started yet.</div>
-        {else}
-            <div class="sc-forum-real-grid">
+            <!-- SC_FORUM_RENDER_ALL_TOPIC_CARDS_V1_ACTIVE -->
+            {if !empty($latest_topics)}
                 <!-- SC_FORUM_LATEST_TOPICS_MULTI_V1_ACTIVE -->
                 {each $topic in $latest_topics}
                     <article class="sc-forum-real-card">
@@ -230,7 +227,12 @@
                     </article>
                 {/each}
                 <!-- SC_FORUM_LATEST_TOPICS_MULTI_V1_END -->
-            </div>
+            {/if}
+            <!-- SC_FORUM_RENDER_ALL_TOPIC_CARDS_V1_END -->
+        </div>
+
+        {if empty($latest_topics)}
+            <div class="sc-forum-real-empty">No discussions have been started yet.</div>
         {/if}
     {else}
         <div class="sc-forum-real-empty">{error}</div>
