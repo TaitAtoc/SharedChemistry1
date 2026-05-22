@@ -1,7 +1,10 @@
 {literal}
 <style>
+    /* SC_USER_AVATAR_GAP_FIX_V1_ACTIVE */
+    body main#content:has(.sc-avatar-photo-manager),
     body main#content#content:has(.sc-avatar-photo-manager) {
-        padding-top: 132px !important;
+        margin-top: 0 !important;
+        padding-top: 24px !important;
         padding-left: 15px !important;
         padding-right: 15px !important;
     }

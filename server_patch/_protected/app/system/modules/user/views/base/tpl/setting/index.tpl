@@ -1,12 +1,15 @@
 <style>
+/* SC_USER_SETTING_GAP_FIX_V1_ACTIVE */
 main#content:has(ol#toc) {
-    padding-top: 140px !important;
+    margin-top: 0 !important;
+    padding-top: 24px !important;
     padding-bottom: 80px !important;
 }
 
 @media (max-width: 767px) {
     main#content:has(ol#toc) {
-        padding-top: 100px !important;
+        margin-top: 0 !important;
+        padding-top: 24px !important;
         padding-bottom: 70px !important;
     }
 }
