@@ -68,11 +68,17 @@ function scRecentDiscussions(PDO $oDb): array
           t.message,
           t.createdDate,
           t.updatedDate,
+          m.username,
+          i.couple_profile_data,
           COALESCE(e.short_description, '') AS short_description,
           COALESCE(p.photo_count, 0) AS photo_count
         FROM ph7vz_forums AS f
         INNER JOIN ph7vz_forums_topics AS t
           ON f.forumId = t.forumId
+        LEFT JOIN ph7vz_members AS m
+          ON m.profileId = t.profileId
+        LEFT JOIN ph7vz_members_info AS i
+          ON i.profileId = t.profileId
         LEFT JOIN ph7vz_sc_forum_topic_extras AS e
           ON t.topicId = e.topic_id
         LEFT JOIN (
@@ -88,8 +94,26 @@ function scRecentDiscussions(PDO $oDb): array
 
     $oStmt = $oDb->query($sSql);
     $aRows = $oStmt->fetchAll(PDO::FETCH_OBJ);
+    foreach ($aRows as $oRow) {
+        // SC_FORUM_COUPLE_NAME_ON_CARDS_V1_ACTIVE
+        $oRow->displayName = scForumTopicDisplayName($oRow);
+    }
 
     return is_array($aRows) ? $aRows : [];
+}
+
+function scForumTopicDisplayName(object $oTopic): string
+{
+    $aCoupleProfile = json_decode((string)($oTopic->couple_profile_data ?? ''), true);
+    if (is_array($aCoupleProfile) && !empty($aCoupleProfile['couple_name'])) {
+        return (string)$aCoupleProfile['couple_name'];
+    }
+
+    if (!empty($oTopic->username)) {
+        return (string)$oTopic->username;
+    }
+
+    return !empty($oTopic->profileId) ? 'Profile ' . (int)$oTopic->profileId : '';
 }
 
 function scDefaultForum(PDO $oDb): ?object
@@ -231,8 +255,14 @@ try {
         }
 
         .sc-nav a.is-primary {
-            background: var(--gold);
-            color: #1b1217;
+            /* SC_FORUM_BUTTON_PURPLE_V2_ACTIVE */
+            background: #c200fb;
+            color: #fff;
+        }
+
+        .sc-nav a.is-primary:hover {
+            background: #ec0868;
+            color: #f7f3ef;
         }
 
         .sc-hero {
@@ -352,13 +382,20 @@ try {
             padding: 10px 16px;
             border: 0;
             border-radius: 8px;
-            background: var(--gold);
-            color: #1b1217;
+            /* SC_FORUM_BUTTON_PURPLE_V2_ACTIVE */
+            background: #c200fb;
+            color: #fff;
             font-size: 14px;
             font-weight: 900;
             line-height: 1.2;
             text-decoration: none;
-            box-shadow: 0 12px 28px rgba(233, 187, 99, .22);
+            box-shadow: 0 12px 28px rgba(194, 0, 251, .24);
+        }
+
+        .sc-button:hover,
+        .sc-button:visited:hover {
+            background: #ec0868;
+            color: #f7f3ef;
         }
 
         .sc-button.is-disabled {
@@ -454,8 +491,8 @@ try {
                     </h3>
                     <p class="sc-card-desc"><?= scEscape($sDescription) ?></p>
                     <div class="sc-meta">
-                        <?php if (!empty($oTopic->profileId)): ?>
-                            <span>Profile <?= (int)$oTopic->profileId ?></span>
+                        <?php if (!empty($oTopic->displayName)): ?>
+                            <span><?= scEscape($oTopic->displayName) ?></span>
                         <?php endif; ?>
                         <?php if (!empty($oTopic->createdDate)): ?>
                             <span><?= scEscape(scFormatDate($oTopic->createdDate)) ?></span>
