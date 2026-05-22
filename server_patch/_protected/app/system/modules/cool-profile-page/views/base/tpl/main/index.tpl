@@ -360,7 +360,8 @@
             <div class="sc-profile-photo-frame">
                 {if !empty($photo1)}
                     {{ $photo_url = (new ScPublicProfilePhoto)->getPhotoUrl($username, $photo1, 400) }}
-                    {{ $photo_full_url = (new ScPublicProfilePhoto)->getPhotoUrl($username, $photo1, 1000) }}
+                    {{ $photo_full_url = (new ScPublicProfilePhoto)->getPhotoUrl($username, $photo1, 400) }}
+                    {* SC_PUBLIC_PROFILE_POPUP_USES_400_IMAGE_V1_ACTIVE *}
                     <a href="{% $photo_full_url %}" data-popup="image" title="{lang 'Public profile photo 1'}">
                         <img src="{% $photo_url %}" alt="{lang 'Public profile photo 1'}" />
                     </a>
@@ -376,7 +377,7 @@
             <div class="sc-profile-photo-frame">
                 {if !empty($photo2)}
                     {{ $photo_url = (new ScPublicProfilePhoto)->getPhotoUrl($username, $photo2, 400) }}
-                    {{ $photo_full_url = (new ScPublicProfilePhoto)->getPhotoUrl($username, $photo2, 1000) }}
+                    {{ $photo_full_url = (new ScPublicProfilePhoto)->getPhotoUrl($username, $photo2, 400) }}
                     <a href="{% $photo_full_url %}" data-popup="image" title="{lang 'Public profile photo 2'}">
                         <img src="{% $photo_url %}" alt="{lang 'Public profile photo 2'}" />
                     </a>
@@ -392,7 +393,7 @@
             <div class="sc-profile-photo-frame">
                 {if !empty($photo3)}
                     {{ $photo_url = (new ScPublicProfilePhoto)->getPhotoUrl($username, $photo3, 400) }}
-                    {{ $photo_full_url = (new ScPublicProfilePhoto)->getPhotoUrl($username, $photo3, 1000) }}
+                    {{ $photo_full_url = (new ScPublicProfilePhoto)->getPhotoUrl($username, $photo3, 400) }}
                     <a href="{% $photo_full_url %}" data-popup="image" title="{lang 'Public profile photo 3'}">
                         <img src="{% $photo_url %}" alt="{lang 'Public profile photo 3'}" />
                     </a>
@@ -408,7 +409,7 @@
             <div class="sc-profile-photo-frame">
                 {if !empty($photo4)}
                     {{ $photo_url = (new ScPublicProfilePhoto)->getPhotoUrl($username, $photo4, 400) }}
-                    {{ $photo_full_url = (new ScPublicProfilePhoto)->getPhotoUrl($username, $photo4, 1000) }}
+                    {{ $photo_full_url = (new ScPublicProfilePhoto)->getPhotoUrl($username, $photo4, 400) }}
                     <a href="{% $photo_full_url %}" data-popup="image" title="{lang 'Public profile photo 4'}">
                         <img src="{% $photo_url %}" alt="{lang 'Public profile photo 4'}" />
                     </a>
