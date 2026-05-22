@@ -134,6 +134,30 @@ function scFormatDate($mValue): string
     return date('M j, Y', $iTime);
 }
 
+function scIsMemberSignedIn(): bool
+{
+    $sConfigPath = scFindConfigPath();
+    if ($sConfigPath !== null) {
+        $aConfig = parse_ini_file($sConfigPath, true);
+        $sSessionName = is_array($aConfig) ? (string)($aConfig['session']['cookie_name'] ?? '') : '';
+        if ($sSessionName !== '' && session_status() !== PHP_SESSION_ACTIVE) {
+            session_name($sSessionName);
+        }
+    }
+
+    if (session_status() !== PHP_SESSION_ACTIVE) {
+        session_start();
+    }
+
+    return !empty($_SESSION['member_id']);
+}
+
+// SC_PHYSICAL_FORUM_MEMBER_ONLY_V1_ACTIVE
+if (!scIsMemberSignedIn()) {
+    header('Location: ' . SC_SITE_URL . '/login', true, 302);
+    exit;
+}
+
 $aTopics = [];
 $oStartForum = null;
 $bHasDataError = false;
