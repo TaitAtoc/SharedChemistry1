@@ -274,15 +274,15 @@
     /* SC_PUBLIC_PROFILE_PHOTO_POPUP_SIZE_V1_ACTIVE */
     #colorbox.sc-profile-colorbox #cboxTitle,
     #colorbox.sc-profile-colorbox #cboxCurrent{display:none!important;height:0!important;margin:0!important;padding:0!important;overflow:hidden!important;font-size:0!important;line-height:0!important;color:transparent!important}
-    .sc-public-profile-photo-overlay{position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(5,4,7,.9)}
-    .sc-public-profile-photo-overlay.is-open{display:flex}
-    .sc-public-profile-photo-card{position:relative;display:flex;align-items:center;justify-content:center;max-width:calc(100vw - 48px);max-height:calc(100vh - 48px);padding:0;background:#111;box-shadow:0 22px 70px rgba(0,0,0,.66)}
-    .sc-public-profile-photo-popup-img{display:block;width:auto;height:auto;max-width:400px;max-height:533px;object-fit:contain;border:0;border-radius:0;background:#111;box-shadow:0 0 0 5px #8f4dff}
-    .sc-public-profile-photo-close{position:absolute;top:-15px;right:-15px;z-index:2;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border:1px solid rgba(255,255,255,.18);border-radius:50%;background:#202127;color:#f7f3ef;font-size:24px;font-weight:bold;line-height:1;cursor:pointer;box-shadow:0 10px 26px rgba(0,0,0,.5)}
-    .sc-public-profile-photo-close:hover,
-    .sc-public-profile-photo-close:focus{background:#2a2a31;color:#fff}
-    /* SC_PUBLIC_PROFILE_ALL_PHOTOS_POPUP_V2_ACTIVE */
-    /* SC_PUBLIC_PROFILE_POPUP_CLOSE_X_V1_ACTIVE */
+    .sc-public-profile-modal{display:none;position:fixed;inset:0;z-index:99999;align-items:center;justify-content:center;padding:24px;background:rgba(5,4,7,.9)}
+    .sc-public-profile-modal.is-active{display:flex}
+    .sc-public-profile-modal-card{display:flex;align-items:center;justify-content:center;max-width:calc(100vw - 48px);max-height:calc(100vh - 48px);background:#111;box-shadow:0 22px 70px rgba(0,0,0,.66)}
+    .sc-public-profile-modal-image-wrap{position:relative;display:inline-block}
+    .sc-public-profile-modal-img{display:block;width:auto;height:auto;max-width:400px;max-height:533px;object-fit:contain;border:0;border-radius:0;background:#111;box-shadow:0 0 0 5px #8f4dff}
+    .sc-public-profile-modal-close{position:absolute;top:8px;right:8px;z-index:5;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border:1px solid rgba(255,255,255,.18);border-radius:50%;background:#202127;color:#f7f3ef;font-size:24px;font-weight:bold;line-height:1;cursor:pointer;box-shadow:0 10px 26px rgba(0,0,0,.5)}
+    .sc-public-profile-modal-close:hover,
+    .sc-public-profile-modal-close:focus{background:#2a2a31;color:#fff}
+    /* SC_PUBLIC_PROFILE_MODAL_REBUILD_V4_ACTIVE */
     @media (max-width:991px){
         .sc-profile-photo-strip{grid-template-columns:repeat(3,minmax(0,1fr))}
         .sc-profile-grid{grid-template-columns:1fr}
@@ -426,13 +426,6 @@
                 {/if}
             </div>
             <span class="sc-profile-photo-label">{lang 'Photo 5'}</span>
-        </div>
-    </div>
-
-    <div class="sc-public-profile-photo-overlay" aria-hidden="true">
-        <div class="sc-public-profile-photo-card" role="dialog" aria-modal="true" aria-label="{lang 'Public profile photo'}">
-            <button type="button" class="sc-public-profile-photo-close" aria-label="{lang 'Close'}">&times;</button>
-            <img class="sc-public-profile-photo-popup-img" src="" alt="{lang 'Public profile photo'}" />
         </div>
     </div>
 
@@ -988,6 +981,15 @@
             {/if}
         </section>
     </div>
+
+    <div class="sc-public-profile-modal" aria-hidden="true">
+        <div class="sc-public-profile-modal-card" role="dialog" aria-modal="true" aria-label="{lang 'Public profile photo'}">
+            <span class="sc-public-profile-modal-image-wrap">
+                <img class="sc-public-profile-modal-img" src="" alt="{lang 'Public profile photo'}" />
+                <button type="button" class="sc-public-profile-modal-close" aria-label="{lang 'Close'}">&times;</button>
+            </span>
+        </div>
+    </div>
 </div>
 
 {literal}
@@ -1117,12 +1119,11 @@
             '</style>').appendTo('head');
         }
 
-        var $publicPhotoOverlay = $('.sc-public-profile-photo-overlay');
-        var $publicPhotoImg = $('.sc-public-profile-photo-popup-img');
-        var $publicPhotoClose = $('.sc-public-profile-photo-close');
+        var $publicPhotoModal = $('.sc-public-profile-modal');
+        var $publicPhotoImg = $('.sc-public-profile-modal-img');
+        var $publicPhotoClose = $('.sc-public-profile-modal-close');
         var $publicPhotoLinks = $('.sc-profile-photo-strip a');
         var $privateMediaLinks = $('.sc-profile-private-media-photo a[data-popup="image"]');
-        var $links = $publicPhotoLinks.add($privateMediaLinks);
 
         $publicPhotoLinks
             .addClass('sc-public-profile-photo-popup')
@@ -1132,7 +1133,7 @@
                     $link.attr('data-full', $link.attr('href') || '');
                 }
             })
-            .off('click.scPublicProfilePhotoPopup')
+            .off('click')
             .on('click.scPublicProfilePhotoPopup', function(event) {
                 event.preventDefault();
                 event.stopImmediatePropagation();
@@ -1140,18 +1141,18 @@
                 var $link = $(this);
                 var imageUrl = $link.attr('data-full') || $link.attr('href');
 
-                if (!imageUrl || !$publicPhotoOverlay.length || !$publicPhotoImg.length) {
+                if (!imageUrl || !$publicPhotoModal.length || !$publicPhotoImg.length) {
                     return false;
                 }
 
                 $publicPhotoImg.attr('src', imageUrl);
-                $publicPhotoOverlay.addClass('is-open').attr('aria-hidden', 'false');
+                $publicPhotoModal.addClass('is-active').attr('aria-hidden', 'false');
 
                 return false;
             });
 
         function closePublicProfilePhotoPopup() {
-            $publicPhotoOverlay.removeClass('is-open').attr('aria-hidden', 'true');
+            $publicPhotoModal.removeClass('is-active').attr('aria-hidden', 'true');
             $publicPhotoImg.attr('src', '');
         }
 
@@ -1160,20 +1161,20 @@
             closePublicProfilePhotoPopup();
         });
 
-        $publicPhotoOverlay.off('click.scPublicProfilePhotoPopup').on('click.scPublicProfilePhotoPopup', function(event) {
+        $publicPhotoModal.off('click.scPublicProfilePhotoPopup').on('click.scPublicProfilePhotoPopup', function(event) {
             if (event.target === this) {
                 closePublicProfilePhotoPopup();
             }
         });
 
         $(document).off('keydown.scPublicProfilePhotoPopup').on('keydown.scPublicProfilePhotoPopup', function(event) {
-            if (event.key === 'Escape' && $publicPhotoOverlay.hasClass('is-open')) {
+            if (event.key === 'Escape' && $publicPhotoModal.hasClass('is-active')) {
                 closePublicProfilePhotoPopup();
             }
         });
 
         if ($.fn.colorbox) {
-            $links.each(function() {
+            $privateMediaLinks.each(function() {
                 var $link = $(this);
                 var oldTitle = $link.attr('title');
 
@@ -1184,23 +1185,8 @@
                 $link.attr('title', '');
             });
 
-            $links.off('click');
-            $links.removeData('colorbox');
-
-            $publicPhotoLinks.off('click').on('click.scPublicProfilePhotoPopup', function(event) {
-                event.preventDefault();
-                event.stopImmediatePropagation();
-
-                var $link = $(this);
-                var imageUrl = $link.attr('data-full') || $link.attr('href');
-
-                if (imageUrl && $publicPhotoOverlay.length && $publicPhotoImg.length) {
-                    $publicPhotoImg.attr('src', imageUrl);
-                    $publicPhotoOverlay.addClass('is-open').attr('aria-hidden', 'false');
-                }
-
-                return false;
-            });
+            $privateMediaLinks.off('click');
+            $privateMediaLinks.removeData('colorbox');
 
             $privateMediaLinks.colorbox({
                 maxWidth: '85%',
