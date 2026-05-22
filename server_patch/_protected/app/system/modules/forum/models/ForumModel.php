@@ -186,49 +186,42 @@ class ForumModel extends ForumCoreModel
 
     public function getLatestDiscussionTopics($iLimit = 20)
     {
-        // SC_FORUM_SHOW_ALL_RECENT_TOPICS_V2_ACTIVE
-        $iLimit = max(20, (int)$iLimit);
-        $sTopicTable = 'forums_topics';
+        $iLimit = max(1, (int)$iLimit);
 
-        try {
-            $rStmt = Db::getInstance()->prepare(
-                'SELECT f.name, f.forumId, t.topicId, t.profileId, t.title, t.message, t.createdDate, t.updatedDate, ' .
-                'm.username, m.firstName, m.sex, e.short_description, COALESCE(pc.photo_count, 0) AS photo_count FROM' .
-                Db::prefix(DbTableName::FORUM) . 'AS f INNER JOIN' .
-                Db::prefix($sTopicTable) . 'AS t ON f.forumId = t.forumId LEFT JOIN' .
-                Db::prefix(DbTableName::MEMBER) . ' AS m ON t.profileId = m.profileId LEFT JOIN' .
-                Db::prefix('sc_forum_topic_extras') . 'AS e ON t.topicId = e.topic_id LEFT JOIN' .
-                ' (SELECT topic_id, COUNT(photo_id) AS photo_count FROM' . Db::prefix('sc_forum_topic_photos') .
-                'GROUP BY topic_id) AS pc ON t.topicId = pc.topic_id ' .
-                'WHERE t.approved = :approved ORDER BY t.createdDate DESC LIMIT 20'
-            );
-            $rStmt->bindValue(':approved', '1', PDO::PARAM_STR);
-            $rStmt->execute();
-            $aTopics = $rStmt->fetchAll(PDO::FETCH_OBJ);
-            Db::free($rStmt);
+        // SC_FORUM_SHOW_ALL_RECENT_TOPICS_FINAL_ACTIVE
+        $rStmt = Db::getInstance()->prepare(
+            'SELECT ' .
+            'f.name, ' .
+            'f.forumId, ' .
+            't.topicId, ' .
+            't.profileId, ' .
+            't.title, ' .
+            't.message, ' .
+            't.createdDate, ' .
+            't.updatedDate, ' .
+            'COALESCE(e.short_description, \'\') AS short_description, ' .
+            'COALESCE(p.photo_count, 0) AS photo_count ' .
+            'FROM ' . Db::prefix('forums') . ' AS f ' .
+            'INNER JOIN ' . Db::prefix('forums_topics') . ' AS t ' .
+            'ON f.forumId = t.forumId ' .
+            'LEFT JOIN ' . Db::prefix('sc_forum_topic_extras') . ' AS e ' .
+            'ON t.topicId = e.topic_id ' .
+            'LEFT JOIN (' .
+            'SELECT topic_id, COUNT(*) AS photo_count ' .
+            'FROM ' . Db::prefix('sc_forum_topic_photos') . ' ' .
+            'GROUP BY topic_id' .
+            ') AS p ' .
+            'ON t.topicId = p.topic_id ' .
+            'WHERE t.approved = \'1\' ' .
+            'ORDER BY t.createdDate DESC ' .
+            'LIMIT :limit'
+        );
+        $rStmt->bindValue(':limit', $iLimit, PDO::PARAM_INT);
+        $rStmt->execute();
+        $aTopics = $rStmt->fetchAll(PDO::FETCH_OBJ);
+        Db::free($rStmt);
 
-            return $aTopics;
-        } catch (\Exception $oException) {
-            $rStmt = Db::getInstance()->prepare(
-                'SELECT f.name, f.forumId, t.topicId, t.profileId, t.title, t.message, t.createdDate, t.updatedDate, ' .
-                'm.username, m.firstName, m.sex FROM' .
-                Db::prefix(DbTableName::FORUM) . 'AS f INNER JOIN' .
-                Db::prefix($sTopicTable) . 'AS t ON f.forumId = t.forumId LEFT JOIN' .
-                Db::prefix(DbTableName::MEMBER) . ' AS m ON t.profileId = m.profileId ' .
-                'WHERE t.approved = :approved ORDER BY t.createdDate DESC LIMIT 20'
-            );
-            $rStmt->bindValue(':approved', '1', PDO::PARAM_STR);
-            $rStmt->execute();
-            $aTopics = $rStmt->fetchAll(PDO::FETCH_OBJ);
-            Db::free($rStmt);
-
-            foreach ($aTopics as $oTopic) {
-                $oTopic->short_description = '';
-                $oTopic->photo_count = 0;
-            }
-
-            return $aTopics;
-        }
+        return $aTopics;
     }
 
     public function getTopicExtra($iTopicId)
