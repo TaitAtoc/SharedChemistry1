@@ -92,12 +92,13 @@ class HomeController extends Controller
         $sMemberInfoTable = Db::prefix(DbTableName::MEMBER_INFO, false);
 
         $rStmt = Db::getInstance()->prepare(
+            // SC_FREE_CHAT_NEWEST_FIRST_V1_ACTIVE
             'SELECT chat.messageId, chat.senderId, chat.messageText, chat.createdAt, GREATEST(0, TIMESTAMPDIFF(SECOND, chat.createdAt, NOW())) AS secondsAgo, m.username, m.firstName, m.sex, i.' . self::COUPLE_PROFILE_DATA_FIELD . ' FROM ' .
             '(SELECT messageId, senderId, messageText, createdAt FROM ' . $sChatroomTable .
             ' ORDER BY createdAt DESC, messageId DESC LIMIT :limit) AS chat INNER JOIN ' .
             $sMemberTable . ' AS m ON m.profileId = chat.senderId LEFT JOIN ' .
             $sMemberInfoTable . ' AS i ON i.profileId = chat.senderId WHERE m.ban = 0 ' .
-            'ORDER BY chat.createdAt ASC, chat.messageId ASC'
+            'ORDER BY chat.createdAt DESC, chat.messageId DESC'
         );
         $rStmt->bindValue(':limit', self::MESSAGE_LIMIT, PDO::PARAM_INT);
         $rStmt->execute();

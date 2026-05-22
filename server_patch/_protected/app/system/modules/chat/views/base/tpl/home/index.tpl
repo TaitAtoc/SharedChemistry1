@@ -103,16 +103,11 @@
         var lastSignature = '';
         var isPolling = false;
 
-        function isNearBottom() {
-            return list.scrollHeight - list.scrollTop - list.clientHeight < 80;
-        }
-
         function setText(node, text) {
             node.textContent = text || '';
         }
 
         function renderMessages(messages) {
-            var shouldScroll = isNearBottom();
             var fragment = document.createDocumentFragment();
 
             if (!messages.length) {
@@ -162,10 +157,6 @@
 
             list.innerHTML = '';
             list.appendChild(fragment);
-
-            if (shouldScroll) {
-                list.scrollTop = list.scrollHeight;
-            }
         }
 
         function pollMessages() {
@@ -199,10 +190,6 @@
                 .then(function() {
                     isPolling = false;
                 });
-        }
-
-        if (isNearBottom()) {
-            list.scrollTop = list.scrollHeight;
         }
 
         pollMessages();
