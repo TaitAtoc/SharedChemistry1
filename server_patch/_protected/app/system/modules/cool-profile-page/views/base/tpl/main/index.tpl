@@ -1122,7 +1122,7 @@
         var $publicPhotoModal = $('.sc-public-profile-modal');
         var $publicPhotoImg = $('.sc-public-profile-modal-img');
         var $publicPhotoClose = $('.sc-public-profile-modal-close');
-        var $publicPhotoLinks = $('.sc-profile-photo-strip a.sc-public-profile-photo-popup'); /* SC_PUBLIC_PROFILE_POPUP_CLICK_HANDLER_V5_ACTIVE */
+        var $publicPhotoLinks = $('.sc-profile-photo-strip a'); /* SC_PUBLIC_PROFILE_POPUP_CLICK_HANDLER_V6_ACTIVE */
         var $privateMediaLinks = $('.sc-profile-private-media-photo a[data-popup="image"]');
 
         $publicPhotoLinks
@@ -1136,9 +1136,11 @@
             .off('click')
             .on('click.scPublicProfilePhotoPopup', function(event) {
                 var $link = $(this);
+                var hasImage = $link.find('img').length > 0 || $link.hasClass('sc-public-profile-photo-popup');
                 var imageUrl = $link.attr('data-full') || $link.attr('href');
+                var isImageUrl = imageUrl && imageUrl !== '#' && imageUrl.toLowerCase().indexOf('javascript:') !== 0 && (/\.(jpe?g|png|webp)(?:[?#].*)?$/i.test(imageUrl) || imageUrl.indexOf('/picture/img/') !== -1 || imageUrl.indexOf('/avatar/') !== -1);
 
-                if (!imageUrl || !$publicPhotoModal.length || !$publicPhotoImg.length) {
+                if (!hasImage || !isImageUrl || !$publicPhotoModal.length || !$publicPhotoImg.length) {
                     return true;
                 }
 
