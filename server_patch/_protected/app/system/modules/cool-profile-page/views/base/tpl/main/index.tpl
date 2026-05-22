@@ -1122,7 +1122,7 @@
         var $publicPhotoModal = $('.sc-public-profile-modal');
         var $publicPhotoImg = $('.sc-public-profile-modal-img');
         var $publicPhotoClose = $('.sc-public-profile-modal-close');
-        var $publicPhotoLinks = $('.sc-profile-photo-strip a');
+        var $publicPhotoLinks = $('.sc-profile-photo-strip a.sc-public-profile-photo-popup'); /* SC_PUBLIC_PROFILE_POPUP_CLICK_HANDLER_V5_ACTIVE */
         var $privateMediaLinks = $('.sc-profile-private-media-photo a[data-popup="image"]');
 
         $publicPhotoLinks
@@ -1135,15 +1135,15 @@
             })
             .off('click')
             .on('click.scPublicProfilePhotoPopup', function(event) {
-                event.preventDefault();
-                event.stopImmediatePropagation();
-
                 var $link = $(this);
                 var imageUrl = $link.attr('data-full') || $link.attr('href');
 
                 if (!imageUrl || !$publicPhotoModal.length || !$publicPhotoImg.length) {
-                    return false;
+                    return true;
                 }
+
+                event.preventDefault();
+                event.stopImmediatePropagation();
 
                 $publicPhotoImg.attr('src', imageUrl);
                 $publicPhotoModal.addClass('is-active').attr('aria-hidden', 'false');
