@@ -7,7 +7,9 @@
     }
 
     .sc-forum-post-v1 {
-        max-width: 1040px;
+        /* SC_FORUM_POST_WIDER_LAYOUT_V2_ACTIVE */
+        width: min(100%, 1180px);
+        max-width: 1180px;
         margin: 0 auto;
         padding: 0 0 34px;
         color: #fff8ef;
@@ -57,6 +59,7 @@
     .sc-forum-post-reply {
         margin: 0 0 18px;
         padding: 28px;
+        width: 100%;
     }
 
     .sc-forum-post-content {
@@ -234,6 +237,10 @@
                                 {/each}
                             </div>
                         {/if}
+                        <div class="sc-forum-post-actions">
+                            <!-- SC_FORUM_REPLY_BUTTON_ON_REPLIES_V1_ACTIVE -->
+                            <a rel="nofollow" href="{{ $design->url('forum', 'forum', 'reply', "$post->name,$post->forumId,$post->title,$post->topicId") }}">{lang 'Reply'}</a>
+                        </div>
                         {if $is_user_auth AND $member_id == $msg->profileId}
                             <div class="sc-forum-post-actions">
                                 <a href="{{ $design->url('forum', 'forum', 'editmessage', "$post->name,$post->forumId,$post->title,$msg->topicId,$msg->messageId") }}">{lang 'Edit'}</a>
