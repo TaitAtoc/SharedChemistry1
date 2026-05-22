@@ -274,15 +274,6 @@
     /* SC_PUBLIC_PROFILE_PHOTO_POPUP_SIZE_V1_ACTIVE */
     #colorbox.sc-profile-colorbox #cboxTitle,
     #colorbox.sc-profile-colorbox #cboxCurrent{display:none!important;height:0!important;margin:0!important;padding:0!important;overflow:hidden!important;font-size:0!important;line-height:0!important;color:transparent!important}
-    .sc-public-profile-modal{display:none;position:fixed;inset:0;z-index:99999;align-items:center;justify-content:center;padding:24px;background:rgba(5,4,7,.9)}
-    .sc-public-profile-modal.is-active{display:flex}
-    .sc-public-profile-modal-card{display:flex;align-items:center;justify-content:center;max-width:calc(100vw - 48px);max-height:calc(100vh - 48px);background:#111;box-shadow:0 22px 70px rgba(0,0,0,.66)}
-    .sc-public-profile-modal-image-wrap{position:relative;display:inline-block}
-    .sc-public-profile-modal-img{display:block;width:auto;height:auto;max-width:400px;max-height:533px;object-fit:contain;border:0;border-radius:0;background:#111;box-shadow:0 0 0 5px #8f4dff}
-    .sc-public-profile-modal-close{position:absolute;top:8px;right:8px;z-index:5;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border:1px solid rgba(255,255,255,.18);border-radius:50%;background:#202127;color:#f7f3ef;font-size:24px;font-weight:bold;line-height:1;cursor:pointer;box-shadow:0 10px 26px rgba(0,0,0,.5)}
-    .sc-public-profile-modal-close:hover,
-    .sc-public-profile-modal-close:focus{background:#2a2a31;color:#fff}
-    /* SC_PUBLIC_PROFILE_MODAL_REBUILD_V4_ACTIVE */
     @media (max-width:991px){
         .sc-profile-photo-strip{grid-template-columns:repeat(3,minmax(0,1fr))}
         .sc-profile-grid{grid-template-columns:1fr}
@@ -370,7 +361,7 @@
                 {if !empty($photo1)}
                     {{ $photo_url = (new ScPublicProfilePhoto)->getPhotoUrl($username, $photo1, 400) }}
                     {{ $photo_full_url = (new ScPublicProfilePhoto)->getPhotoUrl($username, $photo1, 1000) }}
-                    <a class="sc-public-profile-photo-popup" href="{% $photo_full_url %}" data-full="{% $photo_full_url %}" data-popup="image" title="{lang 'Public profile photo 1'}">
+                    <a href="{% $photo_full_url %}" data-popup="image" title="{lang 'Public profile photo 1'}">
                         <img src="{% $photo_url %}" alt="{lang 'Public profile photo 1'}" />
                     </a>
                 {else}
@@ -386,7 +377,7 @@
                 {if !empty($photo2)}
                     {{ $photo_url = (new ScPublicProfilePhoto)->getPhotoUrl($username, $photo2, 400) }}
                     {{ $photo_full_url = (new ScPublicProfilePhoto)->getPhotoUrl($username, $photo2, 1000) }}
-                    <a class="sc-public-profile-photo-popup" href="{% $photo_full_url %}" data-full="{% $photo_full_url %}" data-popup="image" title="{lang 'Public profile photo 2'}">
+                    <a href="{% $photo_full_url %}" data-popup="image" title="{lang 'Public profile photo 2'}">
                         <img src="{% $photo_url %}" alt="{lang 'Public profile photo 2'}" />
                     </a>
                 {else}
@@ -402,7 +393,7 @@
                 {if !empty($photo3)}
                     {{ $photo_url = (new ScPublicProfilePhoto)->getPhotoUrl($username, $photo3, 400) }}
                     {{ $photo_full_url = (new ScPublicProfilePhoto)->getPhotoUrl($username, $photo3, 1000) }}
-                    <a class="sc-public-profile-photo-popup" href="{% $photo_full_url %}" data-full="{% $photo_full_url %}" data-popup="image" title="{lang 'Public profile photo 3'}">
+                    <a href="{% $photo_full_url %}" data-popup="image" title="{lang 'Public profile photo 3'}">
                         <img src="{% $photo_url %}" alt="{lang 'Public profile photo 3'}" />
                     </a>
                 {else}
@@ -418,7 +409,7 @@
                 {if !empty($photo4)}
                     {{ $photo_url = (new ScPublicProfilePhoto)->getPhotoUrl($username, $photo4, 400) }}
                     {{ $photo_full_url = (new ScPublicProfilePhoto)->getPhotoUrl($username, $photo4, 1000) }}
-                    <a class="sc-public-profile-photo-popup" href="{% $photo_full_url %}" data-full="{% $photo_full_url %}" data-popup="image" title="{lang 'Public profile photo 4'}">
+                    <a href="{% $photo_full_url %}" data-popup="image" title="{lang 'Public profile photo 4'}">
                         <img src="{% $photo_url %}" alt="{lang 'Public profile photo 4'}" />
                     </a>
                 {else}
@@ -981,15 +972,6 @@
             {/if}
         </section>
     </div>
-
-    <div class="sc-public-profile-modal" aria-hidden="true">
-        <div class="sc-public-profile-modal-card" role="dialog" aria-modal="true" aria-label="{lang 'Public profile photo'}">
-            <span class="sc-public-profile-modal-image-wrap">
-                <img class="sc-public-profile-modal-img" src="" alt="{lang 'Public profile photo'}" />
-                <button type="button" class="sc-public-profile-modal-close" aria-label="{lang 'Close'}">&times;</button>
-            </span>
-        </div>
-    </div>
 </div>
 
 {literal}
@@ -1119,64 +1101,12 @@
             '</style>').appendTo('head');
         }
 
-        var $publicPhotoModal = $('.sc-public-profile-modal');
-        var $publicPhotoImg = $('.sc-public-profile-modal-img');
-        var $publicPhotoClose = $('.sc-public-profile-modal-close');
-        var $publicPhotoLinks = $('.sc-profile-photo-strip a'); /* SC_PUBLIC_PROFILE_POPUP_CLICK_HANDLER_V6_ACTIVE */
+        var $publicPhotoLinks = $('.sc-profile-photo-strip a[data-popup="image"]');
         var $privateMediaLinks = $('.sc-profile-private-media-photo a[data-popup="image"]');
-
-        $publicPhotoLinks
-            .addClass('sc-public-profile-photo-popup')
-            .each(function() {
-                var $link = $(this);
-                if (!$link.attr('data-full')) {
-                    $link.attr('data-full', $link.attr('href') || '');
-                }
-            })
-            .off('click')
-            .on('click.scPublicProfilePhotoPopup', function(event) {
-                var $link = $(this);
-                var hasImage = $link.find('img').length > 0 || $link.hasClass('sc-public-profile-photo-popup');
-                var imageUrl = $link.attr('data-full') || $link.attr('href');
-                var isImageUrl = imageUrl && imageUrl !== '#' && imageUrl.toLowerCase().indexOf('javascript:') !== 0 && (/\.(jpe?g|png|webp)(?:[?#].*)?$/i.test(imageUrl) || imageUrl.indexOf('/picture/img/') !== -1 || imageUrl.indexOf('/avatar/') !== -1);
-
-                if (!hasImage || !isImageUrl || !$publicPhotoModal.length || !$publicPhotoImg.length) {
-                    return true;
-                }
-
-                event.preventDefault();
-                event.stopImmediatePropagation();
-
-                $publicPhotoImg.attr('src', imageUrl);
-                $publicPhotoModal.addClass('is-active').attr('aria-hidden', 'false');
-
-                return false;
-            });
-
-        function closePublicProfilePhotoPopup() {
-            $publicPhotoModal.removeClass('is-active').attr('aria-hidden', 'true');
-            $publicPhotoImg.attr('src', '');
-        }
-
-        $publicPhotoClose.off('click.scPublicProfilePhotoPopup').on('click.scPublicProfilePhotoPopup', function(event) {
-            event.preventDefault();
-            closePublicProfilePhotoPopup();
-        });
-
-        $publicPhotoModal.off('click.scPublicProfilePhotoPopup').on('click.scPublicProfilePhotoPopup', function(event) {
-            if (event.target === this) {
-                closePublicProfilePhotoPopup();
-            }
-        });
-
-        $(document).off('keydown.scPublicProfilePhotoPopup').on('keydown.scPublicProfilePhotoPopup', function(event) {
-            if (event.key === 'Escape' && $publicPhotoModal.hasClass('is-active')) {
-                closePublicProfilePhotoPopup();
-            }
-        });
+        var $links = $publicPhotoLinks.add($privateMediaLinks);
 
         if ($.fn.colorbox) {
-            $privateMediaLinks.each(function() {
+            $links.each(function() {
                 var $link = $(this);
                 var oldTitle = $link.attr('title');
 
@@ -1187,8 +1117,37 @@
                 $link.attr('title', '');
             });
 
-            $privateMediaLinks.off('click');
-            $privateMediaLinks.removeData('colorbox');
+            $links.off('click');
+            $links.removeData('colorbox');
+
+            $publicPhotoLinks.colorbox({
+                maxWidth: '400px',
+                maxHeight: '533px',
+                scrolling: false,
+                transition: 'fade',
+                photo: true,
+                title: '',
+                onOpen: function() {
+                    $('#colorbox').addClass('sc-profile-colorbox sc-profile-public-photo-colorbox');
+                    $('#cboxOverlay').addClass('sc-profile-colorbox-overlay');
+                },
+                onComplete: function() {
+                    $('#cboxTitle, #cboxCurrent').hide().text('');
+                    $('#cboxContent').attr('style', function(i, s) {
+                        return (s || '') + ';background:#111!important;border:0!important;overflow:visible!important;box-shadow:0 22px 70px rgba(0,0,0,.66)!important;';
+                    });
+                    $('#cboxLoadedContent').attr('style', function(i, s) {
+                        return (s || '') + ';margin:0!important;padding:0!important;background:#111!important;border:0!important;overflow:visible!important;';
+                    });
+                    $('#cboxLoadedContent img, .cboxPhoto').attr('style', function(i, s) {
+                        return (s || '') + ';display:block!important;margin:0 auto!important;max-width:400px!important;max-height:533px!important;width:auto!important;height:auto!important;object-fit:contain!important;border:0!important;border-radius:0!important;box-shadow:0 0 0 5px #8f4dff!important;';
+                    });
+                },
+                onClosed: function() {
+                    $('#colorbox').removeClass('sc-profile-colorbox sc-profile-public-photo-colorbox');
+                    $('#cboxOverlay').removeClass('sc-profile-colorbox-overlay');
+                }
+            });
 
             $privateMediaLinks.colorbox({
                 maxWidth: '85%',
