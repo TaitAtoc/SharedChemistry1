@@ -18,20 +18,12 @@ class Permission extends PermissionCore
         parent::__construct();
 
         $bAdminAuth = AdminCore::auth();
+        $bUserAuth = UserCore::auth();
 
         // SC_FORUM_MODULE_MEMBER_ONLY_V1_ACTIVE
-        if (!UserCore::auth() && !$bAdminAuth) {
+        // SC_FORUM_PERMISSION_ALLOW_SIGNED_IN_MEMBERS_V1_ACTIVE
+        if (!$bUserAuth && !$bAdminAuth) {
             $this->signInRedirect();
-        }
-
-        if (!$bAdminAuth || UserCore::isAdminLoggedAs()) {
-            if (!$this->checkMembership() || !$this->group->forum_access) {
-                $this->paymentRedirect();
-            } elseif ($this->registry->action === 'addtopic' && !$this->group->create_forum_topics) {
-                $this->paymentRedirect();
-            } elseif ($this->registry->action === 'reply' && !$this->group->answer_forum_topics) {
-                $this->paymentRedirect();
-            }
         }
 
         if (!$bAdminAuth && $this->registry->controller === 'AdminController') {
