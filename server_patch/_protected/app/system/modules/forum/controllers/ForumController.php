@@ -82,6 +82,8 @@ class ForumController extends Controller
             $this->view->categories = $oCategories;
             $this->view->forums = $oForums;
             $this->view->latest_topics = $this->oForumModel->getLatestDiscussionTopics(20);
+            // SC_FORUM_HOME_TOPICS_ASSIGN_V1_ACTIVE
+            $this->view->sc_forum_home_topics = $this->oForumModel->getSharedChemistryForumHomeTopics(20);
         }
 
         $this->output();

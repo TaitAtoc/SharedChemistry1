@@ -197,10 +197,9 @@
                 {/each}
             {/if}
 
-            <!-- SC_FORUM_RENDER_ALL_TOPIC_CARDS_V1_ACTIVE -->
-            {if !empty($latest_topics)}
-                <!-- SC_FORUM_LATEST_TOPICS_MULTI_V1_ACTIVE -->
-                {each $topic in $latest_topics}
+            <!-- SC_FORUM_HOME_TOPICS_TEMPLATE_V1_ACTIVE -->
+            {if !empty($sc_forum_home_topics)}
+                {each $topic in $sc_forum_home_topics}
                     <article class="sc-forum-real-card">
                         <div>
                             <h3 class="sc-forum-real-title">
@@ -226,12 +225,11 @@
                         <a class="sc-forum-real-button" href="{{ $design->url('forum', 'forum', 'post', "$topic->name,$topic->forumId,$topic->title,$topic->topicId") }}">Join the Discussion</a>
                     </article>
                 {/each}
-                <!-- SC_FORUM_LATEST_TOPICS_MULTI_V1_END -->
             {/if}
-            <!-- SC_FORUM_RENDER_ALL_TOPIC_CARDS_V1_END -->
+            <!-- SC_FORUM_HOME_TOPICS_TEMPLATE_V1_END -->
         </div>
 
-        {if empty($latest_topics)}
+        {if empty($sc_forum_home_topics)}
             <div class="sc-forum-real-empty">No discussions have been started yet.</div>
         {/if}
     {else}
