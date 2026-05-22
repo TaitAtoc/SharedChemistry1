@@ -335,6 +335,7 @@
             </div>
 
             <ul class="sc-profile-actions">
+                <!-- SC_DASHBOARD_PROFILE_BUTTON_ROW_CLEANUP_V1_ACTIVE -->
                 <li>
                     <a class="sc-main-profile-link" href="{% (new UserCore)->getProfileLink($username) %}" title="{lang 'View Public Profile'}">
                         <i class="fa fa-user fa-fw"></i> {lang 'View Public Profile'}
@@ -347,12 +348,7 @@
                 </li>
                 <li>
                     <a href="{{ $design->url('user','setting','avatar') }}" title="{lang 'Change My Profile Photo'}">
-                        <i class="fa fa-upload"></i> {lang 'Profile Photo'}
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ $design->url('picture','main','albums',$username) }}" title="{lang 'Public Photos'}" data-load="ajax">
-                        <i class="fa fa-picture-o"></i> {lang 'Public Photos'}
+                        <i class="fa fa-upload"></i> {lang 'Profile Photos'}
                     </a>
                 </li>
                 <li>
