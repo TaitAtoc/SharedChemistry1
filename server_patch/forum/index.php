@@ -231,8 +231,12 @@ try {
         }
 
         .sc-nav a.is-primary {
-            background: var(--gold);
-            color: #1b1217;
+            background: #ec2f91;
+            color: #fff8ef;
+        }
+
+        .sc-nav a.is-primary:hover {
+            background: #ff4aa6;
         }
 
         .sc-hero {
@@ -343,6 +347,7 @@ try {
 
         .sc-button,
         .sc-button:visited {
+            /* SC_FORUM_BUTTON_COLOR_ONLY_V1_ACTIVE */
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -352,13 +357,17 @@ try {
             padding: 10px 16px;
             border: 0;
             border-radius: 8px;
-            background: var(--gold);
-            color: #1b1217;
+            background: #ec2f91;
+            color: #fff8ef;
             font-size: 14px;
             font-weight: 900;
             line-height: 1.2;
             text-decoration: none;
-            box-shadow: 0 12px 28px rgba(233, 187, 99, .22);
+            box-shadow: 0 12px 28px rgba(236, 47, 145, .22);
+        }
+
+        .sc-button:hover {
+            background: #ff4aa6;
         }
 
         .sc-button.is-disabled {
