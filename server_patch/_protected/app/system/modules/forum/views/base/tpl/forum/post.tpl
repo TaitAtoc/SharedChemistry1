@@ -7,9 +7,7 @@
     }
 
     .sc-forum-post-v1 {
-        /* SC_FORUM_POST_WIDTH_FIX_V1_ACTIVE */
-        width: min(100%, 1100px);
-        max-width: 1100px;
+        max-width: 1040px;
         margin: 0 auto;
         padding: 0 0 34px;
         color: #fff8ef;
@@ -140,13 +138,6 @@
         text-decoration: none;
     }
 
-    .sc-forum-post-actions .sc-forum-post-delete,
-    .sc-forum-post-actions .sc-forum-post-delete:visited {
-        border-color: rgba(236, 47, 145, .72);
-        background: rgba(105, 11, 48, .58);
-        color: #ffe5ef;
-    }
-
     .sc-forum-post-meta {
         margin-top: 18px;
         color: #cfc4ba;
@@ -213,8 +204,7 @@
                 <a rel="nofollow" href="{{ $design->url('forum', 'forum', 'reply', "$post->name,$post->forumId,$post->title,$post->topicId") }}">{lang 'Reply'}</a>
                 {if $is_user_auth AND $member_id == $post->profileId}
                     <a href="{{ $design->url('forum', 'forum', 'edittopic', "$post->name,$post->forumId,$post->title,$post->topicId") }}">{lang 'Edit'}</a>
-                    <!-- SC_FORUM_POST_OWNER_DELETE_V1_ACTIVE -->
-                    {{ $design->popupLinkConfirm(t('Delete Discussion'), 'forum', 'forum', 'deletetopic', $post->topicId.'_'.$post->forumId.'_'.$post->name, 'sc-forum-post-delete') }}
+                    {{ $design->popupLinkConfirm(t('Delete Topic'), 'forum', 'forum', 'deletetopic', $post->topicId.'_'.$post->forumId.'_'.$post->name, 'btn btn-default btn-sm') }}
                 {/if}
             </div>
         </article>

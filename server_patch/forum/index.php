@@ -231,13 +231,8 @@ try {
         }
 
         .sc-nav a.is-primary {
-            background: #ec2f91;
-            color: #fff8ef;
-            box-shadow: 0 12px 28px rgba(236, 47, 145, .24);
-        }
-
-        .sc-nav a.is-primary:hover {
-            background: #ff4aa4;
+            background: var(--gold);
+            color: #1b1217;
         }
 
         .sc-hero {
@@ -348,7 +343,6 @@ try {
 
         .sc-button,
         .sc-button:visited {
-            /* SC_PHYSICAL_FORUM_BUTTON_COLOR_V1_ACTIVE */
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -358,17 +352,13 @@ try {
             padding: 10px 16px;
             border: 0;
             border-radius: 8px;
-            background: #ec2f91;
-            color: #fff8ef;
+            background: var(--gold);
+            color: #1b1217;
             font-size: 14px;
             font-weight: 900;
             line-height: 1.2;
             text-decoration: none;
-            box-shadow: 0 12px 28px rgba(236, 47, 145, .24);
-        }
-
-        .sc-button:hover {
-            background: #ff4aa4;
+            box-shadow: 0 12px 28px rgba(233, 187, 99, .22);
         }
 
         .sc-button.is-disabled {
