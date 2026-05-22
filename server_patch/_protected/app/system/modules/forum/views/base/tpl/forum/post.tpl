@@ -118,8 +118,10 @@
     }
 
     .sc-forum-post-actions {
+        /* SC_FORUM_REPLY_ACTIONS_INLINE_V1_ACTIVE */
         display: flex;
         flex-wrap: wrap;
+        align-items: center;
         gap: 10px;
         margin-top: 22px;
     }
@@ -240,13 +242,11 @@
                         <div class="sc-forum-post-actions">
                             <!-- SC_FORUM_REPLY_BUTTON_ON_REPLIES_V1_ACTIVE -->
                             <a rel="nofollow" href="{{ $design->url('forum', 'forum', 'reply', "$post->name,$post->forumId,$post->title,$post->topicId") }}">{lang 'Reply'}</a>
-                        </div>
-                        {if $is_user_auth AND $member_id == $msg->profileId}
-                            <div class="sc-forum-post-actions">
+                            {if $is_user_auth AND $member_id == $msg->profileId}
                                 <a href="{{ $design->url('forum', 'forum', 'editmessage', "$post->name,$post->forumId,$post->title,$msg->topicId,$msg->messageId") }}">{lang 'Edit'}</a>
                                 {{ $design->popupLinkConfirm(t('Delete Post'), 'forum', 'forum', 'deletemessage', $msg->messageId.'_'.$msg->topicId.'_'.$post->forumId.'_'.$post->title.'_'.$post->name, 'btn btn-default btn-sm') }}
-                            </div>
-                        {/if}
+                            {/if}
+                        </div>
                     </article>
                 {/each}
                 {main_include 'page_nav.inc.tpl'}

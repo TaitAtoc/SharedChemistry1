@@ -7,7 +7,9 @@
     }
 
     .sc-forum-reply-v1 {
-        max-width: 860px;
+        /* SC_FORUM_REPLY_PAGE_WIDTH_MATCH_V1_ACTIVE */
+        width: min(100%, 1180px);
+        max-width: 1180px;
         margin: 0 auto;
         padding: 0 0 34px;
         color: #fff8ef;
@@ -46,6 +48,7 @@
     }
 
     .sc-forum-reply-card {
+        width: 100%;
         padding: 28px;
         border: 1px solid rgba(233, 187, 99, .22);
         border-radius: 8px;
