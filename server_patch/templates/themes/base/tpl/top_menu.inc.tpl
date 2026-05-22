@@ -77,9 +77,10 @@
         {/if}
 
         {if $is_forum_enabled}
-          <li class="dropdown"><a href="{{ $design->url('forum','forum','index') }}" title="{lang 'Discussions Board'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown" data-load="ajax"><i class="fa fa-comments-o"></i> {lang 'Discussions'} <span class="caret"></span></a>
+          <!-- SC_DISCUSSIONS_MENU_LINK_TO_PHYSICAL_FORUM_V1_ACTIVE -->
+          <li class="dropdown"><a href="{url_root}forum/index.php" title="{lang 'Discussions Board'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown" data-load="ajax"><i class="fa fa-comments-o"></i> {lang 'Discussions'} <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="{{ $design->url('forum','forum','index') }}" rel="nofollow" title="{lang 'Discussions Board'}" data-load="ajax"><i class="fa fa-comments-o"></i> {lang 'Discussions'}</a></li>
+              <li><a href="{url_root}forum/index.php" rel="nofollow" title="{lang 'Discussions Board'}" data-load="ajax"><i class="fa fa-comments-o"></i> {lang 'Discussions'}</a></li>
               <li><a href="{{ $design->url('forum','forum','search') }}" title="{lang 'Search Topics'}" data-load="ajax"><i class="fa fa-search"></i> {lang 'Search'}</a></li>
             </ul>
           </li>
