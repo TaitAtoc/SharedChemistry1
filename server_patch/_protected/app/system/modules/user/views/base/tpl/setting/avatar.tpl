@@ -71,44 +71,46 @@
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
-        width: 100% !important;
-        height: 126px !important;
-        min-height: 126px !important;
-        padding-top: 6px !important;
+        width: 150px !important;
+        height: 150px !important;
+        min-height: 150px !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
         overflow: hidden !important;
         border-radius: 7px !important;
         background: #0d0c11 !important;
     }
+    /* SC_USER_AVATAR_PHOTO_PREVIEW_150_CONTAIN_V1_ACTIVE */
 
     main#content .sc-avatar-photo-frame a {
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
-        width: 100% !important;
-        height: calc(100% - 6px) !important;
+        width: 150px !important;
+        height: 150px !important;
         text-decoration: none !important;
     }
 
     main#content .sc-avatar-photo-frame img {
         display: block !important;
-        width: 100% !important;
-        height: 100% !important;
-        max-width: none !important;
-        max-height: none !important;
+        width: 150px !important;
+        height: 150px !important;
+        max-width: 150px !important;
+        max-height: 150px !important;
         margin: 0 !important;
         border: 0 !important;
         border-radius: 7px !important;
-        object-fit: cover !important;
-        object-position: center 35% !important;
+        object-fit: contain !important;
+        object-position: center center !important;
     }
 
     main#content .sc-avatar-photo-frame .picture_block {
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        height: calc(100% - 6px) !important;
+        width: 150px !important;
+        max-width: 150px !important;
+        height: 150px !important;
         margin: 0 !important;
     }
 
@@ -142,11 +144,12 @@
 
     main#content .sc-avatar-photo-controls {
         display: grid !important;
-        gap: 6px !important;
+        gap: 10px !important;
         width: 100% !important;
         min-width: 0;
         margin-top: auto !important;
     }
+    /* SC_USER_AVATAR_BUTTON_SPACING_V1_ACTIVE */
 
     main#content .sc-avatar-photo-controls form,
     main#content .sc-avatar-photo-controls fieldset,
@@ -154,7 +157,7 @@
     main#content .sc-avatar-photo-controls .form-horizontal,
     main#content .sc-avatar-photo-controls .form-inline {
         display: grid !important;
-        gap: 6px !important;
+        gap: 10px !important;
         width: 100% !important;
         max-width: none !important;
         min-width: 0 !important;
@@ -175,7 +178,7 @@
     main#content .sc-avatar-photo-controls .btn-group,
     main#content .sc-avatar-photo-controls div[id^="pfbc-element-"] {
         display: grid !important;
-        gap: 5px !important;
+        gap: 10px !important;
         width: 100% !important;
         max-width: none !important;
         min-width: 0 !important;
