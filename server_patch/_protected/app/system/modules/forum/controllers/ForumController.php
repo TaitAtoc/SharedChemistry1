@@ -324,8 +324,9 @@ class ForumController extends Controller
             $this->sMsg = t('Oops! Your topic could not be deleted.');
         }
 
+        // SC_FORUM_DELETE_REDIRECT_TO_PHYSICAL_INDEX_V1_ACTIVE
         Header::redirect(
-            Uri::get('forum', 'forum', 'topic', $sForumName . ',' . $iForumId),
+            PH7_URL_ROOT . 'forum/index.php',
             $this->sMsg
         );
     }
