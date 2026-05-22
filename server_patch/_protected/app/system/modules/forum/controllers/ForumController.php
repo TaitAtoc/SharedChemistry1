@@ -82,14 +82,6 @@ class ForumController extends Controller
             $this->view->categories = $oCategories;
             $this->view->forums = $oForums;
             $this->view->latest_topics = $this->oForumModel->getLatestDiscussionTopics(20);
-
-            $aLatestTopicDiagIds = array();
-            foreach ($this->view->latest_topics as $oLatestTopic) {
-                $aLatestTopicDiagIds[] = $oLatestTopic->topicId;
-            }
-
-            $this->view->latest_topic_diag_count = count($this->view->latest_topics);
-            $this->view->latest_topic_diag_ids = implode(',', $aLatestTopicDiagIds);
         }
 
         $this->output();

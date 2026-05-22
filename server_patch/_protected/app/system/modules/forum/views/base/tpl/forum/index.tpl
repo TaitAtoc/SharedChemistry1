@@ -197,14 +197,10 @@
                 {/each}
             {/if}
 
-            <!-- SC_FORUM_DIAG_V1_ACTIVE -->
-            <!-- latest_topics_count: {latest_topic_diag_count} -->
-            <!-- latest_topic_ids: {latest_topic_diag_ids} -->
             <!-- SC_FORUM_RENDER_ALL_TOPIC_CARDS_V1_ACTIVE -->
             {if !empty($latest_topics)}
                 <!-- SC_FORUM_LATEST_TOPICS_MULTI_V1_ACTIVE -->
                 {each $topic in $latest_topics}
-                    <!-- rendered_topic_id: {% $topic->topicId %} -->
                     <article class="sc-forum-real-card">
                         <div>
                             <h3 class="sc-forum-real-title">
@@ -233,7 +229,6 @@
                 <!-- SC_FORUM_LATEST_TOPICS_MULTI_V1_END -->
             {/if}
             <!-- SC_FORUM_RENDER_ALL_TOPIC_CARDS_V1_END -->
-            <!-- SC_FORUM_DIAG_V1_END -->
         </div>
 
         {if empty($latest_topics)}
