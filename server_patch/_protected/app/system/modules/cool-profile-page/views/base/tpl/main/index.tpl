@@ -17,14 +17,19 @@
     main#content{max-width:1180px!important;margin:0 auto!important;padding:0 15px!important;padding-top:32px!important;background:transparent!important;border:0!important;box-shadow:none!important}
     .sc-public-profile{margin-top:0!important;padding-top:0!important;color:#f4f1f6}
     .sc-public-profile *{box-sizing:border-box}
-    .sc-profile-photo-strip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:0 0 18px}
-    .sc-profile-photo-slot{display:flex;flex-direction:column;gap:8px;align-items:center;justify-content:space-between;min-height:178px;padding:10px;border:1px solid rgba(255,255,255,.12);border-radius:8px;background:#100f14;overflow:hidden}
-    .sc-profile-photo-frame{display:flex;align-items:center;justify-content:center;width:100%;min-height:122px;border-radius:7px;background:#0d0c11;overflow:hidden}
-    .sc-profile-photo-frame img{display:block;width:100%;max-width:150px;height:122px;max-height:122px;object-fit:cover;border:0;border-radius:7px}
-    .sc-profile-photo-frame a{display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;height:100%!important;text-decoration:none!important}
+    .sc-profile-photo-strip{display:grid;grid-template-columns:repeat(5,minmax(150px,1fr));gap:12px;margin:0 0 18px}
+    .sc-profile-photo-slot{display:flex;flex-direction:column;gap:8px;align-items:center;justify-content:space-between;min-height:206px;padding:10px;border:1px solid rgba(255,255,255,.12);border-radius:8px;background:#100f14;overflow:hidden}
+    .sc-profile-photo-frame{display:flex;align-items:center;justify-content:center;width:150px;height:150px;min-height:150px;border-radius:0;background:#0d0c11;overflow:hidden}
+    .sc-profile-photo-frame img{display:block;width:150px;max-width:none;height:150px;max-height:150px;object-fit:cover;border:0;border-radius:0}
+    .sc-profile-photo-frame a{display:flex!important;align-items:center!important;justify-content:center!important;width:150px!important;height:150px!important;text-decoration:none!important}
     .sc-profile-photo-frame .picture_block{margin:0!important;max-width:100%!important}
     .sc-profile-photo-label{display:block;width:100%;color:#d9d2dc;font-size:12px;font-weight:bold;line-height:1.2;text-align:center}
-    .sc-profile-photo-empty{display:flex;align-items:center;justify-content:center;width:100%;min-height:122px;padding:12px;color:#8f8794;font-size:12px;font-weight:bold;line-height:1.35;text-align:center}
+    .sc-profile-photo-empty{display:flex;align-items:center;justify-content:center;width:150px;min-height:150px;padding:12px;color:#8f8794;font-size:12px;font-weight:bold;line-height:1.35;text-align:center}
+    .sc-public-profile .sc-profile-photo-frame,
+    .sc-public-profile .sc-profile-photo-frame a,
+    .sc-public-profile .sc-profile-photo-frame .picture_block,
+    .sc-public-profile .sc-profile-photo-frame img{width:150px!important;height:150px!important;max-width:none!important;max-height:150px!important;object-fit:cover!important;border-radius:0!important}
+    /* SC_PUBLIC_PROFILE_PHOTO_150_SQUARE_V1_ACTIVE */
     .sc-profile-hero,
     .sc-profile-card{background:#17151c;border:1px solid rgba(255,255,255,.09);border-radius:8px;box-shadow:0 14px 36px rgba(0,0,0,.28);color:#f4f1f6}
     .sc-profile-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(170px,210px);gap:22px;align-items:start;padding:26px;margin:0 0 16px}
@@ -264,6 +269,9 @@
     #colorbox.sc-profile-colorbox #cboxLoadedContent{margin:0!important;padding:0!important;background:#111!important;border:0!important}
     #colorbox.sc-profile-colorbox #cboxLoadedContent img,
     #colorbox.sc-profile-colorbox .cboxPhoto{display:block!important;margin:0 auto!important;border:0!important;border-radius:6px!important;background:#111!important;box-shadow:0 0 0 5px #8f4dff!important}
+    #colorbox.sc-profile-public-photo-colorbox #cboxLoadedContent img,
+    #colorbox.sc-profile-public-photo-colorbox .cboxPhoto{max-width:400px!important;max-height:533px!important;width:auto!important;height:auto!important;object-fit:contain!important;border-radius:0!important}
+    /* SC_PUBLIC_PROFILE_PHOTO_POPUP_SIZE_V1_ACTIVE */
     #colorbox.sc-profile-colorbox #cboxTitle,
     #colorbox.sc-profile-colorbox #cboxCurrent{display:none!important;height:0!important;margin:0!important;padding:0!important;overflow:hidden!important;font-size:0!important;line-height:0!important;color:transparent!important}
     @media (max-width:991px){
@@ -1088,11 +1096,14 @@
                 '#colorbox.sc-profile-colorbox #cboxContent{background:#111!important;border:0!important;box-shadow:0 22px 70px rgba(0,0,0,.66)!important;box-sizing:border-box!important}' +
                 '#colorbox.sc-profile-colorbox #cboxLoadedContent{margin:0!important;padding:0!important;background:#111!important;border:0!important}' +
                 '#colorbox.sc-profile-colorbox #cboxLoadedContent img,#colorbox.sc-profile-colorbox .cboxPhoto{display:block!important;margin:0 auto!important;border:0!important;border-radius:6px!important;background:#111!important;box-shadow:0 0 0 5px #8f4dff!important}' +
+                '#colorbox.sc-profile-public-photo-colorbox #cboxLoadedContent img,#colorbox.sc-profile-public-photo-colorbox .cboxPhoto{max-width:400px!important;max-height:533px!important;width:auto!important;height:auto!important;object-fit:contain!important;border-radius:0!important}' +
                 '#colorbox.sc-profile-colorbox #cboxTitle,#colorbox.sc-profile-colorbox #cboxCurrent{display:none!important;height:0!important;margin:0!important;padding:0!important;overflow:hidden!important;font-size:0!important;line-height:0!important;color:transparent!important}' +
             '</style>').appendTo('head');
         }
 
-        var $links = $('.sc-profile-photo-strip a[data-popup="image"], .sc-profile-private-media-photo a[data-popup="image"]');
+        var $publicPhotoLinks = $('.sc-profile-photo-strip a[data-popup="image"]');
+        var $privateMediaLinks = $('.sc-profile-private-media-photo a[data-popup="image"]');
+        var $links = $publicPhotoLinks.add($privateMediaLinks);
 
         if ($.fn.colorbox) {
             $links.each(function() {
@@ -1109,7 +1120,36 @@
             $links.off('click');
             $links.removeData('colorbox');
 
-            $links.colorbox({
+            $publicPhotoLinks.colorbox({
+                maxWidth: '400px',
+                maxHeight: '533px',
+                scrolling: false,
+                transition: 'fade',
+                photo: true,
+                title: '',
+                onOpen: function() {
+                    $('#colorbox').addClass('sc-profile-colorbox sc-profile-public-photo-colorbox');
+                    $('#cboxOverlay').addClass('sc-profile-colorbox-overlay');
+                },
+                onComplete: function() {
+                    $('#cboxTitle, #cboxCurrent').hide().text('');
+                    $('#cboxContent').attr('style', function(i, s) {
+                        return (s || '') + ';background:#111!important;border:0!important;overflow:visible!important;box-shadow:0 22px 70px rgba(0,0,0,.66)!important;';
+                    });
+                    $('#cboxLoadedContent').attr('style', function(i, s) {
+                        return (s || '') + ';margin:0!important;padding:0!important;background:#111!important;border:0!important;overflow:visible!important;';
+                    });
+                    $('#cboxLoadedContent img, .cboxPhoto').attr('style', function(i, s) {
+                        return (s || '') + ';display:block!important;margin:0 auto!important;max-width:400px!important;max-height:533px!important;width:auto!important;height:auto!important;object-fit:contain!important;border:0!important;border-radius:0!important;box-shadow:0 0 0 5px #8f4dff!important;';
+                    });
+                },
+                onClosed: function() {
+                    $('#colorbox').removeClass('sc-profile-colorbox sc-profile-public-photo-colorbox');
+                    $('#cboxOverlay').removeClass('sc-profile-colorbox-overlay');
+                }
+            });
+
+            $privateMediaLinks.colorbox({
                 maxWidth: '85%',
                 maxHeight: '85%',
                 scrolling: false,
