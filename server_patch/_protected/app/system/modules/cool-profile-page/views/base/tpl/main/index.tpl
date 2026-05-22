@@ -270,8 +270,8 @@
     #colorbox.sc-profile-colorbox #cboxLoadedContent img,
     #colorbox.sc-profile-colorbox .cboxPhoto{display:block!important;margin:0 auto!important;border:0!important;border-radius:6px!important;background:#111!important;box-shadow:0 0 0 5px #8f4dff!important}
     #colorbox.sc-profile-public-photo-colorbox #cboxLoadedContent img,
-    #colorbox.sc-profile-public-photo-colorbox .cboxPhoto{max-width:400px!important;max-height:533px!important;width:auto!important;height:auto!important;object-fit:contain!important;border-radius:0!important}
-    /* SC_PUBLIC_PROFILE_PHOTO_POPUP_SIZE_V1_ACTIVE */
+    #colorbox.sc-profile-public-photo-colorbox .cboxPhoto{max-width:129px!important;max-height:376px!important;width:auto!important;height:auto!important;object-fit:contain!important;border-radius:0!important}
+    /* SC_PUBLIC_PROFILE_POPUP_IMAGE_SIZE_ONLY_V1_ACTIVE */
     #colorbox.sc-profile-colorbox #cboxTitle,
     #colorbox.sc-profile-colorbox #cboxCurrent{display:none!important;height:0!important;margin:0!important;padding:0!important;overflow:hidden!important;font-size:0!important;line-height:0!important;color:transparent!important}
     @media (max-width:991px){
