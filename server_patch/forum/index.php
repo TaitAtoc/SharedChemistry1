@@ -298,25 +298,22 @@ try {
             display: inline-flex;
             align-items: center;
             min-height: 38px;
-            padding: 8px 13px;
-            border: 1px solid rgba(233, 187, 99, .28);
-            border-radius: 8px;
-            background: rgba(0, 0, 0, .22);
+            padding: 8px 4px;
+            border: 0;
+            border-radius: 0;
+            background: transparent;
             color: var(--text);
             font-size: 13px;
             font-weight: 800;
             text-decoration: none;
         }
 
-        .sc-nav a.is-primary {
-            /* SC_FORUM_BUTTON_PURPLE_V2_ACTIVE */
-            background: #c200fb;
-            color: #fff;
+        .sc-nav a:hover {
+            color: #ffe0a3;
         }
 
-        .sc-nav a.is-primary:hover {
-            background: #ec0868;
-            color: #f7f3ef;
+        .sc-nav a.is-dashboard {
+            color: var(--gold);
         }
 
         .sc-hero {
@@ -503,9 +500,14 @@ try {
             <img src="/templates/themes/base/img/sharedchemistry/sharedchemistry-header-logo.png" alt="SharedChemistry">
         </a>
         <div class="sc-nav">
-            <a class="is-primary" href="<?= SC_SITE_URL ?>/signup">Create Profile</a>
-            <a href="<?= SC_SITE_URL ?>/login">Sign in</a>
+            <!-- SC_PHYSICAL_FORUM_LOGGED_IN_HEADER_V1_ACTIVE -->
+            <a href="<?= SC_SITE_URL ?>/meet-people">People</a>
+            <a href="<?= SC_SITE_URL ?>/free-chat-room">Chat</a>
+            <a href="<?= SC_SITE_URL ?>/forum/index.php">Discussions</a>
             <a href="<?= SC_SITE_URL ?>/blog">Blog</a>
+            <a href="<?= SC_SITE_URL ?>/mail">Messages</a>
+            <a href="<?= SC_SITE_URL ?>/user/account/index">Account</a>
+            <a class="is-dashboard" href="<?= SC_SITE_URL ?>/user-dashboard/main/index">Our Dashboard</a>
         </div>
     </nav>
 
