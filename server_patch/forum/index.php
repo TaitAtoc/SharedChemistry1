@@ -1,6 +1,60 @@
 <?php
 declare(strict_types=1);
 
+function scPhysicalForumAuthConfigPath(): ?string
+{
+    $aCandidates = [
+        __DIR__ . '/../app/configs/config.ini',
+        __DIR__ . '/../_protected/app/configs/config.ini',
+        __DIR__ . '/../../app/configs/config.ini',
+        __DIR__ . '/../../ph7_source/app/configs/config.ini',
+    ];
+
+    foreach ($aCandidates as $sPath) {
+        if (is_readable($sPath)) {
+            return $sPath;
+        }
+    }
+
+    return null;
+}
+
+function scPhysicalForumRequireMember(): void
+{
+    // SC_PHYSICAL_FORUM_AUTH_SAFE_V3_ACTIVE
+    $sCookieName = 'PHS7SESS';
+    $sSessionPrefix = 'pH73025e_';
+    $sConfigPath = scPhysicalForumAuthConfigPath();
+    if ($sConfigPath !== null) {
+        $aConfig = parse_ini_file($sConfigPath, true);
+        if (is_array($aConfig) && !empty($aConfig['session'])) {
+            $sCookieName = (string)($aConfig['session']['cookie_name'] ?? $sCookieName);
+            $sSessionPrefix = (string)($aConfig['session']['prefix'] ?? $sSessionPrefix);
+        }
+    }
+
+    if (empty($_COOKIE[$sCookieName])) {
+        header('Location: https://sharedchemistry.com/login', true, 302);
+        exit;
+    }
+
+    if (session_status() !== PHP_SESSION_ACTIVE) {
+        session_name($sCookieName);
+        session_start(['read_and_close' => true]);
+    }
+
+    $sMemberIdKey = $sSessionPrefix === 'pH73025e_' ? 'pH73025e_member_id' : $sSessionPrefix . 'member_id';
+    $sUserAgentKey = $sSessionPrefix . 'member_http_user_agent';
+    $bUserAgentMatches = empty($_SESSION[$sUserAgentKey]) || $_SESSION[$sUserAgentKey] === ($_SERVER['HTTP_USER_AGENT'] ?? '');
+
+    if (empty($_SESSION[$sMemberIdKey]) || !$bUserAgentMatches) {
+        header('Location: https://sharedchemistry.com/login', true, 302);
+        exit;
+    }
+}
+
+scPhysicalForumRequireMember();
+
 const SC_SITE_URL = 'https://sharedchemistry.com';
 const SC_TOPIC_LIMIT = 20;
 
