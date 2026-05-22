@@ -130,7 +130,8 @@
       <route url="layout\.xsl" path="system/modules" module="xml" controller="main" action="xsllayout" />
 
     <!-- Forum -->
-      <route url="forum" path="system/modules" module="forum" controller="forum" action="index" />
+      <!-- SC_DISCUSSIONS_HOME_ROUTE_V1_ACTIVE -->
+      <route url="forum" path="system/modules" module="sc-discussions-home" controller="main" action="index" />
       <route url="forum/topics/([^/]+)/([0-9]+)" path="system/modules" module="forum" controller="forum" action="topic" vars="forum_name,forum_id" />
       <route url="forum/post/([^/]+)/([0-9]+)/([^/]+)/([0-9]+)" path="system/modules" module="forum" controller="forum" action="post" vars="forum_name,forum_id,topic_name,topic_id" />
       <route url="forum/add-topic/([^/]+)/([0-9]+)" path="system/modules" module="forum" controller="forum" action="addtopic" vars="forum_name,forum_id" />
