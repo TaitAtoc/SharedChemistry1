@@ -383,7 +383,8 @@
     <div class="sc-profile-photo-strip">
         <div class="sc-profile-photo-slot">
             <div class="sc-profile-photo-frame">
-                {{ (new AvatarDesignCore)->lightBox($username, $first_name, $sex, 400) }}
+                {* SC_PUBLIC_PROFILE_MAIN_PHOTO_DATA_POPUP_V1_ACTIVE *}
+                {{ ob_start(); (new AvatarDesignCore)->lightBox($username, $first_name, $sex, 400); $main_photo_html = ob_get_clean(); if (stripos($main_photo_html, 'data-popup=') === false) { $main_photo_html = preg_replace('/<a\b(?![^>]*\bdata-popup=)/i', '<a data-popup="image"', $main_photo_html, 1); } echo $main_photo_html; }}
             </div>
             <span class="sc-profile-photo-label">{lang 'Main Photo'}</span>
         </div>
