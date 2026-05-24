@@ -272,6 +272,39 @@
     #colorbox.sc-profile-public-photo-colorbox #cboxLoadedContent img,
     #colorbox.sc-profile-public-photo-colorbox .cboxPhoto{max-width:400px!important;max-height:533px!important;width:auto!important;height:auto!important;object-fit:contain!important;border-radius:0!important}
     /* SC_PUBLIC_PROFILE_POPUP_IMAGE_SIZE_MATCH_GOOD_V1_ACTIVE */
+    #colorbox.sc-profile-public-photo-colorbox #cboxClose{
+        position: absolute !important;
+        top: 8px !important;
+        right: 8px !important;
+        bottom: auto !important;
+        left: auto !important;
+        z-index: 9999 !important;
+        width: auto !important;
+        height: auto !important;
+        min-width: 0 !important;
+        min-height: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        background: transparent !important;
+        color: #101114 !important;
+        font-size: 0 !important;
+        font-weight: 900 !important;
+        line-height: 1 !important;
+        text-indent: 0 !important;
+        text-decoration: none !important;
+        box-shadow: none !important;
+        cursor: pointer !important;
+        overflow: visible !important;
+    }
+    #colorbox.sc-profile-public-photo-colorbox #cboxClose:before{
+        content: "X" !important;
+        display: block !important;
+        color: #101114 !important;
+        font-size: 32px !important;
+        font-weight: 900 !important;
+        line-height: 1 !important;
+    }
+    /* SC_PUBLIC_PROFILE_POPUP_CLOSE_X_POSITION_ONLY_V1_ACTIVE */
     #colorbox.sc-profile-colorbox #cboxTitle,
     #colorbox.sc-profile-colorbox #cboxCurrent{display:none!important;height:0!important;margin:0!important;padding:0!important;overflow:hidden!important;font-size:0!important;line-height:0!important;color:transparent!important}
     @media (max-width:991px){
