@@ -1009,6 +1009,9 @@
     </div>
 </div>
 
+{* SC_PUBLIC_PROFILE_DIRECT_COLORBOX_ASSET_V1_ACTIVE *}
+<script src="{url_root}static/js/jquery/box.js"></script>
+
 {literal}
 <script>
     $(document).ready(function() {
