@@ -256,6 +256,12 @@
     #colorbox.sc-profile-colorbox #cboxContent,
     #colorbox.sc-profile-colorbox #cboxLoadedContent{overflow:visible!important}
     #colorbox.sc-profile-colorbox{background:transparent!important}
+    #colorbox.sc-profile-public-photo-colorbox{
+        position: fixed !important;
+        top: 130px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+    }
     #colorbox.sc-profile-colorbox #cboxWrapper{background:transparent!important}
     #colorbox.sc-profile-colorbox #cboxTopLeft,
     #colorbox.sc-profile-colorbox #cboxTopCenter,
@@ -270,12 +276,23 @@
     #colorbox.sc-profile-colorbox #cboxLoadedContent img,
     #colorbox.sc-profile-colorbox .cboxPhoto{display:block!important;margin:0 auto!important;border:0!important;border-radius:6px!important;background:#111!important;box-shadow:0 0 0 5px #8f4dff!important}
     #colorbox.sc-profile-public-photo-colorbox #cboxLoadedContent img,
-    #colorbox.sc-profile-public-photo-colorbox .cboxPhoto{max-width:400px!important;max-height:533px!important;width:auto!important;height:auto!important;object-fit:contain!important;border-radius:0!important}
+    #colorbox.sc-profile-public-photo-colorbox .cboxPhoto{
+        max-width: 400px !important;
+        max-height: 533px !important;
+        width: auto !important;
+        height: auto !important;
+        object-fit: contain !important;
+        border: 0 !important;
+        outline: 0 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+    }
+    /* SC_PUBLIC_PROFILE_COLORBOX_POSITION_CLOSE_BORDER_CSS_V1_ACTIVE */
     /* SC_PUBLIC_PROFILE_POPUP_IMAGE_SIZE_MATCH_GOOD_V1_ACTIVE */
     #colorbox.sc-profile-public-photo-colorbox #cboxClose{
         position: absolute !important;
-        top: 8px !important;
-        right: 8px !important;
+        top: 10px !important;
+        right: 10px !important;
         bottom: auto !important;
         left: auto !important;
         z-index: 9999 !important;
@@ -286,6 +303,7 @@
         padding: 0 !important;
         border: 0 !important;
         background: transparent !important;
+        background-image: none !important;
         color: #101114 !important;
         font-size: 0 !important;
         font-weight: 900 !important;
