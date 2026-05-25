@@ -300,6 +300,24 @@
         line-height: 1.65;
     }
 
+    .sc-help-email {
+        margin-top: 14px !important;
+        color: #d7d2ce !important;
+    }
+
+    .sc-help-email a,
+    .sc-help-email a:visited {
+        color: #ffbc0a !important;
+        font-weight: 800;
+        text-decoration: none !important;
+    }
+
+    .sc-help-email a:hover,
+    .sc-help-email a:focus {
+        color: #fff8f1 !important;
+        text-decoration: none !important;
+    }
+
     .sc-help-faq-list {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -475,6 +493,7 @@
                 <span class="sc-help-icon"><i class="fa fa-envelope-o"></i></span>
                 <h3>{lang 'Contact Support'}</h3>
                 <p>{lang 'If the answer is not clear, contact SharedChemistry support with the account, page, or feature you need help with.'}</p>
+                <p class="sc-help-email">{lang 'For direct support, email:'} <a href="mailto:support@sharedchemistry.com">support@sharedchemistry.com</a></p>
             </article>
         </div>
     </section>
@@ -518,6 +537,7 @@
             <p class="sc-help-kicker">{lang 'Support'}</p>
             <h2>{lang 'Still need help?'}</h2>
             <p>{lang 'Contact SharedChemistry support if you need help with account access, profile setup, verification, or site problems. Include enough detail so the team can understand what happened.'}</p>
+            <p class="sc-help-email">{lang 'For direct support, email:'} <a href="mailto:support@sharedchemistry.com">support@sharedchemistry.com</a></p>
             <div class="sc-help-actions">
                 <a class="sc-help-button sc-help-button-primary" href="{{ $design->url('contact','contact','index') }}">{lang 'Contact support'}</a>
             </div>
