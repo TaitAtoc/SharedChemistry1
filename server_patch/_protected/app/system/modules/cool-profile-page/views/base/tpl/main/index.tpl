@@ -400,6 +400,21 @@
 </style>
 {/literal}
 
+{literal}
+<style>
+    /* SC_PUBLIC_PROFILE_FINAL_TOP_SPACING_OVERRIDE_V2_ACTIVE */
+    main#content:has(.sc-public-profile) {
+        padding-top: 160px !important;
+    }
+
+    @media (max-width:767px) {
+        main#content:has(.sc-public-profile) {
+            padding-top: 132px !important;
+        }
+    }
+</style>
+{/literal}
+
 <div class="sc-public-profile" itemscope="itemscope" itemtype="http://schema.org/Person">
     <div class="sc-profile-photo-strip">
         <div class="sc-profile-photo-slot">
