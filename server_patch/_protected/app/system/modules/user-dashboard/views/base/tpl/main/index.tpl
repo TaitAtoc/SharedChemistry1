@@ -296,6 +296,8 @@
     <div class="left col-xs-12">
         <div class="sc-dashboard-card sc-profile-card">
             <h2>{lang 'Our Profile'}</h2>
+            {{ $public_profile_photos = (new ScPublicProfilePhoto)->getPhotos((int)(new Framework\Session\Session)->get('member_id')) }}
+            {* SC_DASHBOARD_PUBLIC_PHOTOS_REAL_SOURCE_V1_ACTIVE *}
             <div class="sc-public-photo-row sc-dashboard-profile-photo-grid">
                 <div class="sc-public-photo-slot is-avatar sc-dashboard-profile-photo-tile">
                     <div class="sc-public-photo-frame sc-dashboard-profile-photo-frame">
@@ -303,37 +305,81 @@
                     </div>
                     <span class="sc-public-photo-label sc-dashboard-profile-photo-label">{lang 'Main Photo'}</span>
                 </div>
+                {{ $photo1 = isset($public_profile_photos[1]) ? $public_profile_photos[1] : null }}
                 <div class="sc-public-photo-slot sc-dashboard-profile-photo-tile">
-                    <a class="sc-public-photo-link sc-dashboard-profile-photo-link" href="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" title="{lang 'Public Photo 2'}" data-popup="image">
-                        <span class="sc-public-photo-frame sc-dashboard-profile-photo-frame">
-                            <img src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Public Photo 2'}" class="sc-public-photo-placeholder sc-dashboard-profile-photo-img" />
-                        </span>
-                        <span class="sc-public-photo-label sc-dashboard-profile-photo-label">{lang 'Public Photo 2'}</span>
-                    </a>
+                    {if !empty($photo1)}
+                        {{ $photo_url = (new ScPublicProfilePhoto)->getPhotoUrl($username, $photo1, 400) }}
+                        <a class="sc-public-photo-link sc-dashboard-profile-photo-link" href="{% $photo_url %}" title="{lang 'Public Photo 2'}" data-popup="image">
+                            <span class="sc-public-photo-frame sc-dashboard-profile-photo-frame">
+                                <img src="{% $photo_url %}" alt="{lang 'Public Photo 2'}" class="sc-public-photo-placeholder sc-dashboard-profile-photo-img" />
+                            </span>
+                            <span class="sc-public-photo-label sc-dashboard-profile-photo-label">{lang 'Public Photo 2'}</span>
+                        </a>
+                    {else}
+                        <a class="sc-public-photo-link sc-dashboard-profile-photo-link" href="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" title="{lang 'Public Photo 2'}" data-popup="image">
+                            <span class="sc-public-photo-frame sc-dashboard-profile-photo-frame">
+                                <img src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Public Photo 2'}" class="sc-public-photo-placeholder sc-dashboard-profile-photo-img" />
+                            </span>
+                            <span class="sc-public-photo-label sc-dashboard-profile-photo-label">{lang 'Public Photo 2'}</span>
+                        </a>
+                    {/if}
                 </div>
+                {{ $photo2 = isset($public_profile_photos[2]) ? $public_profile_photos[2] : null }}
                 <div class="sc-public-photo-slot sc-dashboard-profile-photo-tile">
-                    <a class="sc-public-photo-link sc-dashboard-profile-photo-link" href="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" title="{lang 'Public Photo 3'}" data-popup="image">
-                        <span class="sc-public-photo-frame sc-dashboard-profile-photo-frame">
-                            <img src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Public Photo 3'}" class="sc-public-photo-placeholder sc-dashboard-profile-photo-img" />
-                        </span>
-                        <span class="sc-public-photo-label sc-dashboard-profile-photo-label">{lang 'Public Photo 3'}</span>
-                    </a>
+                    {if !empty($photo2)}
+                        {{ $photo_url = (new ScPublicProfilePhoto)->getPhotoUrl($username, $photo2, 400) }}
+                        <a class="sc-public-photo-link sc-dashboard-profile-photo-link" href="{% $photo_url %}" title="{lang 'Public Photo 3'}" data-popup="image">
+                            <span class="sc-public-photo-frame sc-dashboard-profile-photo-frame">
+                                <img src="{% $photo_url %}" alt="{lang 'Public Photo 3'}" class="sc-public-photo-placeholder sc-dashboard-profile-photo-img" />
+                            </span>
+                            <span class="sc-public-photo-label sc-dashboard-profile-photo-label">{lang 'Public Photo 3'}</span>
+                        </a>
+                    {else}
+                        <a class="sc-public-photo-link sc-dashboard-profile-photo-link" href="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" title="{lang 'Public Photo 3'}" data-popup="image">
+                            <span class="sc-public-photo-frame sc-dashboard-profile-photo-frame">
+                                <img src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Public Photo 3'}" class="sc-public-photo-placeholder sc-dashboard-profile-photo-img" />
+                            </span>
+                            <span class="sc-public-photo-label sc-dashboard-profile-photo-label">{lang 'Public Photo 3'}</span>
+                        </a>
+                    {/if}
                 </div>
+                {{ $photo3 = isset($public_profile_photos[3]) ? $public_profile_photos[3] : null }}
                 <div class="sc-public-photo-slot sc-dashboard-profile-photo-tile">
-                    <a class="sc-public-photo-link sc-dashboard-profile-photo-link" href="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" title="{lang 'Public Photo 4'}" data-popup="image">
-                        <span class="sc-public-photo-frame sc-dashboard-profile-photo-frame">
-                            <img src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Public Photo 4'}" class="sc-public-photo-placeholder sc-dashboard-profile-photo-img" />
-                        </span>
-                        <span class="sc-public-photo-label sc-dashboard-profile-photo-label">{lang 'Public Photo 4'}</span>
-                    </a>
+                    {if !empty($photo3)}
+                        {{ $photo_url = (new ScPublicProfilePhoto)->getPhotoUrl($username, $photo3, 400) }}
+                        <a class="sc-public-photo-link sc-dashboard-profile-photo-link" href="{% $photo_url %}" title="{lang 'Public Photo 4'}" data-popup="image">
+                            <span class="sc-public-photo-frame sc-dashboard-profile-photo-frame">
+                                <img src="{% $photo_url %}" alt="{lang 'Public Photo 4'}" class="sc-public-photo-placeholder sc-dashboard-profile-photo-img" />
+                            </span>
+                            <span class="sc-public-photo-label sc-dashboard-profile-photo-label">{lang 'Public Photo 4'}</span>
+                        </a>
+                    {else}
+                        <a class="sc-public-photo-link sc-dashboard-profile-photo-link" href="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" title="{lang 'Public Photo 4'}" data-popup="image">
+                            <span class="sc-public-photo-frame sc-dashboard-profile-photo-frame">
+                                <img src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Public Photo 4'}" class="sc-public-photo-placeholder sc-dashboard-profile-photo-img" />
+                            </span>
+                            <span class="sc-public-photo-label sc-dashboard-profile-photo-label">{lang 'Public Photo 4'}</span>
+                        </a>
+                    {/if}
                 </div>
+                {{ $photo4 = isset($public_profile_photos[4]) ? $public_profile_photos[4] : null }}
                 <div class="sc-public-photo-slot sc-dashboard-profile-photo-tile">
-                    <a class="sc-public-photo-link sc-dashboard-profile-photo-link" href="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" title="{lang 'Public Photo 5'}" data-popup="image">
-                        <span class="sc-public-photo-frame sc-dashboard-profile-photo-frame">
-                            <img src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Public Photo 5'}" class="sc-public-photo-placeholder sc-dashboard-profile-photo-img" />
-                        </span>
-                        <span class="sc-public-photo-label sc-dashboard-profile-photo-label">{lang 'Public Photo 5'}</span>
-                    </a>
+                    {if !empty($photo4)}
+                        {{ $photo_url = (new ScPublicProfilePhoto)->getPhotoUrl($username, $photo4, 400) }}
+                        <a class="sc-public-photo-link sc-dashboard-profile-photo-link" href="{% $photo_url %}" title="{lang 'Public Photo 5'}" data-popup="image">
+                            <span class="sc-public-photo-frame sc-dashboard-profile-photo-frame">
+                                <img src="{% $photo_url %}" alt="{lang 'Public Photo 5'}" class="sc-public-photo-placeholder sc-dashboard-profile-photo-img" />
+                            </span>
+                            <span class="sc-public-photo-label sc-dashboard-profile-photo-label">{lang 'Public Photo 5'}</span>
+                        </a>
+                    {else}
+                        <a class="sc-public-photo-link sc-dashboard-profile-photo-link" href="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" title="{lang 'Public Photo 5'}" data-popup="image">
+                            <span class="sc-public-photo-frame sc-dashboard-profile-photo-frame">
+                                <img src="{url_tpl_img}sharedchemistry/SharedChemistyAvatar.png" alt="{lang 'Public Photo 5'}" class="sc-public-photo-placeholder sc-dashboard-profile-photo-img" />
+                            </span>
+                            <span class="sc-public-photo-label sc-dashboard-profile-photo-label">{lang 'Public Photo 5'}</span>
+                        </a>
+                    {/if}
                 </div>
             </div>
 
