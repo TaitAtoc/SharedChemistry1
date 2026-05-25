@@ -319,5 +319,27 @@
         <div class="sc-invite-form">
             {{ InviteForm::display() }}
         </div>
+        {literal}
+        <script>
+            (function () {
+                var secureInviteAction = function () {
+                    var forms = document.querySelectorAll('.sc-invite-modal form');
+                    for (var i = 0; i < forms.length; i++) {
+                        var action = forms[i].getAttribute('action') || '';
+                        if (action.indexOf('http://sharedchemistry.com/') === 0) {
+                            forms[i].setAttribute('action', action.replace('http://sharedchemistry.com/', 'https://sharedchemistry.com/'));
+                        }
+                    }
+                };
+
+                secureInviteAction();
+                document.addEventListener('submit', function (event) {
+                    if (event.target && event.target.closest && event.target.closest('.sc-invite-modal')) {
+                        secureInviteAction();
+                    }
+                }, true);
+            }());
+        </script>
+        {/literal}
     </div>
 </div>
