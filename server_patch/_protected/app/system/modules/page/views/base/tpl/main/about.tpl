@@ -7,75 +7,78 @@
         background: #08080b !important;
     }
 
-    body:has(.sc-about-page) .navbar.navbar-fixed-top {
-        min-height: 74px !important;
+    body:has(.sc-info-page) .navbar.navbar-fixed-top {
+        min-height: 104px !important;
         border: 0 !important;
         background: rgba(8, 8, 11, .96) !important;
         box-shadow: 0 12px 34px rgba(0, 0, 0, .28) !important;
     }
 
-    body:has(.sc-about-page) .navbar.navbar-fixed-top > .container {
+    body:has(.sc-info-page) .navbar.navbar-fixed-top > .container {
         display: flex !important;
         align-items: center !important;
         justify-content: space-between !important;
         gap: 32px !important;
-        min-height: 74px !important;
-        padding-top: 0 !important;
-        padding-bottom: 0 !important;
+        min-height: 104px !important;
+        padding-top: 12px !important;
+        padding-bottom: 12px !important;
     }
 
-    body:has(.sc-about-page) .navbar-header {
+    body:has(.sc-info-page) .navbar-header {
         display: flex !important;
         align-items: center !important;
         flex: 0 0 auto !important;
-        min-height: 74px !important;
+        min-height: 80px !important;
         margin: 0 !important;
     }
 
-    body:has(.sc-about-page) #logo.navbar-brand.sharedchemistry-member-logo {
+    body:has(.sc-info-page) #logo.navbar-brand.sharedchemistry-member-logo {
         display: flex !important;
         align-items: center !important;
         justify-content: flex-start !important;
-        height: 74px !important;
-        min-height: 74px !important;
+        height: auto !important;
+        min-height: 80px !important;
         margin: 0 !important;
-        padding: 0 !important;
+        padding: 0 18px 0 0 !important;
         float: none !important;
         line-height: 1 !important;
     }
 
-    body:has(.sc-about-page) #logo .sharedchemistry-logo-link {
+    body:has(.sc-info-page) #logo .sharedchemistry-logo-link {
         display: inline-flex !important;
         align-items: center !important;
+        width: 300px !important;
+        max-width: 32vw !important;
         height: auto !important;
         margin: 0 !important;
         padding: 0 !important;
         transform: none !important;
     }
 
-    body:has(.sc-about-page) #logo .sharedchemistry-header-logo {
+    body:has(.sc-info-page) #logo .sharedchemistry-header-logo {
         display: block !important;
-        width: auto !important;
-        max-width: 250px !important;
-        max-height: 48px !important;
+        width: 300px !important;
+        max-width: 100% !important;
+        max-height: none !important;
+        height: auto !important;
         margin: 0 !important;
         object-fit: contain !important;
         transform: none !important;
     }
 
-    body:has(.sc-about-page) #navbar.navbar-collapse {
+    body:has(.sc-info-page) #navbar.navbar-collapse {
         display: flex !important;
         align-items: center !important;
         justify-content: flex-end !important;
         flex: 1 1 auto !important;
-        min-height: 74px !important;
+        min-height: 80px !important;
         margin: 0 !important;
         padding: 0 !important;
         border: 0 !important;
         box-shadow: none !important;
     }
 
-    body:has(.sc-about-page) #navbar .navbar-nav {
+    body:has(.sc-info-page) #navbar .navbar-nav {
         display: flex !important;
         align-items: center !important;
         justify-content: flex-end !important;
@@ -85,7 +88,7 @@
         float: none !important;
     }
 
-    body:has(.sc-about-page) #navbar .navbar-nav > li {
+    body:has(.sc-info-page) #navbar .navbar-nav > li {
         display: flex !important;
         align-items: center !important;
         margin: 0 !important;
@@ -93,7 +96,7 @@
         float: none !important;
     }
 
-    body:has(.sc-about-page) #navbar .navbar-nav > li > a {
+    body:has(.sc-info-page) #navbar .navbar-nav > li > a {
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
@@ -105,19 +108,19 @@
         white-space: nowrap !important;
     }
 
-    body:has(.sc-about-page) #navbar .navbar-nav > li > a.sharedchemistry-nav-join {
+    body:has(.sc-info-page) #navbar .navbar-nav > li > a.sharedchemistry-nav-join {
         background: linear-gradient(90deg, #ec0868, #f15a3b) !important;
         color: #fff !important;
         box-shadow: 0 12px 30px rgba(236, 8, 104, .25) !important;
     }
 
-    body:has(.sc-about-page) #navbar .navbar-nav > li > a.sharedchemistry-nav-signin {
+    body:has(.sc-info-page) #navbar .navbar-nav > li > a.sharedchemistry-nav-signin {
         border: 1px solid rgba(255, 188, 10, .44) !important;
         background: rgba(247, 243, 239, .04) !important;
         color: #ffbc0a !important;
     }
 
-    body:has(.sc-about-page) #navbar .navbar-nav > li > a.sharedchemistry-nav-blog {
+    body:has(.sc-info-page) #navbar .navbar-nav > li > a.sharedchemistry-nav-blog {
         border: 1px solid rgba(247, 243, 239, .14) !important;
         background: rgba(247, 243, 239, .035) !important;
         color: #f7f3ef !important;
@@ -398,16 +401,16 @@
     }
 
     @media (max-width: 900px) {
-        body:has(.sc-about-page) .navbar.navbar-fixed-top,
-        body:has(.sc-about-page) .navbar.navbar-fixed-top > .container,
-        body:has(.sc-about-page) .navbar-header,
-        body:has(.sc-about-page) #logo.navbar-brand.sharedchemistry-member-logo,
-        body:has(.sc-about-page) #navbar.navbar-collapse {
+        body:has(.sc-info-page) .navbar.navbar-fixed-top,
+        body:has(.sc-info-page) .navbar.navbar-fixed-top > .container,
+        body:has(.sc-info-page) .navbar-header,
+        body:has(.sc-info-page) #logo.navbar-brand.sharedchemistry-member-logo,
+        body:has(.sc-info-page) #navbar.navbar-collapse {
             min-height: 0 !important;
             height: auto !important;
         }
 
-        body:has(.sc-about-page) .navbar.navbar-fixed-top > .container {
+        body:has(.sc-info-page) .navbar.navbar-fixed-top > .container {
             display: grid !important;
             justify-items: center !important;
             gap: 12px !important;
@@ -415,24 +418,31 @@
             padding-bottom: 12px !important;
         }
 
-        body:has(.sc-about-page) .navbar-header,
-        body:has(.sc-about-page) #navbar.navbar-collapse {
+        body:has(.sc-info-page) .navbar-header,
+        body:has(.sc-info-page) #navbar.navbar-collapse {
             width: 100% !important;
             justify-content: center !important;
         }
 
-        body:has(.sc-about-page) #logo.navbar-brand.sharedchemistry-member-logo {
+        body:has(.sc-info-page) #logo.navbar-brand.sharedchemistry-member-logo {
             justify-content: center !important;
+            padding: 0 !important;
         }
 
-        body:has(.sc-about-page) #navbar .navbar-nav {
+        body:has(.sc-info-page) #logo .sharedchemistry-logo-link,
+        body:has(.sc-info-page) #logo .sharedchemistry-header-logo {
+            width: min(300px, 82vw) !important;
+            max-width: 82vw !important;
+        }
+
+        body:has(.sc-info-page) #navbar .navbar-nav {
             justify-content: center !important;
             flex-wrap: wrap !important;
             gap: 10px 14px !important;
             width: 100% !important;
         }
 
-        body:has(.sc-about-page) #navbar .navbar-nav > li > a {
+        body:has(.sc-info-page) #navbar .navbar-nav > li > a {
             min-height: 42px !important;
             padding: 10px 14px !important;
         }
@@ -492,7 +502,7 @@
 </style>
 {/literal}
 
-<div class="sc-about-page">
+<div class="sc-about-page sc-info-page">
     <section class="sc-about-hero sc-about-wrap">
         <div class="sc-about-copy">
             <p class="sc-about-kicker">{lang 'SharedChemistry for private couples'}</p>
