@@ -7,6 +7,124 @@
         background: #08080b !important;
     }
 
+    body:has(.sc-about-page) .navbar.navbar-fixed-top {
+        min-height: 74px !important;
+        border: 0 !important;
+        background: rgba(8, 8, 11, .96) !important;
+        box-shadow: 0 12px 34px rgba(0, 0, 0, .28) !important;
+    }
+
+    body:has(.sc-about-page) .navbar.navbar-fixed-top > .container {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 32px !important;
+        min-height: 74px !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+    body:has(.sc-about-page) .navbar-header {
+        display: flex !important;
+        align-items: center !important;
+        flex: 0 0 auto !important;
+        min-height: 74px !important;
+        margin: 0 !important;
+    }
+
+    body:has(.sc-about-page) #logo.navbar-brand.sharedchemistry-member-logo {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        height: 74px !important;
+        min-height: 74px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        float: none !important;
+        line-height: 1 !important;
+    }
+
+    body:has(.sc-about-page) #logo .sharedchemistry-logo-link {
+        display: inline-flex !important;
+        align-items: center !important;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        transform: none !important;
+    }
+
+    body:has(.sc-about-page) #logo .sharedchemistry-header-logo {
+        display: block !important;
+        width: auto !important;
+        max-width: 250px !important;
+        max-height: 48px !important;
+        margin: 0 !important;
+        object-fit: contain !important;
+        transform: none !important;
+    }
+
+    body:has(.sc-about-page) #navbar.navbar-collapse {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        flex: 1 1 auto !important;
+        min-height: 74px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        box-shadow: none !important;
+    }
+
+    body:has(.sc-about-page) #navbar .navbar-nav {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        gap: 22px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        float: none !important;
+    }
+
+    body:has(.sc-about-page) #navbar .navbar-nav > li {
+        display: flex !important;
+        align-items: center !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        float: none !important;
+    }
+
+    body:has(.sc-about-page) #navbar .navbar-nav > li > a {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-height: 40px !important;
+        margin: 0 !important;
+        padding: 10px 16px !important;
+        border-radius: 8px !important;
+        line-height: 1.2 !important;
+        white-space: nowrap !important;
+    }
+
+    body:has(.sc-about-page) #navbar .navbar-nav > li > a.sharedchemistry-nav-join {
+        background: linear-gradient(90deg, #ec0868, #f15a3b) !important;
+        color: #fff !important;
+        box-shadow: 0 12px 30px rgba(236, 8, 104, .25) !important;
+    }
+
+    body:has(.sc-about-page) #navbar .navbar-nav > li > a.sharedchemistry-nav-signin {
+        border: 1px solid rgba(255, 188, 10, .44) !important;
+        background: rgba(247, 243, 239, .04) !important;
+        color: #ffbc0a !important;
+    }
+
+    body:has(.sc-about-page) #navbar .navbar-nav > li > a.sharedchemistry-nav-blog {
+        border: 1px solid rgba(247, 243, 239, .14) !important;
+        background: rgba(247, 243, 239, .035) !important;
+        color: #f7f3ef !important;
+    }
+
+    /* sc-about-header-cleanup sc-about-guest-header sc-about-guest-nav */
+
     .sc-about-page,
     .sc-about-page * {
         box-sizing: border-box;
@@ -280,6 +398,45 @@
     }
 
     @media (max-width: 900px) {
+        body:has(.sc-about-page) .navbar.navbar-fixed-top,
+        body:has(.sc-about-page) .navbar.navbar-fixed-top > .container,
+        body:has(.sc-about-page) .navbar-header,
+        body:has(.sc-about-page) #logo.navbar-brand.sharedchemistry-member-logo,
+        body:has(.sc-about-page) #navbar.navbar-collapse {
+            min-height: 0 !important;
+            height: auto !important;
+        }
+
+        body:has(.sc-about-page) .navbar.navbar-fixed-top > .container {
+            display: grid !important;
+            justify-items: center !important;
+            gap: 12px !important;
+            padding-top: 12px !important;
+            padding-bottom: 12px !important;
+        }
+
+        body:has(.sc-about-page) .navbar-header,
+        body:has(.sc-about-page) #navbar.navbar-collapse {
+            width: 100% !important;
+            justify-content: center !important;
+        }
+
+        body:has(.sc-about-page) #logo.navbar-brand.sharedchemistry-member-logo {
+            justify-content: center !important;
+        }
+
+        body:has(.sc-about-page) #navbar .navbar-nav {
+            justify-content: center !important;
+            flex-wrap: wrap !important;
+            gap: 10px 14px !important;
+            width: 100% !important;
+        }
+
+        body:has(.sc-about-page) #navbar .navbar-nav > li > a {
+            min-height: 42px !important;
+            padding: 10px 14px !important;
+        }
+
         .sc-about-hero,
         .sc-about-intro,
         .sc-about-feature,
