@@ -362,6 +362,18 @@
     }
     /* SC_USER_AVATAR_COLORBOX_CLOSE_BORDER_FIX_V1_ACTIVE */
 
+    #colorbox.sc-avatar-colorbox #cboxTitle,
+    #colorbox.sc-avatar-colorbox #cboxCurrent {
+        display: none !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        font-size: 0 !important;
+        line-height: 0 !important;
+        color: transparent !important;
+    }
+    /* SC_USER_AVATAR_MAIN_PHOTO_COLORBOX_FIX_V1_ACTIVE */
+
     @media (max-width: 1100px) {
         main#content .sc-avatar-photo-strip {
             grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
@@ -506,6 +518,7 @@
             }
 
             $('#colorbox').addClass('sc-avatar-colorbox');
+            $('#cboxTitle, #cboxCurrent').hide().text('');
             $('#cboxLoadedContent').attr('style', function(i, s) {
                 return (s || '') + ';margin:0!important;padding:0!important;background:#111!important;border:0!important;overflow:visible!important;';
             });
@@ -514,7 +527,7 @@
             });
         }
 
-        $('.sc-avatar-photo-manager .sc-avatar-photo-frame > a').on('click.scAvatarColorboxClass', function() {
+        $('.sc-avatar-photo-manager .sc-avatar-photo-frame > a, .sc-avatar-photo-manager .sc-avatar-photo-slot:first .sc-avatar-photo-frame a').on('click.scAvatarColorboxClass', function() {
             scAvatarColorboxActive = true;
             window.setTimeout(scApplyAvatarColorboxClass, 0);
         });
