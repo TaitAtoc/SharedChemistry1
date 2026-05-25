@@ -15,7 +15,9 @@
     .grey-bar,
     .gray-bar{display:none!important;height:0!important;min-height:0!important;margin:0!important;padding:0!important;overflow:hidden!important;border:0!important;background:transparent!important}
     main#content{max-width:1180px!important;margin:0 auto!important;padding:0 15px!important;padding-top:32px!important;background:transparent!important;border:0!important;box-shadow:none!important}
+    main#content{padding-top:160px!important}
     .sc-public-profile{margin-top:0!important;padding-top:0!important;color:#f4f1f6}
+    /* SC_PUBLIC_PROFILE_TOP_SPACING_FIX_V1_ACTIVE */
     .sc-public-profile *{box-sizing:border-box}
     .sc-profile-photo-strip{display:grid;grid-template-columns:repeat(5,minmax(150px,1fr));gap:12px;margin:0 0 18px}
     .sc-profile-photo-slot{display:flex;flex-direction:column;gap:8px;align-items:center;justify-content:space-between;min-height:206px;padding:10px;border:1px solid rgba(255,255,255,.12);border-radius:8px;background:#100f14;overflow:hidden}
@@ -394,6 +396,7 @@
             max-height: none !important;
         }
     }
+    @media (max-width:767px){main#content{padding-top:132px!important}}
 </style>
 {/literal}
 

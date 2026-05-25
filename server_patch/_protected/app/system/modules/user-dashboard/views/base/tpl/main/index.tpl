@@ -5,7 +5,7 @@
     header .ad_468_60,
     main#content + .ad_468_60{display:none!important;height:0!important;min-height:0!important;margin:0!important;padding:0!important;overflow:hidden!important;border:0!important;background:transparent!important}
     main#content{max-width:1180px!important;margin:0 auto!important;padding:20px 15px 0!important;background:transparent!important}
-    body main#content#content:has(.sc-dashboard){padding:132px 15px 0!important}
+    /* SC_DASHBOARD_TOP_SPACING_FIX_V1_ACTIVE */
     .navbar .container{max-width:1180px;width:100%}
     .navbar-collapse{padding-left:0;padding-right:0}
     .navbar-nav > li > a{padding-left:8px!important;padding-right:8px!important;font-size:13px;white-space:nowrap}
@@ -96,7 +96,7 @@
     html body main#content#content,
     html body main#content#content:has(.sc-dashboard) {
         margin-top: 0 !important;
-        padding-top: 24px !important;
+        padding-top: 190px !important;
     }
 
     html body main#content#content .sc-dashboard,
@@ -119,7 +119,7 @@
     @media (max-width: 767px) {
         html body main#content#content,
         html body main#content#content:has(.sc-dashboard) {
-            padding-top: 20px !important;
+            padding-top: 132px !important;
         }
 
         html body main#content#content .sc-dashboard,
