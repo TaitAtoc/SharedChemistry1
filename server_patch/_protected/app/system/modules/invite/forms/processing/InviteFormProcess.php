@@ -61,17 +61,18 @@ class InviteFormProcess extends Form
     private function sendMail(string $sEmailAddress, Mailable $oMailEngine): bool
     {
         $sSenderName = escape($this->httpRequest->post('first_name'));
-        $sCustomMessage = nl2br(escape($this->httpRequest->post('message')));
+        $sInviteMessage = nl2br(escape($this->httpRequest->post('message')));
+        $sSharedChemistryUrl = 'https://sharedchemistry.com/';
+        $sSignupUrl = Uri::get('user', 'signup', 'step1', '?ref=invitation');
 
-        $this->view->content = t('Hello,') . '<br /><br />' .
-            t('%0% has invited you to discover SharedChemistry, a private adult couples community built for real couple-to-couple connection.', $sSenderName) . '<br /><br />' .
-            t('SharedChemistry is designed for adult couples who want a more private, social, and chemistry-focused way to meet other couples.') . '<br /><br />' .
-            t('Message from %0%:', $sSenderName) . '<br />"<em>' . $sCustomMessage . '</em>"<br /><br />' .
-            t('Visit SharedChemistry:') . '<br />' .
-            '<a href="https://sharedchemistry.com/">https://sharedchemistry.com/</a>';
-        $this->view->footer = t('You received this invitation because %0% entered your email address using the SharedChemistry invite form.', $sSenderName) . '<br /><br />' .
-            t('Best regards,') . '<br />' .
-            t('The SharedChemistry team');
+        $this->view->sender_name = $sSenderName;
+        $this->view->site_url = $sSharedChemistryUrl;
+        $this->view->signup_url = $sSignupUrl;
+        $this->view->custom_message = $sInviteMessage;
+        $this->view->footer = t(
+            'You received this invitation because %0% entered your email address using the SharedChemistry invite form.',
+            $sSenderName
+        );
 
         $sMessageHtml = $this->view->parseMail(
             PH7_PATH_SYS . 'global/' . PH7_VIEWS . PH7_TPL_MAIL_NAME . '/tpl/mail/sys/mod/invite/invitation.tpl',
@@ -80,7 +81,8 @@ class InviteFormProcess extends Form
 
         $aInfo = [
             'to' => $sEmailAddress,
-            'subject' => t("You've been invited to SharedChemistry")
+            'form_name' => 'SharedChemistry',
+            'subject' => 'You’ve been invited to SharedChemistry'
         ];
 
         return $oMailEngine->send($aInfo, $sMessageHtml);
