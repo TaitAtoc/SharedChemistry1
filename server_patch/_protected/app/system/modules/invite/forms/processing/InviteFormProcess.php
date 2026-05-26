@@ -65,10 +65,13 @@ class InviteFormProcess extends Form
         $sSharedChemistryUrl = 'https://sharedchemistry.com/';
         $sSignupUrl = Uri::get('user', 'signup', 'step1', '?ref=invitation');
 
-        $this->view->sender_name = $sSenderName;
-        $this->view->site_url = $sSharedChemistryUrl;
-        $this->view->signup_url = $sSignupUrl;
-        $this->view->custom_message = $sInviteMessage;
+        $this->view->content = t('Hello,') . '<br /><br />' .
+            t('%0% has invited you to discover SharedChemistry, a private adult couples community built for real couple-to-couple connection.', $sSenderName) . '<br /><br />' .
+            t('SharedChemistry is designed for adult couples who want a more private, social, and chemistry-focused way to meet other couples.') . '<br /><br />' .
+            t('Message from %0%:', $sSenderName) . '<br />"<em>' . $sInviteMessage . '</em>"<br /><br />' .
+            t('You can visit SharedChemistry here:') . '<br />' .
+            '<a href="' . $sSharedChemistryUrl . '">' . $sSharedChemistryUrl . '</a><br /><br />' .
+            '<strong><a href="' . $sSignupUrl . '">' . t('Visit SharedChemistry') . '</a></strong>';
         $this->view->footer = t(
             'You received this invitation because %0% entered your email address using the SharedChemistry invite form.',
             $sSenderName
@@ -81,8 +84,7 @@ class InviteFormProcess extends Form
 
         $aInfo = [
             'to' => $sEmailAddress,
-            'form_name' => 'SharedChemistry',
-            'subject' => 'You’ve been invited to SharedChemistry'
+            'subject' => "You've been invited to SharedChemistry"
         ];
 
         return $oMailEngine->send($aInfo, $sMessageHtml);
