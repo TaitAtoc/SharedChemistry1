@@ -34,3 +34,5 @@
 </p>
 
 {inc_footer}
+
+<!-- SharedChemistry invite email restore marker -->
