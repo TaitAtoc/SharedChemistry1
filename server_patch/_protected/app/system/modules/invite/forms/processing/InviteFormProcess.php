@@ -60,22 +60,11 @@ class InviteFormProcess extends Form
      */
     private function sendMail(string $sEmailAddress, Mailable $oMailEngine): bool
     {
-        $sSenderName = escape($this->httpRequest->post('first_name'));
-        $sInviteMessage = nl2br(escape($this->httpRequest->post('message')));
-        $sSharedChemistryUrl = 'https://sharedchemistry.com/';
-        $sSignupUrl = Uri::get('user', 'signup', 'step1', '?ref=invitation');
-
-        $this->view->content = t('Hello,') . '<br /><br />' .
-            t('%0% has invited you to discover SharedChemistry, a private adult couples community built for real couple-to-couple connection.', $sSenderName) . '<br /><br />' .
-            t('SharedChemistry is designed for adult couples who want a more private, social, and chemistry-focused way to meet other couples.') . '<br /><br />' .
-            t('Message from %0%:', $sSenderName) . '<br />"<em>' . $sInviteMessage . '</em>"<br /><br />' .
-            t('You can visit SharedChemistry here:') . '<br />' .
-            '<a href="' . $sSharedChemistryUrl . '">' . $sSharedChemistryUrl . '</a><br /><br />' .
-            '<strong><a href="' . $sSignupUrl . '">' . t('Visit SharedChemistry') . '</a></strong>';
-        $this->view->footer = t(
-            'You received this invitation because %0% entered your email address using the SharedChemistry invite form.',
-            $sSenderName
-        );
+        $this->view->content = t('Hello!') . '<br />' .
+            t('You have received a privilege on the invitation from your friend on the new platform to meet new generation - %site_name%') . '<br />' .
+            '<strong><a href="' . Uri::get('user', 'signup', 'step1', '?ref=invitation') . '">' . t('Get exclusive privilege to join your friend is waiting for you!') . '</a></strong><br />' .
+            t('Message left by your friend:') . '<br />"<em>' . $this->httpRequest->post('message') . '</em>"';
+        $this->view->footer = t('You are receiving this message because "%0%" you know has entered your email address in the form of invitation of friends to our site. This is not spam!', $this->httpRequest->post('first_name'));
 
         $sMessageHtml = $this->view->parseMail(
             PH7_PATH_SYS . 'global/' . PH7_VIEWS . PH7_TPL_MAIL_NAME . '/tpl/mail/sys/mod/invite/invitation.tpl',
@@ -84,7 +73,7 @@ class InviteFormProcess extends Form
 
         $aInfo = [
             'to' => $sEmailAddress,
-            'subject' => "You've been invited to SharedChemistry"
+            'subject' => t('Privilege on the invitation from your friend for the new generation community platform - %site_name%')
         ];
 
         return $oMailEngine->send($aInfo, $sMessageHtml);
