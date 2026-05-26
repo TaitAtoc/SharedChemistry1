@@ -2,8 +2,6 @@
 {inc_sub_header}
 
 <div style="text-align:left; color:#222; line-height:1.55;">
-    <img src="https://sharedchemistry.com/templates/themes/base/img/sharedchemistry/sharedchemistry-header-logo.png" alt="SharedChemistry" style="display:block; max-width:260px; width:100%; height:auto; margin:0 auto 18px auto;" />
-
     <p style="margin:0 0 16px;">Hello,</p>
 
     <p style="margin:0 0 16px;">
