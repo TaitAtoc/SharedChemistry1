@@ -88,6 +88,135 @@
             transform: rotate(-45deg);
         }
 
+        body.sc-invite-direct-page main#content:has(.sc-invite-modal),
+        body.sc-invite-direct-page main#content#content:has(.sc-invite-modal) {
+            max-width: none !important;
+            padding: 154px 16px 78px !important;
+            background:
+                radial-gradient(circle at 18% 4%, rgba(236, 8, 104, .18), transparent 30%),
+                radial-gradient(circle at 82% 10%, rgba(255, 188, 10, .12), transparent 28%),
+                linear-gradient(180deg, #08080b 0%, #121218 52%, #07070a 100%) !important;
+        }
+
+        body.sc-invite-direct-page:has(.sharedchemistry-nav-join) .navbar.navbar-fixed-top {
+            min-height: 104px !important;
+            border: 0 !important;
+            background: rgba(8, 8, 11, .96) !important;
+            box-shadow: 0 12px 34px rgba(0, 0, 0, .28) !important;
+        }
+
+        body.sc-invite-direct-page:has(.sharedchemistry-nav-join) .navbar.navbar-fixed-top > .container {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 32px !important;
+            min-height: 104px !important;
+            padding-top: 12px !important;
+            padding-bottom: 12px !important;
+        }
+
+        body.sc-invite-direct-page:has(.sharedchemistry-nav-join) .navbar-header {
+            display: flex !important;
+            align-items: center !important;
+            flex: 0 0 auto !important;
+            min-height: 80px !important;
+            margin: 0 !important;
+        }
+
+        body.sc-invite-direct-page:has(.sharedchemistry-nav-join) #logo.navbar-brand.sharedchemistry-member-logo {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+            height: auto !important;
+            min-height: 80px !important;
+            margin: 0 !important;
+            padding: 0 18px 0 0 !important;
+            float: none !important;
+            line-height: 1 !important;
+        }
+
+        body.sc-invite-direct-page:has(.sharedchemistry-nav-join) #logo .sharedchemistry-logo-link {
+            display: inline-flex !important;
+            align-items: center !important;
+            width: 300px !important;
+            max-width: 32vw !important;
+            height: auto !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            transform: none !important;
+        }
+
+        body.sc-invite-direct-page:has(.sharedchemistry-nav-join) #logo .sharedchemistry-header-logo {
+            display: block !important;
+            width: 300px !important;
+            max-width: 100% !important;
+            max-height: none !important;
+            height: auto !important;
+            margin: 0 !important;
+            object-fit: contain !important;
+            transform: none !important;
+        }
+
+        body.sc-invite-direct-page:has(.sharedchemistry-nav-join) #navbar.navbar-collapse {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-end !important;
+            flex: 1 1 auto !important;
+            min-height: 80px !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            border: 0 !important;
+            box-shadow: none !important;
+        }
+
+        body.sc-invite-direct-page:has(.sharedchemistry-nav-join) #navbar .navbar-nav {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-end !important;
+            gap: 22px !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            float: none !important;
+        }
+
+        body.sc-invite-direct-page:has(.sharedchemistry-nav-join) #navbar .navbar-nav > li {
+            display: flex !important;
+            align-items: center !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            float: none !important;
+        }
+
+        body.sc-invite-direct-page:has(.sharedchemistry-nav-join) #navbar .navbar-nav > li > a {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            min-height: 40px !important;
+            margin: 0 !important;
+            padding: 10px 16px !important;
+            border-radius: 8px !important;
+            line-height: 1.2 !important;
+            white-space: nowrap !important;
+        }
+
+        body.sc-invite-direct-page:has(.sharedchemistry-nav-join) #navbar .navbar-nav > li > a.sharedchemistry-nav-join {
+            background: linear-gradient(90deg, #ec0868, #f15a3b) !important;
+            color: #fff !important;
+            box-shadow: 0 12px 30px rgba(236, 8, 104, .25) !important;
+        }
+
+        body.sc-invite-direct-page:has(.sharedchemistry-nav-join) #navbar .navbar-nav > li > a.sharedchemistry-nav-signin {
+            border: 1px solid rgba(255, 188, 10, .44) !important;
+            background: rgba(247, 243, 239, .04) !important;
+            color: #ffbc0a !important;
+        }
+
+        body.sc-invite-direct-page:has(.sharedchemistry-nav-join) #navbar .navbar-nav > li > a.sharedchemistry-nav-blog {
+            border: 1px solid rgba(247, 243, 239, .14) !important;
+            background: rgba(247, 243, 239, .035) !important;
+            color: #f7f3ef !important;
+        }
+
         .sc-invite-modal {
             width: min(560px, calc(100vw - 32px));
             max-width: calc(100vw - 32px);
@@ -105,8 +234,21 @@
             box-shadow: 0 30px 90px rgba(0, 0, 0, .52);
         }
 
+        body.sc-invite-direct-page .sc-invite-modal {
+            width: min(640px, calc(100vw - 32px));
+            max-width: calc(100vw - 32px);
+            max-height: none;
+            margin: 0 auto;
+            overflow: visible;
+            border-radius: 18px;
+        }
+
         .sc-invite-box {
             padding: 34px;
+        }
+
+        body.sc-invite-direct-page .sc-invite-box {
+            padding: 42px 42px 38px;
         }
 
         .sc-invite-title {
@@ -203,6 +345,12 @@
             margin: 0 0 16px !important;
             padding: 0 !important;
             overflow: visible !important;
+        }
+
+        body.sc-invite-direct-page .sc-invite-form div[id^="pfbc-element-"],
+        body.sc-invite-direct-page .sc-invite-form .form-group,
+        body.sc-invite-direct-page .sc-invite-form p {
+            margin-bottom: 18px !important;
         }
 
         .sc-invite-form small,
@@ -309,6 +457,70 @@
                 margin-right: 0 !important;
             }
         }
+
+        @media (max-width: 900px) {
+            body.sc-invite-direct-page main#content:has(.sc-invite-modal),
+            body.sc-invite-direct-page main#content#content:has(.sc-invite-modal) {
+                padding-top: 178px !important;
+            }
+
+            body.sc-invite-direct-page:has(.sharedchemistry-nav-join) .navbar.navbar-fixed-top,
+            body.sc-invite-direct-page:has(.sharedchemistry-nav-join) .navbar.navbar-fixed-top > .container,
+            body.sc-invite-direct-page:has(.sharedchemistry-nav-join) .navbar-header,
+            body.sc-invite-direct-page:has(.sharedchemistry-nav-join) #logo.navbar-brand.sharedchemistry-member-logo,
+            body.sc-invite-direct-page:has(.sharedchemistry-nav-join) #navbar.navbar-collapse {
+                min-height: 0 !important;
+                height: auto !important;
+            }
+
+            body.sc-invite-direct-page:has(.sharedchemistry-nav-join) .navbar.navbar-fixed-top > .container {
+                display: grid !important;
+                justify-items: center !important;
+                gap: 12px !important;
+                padding-top: 12px !important;
+                padding-bottom: 12px !important;
+            }
+
+            body.sc-invite-direct-page:has(.sharedchemistry-nav-join) .navbar-header,
+            body.sc-invite-direct-page:has(.sharedchemistry-nav-join) #navbar.navbar-collapse {
+                width: 100% !important;
+                justify-content: center !important;
+            }
+
+            body.sc-invite-direct-page:has(.sharedchemistry-nav-join) #logo.navbar-brand.sharedchemistry-member-logo {
+                justify-content: center !important;
+                padding: 0 !important;
+            }
+
+            body.sc-invite-direct-page:has(.sharedchemistry-nav-join) #logo .sharedchemistry-logo-link,
+            body.sc-invite-direct-page:has(.sharedchemistry-nav-join) #logo .sharedchemistry-header-logo {
+                width: min(300px, 82vw) !important;
+                max-width: 82vw !important;
+            }
+
+            body.sc-invite-direct-page:has(.sharedchemistry-nav-join) #navbar .navbar-nav {
+                justify-content: center !important;
+                flex-wrap: wrap !important;
+                gap: 10px 14px !important;
+                width: 100% !important;
+            }
+
+            body.sc-invite-direct-page:has(.sharedchemistry-nav-join) #navbar .navbar-nav > li > a {
+                min-height: 42px !important;
+                padding: 10px 14px !important;
+            }
+        }
+
+        @media (max-width: 680px) {
+            body.sc-invite-direct-page main#content:has(.sc-invite-modal),
+            body.sc-invite-direct-page main#content#content:has(.sc-invite-modal) {
+                padding: 170px 10px 54px !important;
+            }
+
+            body.sc-invite-direct-page .sc-invite-box {
+                padding: 32px 20px 26px;
+            }
+        }
     </style>
     {/literal}
 
@@ -322,6 +534,11 @@
         {literal}
         <script>
             (function () {
+                var block = document.getElementById('block_page');
+                if (block && block.className.indexOf('sc-invite-modal') !== -1 && !(block.closest && block.closest('#colorbox'))) {
+                    document.body.className += document.body.className ? ' sc-invite-direct-page' : 'sc-invite-direct-page';
+                }
+
                 var secureInviteAction = function () {
                     var forms = document.querySelectorAll('.sc-invite-modal form');
                     for (var i = 0; i < forms.length; i++) {
