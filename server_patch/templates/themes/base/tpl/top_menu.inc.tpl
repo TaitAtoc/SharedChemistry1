@@ -13,9 +13,9 @@
 
     {* Menu for all *}
       {if $top_navbar_type === 'inverse'}
-        <nav class="navbar navbar-inverse navbar-fixed-top">
+        <nav class="navbar navbar-inverse navbar-fixed-top{if !$is_user_auth AND !$is_aff_auth AND !$is_admin_auth} sharedchemistry-guest-navbar{/if}">
       {else}
-        <nav class="navbar navbar-default navbar-fixed-top">
+        <nav class="navbar navbar-default navbar-fixed-top{if !$is_user_auth AND !$is_aff_auth AND !$is_admin_auth} sharedchemistry-guest-navbar{/if}">
       {/if}
         <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -515,6 +515,153 @@
   @keyframes sharedchemistryAlertBlink{
     0%,100%{color:#ff0000!important;text-shadow:0 0 6px rgba(255,0,0,.9)}
     50%{color:#ffffff!important;text-shadow:0 0 6px rgba(255,255,255,.95)}
+  }
+  .sharedchemistry-guest-navbar.navbar-fixed-top{
+    min-height:104px!important;
+    border:0!important;
+    background:rgba(8,8,11,.96)!important;
+    box-shadow:0 12px 34px rgba(0,0,0,.28)!important;
+  }
+  .sharedchemistry-guest-navbar.navbar-fixed-top > .container{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:space-between!important;
+    gap:32px!important;
+    min-height:104px!important;
+    padding-top:12px!important;
+    padding-bottom:12px!important;
+  }
+  .sharedchemistry-guest-navbar .navbar-header{
+    display:flex!important;
+    align-items:center!important;
+    flex:0 0 auto!important;
+    min-height:80px!important;
+    margin:0!important;
+  }
+  .sharedchemistry-guest-navbar .sharedchemistry-member-logo{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:flex-start!important;
+    height:auto!important;
+    min-height:80px!important;
+    margin:0!important;
+    padding:0 18px 0 0!important;
+    float:none!important;
+    line-height:1!important;
+  }
+  .sharedchemistry-guest-navbar .sharedchemistry-logo-link{
+    display:inline-flex!important;
+    align-items:center!important;
+    width:300px!important;
+    max-width:32vw!important;
+    height:auto!important;
+    margin:0!important;
+    padding:0!important;
+    transform:none!important;
+  }
+  .sharedchemistry-guest-navbar .sharedchemistry-header-logo{
+    display:block!important;
+    width:300px!important;
+    max-width:100%!important;
+    max-height:none!important;
+    height:auto!important;
+    margin:0!important;
+    object-fit:contain!important;
+    transform:none!important;
+  }
+  .sharedchemistry-guest-navbar .navbar-collapse{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:flex-end!important;
+    flex:1 1 auto!important;
+    min-height:80px!important;
+    margin:0!important;
+    padding:0!important;
+    border:0!important;
+    box-shadow:none!important;
+  }
+  .sharedchemistry-guest-navbar .navbar-nav{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:flex-end!important;
+    gap:22px!important;
+    margin:0!important;
+    padding:0!important;
+    float:none!important;
+  }
+  .sharedchemistry-guest-navbar .navbar-nav > li{
+    display:flex!important;
+    align-items:center!important;
+    margin:0!important;
+    padding:0!important;
+    float:none!important;
+  }
+  .sharedchemistry-guest-navbar .navbar-nav > li > a{
+    display:inline-flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    min-height:40px!important;
+    margin:0!important;
+    padding:10px 16px!important;
+    border-radius:8px!important;
+    line-height:1.2!important;
+    white-space:nowrap!important;
+  }
+  .sharedchemistry-guest-navbar .sharedchemistry-nav-join{
+    background:linear-gradient(90deg,#ec0868,#f15a3b)!important;
+    color:#fff!important;
+    box-shadow:0 12px 30px rgba(236,8,104,.25)!important;
+  }
+  .sharedchemistry-guest-navbar .sharedchemistry-nav-signin{
+    border:1px solid rgba(255,188,10,.44)!important;
+    background:rgba(247,243,239,.04)!important;
+    color:#ffbc0a!important;
+  }
+  .sharedchemistry-guest-navbar .sharedchemistry-nav-blog{
+    border:1px solid rgba(247,243,239,.14)!important;
+    background:rgba(247,243,239,.035)!important;
+    color:#f7f3ef!important;
+  }
+  @media (max-width:760px){
+    .sharedchemistry-guest-navbar.navbar-fixed-top,
+    .sharedchemistry-guest-navbar.navbar-fixed-top > .container,
+    .sharedchemistry-guest-navbar .navbar-header,
+    .sharedchemistry-guest-navbar .sharedchemistry-member-logo,
+    .sharedchemistry-guest-navbar .navbar-collapse{
+      min-height:0!important;
+      height:auto!important;
+    }
+    .sharedchemistry-guest-navbar.navbar-fixed-top > .container{
+      display:grid!important;
+      justify-items:center!important;
+      gap:12px!important;
+      padding-top:12px!important;
+      padding-bottom:12px!important;
+    }
+    .sharedchemistry-guest-navbar .navbar-header,
+    .sharedchemistry-guest-navbar .navbar-collapse{
+      width:100%!important;
+      justify-content:center!important;
+    }
+    .sharedchemistry-guest-navbar .sharedchemistry-member-logo{
+      justify-content:center!important;
+      padding:0!important;
+    }
+    .sharedchemistry-guest-navbar .sharedchemistry-logo-link,
+    .sharedchemistry-guest-navbar .sharedchemistry-header-logo{
+      width:min(300px,82vw)!important;
+      max-width:82vw!important;
+    }
+    .sharedchemistry-guest-navbar .navbar-nav{
+      justify-content:center!important;
+      flex-wrap:wrap!important;
+      gap:10px 14px!important;
+      width:100%!important;
+    }
+    .sharedchemistry-guest-navbar .navbar-nav > li > a{
+      min-height:42px!important;
+      padding:10px 14px!important;
+    }
   }
 </style>
 {/literal}
