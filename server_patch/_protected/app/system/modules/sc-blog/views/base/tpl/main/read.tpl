@@ -16,7 +16,7 @@
         width: 100%;
         min-height: 100vh;
         overflow: hidden;
-        padding: 210px 0 72px;
+        padding: 135px 0 72px;
         background:
             radial-gradient(circle at 18% 5%, rgba(236, 8, 104, .16), transparent 30%),
             radial-gradient(circle at 82% 14%, rgba(255, 188, 10, .11), transparent 28%),
@@ -150,7 +150,7 @@
 
     @media (max-width: 700px) {
         #sc-blog-article-v1 {
-            padding: 150px 0 60px;
+            padding: 118px 0 60px;
         }
 
         #sc-blog-article-v1 .sc-blog-article-header,
