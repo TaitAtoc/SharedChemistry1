@@ -1,15 +1,151 @@
 {literal}
 <style>
+    main#content:has(.sc-blog-page),
+    body main#content#content:has(.sc-blog-page) {
+        max-width: none !important;
+        padding: 0 !important;
+        background: #08080b !important;
+    }
+
+    body:has(.sc-blog-page):has(.sharedchemistry-nav-join) .navbar.navbar-fixed-top {
+        min-height: 104px !important;
+        border: 0 !important;
+        background: rgba(8, 8, 11, .96) !important;
+        box-shadow: 0 12px 34px rgba(0, 0, 0, .28) !important;
+    }
+
+    body:has(.sc-blog-page):has(.sharedchemistry-nav-join) .navbar.navbar-fixed-top > .container {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 32px !important;
+        min-height: 104px !important;
+        padding-top: 12px !important;
+        padding-bottom: 12px !important;
+    }
+
+    body:has(.sc-blog-page):has(.sharedchemistry-nav-join) .navbar-header {
+        display: flex !important;
+        align-items: center !important;
+        flex: 0 0 auto !important;
+        min-height: 80px !important;
+        margin: 0 !important;
+    }
+
+    body:has(.sc-blog-page):has(.sharedchemistry-nav-join) #logo.navbar-brand.sharedchemistry-member-logo {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        height: auto !important;
+        min-height: 80px !important;
+        margin: 0 !important;
+        padding: 0 18px 0 0 !important;
+        float: none !important;
+        line-height: 1 !important;
+    }
+
+    body:has(.sc-blog-page):has(.sharedchemistry-nav-join) #logo .sharedchemistry-logo-link {
+        display: inline-flex !important;
+        align-items: center !important;
+        width: 300px !important;
+        max-width: 32vw !important;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        transform: none !important;
+    }
+
+    body:has(.sc-blog-page):has(.sharedchemistry-nav-join) #logo .sharedchemistry-header-logo {
+        display: block !important;
+        width: 300px !important;
+        max-width: 100% !important;
+        max-height: none !important;
+        height: auto !important;
+        margin: 0 !important;
+        object-fit: contain !important;
+        transform: none !important;
+    }
+
+    body:has(.sc-blog-page):has(.sharedchemistry-nav-join) #navbar.navbar-collapse {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        flex: 1 1 auto !important;
+        min-height: 80px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        box-shadow: none !important;
+    }
+
+    body:has(.sc-blog-page):has(.sharedchemistry-nav-join) #navbar .navbar-nav {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        gap: 22px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        float: none !important;
+    }
+
+    body:has(.sc-blog-page):has(.sharedchemistry-nav-join) #navbar .navbar-nav > li {
+        display: flex !important;
+        align-items: center !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        float: none !important;
+    }
+
+    body:has(.sc-blog-page):has(.sharedchemistry-nav-join) #navbar .navbar-nav > li > a {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-height: 40px !important;
+        margin: 0 !important;
+        padding: 10px 16px !important;
+        border-radius: 8px !important;
+        line-height: 1.2 !important;
+        white-space: nowrap !important;
+    }
+
+    body:has(.sc-blog-page):has(.sharedchemistry-nav-join) #navbar .navbar-nav > li > a.sharedchemistry-nav-join {
+        background: linear-gradient(90deg, #ec0868, #f15a3b) !important;
+        color: #fff !important;
+        box-shadow: 0 12px 30px rgba(236, 8, 104, .25) !important;
+    }
+
+    body:has(.sc-blog-page):has(.sharedchemistry-nav-join) #navbar .navbar-nav > li > a.sharedchemistry-nav-signin {
+        border: 1px solid rgba(255, 188, 10, .44) !important;
+        background: rgba(247, 243, 239, .04) !important;
+        color: #ffbc0a !important;
+    }
+
+    body:has(.sc-blog-page):has(.sharedchemistry-nav-join) #navbar .navbar-nav > li > a.sharedchemistry-nav-blog {
+        border: 1px solid rgba(247, 243, 239, .14) !important;
+        background: rgba(247, 243, 239, .035) !important;
+        color: #f7f3ef !important;
+    }
+
     #sc-blog-article-v1,
     #sc-blog-article-v1 * {
         box-sizing: border-box;
     }
 
     #sc-blog-article-v1 {
-        width: min(920px, calc(100vw - 48px));
-        margin: 0 auto;
-        padding: 34px 0 72px;
+        width: 100%;
+        min-height: 100vh;
+        overflow: hidden;
+        padding: 94px 0 72px;
+        background:
+            radial-gradient(circle at 18% 5%, rgba(236, 8, 104, .16), transparent 30%),
+            radial-gradient(circle at 82% 14%, rgba(255, 188, 10, .11), transparent 28%),
+            linear-gradient(180deg, #08080b 0%, #121218 52%, #07070a 100%);
         color: #f7f3ef;
+    }
+
+    #sc-blog-article-v1 .sc-blog-article-wrap {
+        width: min(920px, calc(100% - 32px));
+        margin: 0 auto;
     }
 
     #sc-blog-article-v1 a {
@@ -133,8 +269,7 @@
 
     @media (max-width: 700px) {
         #sc-blog-article-v1 {
-            width: min(100%, calc(100vw - 24px));
-            padding: 24px 0 60px;
+            padding: 82px 0 60px;
         }
 
         #sc-blog-article-v1 .sc-blog-article-header,
@@ -151,16 +286,17 @@
 {/literal}
 
 <!-- SC_BLOG_ARTICLE_V1_ACTIVE -->
-<div id="sc-blog-article-v1">
-    <a class="sc-blog-back" href="{url_root}blog">{lang 'Back to Articles'}</a>
+<section id="sc-blog-article-v1" class="sc-info-page sc-blog-page">
+    <div class="sc-blog-article-wrap">
+        <a class="sc-blog-back" href="{url_root}blog">{lang 'Back to Articles'}</a>
 
-    {if !empty($article)}
-        <article class="sc-blog-article">
-            <header class="sc-blog-article-header">
-                <h1>{% escape($article->title) %}</h1>
-            </header>
+        {if !empty($article)}
+            <article class="sc-blog-article">
+                <header class="sc-blog-article-header">
+                    <h1>{% escape($article->title) %}</h1>
+                </header>
 
-            <div class="sc-blog-content">
+                <div class="sc-blog-content">
                 <p>{lang 'People searching for a swingers app or the best swinger apps are usually trying to find a safer, more private way to meet other couples. The right choice is not always the biggest name or the app with the highest download count. For couples, the better question is whether the community gives you enough privacy, verification, control, and confidence to explore at your own pace.'}</p>
                 <p>{lang 'This guide is not a fake review or a claim that one service is best for everyone. It is an informational checklist for comparing apps for swinger couples, swinger couple apps, and couples dating sites with privacy and trust in mind.'}</p>
 
@@ -212,13 +348,14 @@
                     <a href="{{ $design->url('page','main','privacy') }}">{lang 'Privacy'}</a>
                     <a href="{{ $design->url('contact','contact','index') }}">{lang 'Contact'}</a>
                 </nav>
-            </div>
-        </article>
-    {else}
-        <section class="sc-blog-not-found">
-            <h1>{lang 'Article Coming Soon'}</h1>
-            <p>{lang 'SharedChemistry articles are being prepared. This public article route does not show member profiles, private media, messages, dashboard pages, or other member-only areas.'}</p>
-        </section>
-    {/if}
-</div>
+                </div>
+            </article>
+        {else}
+            <section class="sc-blog-not-found">
+                <h1>{lang 'Article Coming Soon'}</h1>
+                <p>{lang 'SharedChemistry articles are being prepared. This public article route does not show member profiles, private media, messages, dashboard pages, or other member-only areas.'}</p>
+            </section>
+        {/if}
+    </div>
+</section>
 <!-- SC_BLOG_ARTICLE_V1_END -->
