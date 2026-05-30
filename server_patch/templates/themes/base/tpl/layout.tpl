@@ -13,6 +13,11 @@
     {main_include 'social-meta-tags.inc.tpl'}
     <meta name="robots" content="{meta_robots}" />
     <link rel="icon" href="{url_relative}favicon.ico" />
+    <link rel="shortcut icon" href="{url_relative}favicon.ico" />
+    <link rel="icon" type="image/png" sizes="16x16" href="{url_relative}pineapple-icon-16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="{url_relative}pineapple-icon-32.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="{url_relative}pineapple-icon-48.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{url_relative}apple-touch-icon.png" />
     <link rel="canonical" href="{current_url}" />
     <link rel="author" href="{url_root}humans.txt" />
     {if !$is_user_auth}{{ $design->regionalUrls() }}{/if}
