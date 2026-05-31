@@ -1,10 +1,10 @@
 {literal}
 <style>
     body{background:#101114!important}
-    main#content{width:min(100%,760px)!important;max-width:none!important;margin:0 auto!important;padding:145px 20px 96px!important;background:transparent!important;border:0!important;box-shadow:none!important}
+    main#content{width:min(100%,760px)!important;max-width:none!important;margin:0 auto!important;padding:0 20px 96px!important;background:transparent!important;border:0!important;box-shadow:none!important}
     .sc-admin-login,
     .sc-admin-login *{box-sizing:border-box}
-    .sc-admin-login{color:#f7f3ef}
+    .sc-admin-login{padding-top:145px;color:#f7f3ef}
     .sc-admin-login-card{width:100%;padding:30px;border:1px solid rgba(247,243,239,.1);border-radius:12px;background:#17181d;box-shadow:0 18px 44px rgba(0,0,0,.34)}
     .sc-admin-login-header{margin:0 0 22px}
     .sc-admin-login-header h1{margin:0 0 7px;color:#f7f3ef;font-size:30px;font-weight:700;line-height:1.15}
@@ -46,7 +46,8 @@
     .sc-admin-login-ip{color:#b8b3b0!important}
     .sc-admin-login-ip em{color:#f7f3ef!important;font-style:normal}
     @media (max-width:767px){
-        main#content{width:min(100%,calc(100vw - 20px))!important;padding:108px 0 76px!important}
+        main#content{width:min(100%,calc(100vw - 20px))!important;padding:0 0 76px!important}
+        .sc-admin-login{padding-top:108px}
         .sc-admin-login-card{padding:22px}
         .sc-admin-login-header h1{font-size:26px}
         .sc-admin-login-form input[type="submit"],
