@@ -9,6 +9,7 @@
       <a href="{{ $design->url('page','main','terms') }}" title="{lang 'Terms of Use'}" data-load="ajax">{lang 'Terms of Use'}</a>
       <a href="{{ $design->url('page','main','privacy') }}" title="{lang 'Privacy Policy'}" data-load="ajax">{lang 'Privacy'}</a>
       <a href="{{ $design->url('page','main','legalnotice') }}" title="{lang 'Legal Notice'}" data-load="ajax">{lang 'Legal Notice'}</a>
+      <a href="{url_root}blog" title="{lang 'SharedChemistry Articles'}">{lang 'Articles'}</a>
 
       {if !$is_user_auth AND $is_newsletter_enabled}
         <a href="{{ $design->url('newsletter','home','subscription') }}" title="{lang 'Subscribe to our newsletter!'}" data-popup="block-page">{lang 'Newsletter'}</a>

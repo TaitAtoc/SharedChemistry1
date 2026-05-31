@@ -17,7 +17,7 @@
     }
 
     #sc-blog-index-v1 .sc-blog-hero,
-    #sc-blog-index-v1 .sc-blog-empty,
+    #sc-blog-index-v1 .sc-blog-note,
     #sc-blog-index-v1 .sc-blog-card {
         border: 1px solid rgba(247, 243, 239, .09);
         border-radius: 8px;
@@ -39,21 +39,12 @@
     }
 
     #sc-blog-index-v1 .sc-blog-intro,
-    #sc-blog-index-v1 .sc-blog-empty p {
+    #sc-blog-index-v1 .sc-blog-note p {
         max-width: 760px;
         margin: 0;
         color: #b8b3b0;
         font-size: 16px;
         line-height: 1.55;
-    }
-
-    #sc-blog-index-v1 .sc-blog-error {
-        margin: 0 0 16px;
-        padding: 14px 16px;
-        border: 1px solid rgba(236, 8, 104, .42);
-        border-radius: 8px;
-        background: rgba(236, 8, 104, .12);
-        color: #ffd2e4;
     }
 
     #sc-blog-index-v1 .sc-blog-grid {
@@ -65,35 +56,17 @@
     #sc-blog-index-v1 .sc-blog-card {
         display: flex;
         min-width: 0;
-        overflow: hidden;
         flex-direction: column;
+        padding: 20px;
     }
 
-    #sc-blog-index-v1 .sc-blog-image {
-        display: block;
-        width: 100%;
-        aspect-ratio: 16 / 9;
-        overflow: hidden;
-        background: #101114;
-    }
-
-    #sc-blog-index-v1 .sc-blog-image img {
-        display: block;
-        width: 100%;
-        height: 100%;
-        border: 0;
-        object-fit: cover;
-    }
-
-    #sc-blog-index-v1 .sc-blog-card-body {
-        display: flex;
-        flex: 1;
-        flex-direction: column;
-        gap: 10px;
-        padding: 18px;
-    }
-
-    #sc-blog-index-v1 .sc-blog-date {
+    #sc-blog-index-v1 .sc-blog-topic {
+        width: fit-content;
+        margin: 0 0 14px;
+        padding: 6px 10px;
+        border: 1px solid rgba(255, 188, 10, .28);
+        border-radius: 999px;
+        background: rgba(255, 188, 10, .08);
         color: #ffbc0a;
         font-size: 12px;
         font-weight: 800;
@@ -107,7 +80,7 @@
         line-height: 1.22;
     }
 
-    #sc-blog-index-v1 .sc-blog-excerpt {
+    #sc-blog-index-v1 .sc-blog-summary {
         flex: 1;
         margin: 0;
         color: #cbc4c0;
@@ -137,8 +110,27 @@
         text-decoration: none;
     }
 
-    #sc-blog-index-v1 .sc-blog-empty {
+    #sc-blog-index-v1 .sc-blog-note {
+        margin-top: 18px;
         padding: 28px;
+    }
+
+    #sc-blog-index-v1 .sc-blog-public-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 16px;
+    }
+
+    #sc-blog-index-v1 .sc-blog-public-links a {
+        display: inline-flex;
+        min-height: 38px;
+        align-items: center;
+        padding: 8px 12px;
+        border: 1px solid rgba(247, 243, 239, .12);
+        border-radius: 999px;
+        color: #f7f3ef;
+        text-decoration: none;
     }
 
     @media (max-width: 700px) {
@@ -159,41 +151,34 @@
 {/literal}
 
 <!-- SC_BLOG_INDEX_V1_ACTIVE -->
-<div id="sc-blog-index-v1">
+<section id="sc-blog-index-v1" class="sc-info-page">
     <section class="sc-blog-hero">
-        <h1>{lang 'SharedChemistry Blog'}</h1>
-        <p class="sc-blog-intro">{lang 'Articles, updates, and thoughtful guidance for the SharedChemistry community.'}</p>
+        <h1>{lang 'SharedChemistry Articles'}</h1>
+        <p class="sc-blog-intro">{lang 'Privacy-minded articles and practical guidance for couples exploring SharedChemistry. Full articles will be published here later; this page is public and does not expose member profiles, private media, messages, or dashboard areas.'}</p>
     </section>
 
-    {if !empty($blog_error)}
-        <p class="sc-blog-error">{blog_error}</p>
-    {/if}
+    <section class="sc-blog-grid" aria-label="{lang 'Planned article topics'}">
+        {each $article in $articles}
+            <article class="sc-blog-card">
+                <p class="sc-blog-topic">{% escape($article->topic) %}</p>
+                <h2>{% escape($article->title) %}</h2>
+                <p class="sc-blog-summary">{% escape($article->summary) %}</p>
+                <a class="sc-blog-read-more" href="{% $article->url %}">{lang 'Read More'}</a>
+            </article>
+        {/each}
+    </section>
 
-    {if empty($posts)}
-        <section class="sc-blog-empty">
-            <h2>{lang 'Fresh articles are on the way.'}</h2>
-            <p>{lang 'Published posts will appear here as soon as they are ready.'}</p>
-        </section>
-    {else}
-        <section class="sc-blog-grid">
-            {each $post in $posts}
-                <article class="sc-blog-card">
-                    {if !empty($post->featured_image)}
-                        <a class="sc-blog-image" href="{% $post->blogUrl %}" title="{% escape($post->title) %}">
-                            <img src="{% $post->featured_image %}" alt="{% escape($post->title) %}" loading="lazy" />
-                        </a>
-                    {/if}
-                    <div class="sc-blog-card-body">
-                        {if !empty($post->displayDate)}
-                            <time class="sc-blog-date" datetime="{% $post->published_at %}">{% $post->displayDate %}</time>
-                        {/if}
-                        <h2><a href="{% $post->blogUrl %}">{% escape($post->title) %}</a></h2>
-                        <p class="sc-blog-excerpt">{% escape($post->excerpt) %}</p>
-                        <a class="sc-blog-read-more" href="{% $post->blogUrl %}">{lang 'Read More'}</a>
-                    </div>
-                </article>
-            {/each}
-        </section>
-    {/if}
-</div>
+    <section class="sc-blog-note" id="articles-coming-soon">
+        <h2>{lang 'Public articles are coming soon'}</h2>
+        <p>{lang 'For now, use the public pages below for information about SharedChemistry, privacy, terms, support, and site navigation.'}</p>
+        <nav class="sc-blog-public-links" aria-label="{lang 'Related public pages'}">
+            <a href="{{ $design->url('page','main','about') }}">{lang 'About'}</a>
+            <a href="{{ $design->url('page','main','faq') }}">{lang 'FAQ'}</a>
+            <a href="{{ $design->url('page','main','privacy') }}">{lang 'Privacy'}</a>
+            <a href="{{ $design->url('page','main','terms') }}">{lang 'Terms of Use'}</a>
+            <a href="{{ $design->url('xml','sitemap','index') }}">{lang 'Site Map'}</a>
+            <a href="{{ $design->url('contact','contact','index') }}">{lang 'Contact'}</a>
+        </nav>
+    </section>
+</section>
 <!-- SC_BLOG_INDEX_V1_END -->

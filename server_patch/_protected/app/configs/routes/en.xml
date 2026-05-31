@@ -87,8 +87,8 @@
 
     <!-- Blog -->
       <route url="blog" path="system/modules" module="sc-blog" controller="main" action="index" />
-      <route url="blog/category/([^/]+)/?([a-zA-Z]+)?/?([a-zA-Z]+)?" path="system/modules" module="blog" controller="main" action="category" vars="name,order,sort" />
-      <route url="b/([a-zA-Z0-9_-]+)" path="system/modules" module="blog" controller="main" action="read" vars="post" />
+      <route url="blog/category/([^/]+)/?([a-zA-Z]+)?/?([a-zA-Z]+)?" path="system/modules" module="sc-blog" controller="main" action="index" vars="name,order,sort" />
+      <route url="b/([a-zA-Z0-9_-]+)" path="system/modules" module="sc-blog" controller="main" action="read" vars="slug" />
       <!--admin-->
       <route url="blog/admin/edit/([0-9]+)" path="system/modules" module="blog" controller="admin" action="edit" vars="id" />
       <route url="blog/([a-zA-Z0-9_-]+)/?" path="system/modules" module="sc-blog" controller="main" action="read" vars="slug" />

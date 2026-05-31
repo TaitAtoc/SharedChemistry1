@@ -134,30 +134,11 @@
 
 <!-- SC_BLOG_ARTICLE_V1_ACTIVE -->
 <div id="sc-blog-article-v1">
-    <a class="sc-blog-back" href="{url_root}blog">{lang 'Back to Blog'}</a>
+    <a class="sc-blog-back" href="{url_root}blog">{lang 'Back to Articles'}</a>
 
-    {if empty($article)}
-        <section class="sc-blog-not-found">
-            <h1>{lang 'Article Not Found'}</h1>
-            <p>{if !empty($blog_error)}{blog_error}{else}{lang 'This article is not available.'}{/if}</p>
-        </section>
-    {else}
-        <article class="sc-blog-article">
-            <header class="sc-blog-article-header">
-                <h1>{% escape($article->title) %}</h1>
-                {if !empty($article->displayDate)}
-                    <time class="sc-blog-date" datetime="{% $article->published_at %}">{% $article->displayDate %}</time>
-                {/if}
-            </header>
-
-            {if !empty($article->featured_image)}
-                <img class="sc-blog-featured" src="{% $article->featured_image %}" alt="{% escape($article->title) %}" loading="lazy" />
-            {/if}
-
-            <div class="sc-blog-content">
-                {article_content}
-            </div>
-        </article>
-    {/if}
+    <section class="sc-blog-not-found">
+        <h1>{lang 'Article Coming Soon'}</h1>
+        <p>{lang 'SharedChemistry articles are being prepared. This public article route does not show member profiles, private media, messages, dashboard pages, or other member-only areas.'}</p>
+    </section>
 </div>
 <!-- SC_BLOG_ARTICLE_V1_END -->
