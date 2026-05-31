@@ -17,6 +17,7 @@
     }
 
     #sc-blog-index-v1 .sc-blog-hero,
+    #sc-blog-index-v1 .sc-blog-featured,
     #sc-blog-index-v1 .sc-blog-note,
     #sc-blog-index-v1 .sc-blog-card {
         border: 1px solid rgba(247, 243, 239, .09);
@@ -30,6 +31,17 @@
         padding: 28px;
     }
 
+    #sc-blog-index-v1 .sc-blog-featured {
+        margin-bottom: 26px;
+        padding: 24px;
+    }
+
+    #sc-blog-index-v1 .sc-blog-featured h2 {
+        max-width: 780px;
+        margin: 0 0 12px;
+        font-size: 28px;
+    }
+
     #sc-blog-index-v1 h1 {
         margin: 0 0 10px;
         color: #fff;
@@ -39,6 +51,7 @@
     }
 
     #sc-blog-index-v1 .sc-blog-intro,
+    #sc-blog-index-v1 .sc-blog-featured-summary,
     #sc-blog-index-v1 .sc-blog-note p {
         max-width: 760px;
         margin: 0;
@@ -51,6 +64,13 @@
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         gap: 16px;
+    }
+
+    #sc-blog-index-v1 .sc-blog-section-title {
+        margin: 0 0 14px;
+        color: #fff;
+        font-size: 24px;
+        line-height: 1.2;
     }
 
     #sc-blog-index-v1 .sc-blog-card {
@@ -143,6 +163,10 @@
             padding: 22px;
         }
 
+        #sc-blog-index-v1 .sc-blog-featured {
+            padding: 22px;
+        }
+
         #sc-blog-index-v1 h1 {
             font-size: 31px;
         }
@@ -154,9 +178,19 @@
 <section id="sc-blog-index-v1" class="sc-info-page">
     <section class="sc-blog-hero">
         <h1>{lang 'SharedChemistry Articles'}</h1>
-        <p class="sc-blog-intro">{lang 'Privacy-minded articles and practical guidance for couples exploring SharedChemistry. Full articles will be published here later; this page is public and does not expose member profiles, private media, messages, or dashboard areas.'}</p>
+        <p class="sc-blog-intro">{lang 'Privacy-minded articles and practical guidance for couples exploring SharedChemistry. This page is public and does not expose member profiles, private media, messages, or dashboard areas.'}</p>
     </section>
 
+    {if !empty($featured_article)}
+        <article class="sc-blog-featured">
+            <p class="sc-blog-topic">{% escape($featured_article->topic) %}</p>
+            <h2>{% escape($featured_article->title) %}</h2>
+            <p class="sc-blog-featured-summary">{% escape($featured_article->summary) %}</p>
+            <a class="sc-blog-read-more" href="{% $featured_article->url %}">{lang 'Read More'}</a>
+        </article>
+    {/if}
+
+    <h2 class="sc-blog-section-title">{lang 'Planned Articles'}</h2>
     <section class="sc-blog-grid" aria-label="{lang 'Planned article topics'}">
         {each $article in $articles}
             <article class="sc-blog-card">
