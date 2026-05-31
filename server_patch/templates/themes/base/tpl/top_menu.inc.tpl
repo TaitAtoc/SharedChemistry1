@@ -430,7 +430,6 @@
             <li><a href="{{ $design->url(PH7_ADMIN_MOD,'file','pagedisplay') }}" title="{lang 'Display Static Pages'}"><i class="fa fa-pencil-square-o"></i> {lang 'Page Module'}</a></li>
             <li><a href="{{ $design->url(PH7_ADMIN_MOD,'file','maildisplay') }}" title="{lang 'Display Email Template'}"><i class="fa fa-pencil"></i> {lang 'Email Template'}</a></li>
             <li><a href="{{ $design->url(PH7_ADMIN_MOD,'file','themedisplay') }}" title="{lang 'Display all Templates Files'}"><i class="fa fa-paint-brush"></i> {lang 'Templates Files'}</a></li>
-            <li><a href="{{ $design->url(PH7_ADMIN_MOD,'file','suggestiondisplay') }}" title="{lang 'Suggestion List'}"><i class="fa fa-plus-circle"></i> {lang 'Suggestion List'}</a></li>
             <li><a href="{{ $design->url(PH7_ADMIN_MOD,'file','bandisplay') }}" title="{lang 'Not Allowed Options'}"><i class="fa fa-ban"></i> {lang 'Not Allowed Options'}</a></li>
           </ul>
         </li>
@@ -472,19 +471,6 @@
             <li><a href="{{ $design->url(PH7_ADMIN_MOD,'account','edit') }}" title="{lang 'Edit My Account'}"><i class="fa fa-pencil fa-fw"></i> {lang 'Edit My Account'}</a></li>
             <li><a href="{{ $design->url(PH7_ADMIN_MOD,'account','password') }}" title="{lang 'Change Password'}"><i class="fa fa-key fa-fw"></i> {lang 'Change Password'}</a></li>
             <li><a href="{{ $design->url(PH7_ADMIN_MOD,'main','logout') }}" title="{lang 'Logout'}"><i class="fa fa-sign-out"></i> {lang 'Logout'}</a></li>
-          </ul>
-        </li>
-
-        <li class="dropdown">
-          <a class="bold dropdown-toggle" href="{software_doc_url}" title="{lang 'Need some Helps?'}" role="button" aria-expanded="false" data-toggle="dropdown">
-            <i class="fa fa-life-ring"></i> {lang 'Help'} <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a class="bold" href="{{ $design->url('ph7cms-helper','main','suggestionbox','?box=donationbox') }}" title="{lang 'Will You Be Nice Today? Like 81% of our users who contribute on a regular basis.'}"><i class="fa fa-trophy"></i> {lang 'Will You Be Nice Today?'}</a></li>
-            <li><a href="{software_doc_url}" title="{lang 'Software Documentation'}"><i class="fa fa-book"></i> {lang 'Documentation'}</a></li>
-            <li><a href="{software_issue_url}" title="{lang 'Report a Problem'}"><i class="fa fa-bug"></i> {lang 'Report a Bug'}</a></li>
-            <li><a href="{software_forum_url}" title="{lang 'Discussions Board'}"><i class="fa fa-group"></i> {lang 'Community Support'}</a></li>
-            <li><a href="{software_review_url}" title="{lang 'Help pH7Builder by giving a nice review! Highly appreciated :)'}"><i class="fa fa-heart"></i> {lang 'Give Nice Review'}</a></li>
           </ul>
         </li>
       {/if}
