@@ -377,51 +377,6 @@
           </ul>
         </li>
 
-        {* Moderate Count *}
-          {{
-            $oModeratorModel = new ModeratorCoreModel();
-
-            $count_moderate_total_picture_album = $oModeratorModel->totalPictureAlbums();
-            $count_moderate_total_picture = $oModeratorModel->totalPictures();
-            $count_moderate_total_video_album = $oModeratorModel->totalVideoAlbums();
-            $count_moderate_total_video = $oModeratorModel->totalVideos();
-            $count_moderate_total_avatar = $oModeratorModel->totalAvatars();
-            $count_moderate_total_background = $oModeratorModel->totalBackgrounds();
-            $count_moderate_total_note = $oModeratorModel->totalNotes();
-
-            unset($oModeratorModel);
-          }}
-
-        <li class="dropdown">
-          <a href="{{ $design->url(PH7_ADMIN_MOD,'moderator','index') }}" title="{lang 'User Moderation'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown">
-            <i class="fa fa-user-secret"></i> {lang 'Moderation'} <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu" role="menu">
-
-            {if $is_picture_enabled}
-              <li><a href="{{ $design->url(PH7_ADMIN_MOD,'moderator','picturealbum') }}" title="{lang 'Moderate Photo Albums'}"><i class="fa fa-picture-o"></i> {lang 'Photo Albums'} {if $count_moderate_total_picture_album }<span class="badge">{count_moderate_total_picture_album}</span>{/if}</a></li>
-              <li><a href="{{ $design->url(PH7_ADMIN_MOD,'moderator','picture') }}" title="{lang 'Moderate Pictures'}"><i class="fa fa-picture-o"></i> {lang 'Photos'} {if $count_moderate_total_picture }<span class="badge">{count_moderate_total_picture}</span>{/if}</a></li>
-            {/if}
-
-            {if $is_video_enabled}
-              <li><a href="{{ $design->url(PH7_ADMIN_MOD,'moderator','videoalbum') }}" title="{lang 'Moderate Video Albums'}"><i class="fa fa-youtube-play"></i> {lang 'Video Albums'} {if $count_moderate_total_video_album }<span class="badge">{count_moderate_total_video_album}</span>{/if}</a></li>
-              <li><a href="{{ $design->url(PH7_ADMIN_MOD,'moderator','video') }}" title="{lang 'Moderate Videos'}"><i class="fa fa-youtube-play"></i> {lang 'Videos'} {if $count_moderate_total_video }<span class="badge">{count_moderate_total_video}</span>{/if}</a></li>
-            {/if}
-
-            <li><a href="{{ $design->url(PH7_ADMIN_MOD,'moderator','avatar') }}" title="{lang 'Moderate Profile Photos'}"><i class="fa fa-picture-o"></i> {lang 'Profile Photos'} {if $count_moderate_total_avatar}<span class="badge">{count_moderate_total_avatar}</span>{/if}</a></li>
-            <li><a href="{{ $design->url(PH7_ADMIN_MOD,'moderator','background') }}" title="{lang 'Moderate Profile Background'}"><i class="fa fa-picture-o"></i> {lang 'Profile Backgrounds'} {if $count_moderate_total_background}<span class="badge">{count_moderate_total_background}</span>{/if}</a></li>
-
-            {if $is_note_enabled}
-              <li class="menu-item dropdown dropdown-submenu"><a href="{{ $design->url('note','admin','index') }}" title="{lang 'Moderate Notes'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown"><i class="fa fa-newspaper-o"></i> {lang 'Notes'} {if $count_moderate_total_note}<span class="badge">{count_moderate_total_note}</span>{/if}</a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a href="{{ $design->url('note','admin','unmoderated') }}" title="{lang 'Unmoderated Note Posts'}">{lang 'Unmoderated Notes'} {if $count_moderate_total_note}<span class="badge">{count_moderate_total_note}</span>{/if}</a></li>
-                  <li><a href="{{ $design->url('note','admin','index') }}" title="{lang 'Moderate Note Posts'}">{lang 'All Notes'}</a></li>
-                </ul>
-              </li>
-            {/if}
-          </ul>
-        </li>
-
         <li class="dropdown">
           <a href="{{ $design->url(PH7_ADMIN_MOD,'file','pagedisplay') }}" title="{lang 'File/Page CMS'}" class="dropdown-toggle" role="button" aria-expanded="false" data-toggle="dropdown">
             <i class="fa fa-file"></i> {lang 'File/Page'} <span class="caret"></span>
