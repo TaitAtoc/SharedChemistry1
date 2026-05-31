@@ -1,0 +1,35 @@
+User-agent: *
+Allow: /
+
+# Keep private/member-only areas out of search results.
+Disallow: /admin/
+Disallow: /admin123/
+Disallow: /user/
+Disallow: /account/
+Disallow: /mail/
+Disallow: /message/
+Disallow: /messages/
+Disallow: /friend/
+Disallow: /friends/
+Disallow: /search/
+Disallow: /new-profile/
+Disallow: /profile/
+Disallow: /members/
+Disallow: /photo/
+Disallow: /photos/
+Disallow: /video/
+Disallow: /videos/
+Disallow: /chat/
+Disallow: /free-chat-room/
+Disallow: /dashboard/
+Disallow: /settings/
+Disallow: /logout/
+
+# Keep technical/system paths out of search.
+Disallow: /_protected/
+Disallow: /cache/
+Disallow: /vendor/
+Disallow: /tmp/
+
+# Public SEO pages, blog pages, and required legal/help pages remain crawlable unless blocked elsewhere.
+Sitemap: https://sharedchemistry.com/site-map-xml/
